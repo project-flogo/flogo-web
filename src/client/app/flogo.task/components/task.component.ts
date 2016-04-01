@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import { Component, SimpleChange } from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {FlogoTaskContainerComponent} from '../../flogo.task.container/components/task.container.component';
 import {BehaviorSubject} from 'rxjs/Rx';
@@ -8,7 +8,8 @@ import {BehaviorSubject} from 'rxjs/Rx';
   styleUrls: ['task.css'],
   moduleId: module.id,
   templateUrl: 'task.tpl.html',
-  directives: [ROUTER_DIRECTIVES, FlogoTaskContainerComponent]
+  directives: [ROUTER_DIRECTIVES, FlogoTaskContainerComponent],
+  inputs: ['data:task']
 })
 
 export class FlogoTaskComponent{
@@ -97,7 +98,7 @@ export class FlogoTaskComponent{
     this.inputStateSubject.next(event.value);
   }
 
-  ngOnInit() {
+  _init() {
     this.inputSchema = this.stringify(this.getSchema());
     this.inputState  = this.stringify(this.getStateData());
 
@@ -111,6 +112,21 @@ export class FlogoTaskComponent{
       }
 
     );
+  }
+
+  ngOnChanges(
+    changes : {
+      [ propKey : string ] : SimpleChange
+    }
+  ) {
+
+    console.log( changes );
+
+    if ( changes[ 'data' ] ) {
+      if ( this.data ) {
+        this._init();
+      }
+    }
   }
 
   onGetModifiedState(state:any) {

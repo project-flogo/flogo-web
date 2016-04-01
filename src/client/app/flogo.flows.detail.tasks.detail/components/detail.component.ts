@@ -1,4 +1,4 @@
-import { Component, DynamicComponentLoader, ElementRef } from 'angular2/core';
+import { Component } from 'angular2/core';
 import { PostService } from '../../../common/services/post.service';
 import { SUB_EVENTS, PUB_EVENTS } from '../messages';
 import { RouteParams } from 'angular2/router';
@@ -9,21 +9,17 @@ import { FlogoTaskComponent } from '../../flogo.task/components/task.component';
     selector : 'flogo-flows-detail-tasks-detail',
     moduleId : module.id,
     templateUrl : 'detail.tpl.html',
-    styleUrls : [ 'detail.component.css' ]
+    styleUrls : [ 'detail.component.css' ],
+    directives : [ FlogoTaskComponent ]
   }
 )
 
 export class FlogoFlowsDetailTasksDetail {
-  private _loadedComponent : any;
-  private tasks : any;
+  private _task : any;
   private _subscriptions : any;
   private _selectTaskMsg : any;
 
-  constructor(
-    private _postService : PostService, private _routeParams : RouteParams,
-    private _dcl : DynamicComponentLoader,
-    private _elementRef : ElementRef
-  ) {
+  constructor( private _postService : PostService, private _routeParams : RouteParams ) {
     console.group( 'Constructing FlogoFlowsDetailTasks' );
 
     console.log( this._routeParams );
@@ -31,12 +27,6 @@ export class FlogoFlowsDetailTasksDetail {
     this.initSubscribe();
 
     console.groupEnd();
-  }
-
-  private _disposeLoadedComponent() {
-    if ( this._loadedComponent ) {
-      this._loadedComponent.dispose();
-    }
   }
 
   private initSubscribe() {
@@ -59,7 +49,6 @@ export class FlogoFlowsDetailTasksDetail {
         this._postService.unsubscribe( sub );
       }
     );
-    this._disposeLoadedComponent();
   }
 
   private _getSelectTaskMsg( data : any, envelope : any ) {
@@ -69,37 +58,30 @@ export class FlogoFlowsDetailTasksDetail {
     console.log( envelope );
 
     this._selectTaskMsg = data;
+    this._task = data.task;
 
-    this._dcl.loadIntoLocation( FlogoTaskComponent, this._elementRef, "taskUI" )
-      .then(
-        ( ref : any ) => {
-          this._loadedComponent = ref;
-          ref.instance.setData( data.task );
-
-          // TODO
-          //  this mock is to fake the modification of the task information from user
-          let keepThisInTimeout = this;
-          setTimeout(
-            function () {
-              console.log( 'in mock' );
-              let modifiedTask = _.cloneDeep( data.task );
-
-              let petIDInput : any = _.find(
-                modifiedTask.attributes.inputs, [
-                  'name',
-                  'petId'
-                ]
-              );
-
-              if ( petIDInput ) {
-                petIDInput.value = petIDInput.value + '001';
-              }
-
-              keepThisInTimeout.sendSelectTaskMsg( modifiedTask );
-            }, 2000
-          );
-        }
-      );
+    // TODO
+    //  this mock is to fake the modification of the task information from user
+    // let keepThisInTimeout = this;
+    // setTimeout(
+    //   function () {
+    //     console.log( 'in mock' );
+    //     let modifiedTask = _.cloneDeep( data.task );
+    //
+    //     let petIDInput : any = _.find(
+    //       modifiedTask.attributes.inputs, [
+    //         'name',
+    //         'petId'
+    //       ]
+    //     );
+    //
+    //     if ( petIDInput ) {
+    //       petIDInput.value = petIDInput.value + '001';
+    //     }
+    //
+    //     keepThisInTimeout.sendSelectTaskMsg( modifiedTask );
+    //   }, 2000
+    // );
 
     console.groupEnd();
   }
