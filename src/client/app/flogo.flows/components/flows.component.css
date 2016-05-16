@@ -21,18 +21,22 @@
 }
 .flogo-flows-container-lists {
   margin: 0 auto;
-  padding: 34px 0 0;
-  width: 560px;
+  padding: 30px 0 0;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 .flogo-flows-container-lists .flogo-flows-container-list {
   display: flex;
-  margin: 0 0 21px;
-  min-height: 69px;
-  object-fit: contain;
+  margin: 20px 20px;
   border-radius: 4px;
   list-style: none;
   background-color: #ffffff;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+  width: 250px;
+  height: 140px;
+  position: relative;
 }
 .flogo-flows-container-lists .flogo-flows-container-list:hover {
   background-color: #ececec;
@@ -40,22 +44,29 @@
 .flogo-flows-container-lists .flogo-flows-container-list:hover .flogo-flows-container-list-detail-trash {
   opacity: 1;
 }
+.flogo-flows-container-lists .flogo-flows-container-list:hover .flogo-flows-container-list-detail-description:before {
+  background: #ececec;
+}
 .flogo-flows-container-lists .flogo-flows-container-list-detail {
   flex: auto;
   color: #666;
-  width: 500px;
-  padding: 18px 0 16px 28px;
+  width: 100%;
+  padding: 18px;
   display: block;
   text-decoration: none;
 }
 .flogo-flows-container-lists .flogo-flows-container-list-detail-trash {
-  flex: auto;
+  display: inline-block;
   opacity: 0;
-  width: 60px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   line-height: 100%;
   background: url("/assets/svg/flogo.flows.trash.icon.svg") center no-repeat;
   background-size: 16px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 .flogo-flows-container-lists .flogo-flows-container-list-detail-trash:hover {
   background: url("/assets/svg/flogo.flows.trash.hover.icon.svg") center no-repeat;
@@ -67,6 +78,10 @@
   font-size: 14px;
   letter-spacing: 0.4px;
   line-height: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 25px;
 }
 .flogo-flows-container-lists .flogo-flows-container-list-detail-info {
   display: block;
@@ -77,11 +92,63 @@
 .flogo-flows-container-lists .flogo-flows-container-list-detail-creatTime {
   display: inline-block;
   vertical-align: middle;
-  width: 33%;
+  width: 100%;
   text-align: right;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
 }
 .flogo-flows-container-lists .flogo-flows-container-list-detail-description {
   display: inline-block;
   vertical-align: middle;
-  width: 66%;
+  width: 100%;
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.2;
+  max-height: 4.8em;
+  overflow: hidden;
+  position: relative;
+}
+.flogo-flows-container-lists .flogo-flows-container-list-detail-description:before {
+  position: absolute;
+  content: '';
+  width: 100%;
+  height: 1.2em;
+  top: 3.6em;
+  left: 0;
+  background: #ffffff;
+}
+.flogo-flows-container-lists .flogo-flows-container-list-detail-description:after {
+  content: '...';
+  display: inline-block;
+  width: 3em;
+  height: 1.2em;
+  position: absolute;
+  top: 3.6em;
+  left: 0;
+}
+@media all and (min-width:  290px ) {
+  .flogo-flows-container-lists {
+    width: 290px;
+  }
+}
+@media all and (min-width:  580px ) {
+  .flogo-flows-container-lists {
+    width: 580px;
+  }
+}
+@media all and (min-width:  870px ) {
+  .flogo-flows-container-lists {
+    width: 870px;
+  }
+}
+@media all and (min-width:  1160px ) {
+  .flogo-flows-container-lists {
+    width: 1160px;
+  }
+}
+@media all and (min-width:  1450px ) {
+  .flogo-flows-container-lists {
+    width: 1450px;
+  }
 }

@@ -29,6 +29,9 @@ let config = {
       },
       "tibco-coap": {
         path: "github.com/TIBCOSoftware/flogo-contrib/activity/coap"
+      },
+      "tibco-awsiot":{
+        path: "github.com/TIBCOSoftware/flogo-contrib/activity/awsiot"
       }
     },
     contrib: {}

@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import {RESTAPIFlowsService} from '../../../common/services/restapi/flows-api.service';
 import {RESTAPIActivitiesService} from '../../../common/services/restapi/activities-api.service';
 import {RESTAPITriggersService} from '../../../common/services/restapi/triggers-api.service';
@@ -27,7 +27,8 @@ export class FlogoFlowsComponet{
     constructor(
         private _flow:RESTAPIFlowsService,
         private _postService: PostService,
-        private _flogoModal: FlogoModal
+        private _flogoModal: FlogoModal,
+        private _router: Router,
     ){
         this.getAllFlows();
         this.initSubscribe();
@@ -64,8 +65,28 @@ export class FlogoFlowsComponet{
             });
     }
 
+  openFlow( flowId : string, evt : Event ) {
+
+    if ( _.isFunction( _.get( evt, 'stopPropagation' ) ) ) {
+      evt.stopPropagation();
+    }
+
+    this._router.navigate( [
+      'FlogoFlowDetail',
+      { id : flogoIDEncode( flowId ) }
+    ] )
+      .catch( ( err : any )=> {
+        console.error( err );
+      } );
+  }
+
     // delete a flow
-    deleteFlow( flow: any) {
+    deleteFlow( flow: any, evt: Event) {
+
+        if ( _.isFunction( _.get( evt, 'stopPropagation' ) ) ) {
+          evt.stopPropagation();
+        }
+
         this._flogoModal.confirmDelete('Are you sure you want to delete ' + flow.name + ' flow?').then((res) => {
             if(res) {
                 this._flow.deleteFlow(flow._id, flow._rev).then(()=> {

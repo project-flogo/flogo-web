@@ -17,10 +17,16 @@
     <!-- log link -->
     <div class="form-group">
       <div class="col-xs-11 col-xs-offset-1">
-        <a href="/engine.log" target="_blank">View Test Engine Log</a>
+        <a href="/test-engine.log" target="_blank">View Test Engine Log</a>
+      </div>
+      <div class="col-xs-11 col-xs-offset-1">
+        <a href="/build-engine.log" target="_blank">View Build Engine Log</a>
       </div>
       <div class="col-xs-11 col-xs-offset-1">
         <a href="/web.log" target="_blank">View Flogo Web Server Log</a>
+      </div>
+      <div class="col-xs-11 col-xs-offset-1">
+        <button class="col-lg-2 col-md-2 col-sm-3" type="button" class="btn btn-default" (click)="onRestartBuild()">Restart Build engine</button>
       </div>
     </div>
 
@@ -30,6 +36,7 @@
     <div class="form-group" *ngIf="_servers">
       <label class="col-md-2 col-sm-3">Servers</label>
     </div>
+
 
     <div class="form-group" *ngFor="#server of _servers">
       <label class="col-lg-2 col-md-2 col-sm-3" [textContent]="server._label"></label>

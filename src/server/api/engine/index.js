@@ -8,34 +8,42 @@ export function engine(app, router){
     console.error("[Error][api/engine/index.js]You must pass app");
   }
   router.get(basePath+"/engine/restart", restartEngine);
+
+
 }
 
 function* restartEngine(next){
   console.log('Restart Engine');
-
-  let testEngine = engines.test;
-  // let data = [];
-  //
-  // data = yield triggersDBService.allDocs({ include_docs: true })
-  //   .then(triggers => triggers.map(trigger => _.pick(trigger, ['_id', 'name', 'version', 'description'])));
-  //
-  // this.body = data;
-  //
   let data = {
     status: 200
   };
-  if(testEngine.stop()){
-    if(!testEngine.start()){
-      data.status = 500;
 
-      console.log("didn't start successful");
+  try{
+    let name = this.query&&this.query.name? this.query&&this.query.name: "test";
+
+    let testEngine = engines.test;
+
+    if(name == "build"){
+      testEngine = engines.build;
     }
-  }else{
+
+    if(testEngine.stop()){
+      if(!testEngine.start()){
+        data.status = 500;
+
+        console.log("didn't start successful");
+      }
+    }else{
+      data.status = 500;
+      console.log("didn't stop successful");
+    }
+
+    this.body = data;
+    yield next;
+  }catch(err){
+    console.log("[error][restartEngine]: ", err);
     data.status = 500;
-    console.log("didn't stop successful");
+    this.body = data;
+    yield next;
   }
-
-  this.body = data;
-
-  yield next;
 }

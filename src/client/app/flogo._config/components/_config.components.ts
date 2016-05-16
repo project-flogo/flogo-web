@@ -106,12 +106,30 @@ export class Flogo_ConfigComponent {
       this.http.get( `/v1/api/engine/restart`, options )
         .toPromise()
         .then((res)=>{
-          console.log("Restart engine successful. res: ", res);
+          console.log("Restart test engine successful. res: ", res);
         }).catch((err)=>{
-          console.log("Restart engine errror. err: ", err);
+          console.log("Restart test engine errror. err: ", err);
         });
 
     }
+  }
+
+  onRestartBuild(){
+    let headers = new Headers(
+      {
+        'Accept' : 'application/json'
+      }
+    );
+
+    let options = new RequestOptions( { headers : headers } );
+
+    this.http.get( `/v1/api/engine/restart?name=build`, options )
+      .toPromise()
+      .then((res)=>{
+        console.log("Restart build engine successful. res: ", res);
+      }).catch((err)=>{
+        console.log("Restart build engine errror. err: ", err);
+      });
   }
 
   onResetDefault () {

@@ -256,7 +256,7 @@ export class Engine {
         path: flowPath
       }
 
-      return true;
+      return flowName;
     } catch (err) {
       console.error("[Error]Engine->addFlow. Error: ", err);
       return false;
@@ -459,9 +459,14 @@ export class Engine {
       let command = "./" + this.options.name; //+ " &";
       console.log("[info]command: ", command);
 
-      let logFile = path.join(config.publicPath, 'engine.log')
+      let logFile = path.join(config.publicPath, this.options.name+'.log')
       let logStream = fs.createWriteStream(logFile, { flags: 'a' });
       console.log("[info]engine logFile: ", logFile);
+
+      if(!isExisted(path.join(defaultEngineBinPath, command))){
+        console.log("[error]engine doesn't exist");
+        return false;
+      }
 
       let engineProcess = spawn(command, {
         cwd: defaultEngineBinPath

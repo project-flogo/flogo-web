@@ -3,6 +3,24 @@
   flex: auto;
 }
 
+@card-bg-color: #ffffff;
+@card-bg-color-hover: #ececec;
+@card-width: 250px;
+@card-height: 140px;
+@card-gutter-vertical: 20px;
+@card-gutter-horizontal: @card-gutter-vertical;
+
+.flogo-calc-cards-container-width(@card-num-per-col: 4, @container-class: flogo-flows-container-lists ) {
+  @cards-container-width: @card-width * @card-num-per-col + @card-gutter-vertical * 2 * @card-num-per-col;
+  @media-query: ~"all and (min-width: "(@cards-container-width)~")";
+
+  @media @media-query {
+    .@{container-class} {
+      width: @cards-container-width
+    }
+  }
+}
+
 .flogo-flows-container{
   background: #eeeded;
   width: 100%;
@@ -22,40 +40,54 @@
 }
 .flogo-flows-container-lists{
   margin: 0 auto;
-  padding: 34px 0 0;
-  width: 560px;
+  padding: 30px 0 0;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
   .flogo-flows-container-list{
     display: flex;
-    margin: 0 0 21px;
-    min-height: 69px;
-    object-fit: contain;
+    margin: @card-gutter-vertical @card-gutter-horizontal;
     border-radius: 4px;
     list-style: none;
-    background-color: #ffffff;
+    background-color: @card-bg-color;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+    width: @card-width;
+    height: @card-height;
+    position: relative;
+
     &:hover{
-      background-color: #ececec;
+      background-color: @card-bg-color-hover;
       .flogo-flows-container-list-detail-trash{
         opacity: 1;
+      }
+      .flogo-flows-container-list-detail-description:before {
+        background: @card-bg-color-hover;
       }
     }
   }
   .flogo-flows-container-list-detail{
     flex: auto;
     color: #666;
-    width: 500px;
-    padding: 18px 0 16px 28px;
+    width: 100%;
+    padding: 18px;
     display: block;
     text-decoration: none;
   }
   .flogo-flows-container-list-detail-trash{
-    flex: auto;
+    display: inline-block;
     opacity: 0;
-    width: 60px;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
     line-height: 100%;
     background: url("/assets/svg/flogo.flows.trash.icon.svg") center no-repeat;
     background-size: 16px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
     &:hover{
       background: url("/assets/svg/flogo.flows.trash.hover.icon.svg") center no-repeat;
       background-size: 16px;
@@ -67,6 +99,10 @@
     font-size: 14px;
     letter-spacing: 0.4px;
     line-height: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 25px;
   }
   .flogo-flows-container-list-detail-info{
     display: block;
@@ -77,12 +113,47 @@
   .flogo-flows-container-list-detail-creatTime{
     display: inline-block;
     vertical-align: middle;
-    width: 33%;
+    width: 100%;
     text-align: right;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
   }
   .flogo-flows-container-list-detail-description{
     display: inline-block;
     vertical-align: middle;
-    width: 66%;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 1.2;
+    max-height: 4.8em;
+    overflow: hidden;
+    position: relative;
+
+    &:before {
+      position: absolute;
+      content: '';
+      width: 100%;
+      height: 1.2em;
+      top: 3.6em;
+      left: 0;
+      background: @card-bg-color;
+    }
+
+    &:after {
+      content: '...';
+      display: inline-block;
+      width: 3em;
+      height: 1.2em;
+      position: absolute;
+      top: 3.6em;
+      left: 0;
+    }
   }
 }
+
+.flogo-calc-cards-container-width(1);
+.flogo-calc-cards-container-width(2);
+.flogo-calc-cards-container-width(3);
+.flogo-calc-cards-container-width(4);
+.flogo-calc-cards-container-width(5);

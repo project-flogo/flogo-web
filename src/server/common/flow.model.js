@@ -163,7 +163,9 @@ export function flogoFlowToJSON(inFlow) {
         DEBUG && console.log(inAttr);
         return;
       }
-      attr.type = _.get(FLOGO_TASK_ATTRIBUTE_TYPE, _.get(inAttr, 'type'), 'string').toLowerCase();
+      let enumType = _.get(inAttr, 'type');
+      let type = _.findKey(FLOGO_TASK_ATTRIBUTE_TYPE, val => val == enumType);
+      attr.type = type ? type.toLowerCase() : 'string';
       attributes.push(attr);
     });
     return attributes;

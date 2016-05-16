@@ -13,14 +13,14 @@
   <div class="flogo-flows-container-body">
     <ul class="flogo-flows-container-lists">
       <li *ngFor="#flow of flows" class="flogo-flows-container-list">
-        <a class="flogo-flows-container-list-detail" [routerLink]="['FlogoFlowDetail', {id:flogoIDEncode(flow._id)}]">
-          <span class="flogo-flows-container-list-detail-name">{{flow.name}}</span>
-          <span class="clearfix flogo-flows-container-list-detail-info">
-            <span class="flogo-flows-container-list-detail-description">{{flow.description}}</span>
+        <a class="flogo-flows-container-list-detail" href="javascript:void(0);" (click)="openFlow(flow._id, $event)">
+          <header class="flogo-flows-container-list-detail-name" [title]="flow.name">{{flow.name}}</header>
+          <section class="flogo-flows-container-list-detail-info">
+            <p class="flogo-flows-container-list-detail-description" [title]="flow.description">{{flow.description}}</p>
             <i class="flogo-flows-container-list-detail-creatTime">Created {{flow.created_at}}</i>
-          </span>
+          </section>
         </a>
-        <span class="flogo-flows-container-list-detail-trash" (click)="deleteFlow(flow)"></span>
+        <span class="flogo-flows-container-list-detail-trash" (click)="deleteFlow(flow, $event)"></span>
       </li>
     </ul>
   </div>
