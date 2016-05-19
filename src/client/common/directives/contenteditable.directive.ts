@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, Output, EventEmitter, OnChanges, SimpleChange} from 'angular2/core';
+import {Directive, ElementRef, Input, Output, EventEmitter, OnChanges, SimpleChange} from '@angular/core';
 import {RESTAPIFlowsService} from '../services/restapi/flows-api.service';
 
 @Directive({

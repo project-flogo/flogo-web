@@ -1,5 +1,5 @@
-import {Component, SimpleChange} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {Component, SimpleChange} from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {FlogoFormBuilderFieldsBase} from '../fields.base/fields.base.component';
 
 @Component({

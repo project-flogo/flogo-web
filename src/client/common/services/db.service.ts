@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from 'angular2/core';
+import { Injectable, NgZone } from '@angular/core';
 import { activitySchemaToTask, getDBURL } from '../utils';
 import { activitySchemaToTrigger } from '../utils';
 

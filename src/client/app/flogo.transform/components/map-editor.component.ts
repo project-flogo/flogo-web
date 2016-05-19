@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from 'angular2/core';
-import { FORM_DIRECTIVES, Control, Validator, Validators } from 'angular2/common';
+import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
+import { FORM_DIRECTIVES, Control, Validator, Validators } from '@angular/common';
 import { Observable } from 'rxjs/Rx';
 
 import { TileInOutInfo } from '../models/tile-in-out-info.model';

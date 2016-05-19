@@ -1,8 +1,8 @@
-import { Component } from 'angular2/core';
+import { Component } from '@angular/core';
 import { getFlogoGlobalConfig, updateFlogoGlobalConfig, resetFlogoGlobalConfig } from '../../../common/utils';
-import { Router } from 'angular2/router';
+import { Router } from '@angular/router-deprecated';
 import { ServiceStatusIndicatorComponent } from './service-status-indicator.component';
-import { Http, Headers, RequestOptions } from 'angular2/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 
 const DBS_ARR = [ 'activities', 'triggers', 'models' ];
 const SERVERS_ARR = [ 'engine', 'stateServer', 'flowServer' ];

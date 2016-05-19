@@ -1,5 +1,5 @@
-import {Component, Input, OnInit, DoCheck, OnDestroy} from 'angular2/core';
-import {Http} from 'angular2/http';
+import {Component, Input, OnInit, DoCheck, OnDestroy} from '@angular/core';
+import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject,Subscription} from "rxjs/Rx";
 import { getURL } from '../../../common/utils';
