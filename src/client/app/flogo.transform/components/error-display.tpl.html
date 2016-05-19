@@ -7,7 +7,7 @@
     <li *ngIf="errors.invalidJson">Invalid json</li>
     <li *ngIf="errors.notArray">Mappings should be an array</li>
     <template [ngIf]="errors.invalidMappings">
-      <li *ngFor="#mapErrors of errors.invalidMappings.errors">
+      <li *ngFor="let mapErrors of errors.invalidMappings.errors">
         Error found in mapping at position {{ mapErrors.index }}:
         <ul>
           <li *ngIf="mapErrors.errors.notObject">Not an object</li>

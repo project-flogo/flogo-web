@@ -12,7 +12,7 @@
   <flogo-flows-detail-triggers-install></flogo-flows-detail-triggers-install>
 
   <ul class="flogo-common-edit-panel__tiles-list flogo-flows-detail-triggers__list">
-      <li *ngFor="#trigger of triggers" class="flogo-common-edit-panel__tiles-list-trigger flogo-flows-detail-triggers__list__item"
+      <li *ngFor="let trigger of triggers" class="flogo-common-edit-panel__tiles-list-trigger flogo-flows-detail-triggers__list__item"
           (click)="sendAddTriggerMsg(trigger)" >{{trigger.name}}</li>
   </ul>
 </div>

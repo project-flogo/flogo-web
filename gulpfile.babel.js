@@ -106,9 +106,9 @@ gulp.task("server:dev", ()=>{
 
 gulp.task("watch", ()=>{
   //TODO. when file changes, just run the necessary tasks
-  gulp.watch(['**', '**/*'], {cwd: CONFIG.client}, ['client:dev']);
+  gulp.watch(['**', '**/*', '!**/node_modules/**'], {cwd: CONFIG.client}, ['client:dev']);
 
-  gulp.watch(['**', '**/*'], {cwd: CONFIG.server}, ['server:dev']);
+  gulp.watch(['**', '**/*', '!**/node_modules/**'], {cwd: CONFIG.server}, ['server:dev']);
 
 });
 

@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-8">
           <ul class="list-unstyled activities-list">
-            <li *ngFor="#activity of activities"
+            <li *ngFor="let activity of activities"
                 class="activities-list__activity" [ngClass]="{installed: activity.isInstalled}"
                 (click)="!activity.isInstalled && install(activity)">
 

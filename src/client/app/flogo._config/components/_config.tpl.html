@@ -38,7 +38,7 @@
     </div>
 
 
-    <div class="form-group" *ngFor="#server of _servers">
+    <div class="form-group" *ngFor="let server of _servers">
       <label class="col-lg-2 col-md-2 col-sm-3" [textContent]="server._label"></label>
       <div class="col-lg-8 col-md-8 col-sm-12">
         <div class="input-group">
@@ -80,7 +80,7 @@
       </div>
     </div>
 
-    <div class="form-group" *ngFor="#db of _dbs">
+    <div class="form-group" *ngFor="let db of _dbs">
       <label class="col-md-2 col-sm-3" [textContent]="db._label"></label>
       <div class="col-lg-9 col-md-10 col-sm-12">
         <div class="input-group">

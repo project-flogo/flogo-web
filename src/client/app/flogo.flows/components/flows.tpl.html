@@ -13,7 +13,7 @@
   </div>
   <div class="flogo-flows-container-body container-fluid">
     <ul class="flogo-flows-container-lists row">
-      <li *ngFor="#flow of flows" class="flogo-flows-container-list-col col-lg-4 col-sm-6 col-xs-12">
+      <li *ngFor="let flow of flows" class="flogo-flows-container-list-col col-lg-4 col-sm-6 col-xs-12">
         <div class="flogo-flows-container-list">
           <a class="flogo-flows-container-list-detail" href="javascript:void(0);" (click)="openFlow(flow._id, $event)">
             <header class="flogo-flows-container-list-detail-name" [title]="flow.name">{{flow.name}}</header>
