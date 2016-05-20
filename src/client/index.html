@@ -74,28 +74,19 @@
 <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
 
 <script type="text/javascript" src="/js/lib.js"></script>
+<script type="text/javascript" src="/js/vendor.bundle.js"></script>
 
 <script>
-  System.config({
-    "defaultJSExtensions": true,
-    "packageConfigPaths": [
-    ],
-    "paths": {
-      "main": "/main"
-    },
-    "packages": {
-      "angular2": {
-        "defaultExtension": false
-      },
-      "rxjs": {
-        "defaultExtension": false
-      },
-      "ng2-bs3-modal": {
-        "defaultExtension": false
-      }
-    }
-  })
+  function filterSystemConfig(config) {
+    // Modify system config for browser
+    // TODO: might be the other way around?
+    config.paths.main = '/main';
+    delete config.paths['n:*'];
+    delete config.map['main'];
+    delete config.packages['main'];
+  }
 </script>
+<script type="text/javascript" src="/system.config.js"></script>
 
 <script>
   System.import('main')

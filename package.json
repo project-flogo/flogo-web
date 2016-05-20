@@ -24,5 +24,9 @@
     "gulp-typescript": "^2.12.1",
     "mustache": "^2.2.1 ",
     "pouchdb-server": ""
+  },
+  "dependencies": {
+    "event-stream": "^3.3.2",
+    "systemjs-builder": "^0.15.17"
   }
 }

@@ -64,6 +64,7 @@ bower_components/
 # ignore files/folder in dist
 **/dist
 src/client/**/*.js
+!src/client/**/system.config.js
 src/client/**/*.map
 
 # contrib folder store developer's activity, trigger and model

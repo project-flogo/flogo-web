@@ -67,7 +67,8 @@
         </div>
 
         <div class="col-xs-12">
-          <pre><code [textContent]="_steps | json"></code></pre>
+          <!-- TODO: replace [innerHTML] with [textContent] https://github.com/angular/angular/issues/8413 -->
+          <pre><code [innerHTML]="_steps | json"></code></pre>
         </div>
 
       </section>
@@ -81,7 +82,8 @@
         </div>
 
         <div class="col-xs-12">
-          <pre><code [textContent]="_mockProcess | json"></code></pre>
+          <!-- TODO: replace [innerHTML] with [textContent] https://github.com/angular/angular/issues/8413 -->
+          <pre><code [innerHTML]="_mockProcess | json"></code></pre>
         </div>
 
       </section>

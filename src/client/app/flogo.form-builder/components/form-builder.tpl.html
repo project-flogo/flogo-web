@@ -14,10 +14,12 @@
               <div  class="flogo-common-edit-panel__head-read-detail">
                 <!--<i class="fa fa-times flogo-common-edit-panel__head-read-detail-close" aria-hidden="true"></i>-->
                 <hgroup class="flogo-common-edit-panel__head-read-titles">
-                  <h3 [textContent]="_task.name"  class="flogo-common-edit-panel__head-read-title" [class.up]="_task.creator"></h3>
-                  <span *ngIf="_task.creator" [textContent]="'Created by ' + _task.creator"  class="flogo-common-edit-panel__head-read-creator"></span>
+                  <!-- TODO: replace [innerHTML] with [textContent] https://github.com/angular/angular/issues/8413 -->
+                  <h3 [innerHTML]="_task.name"  class="flogo-common-edit-panel__head-read-title" [class.up]="_task.creator"></h3>
+                  <span *ngIf="_task.creator" [innerHTML]="'Created by ' + _task.creator"  class="flogo-common-edit-panel__head-read-creator"></span>
                 </hgroup>
-                <p [textContent]="_task.readMe || _task.description"  class="flogo-common-edit-panel__head-read-text"></p>
+                <!-- TODO: replace [innerHTML] with [textContent] https://github.com/angular/angular/issues/8413 -->
+                <p [innerHTML]="_task.readMe || _task.description"  class="flogo-common-edit-panel__head-read-text"></p>
               </div>
             </div>
           </div>

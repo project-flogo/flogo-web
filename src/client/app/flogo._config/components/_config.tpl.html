@@ -39,7 +39,8 @@
 
 
     <div class="form-group" *ngFor="let server of _servers">
-      <label class="col-lg-2 col-md-2 col-sm-3" [textContent]="server._label"></label>
+      <!-- TODO: replace [innerHTML] with [textContent] https://github.com/angular/angular/issues/8413 -->
+      <label class="col-lg-2 col-md-2 col-sm-3" [innerHTML]="server._label"></label>
       <div class="col-lg-8 col-md-8 col-sm-12">
         <div class="input-group">
           <input type="text" class="form-control" placeholder="{{location.protocol.replace( ':', '' )}}" [(ngModel)]="server.config.protocol">
@@ -81,7 +82,8 @@
     </div>
 
     <div class="form-group" *ngFor="let db of _dbs">
-      <label class="col-md-2 col-sm-3" [textContent]="db._label"></label>
+      <!-- TODO: replace [innerHTML] with [textContent] https://github.com/angular/angular/issues/8413 -->
+      <label class="col-md-2 col-sm-3" [innerHTML]="db._label"></label>
       <div class="col-lg-9 col-md-10 col-sm-12">
         <div class="input-group">
           <input type="text" class="form-control" placeholder="{{location.protocol.replace( ':', '' )}}" [(ngModel)]="db.config.protocol">
