@@ -1,4 +1,4 @@
-import {Component, Input, ElementRef, HostBinding, HostListener} from 'angular2/core';
+import {Component, Input, ElementRef, HostBinding, HostListener} from '@angular/core';
 
 @Component({
   selector: 'flogo-information-popup',

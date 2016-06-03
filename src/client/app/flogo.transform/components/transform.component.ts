@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef, OnDestroy, HostListener} from 'angular2/core';
+import {Component, ViewChild, ElementRef, OnDestroy, HostListener} from '@angular/core';
 
 import {PostService} from '../../../common/services/post.service';
 

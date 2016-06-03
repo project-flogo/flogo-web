@@ -1,7 +1,7 @@
-import { Component } from 'angular2/core';
+import { Component } from '@angular/core';
 import { PostService } from '../../../common/services/post.service';
 import { SUB_EVENTS, PUB_EVENTS } from '../messages';
-import { RouteParams } from 'angular2/router';
+import { RouteParams } from '@angular/router-deprecated';
 import { FlogoFormBuilderComponent } from '../../flogo.form-builder/components/form-builder.component';
 
 @Component(

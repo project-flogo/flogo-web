@@ -1,6 +1,6 @@
-import { Injectable } from 'angular2/core';
+import { Injectable } from '@angular/core';
 import { MOCK_TASKS } from '../mocks';
-import { Http, Headers, RequestOptions } from 'angular2/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { getEngineURL, getStateServerURL } from '../utils';
 
 @Injectable()

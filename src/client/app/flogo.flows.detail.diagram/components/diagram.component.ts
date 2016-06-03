@@ -1,4 +1,4 @@
-import { Component, ElementRef, SimpleChange, AfterViewInit } from 'angular2/core';
+import { Component, ElementRef, SimpleChange, AfterViewInit } from '@angular/core';
 import { FlogoFlowDiagram, IFlogoFlowDiagramTaskDictionary, IFlogoFlowDiagram } from '../models';
 import { PostService } from '../../../common/services/post.service';
 import { PUB_EVENTS, SUB_EVENTS } from '../messages';

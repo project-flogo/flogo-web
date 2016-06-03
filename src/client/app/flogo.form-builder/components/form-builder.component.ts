@@ -1,5 +1,5 @@
-import { Component, SimpleChange } from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import { Component, SimpleChange } from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {PostService} from '../../../common/services/post.service';
 import {BehaviorSubject, ReplaySubject} from 'rxjs/Rx';
 import {PUB_EVENTS, SUB_EVENTS} from '../messages';

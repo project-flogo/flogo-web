@@ -1,4 +1,4 @@
-import { Control } from 'angular2/common';
+import { Control } from '@angular/common';
 import { mappingValidator } from './mapping.validator';
 import { TileInOutInfo } from "../models/tile-in-out-info.model";
 

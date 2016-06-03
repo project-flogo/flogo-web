@@ -14,7 +14,7 @@
   <flogo-flows-detail-tasks-install></flogo-flows-detail-tasks-install>
 
   <ul class="flogo-common-edit-panel__tiles-list">
-    <li class="flogo-common-edit-panel__tiles-list-tile" *ngFor="#task of filteredTasks"
+    <li class="flogo-common-edit-panel__tiles-list-tile" *ngFor="let task of filteredTasks"
         (click)="sendAddTaskMsg(task)">{{task.name}}
     </li>
   </ul>

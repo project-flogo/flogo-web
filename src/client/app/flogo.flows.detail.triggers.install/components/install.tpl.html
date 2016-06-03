@@ -30,7 +30,7 @@
           <!-- TODO: change ngClass[isInstalled?true] to ngClass[isInstalled?trigger.isInstalled] -->
           <!-- TODO: add click handling (click)="!trigger.isInstalled && install(trigger)"  -->
           <ul class="list-unstyled activities-list">
-            <li *ngFor="#trigger of triggers"
+            <li *ngFor="let trigger of triggers"
                 class="activities-list__activity" [ngClass]="{installed: true}">
 
               <div class="row">

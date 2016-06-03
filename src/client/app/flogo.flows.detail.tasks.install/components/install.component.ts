@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import { MODAL_DIRECTIVES } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import {PUB_EVENTS} from '../../flogo.flows.detail.tasks/messages';

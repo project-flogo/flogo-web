@@ -1,8 +1,8 @@
-import { Component } from 'angular2/core';
+import { Component } from '@angular/core';
 import { PostService } from '../../../common/services/post.service';
 import { TRIGGERS as TRIGGERS_MOCK } from '../mocks/triggers';
 import { PUB_EVENTS, SUB_EVENTS } from '../messages';
-import { RouteParams } from 'angular2/router';
+import { RouteParams } from '@angular/router-deprecated';
 
 import {FlogoFlowsDetailTriggersInstallComponent as TriggersInstallerComponent} from '../../flogo.flows.detail.triggers.install/components/install.component';
 import {RESTAPITriggersService} from '../../../common/services/restapi/triggers-api.service';

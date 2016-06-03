@@ -1,5 +1,5 @@
-import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
+import {Component} from '@angular/core';
+import {ROUTER_DIRECTIVES, RouteConfig} from '@angular/router-deprecated';
 import {FlogoNavbarComponent} from './navbar.component';
 import {FlogoFlowsComponet} from '../../flogo.flows/components/flows.component';
 import {FlogoCanvasComponent} from '../../flogo.flows.detail/components/canvas.component';
@@ -7,7 +7,7 @@ import {FlogoFormBuilderComponent} from "../../flogo.form-builder/components/for
 import {PostService} from '../../../common/services/post.service';
 import { FlogoDBService } from '../../../common/services/db.service';
 import { RESTAPIService } from '../../../common/services/rest-api.service';
-import { HTTP_PROVIDERS } from 'angular2/http';
+import { HTTP_PROVIDERS } from '@angular/http';
 import { RESTAPITest } from '../../../common/services/rest-api-test.spec';
 import { RESTAPIFlowsService } from '../../../common/services/restapi/flows-api.service';
 import { RESTAPIActivitiesService } from '../../../common/services/restapi/activities-api.service';

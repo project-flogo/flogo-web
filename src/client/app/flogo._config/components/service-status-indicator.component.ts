@@ -1,5 +1,5 @@
-import {Component, Input, OnInit, DoCheck, OnDestroy} from 'angular2/core';
-import {Http} from 'angular2/http';
+import {Component, Input, OnInit, DoCheck, OnDestroy} from '@angular/core';
+import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject,Subscription} from "rxjs/Rx";
 import { getURL } from '../../../common/utils';
@@ -66,9 +66,14 @@ export class ServiceStatusIndicatorComponent implements OnInit, DoCheck, OnDestr
     this.configChangeSubject.next(this.buildUrl());
   }
 
+  // TODO: Not always executed thus observers are always on, should be fixed in next angular release: https://github.com/angular/angular/issues/8458
   ngOnDestroy() {
+    console.log('Destroying', this.buildUrl());
     if(this.subscription) {
+      console.log('Unsubscribing');
       this.subscription.unsubscribe();
+    } else {
+      console.log('Not unsubscribing');
     }
   }
 

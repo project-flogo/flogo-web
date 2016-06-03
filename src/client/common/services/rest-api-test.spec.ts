@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {RESTAPIFlowsService} from './restapi/flows-api.service';
 import {RESTAPIActivitiesService} from './restapi/activities-api.service';
 import {RESTAPITriggersService} from './restapi/triggers-api.service';

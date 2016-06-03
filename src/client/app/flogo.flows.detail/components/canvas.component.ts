@@ -1,5 +1,5 @@
-import { Component } from 'angular2/core';
-import { RouteConfig, RouterOutlet, RouteParams, Router } from 'angular2/router';
+import { Component } from '@angular/core';
+import { RouteConfig, RouterOutlet, RouteParams, Router } from '@angular/router-deprecated';
 import {PostService} from '../../../common/services/post.service';
 import { FlogoFlowsDetailDiagramComponent } from '../../flogo.flows.detail.diagram/components';
 import {FlogoFlowsDetail} from './flow-detail.component';

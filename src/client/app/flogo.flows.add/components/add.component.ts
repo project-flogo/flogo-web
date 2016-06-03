@@ -1,4 +1,4 @@
-import { Component, ViewChild } from 'angular2/core';
+import { Component, ViewChild } from '@angular/core';
 import {PostService} from '../../../common/services/post.service';
 import {PUB_EVENTS} from '../message';
 import {MODAL_DIRECTIVES, ModalComponent} from 'ng2-bs3-modal/ng2-bs3-modal';

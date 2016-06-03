@@ -14,10 +14,12 @@
               <div  class="flogo-common-edit-panel__head-read-detail">
                 <!--<i class="fa fa-times flogo-common-edit-panel__head-read-detail-close" aria-hidden="true"></i>-->
                 <hgroup class="flogo-common-edit-panel__head-read-titles">
-                  <h3 [textContent]="_task.name"  class="flogo-common-edit-panel__head-read-title" [class.up]="_task.creator"></h3>
-                  <span *ngIf="_task.creator" [textContent]="'Created by ' + _task.creator"  class="flogo-common-edit-panel__head-read-creator"></span>
+                  <!-- TODO: replace [innerHTML] with [textContent] https://github.com/angular/angular/issues/8413 -->
+                  <h3 [innerHTML]="_task.name"  class="flogo-common-edit-panel__head-read-title" [class.up]="_task.creator"></h3>
+                  <span *ngIf="_task.creator" [innerHTML]="'Created by ' + _task.creator"  class="flogo-common-edit-panel__head-read-creator"></span>
                 </hgroup>
-                <p [textContent]="_task.readMe || _task.description"  class="flogo-common-edit-panel__head-read-text"></p>
+                <!-- TODO: replace [innerHTML] with [textContent] https://github.com/angular/angular/issues/8413 -->
+                <p [innerHTML]="_task.readMe || _task.description"  class="flogo-common-edit-panel__head-read-text"></p>
               </div>
             </div>
           </div>
@@ -60,7 +62,7 @@
 
     <!-- BRANCH CONFIGURATION -->
     <div *ngIf="_context.isBranch" class="flogo-common-edit-panel__container">
-      <div *ngFor="#item of _branchConfigs" >
+      <div *ngFor="let item of _branchConfigs" >
         <flogo-form-builder-fields-textarea [info]="getBranchInfo(item)" [fieldObserver]="_fieldObserver" ></flogo-form-builder-fields-textarea>
       </div>
     </div>
@@ -69,7 +71,7 @@
     <!-- TRIGGER CONFIGURATION -->
     <div *ngIf="_context.isTrigger" class="flogo-common-edit-panel__container">
       <h3 class="flogo-common-edit-panel__legend" [hidden]="!getStructureFromAttributes('settings').length">Settings</h3>
-      <div *ngFor="#item of getStructureFromAttributes('settings')" class="">
+      <div *ngFor="let item of getStructureFromAttributes('settings')" class="">
 
         <div *ngIf="getControlByType(item.type).control == 'FieldTextBox'">
           <flogo-form-builder-fields-textbox [info]="getTriggerInfo(item, 'input', 'settings')"  [fieldObserver]="_fieldObserver" ></flogo-form-builder-fields-textbox>
@@ -94,7 +96,7 @@
       </div>
 
       <h3 class="flogo-common-edit-panel__legend" [hidden]="!getStructureFromAttributes('endpointSettings').length">End point</h3>
-      <div *ngFor="#item of getStructureFromAttributes('endpointSettings')" class="">
+      <div *ngFor="let item of getStructureFromAttributes('endpointSettings')" class="">
 
         <div *ngIf="getControlByType(item.type).control == 'FieldTextBox'">
           <flogo-form-builder-fields-textbox [info]="getTriggerInfo(item, 'input', 'endpointSettings')" [fieldObserver]="_fieldObserver" ></flogo-form-builder-fields-textbox>
@@ -119,7 +121,7 @@
       </div>
 
       <h3 class="flogo-common-edit-panel__legend" [hidden]="!getStructureFromAttributes('outputs').length">Outputs</h3>
-      <div *ngFor="#item of getStructureFromAttributes('outputs')" class="">
+      <div *ngFor="let item of getStructureFromAttributes('outputs')" class="">
 
         <div *ngIf="getControlByType(item.type).control == 'FieldTextBox'">
           <flogo-form-builder-fields-textbox [info]="getTriggerInfo(item, 'output', 'outputs')" [fieldObserver]="_fieldObserver" ></flogo-form-builder-fields-textbox>
@@ -148,7 +150,7 @@
     <!-- TASK CONFIGURATION -->
     <div *ngIf="_context.isTask" class="flogo-common-edit-panel__container">
       <h3 class="flogo-common-edit-panel__legend" [hidden]="!getStructureFromAttributes('inputs').length">Input</h3>
-      <div *ngFor="#item of getStructureFromAttributes('inputs'); #index = index" class="">
+      <div *ngFor="let item of getStructureFromAttributes('inputs'); let index = index" class="">
 
         <div *ngIf="getControlByType(item.type).control == 'FieldTextBox'">
           <flogo-form-builder-fields-textbox [info]="getTaskInfo(item, 'input','inputs')" [fieldObserver]="_fieldObserver" ></flogo-form-builder-fields-textbox>
@@ -173,7 +175,7 @@
       </div>
 
       <h3 class="flogo-common-edit-panel__legend" [hidden]="!getStructureFromAttributes('outputs').length">Output</h3>
-      <div *ngFor="#item of getStructureFromAttributes('outputs')" class="flogo-task-container__output">
+      <div *ngFor="let item of getStructureFromAttributes('outputs')" class="flogo-task-container__output">
 
         <div *ngIf="getControlByType(item.type).control == 'FieldTextBox'">
           <flogo-form-builder-fields-textbox [info]="getTaskInfo(item, 'output','outputs')" [fieldObserver]="_fieldObserver" ></flogo-form-builder-fields-textbox>

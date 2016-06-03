@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {InformationPopupComponent, CopyToClipboardComponent} from '../../../common/components/components';
 
 @Component({

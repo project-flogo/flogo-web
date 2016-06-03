@@ -24,23 +24,24 @@ CONFIG.serverDist=path.join(CONFIG.dist, 'server');
 CONFIG.packagesDist =path.join(CONFIG.dist, 'packages');
 
 CONFIG.clientLibs = [
-  "jquery/dist/jquery.js",
+  'es6-shim/es6-shim.js',
+  'es6-promise/dist/es6-promise.js',
+
+  'reflect-metadata/Reflect.js',
+
+  'systemjs/dist/system-polyfills.src.js',
+  'systemjs/dist/system.src.js',
+
+  // needs to load after es6-shim and es6-promise
+  'zone.js/dist/zone.js',
+
+  'jquery/dist/jquery.js',
   'd3/d3.js',
   'lodash/lodash.js',
-  'systemjs/dist/system-polyfills.src.js',
-  'reflect-metadata/Reflect.js',
-  'es6-shim/es6-shim.js',
-  'systemjs/dist/system.src.js',
-  'angular2/bundles/angular2-polyfills.js',
-  'rxjs/bundles/Rx.js',
-  'angular2/bundles/angular2.js',
-  'angular2/bundles/router.js',
-  'angular2/bundles/http.js',
   'postal/lib/postal.js',
   'pouchdb/dist/pouchdb.js',
-  "ng2-bs3-modal/bundles/ng2-bs3-modal.min.js",
-  "bootstrap/dist/js/bootstrap.js",
-  "moment/min/moment-with-locales.min.js"
+  'bootstrap/dist/js/bootstrap.js',
+  'moment/min/moment-with-locales.min.js'
 ];
 
 CONFIG.clientLibStyles = [
@@ -106,9 +107,9 @@ gulp.task("server:dev", ()=>{
 
 gulp.task("watch", ()=>{
   //TODO. when file changes, just run the necessary tasks
-  gulp.watch(['**', '**/*'], {cwd: CONFIG.client}, ['client:dev']);
+  gulp.watch(['**', '**/*', '!**/node_modules/**'], {cwd: CONFIG.client}, ['client:dev']);
 
-  gulp.watch(['**', '**/*'], {cwd: CONFIG.server}, ['server:dev']);
+  gulp.watch(['**', '**/*', '!**/node_modules/**'], {cwd: CONFIG.server}, ['server:dev']);
 
 });
 
@@ -136,7 +137,7 @@ gulp.task("copy:dev", ["copy:client:dev", "copy:server:dev"], ()=>{
 });
 
 gulp.task("copy:client:dev", ()=>{
-  return gulp.src(['**/*', "!**/*.ts", "!**/*.js", "!**/*.js.map", "!**/node_modules/**"], {cwd: CONFIG.client})
+  return gulp.src(['**/*',  "!**/*.ts", "!**/(!system.config.js|*.js)", "!**/*.js.map", "!**/node_modules/**"], {cwd: CONFIG.client})
     .pipe(gulp.dest(CONFIG.public))
 });
 
@@ -164,10 +165,25 @@ gulp.task("build:ts:dev", ()=>{
     .pipe(gulp.dest(CONFIG.public));
 });
 
-gulp.task("concat:lib", ()=>{
-  return gulp.src(CONFIG.clientLibs, {cwd: path.join(CONFIG.client, "node_modules")})
-    .pipe($.concat("lib.js"))
-    .pipe(gulp.dest(path.join(CONFIG.public, "js")))
+gulp.task("concat:lib", ['concat:lib:vendors', 'concat:lib:bundleSystemjs']);
+
+gulp.task("concat:lib:vendors", cb => {
+  return gulp.src(CONFIG.clientLibs, {cwd: path.join(CONFIG.client, 'node_modules')})
+    .pipe($.concat('lib.js'))
+    .pipe(gulp.dest(path.join(CONFIG.public, 'js')));
+});
+
+gulp.task("concat:lib:bundleSystemjs", cb => {
+  var Builder = require('systemjs-builder');
+  var builder = new Builder('./');
+
+  builder.reset();
+
+  builder
+    .loadConfig(path.join(CONFIG.client, 'system.config.js'))
+    .then(() => builder.bundle('main/**/* - [main/**/*]', path.join(CONFIG.public, 'js', 'vendor.bundle.js'), {minify: false, sourceMaps: true, lowResSourceMaps: true}))
+    .then(() => cb())
+    .catch(err => cb(err))
 });
 
 gulp.task("uglify:lib", ()=>{

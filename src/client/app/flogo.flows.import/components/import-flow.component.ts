@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter } from 'angular2/core';
+import { Component, ElementRef, EventEmitter } from '@angular/core';
 import { RESTAPIFlowsService } from '../../../common/services/restapi/flows-api.service';
 import { notification } from '../../../common/utils';
 
