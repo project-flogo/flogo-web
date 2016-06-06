@@ -452,7 +452,8 @@
 
     .flogo-flows-detail-diagram-node-detail-branch,
     .flogo-flows-detail-diagram-node-detail-branch-selected,
-    .flogo-flows-detail-diagram-node-detail-branch-hover {
+    .flogo-flows-detail-diagram-node-detail-branch-hover,
+    .flogo-flows-detail-diagram-node-detail-branch-run {
       position: absolute;
       margin: 0;
       bottom: -10px;
@@ -482,7 +483,8 @@
       opacity: 1;
     }
     .flogo-flows-detail-diagram-node-detail-branch-selected,
-    .flogo-flows-detail-diagram-node-detail-branch-hover {
+    .flogo-flows-detail-diagram-node-detail-branch-hover,
+    .flogo-flows-detail-diagram-node-detail-branch-run {
       opacity: 0;
     }
 
@@ -491,7 +493,6 @@
         opacity: 1;
       }
 
-      .flogo-flows-detail-diagram-node-detail-branch-selected,
       .flogo-flows-detail-diagram-node-detail-branch {
         opacity: 0;
       }
@@ -503,10 +504,21 @@
       .flogo-flows-detail-diagram-node-detail-branch-selected {
         opacity: 1;
       }
-      .flogo-flows-detail-diagram-node-detail-branch,
-      .flogo-flows-detail-diagram-node-detail-branch-hover {
+      .flogo-flows-detail-diagram-node-detail-branch {
         opacity: 0;
       }
+    }
+
+    &.flogo-flows-detail-diagram-node-run{
+
+      .flogo-flows-detail-diagram-node-detail-branch-run {
+        opacity: 1;
+      }
+
+      .flogo-flows-detail-diagram-node-detail-branch {
+        opacity: 0;
+      }
+
     }
   }
 }

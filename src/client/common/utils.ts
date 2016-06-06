@@ -330,10 +330,9 @@ export function genBranchLine( opts? : any ) : any {
   let barWidth = _.get( opts, 'barSize', 26 );
   let translate = _.get( opts, 'translate', [ 2, 2 ] );
 
-  let SUPPORTED_STATES = [ 'default', 'hover', 'selected' ];
+  let SUPPORTED_STATES = [ 'default', 'hover', 'selected', 'run' ];
 
-  let filters = <any>{
-    'default' : `
+  const DEFAULT_FILTER = `
       <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
           <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
           <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
@@ -343,7 +342,10 @@ export function genBranchLine( opts? : any ) : any {
               <feMergeNode in="SourceGraphic"></feMergeNode>
           </feMerge>
       </filter>
-    `.trim(),
+    `.trim();
+
+  let filters = <any>{
+    'default' : DEFAULT_FILTER,
     'hover' : `
       <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
           <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
@@ -365,7 +367,8 @@ export function genBranchLine( opts? : any ) : any {
               <feMergeNode in="SourceGraphic"></feMergeNode>
           </feMerge>
       </filter>
-    `.trim()
+    `.trim(),
+    'run': DEFAULT_FILTER
   };
 
   let fills = <any>{
@@ -381,7 +384,8 @@ export function genBranchLine( opts? : any ) : any {
           <stop stop-color="#C2C5DA" offset="100%"></stop>
       </linearGradient>
     `.trim(),
-    'selected' : ``.trim()
+    'selected' : '',
+    'run' : ''
   };
 
   let path = genBranchArrow(
@@ -416,6 +420,17 @@ export function genBranchLine( opts? : any ) : any {
     'selected' : `
       <g id="Spec" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(${translate[ 0 ]}, ${translate[ 1 ]})">
           <g id="Flogo_Branch-Configure-1" fill="#8A90AE">
+              <g id="branches">
+                  <g id="branch-1">
+                      <path d="${path}" id="Combined-Shape" filter="url(#filter-1)"></path>
+                  </g>
+              </g>
+          </g>
+      </g>
+    `.trim(),
+    'run' : `
+      <g id="Spec" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(${translate[ 0 ]}, ${translate[ 1 ]})">
+          <g id="Flogo_Branch-Configure-1" fill="#DEF2FD">
               <g id="branches">
                   <g id="branch-1">
                       <path d="${path}" id="Combined-Shape" filter="url(#filter-1)"></path>

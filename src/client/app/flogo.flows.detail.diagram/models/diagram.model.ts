@@ -35,6 +35,7 @@ const CLS = {
   diagramNodeDetailBranch : 'flogo-flows-detail-diagram-node-detail-branch',
   diagramNodeDetailBranchSelected : 'flogo-flows-detail-diagram-node-detail-branch-selected',
   diagramNodeDetailBranchHover : 'flogo-flows-detail-diagram-node-detail-branch-hover',
+  diagramNodeDetailBranchRun : 'flogo-flows-detail-diagram-node-detail-branch-run',
   diagramNodeDetailIcon : 'flogo-flows-detail-diagram-node-detail-icon',
   diagramNodeDetailTitle : 'flogo-flows-detail-diagram-node-detail-title',
   diagramNodeDetailDesc : 'flogo-flows-detail-diagram-node-detail-description',
@@ -63,6 +64,18 @@ export class FlogoFlowDiagram implements IFlogoFlowDiagram {
     private tasks : IFlogoFlowDiagramTaskDictionary,
     private elm ? : HTMLElement ) {
     this.updateDiagram( diagram );
+  }
+
+  static isBranchNode( node : IFlogoFlowDiagramNode ) {
+    return _isBranchNode( node );
+  }
+
+  static hasBranchRun( node : IFlogoFlowDiagramNode,
+    tasks : IFlogoFlowDiagramTaskDictionary,
+    nodes : IFlogoFlowDiagramNodeDictionary ) : boolean {
+
+    // expose internal function.
+    return _hasBranchRun( node, tasks, nodes );
   }
 
   static transformDiagram( diagram : IFlogoFlowDiagram ) : string[ ][ ] {
@@ -738,28 +751,31 @@ export class FlogoFlowDiagram implements IFlogoFlowDiagram {
         let branchLines = genBranchLine( { svgHeight : thisBranchLineHeight } );
 
         return _.map( [
-            {
-              class : CLS.diagramNodeDetailBranch,
-              state : 'default'
-            }, {
-              class : CLS.diagramNodeDetailBranchHover,
-              state : 'hover'
-            }, {
-              class : CLS.diagramNodeDetailBranchSelected,
-              state : 'selected'
-            }
-          ], ( item : any )=> {
-            let branchLine = btoa(
-              branchLines[ item.state ].trim()
-                .replace( /"/g, "'" )
-                .replace( /\s+/g, ' ' ) );
-            return `
+          {
+            class : CLS.diagramNodeDetailBranch,
+            state : 'default'
+          }, {
+            class : CLS.diagramNodeDetailBranchHover,
+            state : 'hover'
+          }, {
+            class : CLS.diagramNodeDetailBranchSelected,
+            state : 'selected'
+          }, {
+            class : CLS.diagramNodeDetailBranchRun,
+            state : 'run'
+          }
+        ], ( item : any )=> {
+          let branchLine = btoa(
+            branchLines[ item.state ].trim()
+              .replace( /"/g, "'" )
+              .replace( /\s+/g, ' ' ) );
+          return `
               <div ${diagram.ng2StyleAttr} class="${item.class}">
                 <div ${diagram.ng2StyleAttr} class="img-left" style="background:url(data:image/svg+xml;base64,${branchLine}) left bottom no-repeat; height: ${thisBranchLineHeight}px"></div>
                 <div ${diagram.ng2StyleAttr} class="img-right" style="background:url(data:image/svg+xml;base64,${branchLine}) right bottom no-repeat;"></div>
               </div>
             `
-          } )
+        } )
           .join( '' );
       }
 
@@ -1357,6 +1373,47 @@ function _getRowHeight( elm : HTMLElement, rowClassName : string ) : number {
  */
 function _isInSingleRow( node : IFlogoFlowDiagramNode ) {
   return (node.parents.length === 1 && node.children.length < 2);
+}
+
+function _isBranchNode( node : IFlogoFlowDiagramNode ) {
+  return node.type === FLOGO_FLOW_DIAGRAM_NODE_TYPE.NODE_BRANCH;
+}
+
+function _hasTaskRun( node : IFlogoFlowDiagramNode, tasks : IFlogoFlowDiagramTaskDictionary ) : boolean {
+  if ( !node || !tasks ) {
+    return false;
+  }
+
+  const task = tasks[ node.taskID ];
+
+  if ( !task ) {
+    return false;
+  }
+
+  return _.get( task, '__status.hasRun', false );
+}
+
+function _hasBranchRun( node : IFlogoFlowDiagramNode,
+  tasks : IFlogoFlowDiagramTaskDictionary,
+  nodes : IFlogoFlowDiagramNodeDictionary ) : boolean {
+
+  if ( !node || !tasks || !nodes || !_isBranchNode( node ) ) {
+    return false;
+  }
+
+  const parents = _.get( node, 'parents', [] );
+  const children = _.get( node, 'children', [] );
+
+  // when no parent or no child, then the branch shouldn't been run
+  if ( !parents.length || !children.length ) {
+    return false;
+  }
+
+  // if any of the parents and any of the children have run
+  // then the branch should be marked as run
+  return _.some( parents, ( parent ) => _hasTaskRun( nodes[ parent ], tasks ) ) && _.some( children,
+      ( child ) => _hasTaskRun( nodes[ child ], tasks ) );
+
 }
 
 function _removeNodeInSingleRow( node : FlogoFlowDiagramNode, nodes : IFlogoFlowDiagramNodeDictionary ) {
