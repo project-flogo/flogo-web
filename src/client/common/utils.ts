@@ -1,4 +1,15 @@
-import { FLOGO_TASK_TYPE, FLOGO_TASK_ATTRIBUTE_TYPE, DEFAULT_VALUES_OF_TYPES, FLOGO_AUTOMAPPING_FORMAT } from './constants';
+import {
+  FLOGO_TASK_TYPE,
+  FLOGO_TASK_ATTRIBUTE_TYPE,
+  DEFAULT_VALUES_OF_TYPES,
+  FLOGO_AUTOMAPPING_FORMAT
+} from './constants';
+import {
+  FlogoFlowDiagram,
+  IFlogoFlowDiagramNodeDictionary,
+  IFlogoFlowDiagramTaskDictionary,
+  IFlogoFlowDiagramNode
+} from '../app/flogo.flows.detail.diagram/models';
 
 // URL safe base64 encoding
 // reference: https://gist.github.com/jhurliman/1250118
@@ -698,4 +709,17 @@ export function attributeTypeToString( inType : any ) : string {
   }
 
   return (FLOGO_TASK_ATTRIBUTE_TYPE[inType] || 'string').toLowerCase();
+}
+
+export function updateBranchNodesRunStatus( nodes : IFlogoFlowDiagramNodeDictionary,
+  tasks : IFlogoFlowDiagramTaskDictionary ) {
+
+  _.forIn( nodes, ( node : IFlogoFlowDiagramNode ) => {
+    const task = tasks[ node.taskID ];
+
+    if ( task.type === FLOGO_TASK_TYPE.TASK_BRANCH ) {
+      _.set( task, '__status.hasRun', FlogoFlowDiagram.hasBranchRun( node, tasks, nodes ) );
+    }
+  } );
+
 }
