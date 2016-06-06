@@ -131,7 +131,7 @@
       }
     }
 
-    &.flogo-flows-detail-diagram-node-run{
+    &.flogo-flows-detail-diagram-node-run:not([data-flogo-node-type="node_branch"]) {
       &:before{
         background: #79b8dc;
       }
@@ -452,7 +452,8 @@
 
     .flogo-flows-detail-diagram-node-detail-branch,
     .flogo-flows-detail-diagram-node-detail-branch-selected,
-    .flogo-flows-detail-diagram-node-detail-branch-hover {
+    .flogo-flows-detail-diagram-node-detail-branch-hover,
+    .flogo-flows-detail-diagram-node-detail-branch-run {
       position: absolute;
       margin: 0;
       bottom: -10px;
@@ -482,8 +483,21 @@
       opacity: 1;
     }
     .flogo-flows-detail-diagram-node-detail-branch-selected,
-    .flogo-flows-detail-diagram-node-detail-branch-hover {
+    .flogo-flows-detail-diagram-node-detail-branch-hover,
+    .flogo-flows-detail-diagram-node-detail-branch-run {
       opacity: 0;
+    }
+
+    &.flogo-flows-detail-diagram-node-run {
+
+      .flogo-flows-detail-diagram-node-detail-branch-run {
+        opacity: 1;
+      }
+
+      .flogo-flows-detail-diagram-node-detail-branch {
+        opacity: 0;
+      }
+
     }
 
     &:hover {
@@ -491,8 +505,9 @@
         opacity: 1;
       }
 
-      .flogo-flows-detail-diagram-node-detail-branch-selected,
-      .flogo-flows-detail-diagram-node-detail-branch {
+      // `hover` style overrides the `run` style
+      .flogo-flows-detail-diagram-node-detail-branch,
+      .flogo-flows-detail-diagram-node-detail-branch-run {
         opacity: 0;
       }
     }
@@ -503,7 +518,10 @@
       .flogo-flows-detail-diagram-node-detail-branch-selected {
         opacity: 1;
       }
+
+      // `selected` style overrides the `run` and `hover` style
       .flogo-flows-detail-diagram-node-detail-branch,
+      .flogo-flows-detail-diagram-node-detail-branch-run,
       .flogo-flows-detail-diagram-node-detail-branch-hover {
         opacity: 0;
       }
