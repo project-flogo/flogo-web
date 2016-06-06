@@ -131,7 +131,7 @@
       }
     }
 
-    &.flogo-flows-detail-diagram-node-run{
+    &.flogo-flows-detail-diagram-node-run:not([data-flogo-node-type="node_branch"]) {
       &:before{
         background: #79b8dc;
       }
@@ -488,12 +488,26 @@
       opacity: 0;
     }
 
+    &.flogo-flows-detail-diagram-node-run {
+
+      .flogo-flows-detail-diagram-node-detail-branch-run {
+        opacity: 1;
+      }
+
+      .flogo-flows-detail-diagram-node-detail-branch {
+        opacity: 0;
+      }
+
+    }
+
     &:hover {
       .flogo-flows-detail-diagram-node-detail-branch-hover {
         opacity: 1;
       }
 
-      .flogo-flows-detail-diagram-node-detail-branch {
+      // `hover` style overrides the `run` style
+      .flogo-flows-detail-diagram-node-detail-branch,
+      .flogo-flows-detail-diagram-node-detail-branch-run {
         opacity: 0;
       }
     }
@@ -504,21 +518,13 @@
       .flogo-flows-detail-diagram-node-detail-branch-selected {
         opacity: 1;
       }
-      .flogo-flows-detail-diagram-node-detail-branch {
+
+      // `selected` style overrides the `run` and `hover` style
+      .flogo-flows-detail-diagram-node-detail-branch,
+      .flogo-flows-detail-diagram-node-detail-branch-run,
+      .flogo-flows-detail-diagram-node-detail-branch-hover {
         opacity: 0;
       }
-    }
-
-    &.flogo-flows-detail-diagram-node-run{
-
-      .flogo-flows-detail-diagram-node-detail-branch-run {
-        opacity: 1;
-      }
-
-      .flogo-flows-detail-diagram-node-detail-branch {
-        opacity: 0;
-      }
-
     }
   }
 }

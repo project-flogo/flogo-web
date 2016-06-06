@@ -441,7 +441,7 @@ export function genBranchLine( opts? : any ) : any {
     `.trim(),
     'run' : `
       <g id="Spec" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(${translate[ 0 ]}, ${translate[ 1 ]})">
-          <g id="Flogo_Branch-Configure-1" fill="#DEF2FD">
+          <g id="Flogo_Branch-Configure-1" fill="#FFD1B3">
               <g id="branches">
                   <g id="branch-1">
                       <path d="${path}" id="Combined-Shape" filter="url(#filter-1)"></path>
