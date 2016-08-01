@@ -13,13 +13,33 @@
     height: (@height)*1px;
   }
 
+  .flogo-visual-mapper__item__name {
+    font-weight: bold;
+    margin-left: 5px;
+    margin-top: 0;
+    margin-bottom: 5px;
+    cursor:pointer;
+    list-style-type: none;
+    display: inline
+  }
+
+  .flogo-visual-mapper__item__field {
+    margin-left: 20px
+  }
+
+  .flogo-visual-mapper__item__error {
+    color: red;
+  }
+
   .flogo-visual-mapper__item__remove {
-    display: flex;
-    flex: 0 0 5%;
-    cursor: pointer;
-    color: #b13d3d;
-    align-items: center;
-    justify-content: center;
+    left:-10px;
+    color:dimgray;
+    cursor:pointer
+  }
+
+  .flogo-visual-mapper__item__action {
+    color:dimgray;
+    font-size: 0.8em;
   }
 
   .flogo-visual-mapper__item__output {
@@ -50,10 +70,15 @@
   }
 
   .flogo-visual-mapper__item__list {
-    width: 60%;
-    margin-bottom: 10px;
+    width: 250px;
+    background-color: white;
+    z-index: 900;
+    position: absolute;
+  }
+
+  .flogo-visual-mapper__item__list__item {
     margin-top: 0;
-    background-color: @color-input;
+    padding-top: 0;
   }
 
 
@@ -61,9 +86,16 @@
     cursor: pointer;
   }
 
-  .flogo-visual-mapper__item__list--selectedvalue {
-    left: 30px;
-    position: relative;
+  .flogo-visual-mapper__item__list__field {
+    cursor:pointer;
+    list-style-type: none;
+
+    margin-bottom: 5px;
+    //margin-left: 10px
+  }
+
+  .flogo-visual-mapper__item__list__field:hover {
+    background-color: #ededed;
   }
 
   .flogo-visual-mapper__item__output, .flogo-visual-mapper__item__input {
@@ -98,9 +130,8 @@
     top: 0
   }
 
-  .flogo-visual-mapper__item__output--connected,
-  .flogo-visual-mapper__item__error {
-    left: 10px;
+  .flogo-visual-mapper__item__output--connected {
+    margin-right: 0;
   }
   .flogo-visual-mapper__item__input--connected {
     background-color: #ccd0d8;

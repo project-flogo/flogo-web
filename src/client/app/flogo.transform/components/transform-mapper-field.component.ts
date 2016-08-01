@@ -22,12 +22,32 @@ export class TransformMapperField implements  OnChanges, OnInit {
     hasError:boolean = false;
     messageError:string = '';
     errors:any;
+    selectedTile:string = '';
+    selectedInput:string = '';
 
     constructor() {
         this.mappingChange = new EventEmitter();
     }
 
     ngOnInit() {
+    }
+
+    onMouseLeave() {
+        this.resetStatus();
+    }
+
+    resetStatus() {
+        this.selectedTile = '';
+        this.selectedInput = '';
+        this.showList = false;
+
+    }
+
+    onFocusText(input: string) {
+        this.selectedTile = '';
+        this.selectedInput = input;
+        this.showList = true;
+        console.log('The selected input is:', this.selectedInput);
     }
 
     onKeyUp(value:string) {
@@ -43,6 +63,15 @@ export class TransformMapperField implements  OnChanges, OnInit {
             hasError: this.hasError,
             errors: this.errors
         });
+    }
+
+    setSelectedTile(value:string) : void {
+
+        if(this.selectedTile == value) {
+            this.selectedTile = '';
+        } else {
+            this.selectedTile = value;
+        }
     }
 
     validateField(value:string) {
@@ -111,6 +140,7 @@ export class TransformMapperField implements  OnChanges, OnInit {
     onKeyPress(event) {
         if(event.keyCode == 27) {
             this.showList = false;
+            this.selectedInput = '';
         }
     }
 
