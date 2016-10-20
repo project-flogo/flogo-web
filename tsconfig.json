@@ -17,6 +17,9 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node"
   },
+   "types": [
+    "node"
+  ],
   "exclude":[
     "node_modules",
     "src/client/node_modules",

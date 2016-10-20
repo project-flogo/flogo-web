@@ -1,23 +1,14 @@
 import {Component, SimpleChange} from '@angular/core';
 
-import {FlogoFormBuilderFieldsRadio as FieldRadio} from '../../flogo.form-builder.fields/components/fields.radio/fields.radio.component';
-import {FlogoFormBuilderFieldsTextBox as FieldTextBox} from '../../flogo.form-builder.fields/components/fields.textbox/fields.textbox.component';
-import {FlogoFormBuilderFieldsTextArea as FieldTextArea} from '../../flogo.form-builder.fields/components/fields.textarea/fields.textarea.component';
-import {FlogoFormBuilderFieldsNumber as FieldNumber} from '../../flogo.form-builder.fields/components/fields.number/fields.number.component';
 import {FlogoFormBuilderCommon} from '../../flogo.form-builder/form-builder.common';
-import {FlogoFormBuilderFieldsObject as FieldObject} from '../../flogo.form-builder.fields/components/fields.object/fields.object.component';
 import {FlogoFormBuilderFieldsListBox as FieldListBox} from '../../flogo.form-builder.fields/components/fields.listbox/fields.listbox.component';
-import { convertTaskID, parseMapping, normalizeTaskName, getDefaultValue } from "../../../common/utils";
-import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
+import {convertTaskID, parseMapping} from "../../../common/utils";
 
 @Component({
     selector: 'flogo-form-builder-task-configuration',
     moduleId: module.id,
     templateUrl: 'form-builder.configuration.task.tpl.html',
-    directives: [FieldRadio, FieldTextBox,  FieldTextArea, FieldNumber, FieldObject, FieldListBox],
-    inputs: ['_fieldObserver:fieldObserver','_attributes:attributes', '_task:task'],
-    pipes: [TranslatePipe],
-    providers: [FlogoFormBuilderCommon]
+    inputs: ['_fieldObserver:fieldObserver','_attributes:attributes', '_task:task']
 })
 export class FlogoFormBuilderConfigurationTaskComponent {
   _fieldObserver : any;
@@ -25,7 +16,7 @@ export class FlogoFormBuilderConfigurationTaskComponent {
   _task:any;
   fields:any;
 
-  constructor(private _commonService: FlogoFormBuilderCommon, public translate: TranslateService) {
+  constructor(private _commonService: FlogoFormBuilderCommon) {
   }
 
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {

@@ -1,6 +1,6 @@
 <div class="flogo-common-edit-panel__container">
 
-  <div *ngFor="#item of fields">
+  <div *ngFor="let item of fields">
     <flogo-form-builder-fields-object [info]="getBranchInfo(item)" [fieldObserver]="_fieldObserver" ></flogo-form-builder-fields-object>
   </div>
 

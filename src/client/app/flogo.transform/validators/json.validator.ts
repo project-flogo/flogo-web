@@ -1,6 +1,6 @@
-import { Control } from '@angular/common';
+import { FormControl } from '@angular/forms';
 
-export function jsonValidator(control:Control) {
+export function jsonValidator(control:FormControl) {
   try {
     JSON.parse(control.value);
     let errors = control.errors;

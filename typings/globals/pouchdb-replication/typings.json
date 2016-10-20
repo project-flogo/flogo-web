@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/a396c170ba4b6a7f45b20fccbdba0d2b81cc8833/pouchdb-replication/pouchdb-replication.d.ts",
+    "raw": "registry:dt/pouchdb-replication#5.4.4+20160724064500",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/a396c170ba4b6a7f45b20fccbdba0d2b81cc8833/pouchdb-replication/pouchdb-replication.d.ts"
+  }
+}

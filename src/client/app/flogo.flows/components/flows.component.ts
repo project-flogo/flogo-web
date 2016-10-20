@@ -1,44 +1,34 @@
-import {Component, Injector} from '@angular/core';
-import {ROUTER_DIRECTIVES, Router, CanActivate} from '@angular/router-deprecated';
-
-//import * as moment from 'moment';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 
 import {RESTAPIFlowsService} from '../../../common/services/restapi/flows-api.service';
-import {RESTAPIActivitiesService} from '../../../common/services/restapi/activities-api.service';
-import {RESTAPITriggersService} from '../../../common/services/restapi/triggers-api.service';
-import { flogoIDEncode , notification } from '../../../common/utils';
-import {FlogoFlowsAdd} from '../../flogo.flows.add/components/add.component';
+import {flogoIDEncode , notification} from '../../../common/utils';
 
 import {PostService} from '../../../common/services/post.service'
 import {PUB_EVENTS as SUB_EVENTS} from '../../flogo.flows.add/message';
 import {FlogoModal} from '../../../common/services/modal.service';
-import { FlogoFlowsImport } from '../../flogo.flows.import/components/import-flow.component';
-import { isConfigurationLoaded } from '../../../common/services/configurationLoaded.service';
-import { FlogoInstructionsComponent } from '../../flogo.instructions/components/instructions.component';
-import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
+import {LoadingStatusService} from "../../../common/services/loading-status.service";
+import {TranslateService} from 'ng2-translate/ng2-translate';
 
 @Component({
   selector: 'flogo-flows',
   moduleId: module.id,
   templateUrl: 'flows.tpl.html',
-  styleUrls: ['flows.component.css'],
-  directives: [ROUTER_DIRECTIVES, FlogoFlowsAdd, FlogoFlowsImport,FlogoInstructionsComponent],
-  pipes: [TranslatePipe],
-  providers: [RESTAPIFlowsService, RESTAPIActivitiesService, RESTAPITriggersService, FlogoModal]
-})
-@CanActivate((next) => {
-    return isConfigurationLoaded();
-})
-export class FlogoFlowsComponet{
+  styleUrls: ['flows.component.css']
+ })
+export class FlogoFlowsComponent {
     private _sub: any;
     public flows: any[] = [];
     public isInstructionsActivated:boolean  = false;
+    public isLoading : Observable<boolean>
 
     constructor(
         private _flow:RESTAPIFlowsService,
         private _postService: PostService,
         private _flogoModal: FlogoModal,
         private _router: Router,
+        private _loadingStatusService : LoadingStatusService,
         public translate: TranslateService
     ){
         this.getAllFlows();
@@ -46,8 +36,12 @@ export class FlogoFlowsComponet{
         setTimeout(() => {
            this.showInstructions();
        },500);
+
+      this.isLoading = _loadingStatusService.status;
+
     }
-    showInstructions() {
+
+    public showInstructions() {
        let instructions:any = localStorage.getItem('flogo-show-instructions');
 
        if(_.isEmpty(instructions)) {
@@ -57,7 +51,6 @@ export class FlogoFlowsComponet{
 
        return this.isInstructionsActivated;
    }
-
 
    public onClosedInstructions(closed) {
        this.isInstructionsActivated = false;
@@ -85,12 +78,12 @@ export class FlogoFlowsComponet{
                 items: {}
             };
             this._flow.createFlow(_.clone(request)).then((response)=>{
-                let message = this.translate.get('FLOWS:SUCCESS-MESSAGE-FLOW-CREATED');
-                notification(message['value'], 'success', 3000);
+                let message = this.translate.instant('FLOWS:SUCCESS-MESSAGE-FLOW-CREATED');
+                notification(message, 'success', 3000);
                 resolve(response);
             }).catch((err)=>{
-                let message = this.translate.get('FLOWS:CREATE_FLOW_ERROR', err);
-                notification(message['value'], 'error');
+                let message = this.translate.instant('FLOWS:CREATE_FLOW_ERROR', err);
+                notification(message, 'error');
                 reject(err);
             });
         }).then(()=>{
@@ -106,10 +99,8 @@ export class FlogoFlowsComponet{
       evt.stopPropagation();
     }
 
-    this._router.navigate( [
-      'FlogoFlowDetail',
-      { id : flogoIDEncode( flowId ) }
-    ] )
+    this._loadingStatusService.start();
+    this._router.navigate( [ '/flows', flogoIDEncode(flowId) ] )
       .catch( ( err : any )=> {
         console.error( err );
       } );
@@ -127,11 +118,11 @@ export class FlogoFlowsComponet{
             if(res) {
                 this._flow.deleteFlow(flow._id, flow._rev).then(()=> {
                     this.getAllFlows();
-                    let message = this.translate.get('FLOWS:SUCCESS-MESSAGE-FLOW-DELETED');
-                    notification(message['value'], 'success', 3000);
+                    let message = this.translate.instant('FLOWS:SUCCESS-MESSAGE-FLOW-DELETED');
+                    notification(message, 'success', 3000);
                 }).catch((err)=> {
-                    let message = this.translate.get('FLOWS:ERROR-MESSAGE-REMOVE-FLOW', {value:err});
-                    notification(message['value'], 'error');
+                    let message = this.translate.instant('FLOWS:ERROR-MESSAGE-REMOVE-FLOW', {value:err});
+                    notification(message, 'error');
                 });
             } else {
                 // omit
@@ -160,8 +151,8 @@ export class FlogoFlowsComponet{
     }
 
   onFlowImportSuccess( result : any ) {
-      let message = this.translate.get('FLOWS:SUCCESS-MESSAGE-IMPORT');
-      notification( message['value'], 'success', 3000 );
+      let message = this.translate.instant('FLOWS:SUCCESS-MESSAGE-IMPORT');
+      notification( message, 'success', 3000 );
       this.getAllFlows();
   }
 
@@ -170,8 +161,8 @@ export class FlogoFlowsComponet{
     statusText : string;
     response : any
   } ) {
-   let message = this.translate.get('FLOWS:ERROR-MESSAGE-IMPORT', {value: err.response});
-    notification( message['value'], 'error' );
+   let message = this.translate.instant('FLOWS:ERROR-MESSAGE-IMPORT', {value: err.response});
+    notification( message, 'error' );
   }
 
 

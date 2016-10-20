@@ -65,7 +65,7 @@ export class FlogoFlowDiagram implements IFlogoFlowDiagram {
 
   constructor( diagram : IFlogoFlowDiagram,
     private tasks : IFlogoFlowDiagramTaskDictionary,
-   public translate: TranslateService,
+    private translate: TranslateService,
     private elm ? : HTMLElement,
     private diagramType? : string) {
     this.updateDiagram( diagram );
@@ -870,9 +870,9 @@ export class FlogoFlowDiagram implements IFlogoFlowDiagram {
 
   private _handleUpdateNodeMenus( nodeMenus : any ) {
     let diagram = this;
-    let textAddBranch = this.translate.get('DIAGRAM:ADD-BRANCH')['value'];
-    let textTransform = this.translate.get('DIAGRAM:TRANSFORM')['value'];
-    let textDelete = this.translate.get('DIAGRAM:DELETE')['value'];
+    let textAddBranch = this.translate.instant('DIAGRAM:ADD-BRANCH');
+    let textTransform = this.translate.instant('DIAGRAM:TRANSFORM');
+    let textDelete = this.translate.instant('DIAGRAM:DELETE');
 
     nodeMenus.html( ( nodeInfo : any, ignore : number, idxInTotalNodes : number ) => {
       let tplItemAddBranch = `<li ${diagram.ng2StyleAttr} class="${CLS.diagramNodeMenuList}" data-menu-item-type="${FLOGO_FLOW_DIAGRAM_NODE_MENU_ITEM_TYPE.ADD_BRANCH}"><i ${diagram.ng2StyleAttr} class="fa fa-plus"></i>${textAddBranch}</li>`;

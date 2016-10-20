@@ -2,7 +2,7 @@
 
   <div class="flogo-common-edit-panel__container">
     <h3 class="flogo-common-edit-panel__legend" [hidden]="!fields.inputs.length">{{ 'FORM-BUILDER-CONFIGURATION-TASK:INPUT' | translate }}</h3>
-    <div *ngFor="let item of fields.inputs; #index = index" class="">
+    <div *ngFor="let item of fields.inputs; let index = index" class="">
 
       <div *ngIf="getControlByType(item).control == 'FieldTextBox'">
         <flogo-form-builder-fields-textbox [info]="getTaskInfo(item, 'input','inputs')" [fieldObserver]="_fieldObserver" ></flogo-form-builder-fields-textbox>

@@ -1,5 +1,4 @@
-import { Component, Input, Output, OnChanges } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'flogo-transform-visual-mapper-output',

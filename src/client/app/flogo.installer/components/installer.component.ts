@@ -1,14 +1,8 @@
 import { Component, EventEmitter, OnChanges, SimpleChange, ViewChild } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
-import { FlogoInstallerCategorySelectorComponent } from '../../flogo.installer.category-selector/components/category-selector.component';
-import { MODAL_DIRECTIVES, ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { FlogoInstallerTriggerComponent } from '../../flogo.installer.trigger-installer/components/trigger-installer.component';
-import { FlogoInstallerActivityComponent } from '../../flogo.installer.activity-installer/components/activity-installer.component';
-import { FlogoInstallerSearchComponent } from '../../flogo.installer.search/components/search.component';
-import { FlogoInstallerUrlComponent } from '../../flogo.installer.url-installer/components/url-installer.component';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { RESTAPITriggersService } from '../../../common/services/restapi/triggers-api.service';
 import { RESTAPIActivitiesService } from '../../../common/services/restapi/activities-api.service';
-import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 import { notification } from '../../../common/utils';
 import {
   FLOGO_INSTALLER_STATUS_STANDBY, FLOGO_INSTALLER_STATUS_IDLE,
@@ -21,15 +15,6 @@ let TRIGGER_TITLE = '';
 @Component( {
   selector : 'flogo-installer',
   moduleId : module.id,
-  pipes: [TranslatePipe],
-  directives : [
-    MODAL_DIRECTIVES,
-    FlogoInstallerSearchComponent,
-    FlogoInstallerCategorySelectorComponent,
-    FlogoInstallerActivityComponent,
-    FlogoInstallerTriggerComponent,
-    FlogoInstallerUrlComponent
-  ],
   templateUrl : 'installer.tpl.html',
   inputs : [ 'installType: flogoInstallType', 'isActivated: flogoIsActivated' ],
   outputs : [
@@ -51,7 +36,7 @@ export class FlogoInstallerComponent implements OnChanges {
   isActivatedUpdate = new EventEmitter();
   onInstalled = new EventEmitter();
 
-  _query = '';
+  query = '';
   _title = '';
 
   _status = FLOGO_INSTALLER_STATUS_IDLE;
@@ -60,12 +45,12 @@ export class FlogoInstallerComponent implements OnChanges {
   //  may add two-way binding later.
   installTypeUpdate = new EventEmitter();
 
-  constructor( private _router : Router,
+  constructor(
     private _triggersAPIs : RESTAPITriggersService,
     private _activitiesAPIs : RESTAPIActivitiesService,
-    public translate: TranslateService) {
-    ACTIVITY_TITLE = translate.get('INSTALLER:DOWNLOAD-TILES')['value'];
-    TRIGGER_TITLE = translate.get('INSTALLER:DOWNLOAD-TRIGGERS')['value'];
+    private _translate : TranslateService) {
+    ACTIVITY_TITLE = _translate.instant('INSTALLER:DOWNLOAD-TILES');
+    TRIGGER_TITLE = _translate.instant('INSTALLER:DOWNLOAD-TRIGGERS');
     this.init();
   }
 
@@ -120,18 +105,18 @@ export class FlogoInstallerComponent implements OnChanges {
     }
   }
 
-  openModal() {
+  openModal(event? : any) {
     console.log( 'Open Modal.' );
     this._status = FLOGO_INSTALLER_STATUS_STANDBY;
     this.modal.open();
   }
 
-  closeModal() {
+  closeModal(event? : any) {
     console.log( 'Close Modal.' );
     this.modal.close();
   }
 
-  onModalCloseOrDismiss() {
+  onModalCloseOrDismiss(event? : any) {
     console.log( 'On Modal Close.' );
     this._isActivated = false;
     this._status = FLOGO_INSTALLER_STATUS_IDLE;
@@ -165,14 +150,14 @@ export class FlogoInstallerComponent implements OnChanges {
           console.group( `[FlogoInstallerComponent] onResponse` );
           if ( response.fail.length ) {
             let parameters = `${_.capitalize( self._installType )}`;
-            let message = this.translate.get('INSTALLER:ERROR-MESSAGE-INSTALLATION', {value:parameters});
-            notification(message['value'], 'error' );
+            let message = this._translate.instant('INSTALLER:ERROR-MESSAGE-INSTALLATION', {value:parameters});
+            notification(message, 'error' );
             //notification( `${_.capitalize( self._installType )} installation failed.`, 'error' );
             //console.error( `${_.capitalize( self._installType )} [ ${url} ] installation failed.` );
           } else {
             let parameters = `${_.capitalize( self._installType )}`;
-            let message = this.translate.get('INSTALLER:SUCCESS-MESSAGE-INSTALLATION', {value:parameters});
-            notification( message['value'], 'success', 3000 );
+            let message = this._translate.instant('INSTALLER:SUCCESS-MESSAGE-INSTALLATION', {value:parameters});
+            notification( message, 'success', 3000 );
             //notification( `${_.capitalize( self._installType )} installed.`, 'success', 3000 );
             //console.log( `${_.capitalize( self._installType )} [ ${url} ] installed.` );
           }
@@ -188,8 +173,8 @@ export class FlogoInstallerComponent implements OnChanges {
         .catch( ( err ) => {
           console.error( err );
           let parameters = `${_.capitalize( self._installType )}`;
-          let message = this.translate.get('INSTALLER:ERROR-MESSAGE-INSTALLATION', {value:parameters});
-          notification(message['value'], 'error' );
+          let message = this._translate.instant('INSTALLER:ERROR-MESSAGE-INSTALLATION', {value:parameters});
+          notification(message, 'error' );
           self._status = FLOGO_INSTALLER_STATUS_INSTALL_FAILED;
           console.groupEnd();
         } );

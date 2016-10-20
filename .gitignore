@@ -53,6 +53,7 @@ tags
 
 # ignore node/grunt dependency directories
 node_modules/
+npm-debug.log
 
 # ignore bower depedency directories
 bower_components/

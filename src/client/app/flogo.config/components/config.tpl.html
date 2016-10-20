@@ -43,11 +43,11 @@
       <label class="col-lg-2 col-md-2 col-sm-3" [innerHTML]="server._label"></label>
       <div class="col-lg-8 col-md-8 col-sm-12">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="{{location.protocol.replace( ':', '' )}}" [(ngModel)]="server.config.protocol">
+          <input type="text" name="server-protocol" class="form-control" placeholder="{{location.protocol.replace( ':', '' )}}" [(ngModel)]="server.config.protocol">
           <div class="input-group-addon">://</div>
-          <input type="text" class="form-control" placeholder="{{location.hostname}}" [(ngModel)]="server.config.host">
+          <input type="text" name="server-host" class="form-control" placeholder="{{location.hostname}}" [(ngModel)]="server.config.host" >
           <div class="input-group-addon">:</div>
-          <input type="text" class="form-control" placeholder="port" [(ngModel)]="server.config.port">
+          <input type="text" name="server-port" class="form-control" placeholder="port" [(ngModel)]="server.config.port">
           <div class="input-group-addon">
             <flogo-config-service-status-indicator [urlConfig]="server.config"></flogo-config-service-status-indicator>
           </div>
@@ -68,13 +68,13 @@
       <label class="col-md-2 col-sm-3" [innerHTML]="db.config.label"></label>
       <div class="col-lg-9 col-md-10 col-sm-12">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="{{location.protocol.replace( ':', '' )}}" [(ngModel)]="db.config.protocol">
+          <input type="text" class="form-control" name="db-protocol" placeholder="{{location.protocol.replace( ':', '' )}}" [(ngModel)]="db.config.protocol">
           <div class="input-group-addon">://</div>
-          <input type="text" class="form-control" placeholder="{{location.hostname}}" [(ngModel)]="db.config.host">
+          <input type="text" class="form-control" name="db-host" placeholder="{{location.hostname}}" [(ngModel)]="db.config.host">
           <div class="input-group-addon">:</div>
-          <input type="text" class="form-control" placeholder="port" [(ngModel)]="db.config.port">
+          <input type="text" class="form-control" name="db-port" placeholder="port" [(ngModel)]="db.config.port">
           <div class="input-group-addon">/</div>
-          <input type="text" class="form-control" placeholder="dbname" [(ngModel)]="db.config.testPath">
+          <input type="text" class="form-control" name="db-name" placeholder="dbname" [(ngModel)]="db.config.testPath">
           <div class="input-group-addon">
             <flogo-config-service-status-indicator [urlConfig]="db.config"></flogo-config-service-status-indicator>
           </div>

@@ -1,4 +1,4 @@
-import { Control } from '@angular/common';
+import { FormControl } from '@angular/forms';
 import { mappingValidator } from './mapping.validator';
 import { TileInOutInfo } from "../models/tile-in-out-info.model";
 
@@ -37,7 +37,7 @@ export function mappingsValidateField(tileInfo: TileInOutInfo, value: string) : 
 
 }
 
-export function mappingsValidator(tileInfo: TileInOutInfo, control:Control) : any {
+export function mappingsValidator(tileInfo: TileInOutInfo, control:FormControl) : any {
 
   if(control.getError('invalidJson') || !control.value || _.isEmpty(control.value.trim())) {
     return null;

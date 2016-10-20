@@ -1,6 +1,6 @@
-<div *ngIf="!_mockLoading" [ngClass]="{'flogo-canvas-maximum': isOnDefaultRoute()}">
+<div [hidden]="_mockLoading">
 
-  <div class="canvas-flow">
+  <div *ngIf="!_mockLoading" class="canvas-flow">
 
     <section class="flogo-flow-detail">
 
@@ -113,7 +113,6 @@
     </flogo-flows-detail-error-panel>
 
   </div>
-
   <div class="canvas-right-container">
     <router-outlet></router-outlet>
   </div>

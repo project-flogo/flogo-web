@@ -1,15 +1,9 @@
 import { Component, EventEmitter, OnChanges, SimpleChange, ViewChild } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
-import { MODAL_DIRECTIVES, ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { notification } from '../../../common/utils';
-
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component( {
     selector : 'flogo-instructions',
     moduleId : module.id,
-    directives : [
-        MODAL_DIRECTIVES
-    ],
     templateUrl : 'instructions.tpl.html',
     inputs : ['isActivated'],
     outputs : ['onClosedModal: flogoOnClosedModal'],
@@ -18,19 +12,16 @@ import { notification } from '../../../common/utils';
 export class FlogoInstructionsComponent implements OnChanges {
 
     @ViewChild( 'instructionsModal' ) modal : ModalComponent;
-
-    installType : string;
     isActivated : boolean;
-    onInstalled = new EventEmitter();
     onClosedModal = new EventEmitter();
-    steps:any[] = [
+    steps = [
         {title:'Configure the trigger', description: '', icon: 'instructions-step-1', screenshot:'graphic-1.jpg'} ,
         {title:'Add and configure activities', description: '', icon: 'instructions-step-2', screenshot:'graphic-2.jpg'} ,
         {title:'Run and test at any time', description: '', icon: 'instructions-step-3', screenshot:'graphic-3.svg'} ,
         {title:'Build and run', description: '', icon: 'instructions-step-4', screenshot:'graphic-4.svg'}
     ];
     currentIndex : number;
-    currentStep :any[];
+    currentStep : any;
     STEPS_LENGTH = this.steps.length - 1;
 
     constructor( ) {
@@ -75,7 +66,6 @@ export class FlogoInstructionsComponent implements OnChanges {
     }
 
     openModal() {
-        console.log( 'Open Modal.' );
         this.init();
         this.modal.open('lg');
     }

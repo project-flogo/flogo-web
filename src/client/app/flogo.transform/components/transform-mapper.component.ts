@@ -1,12 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { TileInOutInfo } from '../models/tile-in-out-info.model';
-import { Observable } from 'rxjs/Rx';
-import {TransformMapperField} from './transform-mapper-field.component';
-
 
 @Component({
     selector: 'flogo-transform-mapper',
-    directives: [TransformMapperField],
     moduleId: module.id,
     templateUrl: 'transform-mapper.tpl.html',
     styleUrls: ['transform-mapper.component.css']
@@ -40,8 +36,6 @@ export class TransformMapperComponent implements OnChanges {
 
         if (changes.tileInputInfo && this.tileInputInfo) {
             this.tileInfo.attributes = this.extractInputs(this.tileInputInfo);
-
-
         }
 
         if (changes.precedingTilesOutputs && this.precedingTilesOutputs) {

@@ -11,10 +11,13 @@
     "webdriver-manager": "webdriver-manager update && webdriver-manager start",
     "webdriver-manager-update": "webdriver-manager update",
     "e2e": "cd specs && protractor protractor.conf.js",
-    "e2e-container": "cd specs && docker run -it --rm --net=host -e FLOGO_HOST=\"$FLOGO_HOST\" -e FLOGO_PORT=\"$FLOGO_PORT\" --name flogo-protractor-runner -v $(pwd):/protractor/project hortonworks/docker-e2e-protractor protractor.conf.js"
+    "e2e-container": "cd specs && docker run -it --rm --net=host -e FLOGO_HOST=\"$FLOGO_HOST\" -e FLOGO_PORT=\"$FLOGO_PORT\" --name flogo-protractor-runner -v $(pwd):/protractor/project hortonworks/docker-e2e-protractor protractor.conf.js",
+    "typings": "typings",
+    "typings-install": "typings install"
   },
   "author": "Shaoke Xu<shaoxu@tibco.com>",
   "devDependencies": {
+    "@types/node": "^6.0.36",
     "babel-core": "^6.10.4",
     "babel-plugin-transform-runtime": "6.9.0",
     "babel-polyfill": "6.9.1",
@@ -29,7 +32,7 @@
     "gulp-filter": "^4.0.0",
     "gulp-help": "^1.6.1",
     "gulp-inject": "^4.1.0",
-    "gulp-inline-ng2-template": "^2.0.5",
+    "gulp-inline-ng2-template": "^3.0.1",
     "gulp-less": "^3.1.0",
     "gulp-load-plugins": "^1.2.0",
     "gulp-nodemon": "^2.0.7",
@@ -43,10 +46,12 @@
     "protractor": "^4.0.2",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.5",
-    "systemjs-builder": "^0.15.22",
+    "systemjs-builder": "^0.15.32",
     "tslint": "^3.5.0",
-    "typescript": "^1.8.10",
+    "typescript": "^2.0.3",
+    "typings": "^1.4.0",
     "vinyl-fs": "^2.4.3",
     "webdriver-manager": "^10.2.1"
-  }
+  },
+  "dependencies": {}
 }

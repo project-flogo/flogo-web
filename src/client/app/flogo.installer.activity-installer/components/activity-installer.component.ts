@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { FlogoInstallerCategorySelectorComponent } from '../../flogo.installer.category-selector/components/category-selector.component';
-import { FlogoInstallerListViewComponent } from '../../flogo.installer.list-view/components/list-view.component';
 import { FlogoInstallerBaseComponent } from '../../flogo.installer.base-installer/components/base-installer.component';
 import { RESTAPIActivitiesService } from '../../../common/services/restapi/activities-api.service';
-import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
+import {TranslateService} from 'ng2-translate/ng2-translate';
 
 import {
   FLOGO_INSTALLER_STATUS_INSTALL_SUCCESS,
@@ -13,19 +11,19 @@ import {
 @Component( {
   selector : 'flogo-installer-activity',
   moduleId : module.id,
-  directives : [
-    FlogoInstallerCategorySelectorComponent,
-    FlogoInstallerListViewComponent
-  ],
   templateUrl : 'activity-installer.tpl.html',
   inputs : [ 'query: flogoSearchQuery', 'status: flogoInstallerStatus' ],
   styleUrls : [ 'activity-installer.component.css' ],
-  pipes: [TranslatePipe]
 } )
 export class FlogoInstallerActivityComponent extends FlogoInstallerBaseComponent {
 
-  constructor( private _restAPIActivitiesService : RESTAPIActivitiesService,
-               public translate: TranslateService) {
+  query : string;
+  status : string;
+  _categories = <string[]>[];
+  _installables = <any[]>[];
+  installables = <any[]>[];
+
+  constructor( private _restAPIActivitiesService : RESTAPIActivitiesService, public translate: TranslateService ) {
     super(translate);
 
     this.init();

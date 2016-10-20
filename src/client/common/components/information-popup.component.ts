@@ -1,4 +1,4 @@
-import {Component, Input, ElementRef, HostBinding, HostListener} from '@angular/core';
+import {Component, Input, ElementRef, HostBinding, HostListener, Directive} from '@angular/core';
 
 @Component({
   selector: 'flogo-information-popup',
@@ -82,3 +82,14 @@ export class InformationPopupComponent {
 
 
 }
+
+@Directive({selector: 'flogo-information-popup-content'})
+export class InformationPopupTags {
+  //Filler directive without behavior
+  // The only purpose is to "declare" the tag in Angular2
+}
+
+export const INFORMATION_POPUP_DIRECTIVES = [
+  InformationPopupComponent,
+  InformationPopupTags
+];

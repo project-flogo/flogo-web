@@ -1,11 +1,12 @@
 import { Component, ElementRef, SimpleChange, AfterViewInit } from '@angular/core';
+import { TranslateService } from 'ng2-translate/ng2-translate';
+
 import { FlogoFlowDiagram, IFlogoFlowDiagramTaskDictionary, IFlogoFlowDiagram } from '../models';
 import { PostService } from '../../../common/services/post.service';
 import { PUB_EVENTS, SUB_EVENTS } from '../messages';
 import { FLOGO_FLOW_DIAGRAM_NODE_TYPE, FLOGO_FLOW_DIAGRAM_NODE_MENU_ITEM_TYPE } from '../constants';
 import { FLOGO_TASK_TYPE } from '../../../common/constants';
 import { FlogoFlowDiagramNode } from '../models/node.model';
-import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
 
 @Component(
   {
@@ -13,7 +14,6 @@ import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
     moduleId : module.id,
     templateUrl : 'diagram.tpl.html',
     styleUrls : [ 'diagram.component.css' ],
-    pipes: [TranslatePipe],
     inputs : [
       'tasks',
       'diagram',
@@ -31,7 +31,7 @@ export class FlogoFlowsDetailDiagramComponent implements AfterViewInit {
   private _diagram : FlogoFlowDiagram;
   private _subscriptions : any[ ];
 
-  constructor( elementRef : ElementRef, private _postService : PostService, public translate: TranslateService ) {
+  constructor( elementRef : ElementRef, private _postService : PostService, private _translate : TranslateService ) {
     this._elmRef = elementRef;
     this.initSub();
   }
@@ -82,7 +82,7 @@ export class FlogoFlowsDetailDiagramComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this._diagram = new FlogoFlowDiagram( this.diagram, this.tasks, this.translate,  this._elmRef.nativeElement, this.id == 'errorHandler' ? 'error' : null );
+    this._diagram = new FlogoFlowDiagram( this.diagram, this.tasks, this._translate,  this._elmRef.nativeElement, this.id == 'errorHandler' ? 'error' : null );
 
     this._diagram.render();
 

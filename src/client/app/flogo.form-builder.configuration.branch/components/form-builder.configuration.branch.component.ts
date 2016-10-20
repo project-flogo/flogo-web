@@ -1,10 +1,4 @@
 import {Component, SimpleChange} from '@angular/core';
-
-import {FlogoFormBuilderFieldsRadio as FieldRadio} from '../../flogo.form-builder.fields/components/fields.radio/fields.radio.component';
-import {FlogoFormBuilderFieldsTextBox as FieldTextBox} from '../../flogo.form-builder.fields/components/fields.textbox/fields.textbox.component';
-import {FlogoFormBuilderFieldsTextArea as FieldTextArea} from '../../flogo.form-builder.fields/components/fields.textarea/fields.textarea.component';
-import {FlogoFormBuilderFieldsNumber as FieldNumber} from '../../flogo.form-builder.fields/components/fields.number/fields.number.component';
-import {FlogoFormBuilderFieldsObject as FieldObject} from '../../flogo.form-builder.fields/components/fields.object/fields.object.component';
 import {FlogoFormBuilderCommon} from '../../flogo.form-builder/form-builder.common';
 import {  TranslateService } from 'ng2-translate/ng2-translate';
 
@@ -12,9 +6,7 @@ import {  TranslateService } from 'ng2-translate/ng2-translate';
     selector: 'flogo-form-builder-branch-configuration',
     moduleId: module.id,
     templateUrl: 'form-builder.configuration.branch.tpl.html',
-    directives: [FieldRadio, FieldTextBox,  FieldTextArea, FieldNumber, FieldObject],
-    inputs: ['_fieldObserver:fieldObserver','_attributes:attributes'],
-    providers: [FlogoFormBuilderCommon]
+    inputs: ['_fieldObserver:fieldObserver','_attributes:attributes']
 })
 export class FlogoFormBuilderConfigurationBranchComponent {
   _fieldObserver : any;

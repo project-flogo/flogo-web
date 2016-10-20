@@ -1,13 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
-import { FORM_DIRECTIVES, Control, Validator, Validators } from '@angular/common';
-import { Observable } from 'rxjs/Rx';
-
+import { FormControl, Validators } from '@angular/forms';
 import { TileInOutInfo } from '../models/tile-in-out-info.model';
 import { jsonValidator, mappingsValidatorFactory } from '../validators/validators';
 
 @Component({
   selector: 'flogo-transform-map-editor',
-  directives: [FORM_DIRECTIVES],
   moduleId: module.id,
   styleUrls: ['map-editor.component.css'],
   templateUrl: 'map-editor.tpl.html'
@@ -20,7 +17,7 @@ export class MapEditorComponent implements OnChanges, OnInit {
   @Input() tileInputInfo:any = null;
   @Input() precedingTilesOutputs:any[] = [];
 
-  editor:Control;
+  editor:FormControl;
 
   private tileInfo:TileInOutInfo = {
     attributes: {},
@@ -30,7 +27,7 @@ export class MapEditorComponent implements OnChanges, OnInit {
   constructor() {
     this.mappingChange = new EventEmitter();
     let mappingsValidator = mappingsValidatorFactory(this.tileInfo);
-    this.editor = new Control('', Validators.compose([Validators.required, jsonValidator, mappingsValidator]));
+    this.editor = new FormControl('', Validators.compose([Validators.required, jsonValidator, mappingsValidator]));
     this
       .editor
       .valueChanges
@@ -83,7 +80,7 @@ export class MapEditorComponent implements OnChanges, OnInit {
 
     if (!_.isEqual(mappingsChange.previousValue, nextValue) && !_.isEqual(nextValue, currentEditorValue)) {
       let stringified = JSON.stringify(nextValue || [], null, 2);
-      this.editor.updateValue(stringified, {onlySelf: true, emitEvent: false});
+      this.editor.patchValue(stringified, {onlySelf: true, emitEvent: false});
     }
   }
 

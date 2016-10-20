@@ -1,4 +1,4 @@
-<div class="flogo-flows-container">
+<div class="flogo-flows-container" [hidden]="(isLoading | async)">
     <flogo-instructions [isActivated]="isInstructionsActivated" (flogoOnClosedModal)="onClosedInstructions($event)"></flogo-instructions>
     <div class="flogo-flows-welcomeContainer clearfix">
         <div class="flogo-welcome-msg">

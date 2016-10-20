@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
 import { FLOGO_INSTALLER_STATUS_INSTALLING } from '../../flogo.installer/constants';
-import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 
 let PLACEHOLDER = {
   activity : '',
@@ -10,26 +10,25 @@ let PLACEHOLDER = {
 @Component( {
   selector : 'flogo-installer-url',
   moduleId : module.id,
-  directives : [],
   inputs : [ 'installType: flogoInstallType', 'status: flogoInstallerStatus'  ],
   outputs : [ 'onInstallEvent: flogoOnInstall' ],
   templateUrl : 'url-installer.tpl.html',
-  styleUrls : [ 'url-installer.component.css' ],
-  pipes: [TranslatePipe]
+  styleUrls : [ 'url-installer.component.css' ]
 } )
 export class FlogoInstallerUrlComponent implements OnChanges {
 
-  private installType : string;
-  private placeholder : string;
-  private sourceUrl : string;
-  private onInstallEvent = new EventEmitter();
-  private disableInstall : boolean;
+  installType : string;
+  placeholder : string;
+  sourceUrl : string;
+  onInstallEvent = new EventEmitter();
+  disableInstall : boolean;
+  status : string;
 
   constructor(translate: TranslateService) {
     this.disableInstall = false;
     PLACEHOLDER = {
-      activity : translate.get('URL-INSTALLER:ACTIVITY')['value'],
-      trigger : translate.get('URL-INSTALLER:TRIGGER')['value']
+      activity : translate.instant('URL-INSTALLER:ACTIVITY'),
+      trigger : translate.instant('URL-INSTALLER:TRIGGER')
     };
   }
 

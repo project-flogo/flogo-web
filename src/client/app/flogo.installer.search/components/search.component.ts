@@ -1,25 +1,22 @@
 import { Component, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
-import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
-
+import { TranslateService } from 'ng2-translate/ng2-translate';
 
 @Component( {
   selector : 'flogo-installer-search',
   moduleId : module.id,
-  directives : [],
   templateUrl : 'search.tpl.html',
   inputs : [ 'query: flogoSearchQuery' ],
   outputs : [ 'queryUpdate: flogoSearchQueryChange' ],
-  styleUrls : [ 'search.component.css' ],
-  pipes: [TranslatePipe]
+  styleUrls : [ 'search.component.css' ]
 } )
 export class FlogoInstallerSearchComponent implements OnChanges {
-  public placeholder = '';
-  private _searchQuery = '';
-  private query : string;
-  private queryUpdate = new EventEmitter();
+  placeholder = '';
+  _searchQuery = '';
+  query : string;
+  queryUpdate = new EventEmitter();
 
-  constructor(translate: TranslateService) {
-    this.placeholder = translate.get('SEARCH:SEARCH')['value'];
+  constructor(_translate: TranslateService) {
+    this.placeholder = _translate.instant('SEARCH:SEARCH');
     this.init();
   }
 

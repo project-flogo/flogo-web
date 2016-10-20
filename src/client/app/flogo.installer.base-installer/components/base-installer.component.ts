@@ -6,7 +6,7 @@ const TO_BE_OVERRIDDEN = '[FlogoInstallerBaseComponent] To be overridden.';
 
 export class FlogoInstallerBaseComponent implements OnChanges {
 
-  private query : string;
+  query : string;
 
   _categories = <string[]>[];
   _installables = <any[]>[];
@@ -20,7 +20,7 @@ export class FlogoInstallerBaseComponent implements OnChanges {
     this.updateData();
   }
 
-  updateData() {
+  updateData() : Promise<any> {
     return Promise.all( [
       this.getCategories(),
       this.getInstallables()

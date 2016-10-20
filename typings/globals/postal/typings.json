@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/bde199ae38af4220608c9afe4959275ec5230fe4/postal/postal.d.ts",
+    "raw": "registry:dt/postal#1.0.8+20160425155829",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/bde199ae38af4220608c9afe4959275ec5230fe4/postal/postal.d.ts"
+  }
+}

@@ -7,7 +7,6 @@ import { mappingsValidateField } from '../validators/validators';
     },
     selector: 'flogo-transform-mapper-field',
     moduleId: module.id,
-    directives: [],
     styleUrls: ['transform-mapper-field.component.css'],
     templateUrl: 'transform-mapper-field.tpl.html'
 })
@@ -47,7 +46,7 @@ export class TransformMapperField implements  OnChanges, OnInit {
     ngOnInit() {
     }
 
-    onMouseLeave() {
+    onMouseLeave(tile:string, field:string) {
        this.emittItemOver('', '');
         this.overInput = false;
     }
@@ -177,7 +176,7 @@ export class TransformMapperField implements  OnChanges, OnInit {
         return true;
     }
 
-    clickRemove() {
+    clickRemove(event) {
         this.selectedValue = '';
         this.showList = false;
 

@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { updateFlogoGlobalConfig, formatServerConfiguration } from '../../../common/utils';
-import { Router, CanActivate } from '@angular/router-deprecated';
-import { ServiceStatusIndicatorComponent } from './service-status-indicator.component';
+import { Router } from '@angular/router';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { ConfigurationService } from '../../../common/services/configuration.service';
-import { isConfigurationLoaded } from '../../../common/services/configurationLoaded.service'
 
 const MAIN_DB = 'db';
 const DBS_ARR = [ 'activities', 'triggers', MAIN_DB ];
@@ -13,20 +10,15 @@ const SERVERS_ARR = [ 'engine', 'stateServer', 'flowServer' ];
 @Component( {
   selector : 'flogo-config',
   moduleId : module.id,
-  directives: [ServiceStatusIndicatorComponent],
   templateUrl : 'config.tpl.html',
   styleUrls : [ 'config.component.css' ]
 } )
-
-@CanActivate((next) => {
-  return isConfigurationLoaded();
-})
 export class FlogoConfigComponent {
-  private _config : any;
-  private _servers : any[];
-  private _dbs : any[];
-  private _appDB : any;
-  private location = location; // expose window.location
+  _config : any;
+  _servers : any[];
+  _dbs : any[];
+  _appDB : any;
+  location = location; // expose window.location
 
   constructor( private _router : Router, private http:Http,  private _configurationService: ConfigurationService  ) {
     this.init();
@@ -73,20 +65,10 @@ export class FlogoConfigComponent {
           return result;
         }, [] );
 
-
-
-
-      //});
-
-
-
-
   }
 
   onSave() {
     let config = <any>{};
-
-    //config.db = _.cloneDeep( this._appDB );
 
     _.each( this._servers, ( server : any )=> {
       if ( SERVERS_ARR.indexOf( server._key ) !== -1 ) {
@@ -107,16 +89,10 @@ export class FlogoConfigComponent {
 
     this._configurationService.save();
 
-    /*
-    updateFlogoGlobalConfig( config );
-    this._RESTAPIConfigurationService.setConfiguration(config)
-        .then((res:any) => {
-    });
-    */
   }
 
   onCancel() {
-    this._router.navigate( [ 'FlogoHome' ] );
+    this._router.navigate( [ '/' ] );
   }
 
   onRestart(server:any){

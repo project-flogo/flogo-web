@@ -1,16 +1,13 @@
 import {Component} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {FlogoFormBuilderFieldsBase} from '../fields.base/fields.base.component';
-import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
+import {TranslateService} from 'ng2-translate/ng2-translate';
 
 @Component({
   selector: 'flogo-form-builder-fields-object',
   styleUrls: ['fields.object.css','../fields.base/fields.base.css'],
   moduleId: module.id,
   templateUrl: 'fields.object.tpl.html',
-  directives: [ROUTER_DIRECTIVES],
-  inputs:['_info:info','_fieldObserver:fieldObserver'],
-  pipes: [TranslatePipe]
+  inputs:['_info:info','_fieldObserver:fieldObserver']
 })
 
 export class FlogoFormBuilderFieldsObject  extends FlogoFormBuilderFieldsBase {
@@ -19,8 +16,8 @@ export class FlogoFormBuilderFieldsObject  extends FlogoFormBuilderFieldsBase {
   _value:string;
 
 
-  constructor(public translate: TranslateService) {
-    super(translate);
+  constructor(_translate: TranslateService) {
+    super(_translate);
   }
 
 

@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { FlogoInstallerCategorySelectorComponent } from '../../flogo.installer.category-selector/components/category-selector.component';
-import { FlogoInstallerListViewComponent } from '../../flogo.installer.list-view/components/list-view.component';
 import { FlogoInstallerBaseComponent } from '../../flogo.installer.base-installer/components/base-installer.component';
 import { RESTAPITriggersService } from '../../../common/services/restapi/triggers-api.service';
-import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 
 import {
   FLOGO_INSTALLER_STATUS_INSTALL_SUCCESS,
@@ -13,16 +11,17 @@ import {
 @Component( {
   selector : 'flogo-installer-trigger',
   moduleId : module.id,
-  directives : [
-    FlogoInstallerCategorySelectorComponent,
-    FlogoInstallerListViewComponent
-  ],
   templateUrl : 'trigger-installer.tpl.html',
   inputs : [ 'query: flogoSearchQuery', 'status: flogoInstallerStatus' ],
-  styleUrls : [ 'trigger-installer.component.css' ],
-  pipes: [TranslatePipe]
+  styleUrls : [ 'trigger-installer.component.css' ]
 } )
 export class FlogoInstallerTriggerComponent extends FlogoInstallerBaseComponent {
+
+  query : string;
+  status : string;
+  _categories = <string[]>[];
+  _installables = <any[]>[];
+  installables = <any[]>[];
 
   constructor( private _restAPITriggersService : RESTAPITriggersService,
               public translate: TranslateService) {

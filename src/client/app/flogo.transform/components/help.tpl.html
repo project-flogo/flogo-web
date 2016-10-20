@@ -4,10 +4,10 @@
   <flogo-information-popup-content>
     Input mapping example
     <flogo-copy-to-clipboard [element]="code"></flogo-copy-to-clipboard>
-        <pre class="code" #code>[{
+        <pre class="code" #code>{{ '[{' }}
     "type": 1,
     "mapTo": "params.petId",
     "value": "tibco-rest.params.petId"
-}]</pre>
+{{ '}]' }}</pre>
   </flogo-information-popup-content>
 </flogo-information-popup>

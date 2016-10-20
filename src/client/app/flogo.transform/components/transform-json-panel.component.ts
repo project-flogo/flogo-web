@@ -1,13 +1,12 @@
-import { Component, Input, Output, OnChanges, EventEmitter } from '@angular/core';
-import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
+
+import { Component, Input, OnChanges, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'flogo-transform-json-panel',
     moduleId: module.id,
     templateUrl: 'transform-json-panel.tpl.html',
     outputs: ['toggledControl:toggled'],
-    styleUrls: ['transform-json-panel.component.css'],
-    pipes: [TranslatePipe]
+    styleUrls: ['transform-json-panel.component.css']
 })
 export class TransformJsonPanelComponent implements OnChanges {
     @Input() schema: any = {};
@@ -17,15 +16,16 @@ export class TransformJsonPanelComponent implements OnChanges {
     isCollapsed:boolean = true;
     currentSchema:string = '';
 
-    private toggledControl:EventEmitter<any> = new EventEmitter();
-    constructor(public translate: TranslateService) {
+    toggledControl:EventEmitter<any> = new EventEmitter();
+
+    constructor() {
 
     }
 
     ngOnInit() {
         if(this.isInput) {
             this.currentSchema = this.getFormattedHTMLInput(this.schema, '');
-        }else {
+        } else {
             this.currentSchema = this.getFormattedHTMLOutput(this.schema, '','');
         }
     }

@@ -12,15 +12,15 @@
   // packages tells the System loader how to load when no filename and/or no extension
   // REMEMBER to also add your add library to be loaded in map config in production section below
   var packages = {
-    'rxjs': {
-      defaultExtension: false
-    },
+    //'rxjs': {
+    //  defaultExtension: 'js'
+    //},
     'ng2-bs3-modal': {
       defaultExtension: false
-    },
-    'ng2-translate': {
-      defaultExtension: 'js'
-    }
+    }//,
+    //'ng2-translate': {
+    //  defaultExtension: 'js'
+   // }
   };
 
   var paths;
@@ -30,19 +30,18 @@
   if(isDevEnv) {
     paths = {
       'main': '/main',
-      'n:*': '/node_modules/*'
+      'n:*': '/node_modules/*',
+      "ng2-translate/ng2-translate": "/node_modules/ng2-translate/bundles/ng2-translate.js"
     };
 
     // map tells the System loader where to look for things
     // load angular from node_modules folder
     map = {
       '@angular': 'n:@angular',
-      'ng2-translate': 'n:ng2-translate'
+      //'ng2-translate': 'n:ng2-translate'
     };
 
-    packages['ng2-translate'].main =  'bundles/ng2-translate';
-
-    //delete packages['ng2-translate'];
+    //packages['ng2-translate'].main =  'bundles/ng2-translate';
 
   } else {
 
@@ -79,16 +78,16 @@
     'common',
     'compiler',
     'core',
+    'forms',
     'http',
     'platform-browser',
     'platform-browser-dynamic',
-    'router',
-    'router-deprecated'
+    'router'
   ];
 
   ngPackageNames.forEach(function (pkgName) {
     packages['@angular/' + pkgName] = {
-      main: isDevEnv ? pkgName + '.umd.js' : 'esm/index.js',
+      main: isDevEnv ? 'bundles/' + pkgName + '.umd.js' : 'esm/index.js',
       defaultExtension: 'js'
     };
   });

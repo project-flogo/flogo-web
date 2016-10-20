@@ -80,7 +80,6 @@ export class ServiceStatusIndicatorComponent implements OnInit, DoCheck, OnDestr
     this.configChangeSubject.next(this.urlConfig);
   }
 
-  // TODO: Not always executed thus observers are always on, should be fixed in next angular release: https://github.com/angular/angular/issues/8458
   ngOnDestroy() {
     console.log('Destroying', this.buildUrl());
     if(this.subscription) {

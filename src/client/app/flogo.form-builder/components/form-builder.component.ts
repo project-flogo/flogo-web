@@ -1,28 +1,17 @@
-import { Component, SimpleChange } from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
-import {PostService} from '../../../common/services/post.service';
-import {BehaviorSubject, ReplaySubject} from 'rxjs/Rx';
-import {PUB_EVENTS, SUB_EVENTS} from '../messages';
-import {FLOGO_ERROR_ROOT_NAME} from '../../../common/constants';
-import {FlogoFormBuilderFieldsRadio as FieldRadio} from '../../flogo.form-builder.fields/components/fields.radio/fields.radio.component';
-import {FlogoFormBuilderFieldsTextBox as FieldTextBox} from '../../flogo.form-builder.fields/components/fields.textbox/fields.textbox.component';
-import {FlogoFormBuilderFieldsTextArea as FieldTextArea} from '../../flogo.form-builder.fields/components/fields.textarea/fields.textarea.component';
-import {FlogoFormBuilderFieldsNumber as FieldNumber} from '../../flogo.form-builder.fields/components/fields.number/fields.number.component';
-import { convertTaskID, parseMapping, normalizeTaskName, getDefaultValue } from "../../../common/utils";
-import {Contenteditable} from '../../../common/directives/contenteditable.directive';
-import {FlogoFormBuilderConfigurationTriggerComponent as TriggersDirective} from '../../flogo.form-builder.configuration.trigger/components/form-builder.configuration.trigger.component';
-import {FlogoFormBuilderConfigurationTaskComponent as TaskDirective} from '../../flogo.form-builder.configuration.task/components/form-builder.configuration.task.component';
-import {FlogoFormBuilderConfigurationBranchComponent as BranchDirective} from '../../flogo.form-builder.configuration.branch/components/form-builder.configuration.branch.component';
-import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
+import { Component } from '@angular/core';
+import { PostService} from '../../../common/services/post.service';
+import { ReplaySubject } from 'rxjs/Rx';
+import { PUB_EVENTS } from '../messages';
+import { FLOGO_ERROR_ROOT_NAME } from '../../../common/constants';
+import { convertTaskID, normalizeTaskName, getDefaultValue } from "../../../common/utils";
+import { TranslateService } from 'ng2-translate/ng2-translate';
 
 @Component({
   selector: 'flogo-form-builder',
   moduleId: module.id,
   styleUrls: ['form-builder.css'],
   templateUrl: 'form-builder.tpl.html',
-  directives: [ROUTER_DIRECTIVES, FieldRadio, FieldTextBox, FieldTextArea, FieldNumber,  Contenteditable, TriggersDirective, TaskDirective, BranchDirective],
-  inputs: ['_task:task','_step:step', '_context:context', '_flowId:flowId'],
-  pipes: [TranslatePipe]
+  inputs: ['_task:task','_step:step', '_context:context', '_flowId:flowId']
 })
 export class FlogoFormBuilderComponent{
   _fieldObserver:ReplaySubject<any>;
@@ -37,8 +26,9 @@ export class FlogoFormBuilderComponent{
   _fieldsErrors:string[];
   _branchConfigs:any[]; // force the fields update by taking the advantage of ngFor
   _flowId:string;
+  hasErrors : boolean = false;
 
-  constructor(private _postService: PostService, public translate: TranslateService) {
+  constructor(private _postService: PostService, private _translate: TranslateService) {
     this._initSubscribe();
     this._setFieldsObservers();
   }
@@ -193,7 +183,7 @@ export class FlogoFormBuilderComponent{
 
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes:any) {
     this._setupEnvironment();
   }
 
@@ -207,7 +197,7 @@ export class FlogoFormBuilderComponent{
         ) ) {
 
         //  add configure required msg;
-        warnings.push({ msg : this.translate.get('FORM-BUILDER:CONFIGURE-REQUIRED')['value'] });
+        warnings.push({ msg : this._translate.instant('FORM-BUILDER:CONFIGURE-REQUIRED') });
         return true;
       }
 

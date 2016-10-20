@@ -1,20 +1,18 @@
 import { Component, ElementRef, EventEmitter } from '@angular/core';
 import { RESTAPIFlowsService } from '../../../common/services/restapi/flows-api.service';
 import { notification } from '../../../common/utils';
-import { TranslatePipe } from 'ng2-translate/ng2-translate';
 
 @Component( {
   selector : 'flogo-flows-import',
   moduleId : module.id,
   templateUrl : 'import-flow.tpl.html',
   styleUrls : [ 'import-flow.component.css' ],
-  pipes: [TranslatePipe],
   outputs : [ 'onError:importError', 'onSuccess:importSuccess' ]
 } )
 export class FlogoFlowsImport {
   private _elmRef : ElementRef;
-  private onError : EventEmitter<any>;
-  private onSuccess : EventEmitter<any>;
+  onError : EventEmitter<any>;
+  onSuccess : EventEmitter<any>;
 
   constructor( elementRef : ElementRef, private _flowsAPIs : RESTAPIFlowsService ) {
     this._elmRef = elementRef;
@@ -22,7 +20,7 @@ export class FlogoFlowsImport {
     this.onSuccess = new EventEmitter<any>();
   }
 
-  private selectFile( evt : any ) {
+  public selectFile( evt : any ) {
     let fileElm = jQuery( this._elmRef.nativeElement )
       .find( '.flogo-flows-import-input-file' );
 

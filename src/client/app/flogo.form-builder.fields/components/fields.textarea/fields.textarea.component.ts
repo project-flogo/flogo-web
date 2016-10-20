@@ -1,16 +1,13 @@
-import {Component, SimpleChange} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {Component} from '@angular/core';
 import {FlogoFormBuilderFieldsBase} from '../fields.base/fields.base.component';
-import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
+import {TranslateService} from 'ng2-translate/ng2-translate';
 
 @Component({
   selector: 'flogo-form-builder-fields-textarea',
   styleUrls: ['fields.textarea.css', '../fields.base/fields.base.css'],
   moduleId: module.id,
   templateUrl: 'fields.textarea.tpl.html',
-  directives: [ROUTER_DIRECTIVES],
-  inputs:['_info:info','_fieldObserver:fieldObserver'],
-  pipes: [TranslatePipe]
+  inputs:['_info:info','_fieldObserver:fieldObserver']
 })
 
 export class FlogoFormBuilderFieldsTextArea  extends FlogoFormBuilderFieldsBase {
@@ -18,8 +15,8 @@ export class FlogoFormBuilderFieldsTextArea  extends FlogoFormBuilderFieldsBase 
   _fieldObserver:any;
   _value:any;
 
-  constructor(public translate:TranslateService) {
-    super(translate);
+  constructor(_translate:TranslateService) {
+    super(_translate);
   }
 
   onChangeField(event:any){
@@ -32,7 +29,7 @@ export class FlogoFormBuilderFieldsTextArea  extends FlogoFormBuilderFieldsBase 
       // TODO
       //  better handler of invalid JSON?
       //  for the moment, keep the value even though it's not valid JSON, and ensure string format
-      this._errorMessage = this.translate.get('FIELDS-TEXTAREA:INVALID-JSON',{value:this._info.title})['value'];
+      this._errorMessage = this._translate.instant('FIELDS-TEXTAREA:INVALID-JSON',{value:this._info.title});
       this._hasError = true;
       invalidJSON = true;
       this._fieldObserver.next(this._getMessage('validation', {status:'error',field: this._info.name}) );

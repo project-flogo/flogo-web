@@ -1,23 +1,20 @@
 import { Component, OnChanges, SimpleChange, EventEmitter } from '@angular/core';
-import { TranslatePipe, TranslateService } from 'ng2-translate/ng2-translate';
 
 @Component( {
   selector : 'flogo-installer-list-view-item',
   moduleId : module.id,
-  directives : [],
   inputs : [ 'item: flogoItem' ],
   outputs : [ 'onItemAction: flogoOnItemAction' ],
   templateUrl : 'item.tpl.html',
-  styleUrls : [ 'item.component.css' ],
-  pipes: [TranslatePipe]
+  styleUrls : [ 'item.component.css' ]
 } )
 export class FlogoInstallerListViewItemComponent implements OnChanges {
 
   item : any;
-  private _item : any;
-  private onItemAction = new EventEmitter();
+  _item : any;
+  onItemAction = new EventEmitter();
 
-  constructor(public translate: TranslateService) {
+  constructor() {
     this.init();
   }
 

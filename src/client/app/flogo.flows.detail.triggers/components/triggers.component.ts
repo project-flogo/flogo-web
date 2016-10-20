@@ -2,32 +2,24 @@ import { Component } from '@angular/core';
 import { PostService } from '../../../common/services/post.service';
 import { TRIGGERS as TRIGGERS_MOCK } from '../mocks/triggers';
 import { PUB_EVENTS, SUB_EVENTS } from '../messages';
-import { RouteParams } from '@angular/router-deprecated';
-
-import {FlogoFlowsDetailTriggersInstallComponent as TriggersInstallerComponent} from '../../flogo.flows.detail.triggers.install/components/install.component';
-import {RESTAPITriggersService} from '../../../common/services/restapi/triggers-api.service';
-import { TranslatePipe } from 'ng2-translate/ng2-translate';
+import { RESTAPITriggersService } from '../../../common/services/restapi/triggers-api.service';
 
 @Component(
   {
     selector : 'flogo-flows-detail-triggers',
     moduleId : module.id,
-    directives: [TriggersInstallerComponent],
     templateUrl : 'triggers.tpl.html',
-    pipes: [TranslatePipe],
     styleUrls : [ 'triggers.component.css' ]
   }
 )
 export class FlogoFlowsDetailTriggers {
-  private triggers : any;
+  public triggers : any;
   private _subscriptions : any;
   private _addTriggerMsg : any;
   private _selectTriggerMsg : any;
 
-  constructor( private _postService : PostService, private _routeParams : RouteParams, private _restAPITriggersService: RESTAPITriggersService ) {
+  constructor( private _postService : PostService, private _restAPITriggersService: RESTAPITriggersService ) {
     console.group( 'Constructing FlogoFlowsDetailTasks' );
-
-    console.log( this._routeParams );
 
     this.initSubscribe();
     this._loadTriggers();
@@ -108,7 +100,7 @@ export class FlogoFlowsDetailTriggers {
       );
   }
 
-  private onInstalledAction( response : any ) {
+  public onInstalledAction( response : any ) {
     console.group( `[FlogoFlowsDetailTriggers] onInstalled` );
     console.log( response );
     console.groupEnd();

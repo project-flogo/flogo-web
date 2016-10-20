@@ -7,7 +7,7 @@
     <li *ngIf="errors.invalidJson">Invalid json</li>
     <li *ngIf="errors.notArray">Mappings should be an array</li>
     <template [ngIf]="errors.invalidMappings">
-      <lu *ngFor="let mapErrors of errors.invalidMappings.errors">
+      <ul *ngFor="let mapErrors of errors.invalidMappings.errors">
           <li *ngIf="mapErrors.errors.notObject">Not an object</li>
           <li *ngIf="mapErrors.errors.type?.missing">Missing or empty property "type"</li>
           <li *ngIf="mapErrors.errors.type?.invalidValue">"{{ mapErrors.value.type }}" is not a valid value for
@@ -19,7 +19,7 @@
           <li *ngIf="mapErrors.errors.mapTo?.missing">Missing or empty property "mapTo"</li>
           <li *ngIf="mapErrors.errors.mapTo?.invalidValue">Cannot find input named "{{ mapErrors.value.mapTo }}" to map to.
           </li>
-      </lu>
+      </ul>
     </template>
   </ul>
 
