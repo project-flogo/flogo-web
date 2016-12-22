@@ -17,6 +17,8 @@ import { ConfigurationService } from '../../../common/services/configuration.ser
 import { LogService } from '../../../common/services/log.service';
 import { formatServerConfiguration, getFlogoGlobalConfig } from '../../../common/utils';
 import { TranslateService, TranslatePipe } from 'ng2-translate/ng2-translate';
+import { FlogoHomeComponent } from '../../flogo.home/components/home.component';
+//import { FlogoApplicationDetailsComponent } from '../../flogo.app.details/components/details.component';
 
 @Component({
   selector: 'flogo-app',
@@ -25,7 +27,9 @@ import { TranslateService, TranslatePipe } from 'ng2-translate/ng2-translate';
   styleUrls: [ 'flogo.component.css' ],
   directives: [ROUTER_DIRECTIVES, FlogoNavbarComponent],
   pipes: [TranslatePipe],
-  providers: [PostService, RESTAPIService, RESTAPIFlowsService, RESTAPIActivitiesService, RESTAPITriggersService, HTTP_PROVIDERS, RESTAPIConfigurationService, ConfigurationService, LogService]
+  providers: [PostService, RESTAPIService, RESTAPIFlowsService, RESTAPIActivitiesService,
+              RESTAPITriggersService, HTTP_PROVIDERS, RESTAPIConfigurationService,
+              ConfigurationService, LogService]
 })
 
 @RouteConfig([
@@ -49,6 +53,9 @@ import { TranslateService, TranslatePipe } from 'ng2-translate/ng2-translate';
   {
     path: '/_config', name: "FlogoDevConfig", component:FlogoConfigComponent
   },
+  {
+    path: '/home/...', name: 'FlogoHomeComponent', component: FlogoHomeComponent
+  }
 ])
 
 export class FlogoAppComponent{

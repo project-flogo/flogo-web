@@ -1,0 +1,18 @@
+<div class="flogo-home">
+
+    <div class="application-list">
+        <div class="header">
+            <div class="title">My Apps</div>
+            <div class="add" (click)="onAdd($event)"><span class="glyphicon glyphicon-plus" ></span></div>
+        </div>
+        <hr>
+        <flogo-app-list #appList [applications]="mockApps"
+                        (onDeletedApp)="onDeletedApp($event)"
+                        (onSelectedApp)="onSelectedApp($event)"></flogo-app-list>
+    </div>
+
+    <div class="main">
+        <router-outlet></router-outlet>
+    </div>
+
+</div>

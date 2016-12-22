@@ -1,61 +1,59 @@
 <div class="flogo-flows-container">
-    <div class="flogo-flows-welcomeContainer clearfix">
-        <div class="flogo-welcome-msg">
 
+  <div class="flogo-flows-main">
+
+    <!--
+      <div style="background-color: #abadaf;width: 20%">
+        <div class="flogo-flows-side">
+          <div class="title">My Apps</div>
+          <div class="add" (click)="onAdd($event)"><span class="glyphicon glyphicon-plus" ></span></div>
+        </div>
+        <hr>
+        <flogo-app-list #appList [applications]="mockApps"></flogo-app-list>
+      </div>
+     -->
+
+       <div style="width: 100%">
+        <div class="flogo-flows-welcomeContainer clearfix">
+          <div class="flogo-welcome-msg">
             <p class="flogo-welcomeMsg-header">{{ 'FLOWS:WELCOME-BACK' | translate }}</p>
             <p class="flogo-welcomeMsg-description">{{ 'FLOWS:NEW-INSTRUCTIONS' | translate }}</p>
-            <a class="flogo-welcomeMsg-link" href="https://www.youtube.com/watch?v=OHX4kKVdI28&feature=youtu.be" target="_blank">
+            <a class="flogo-welcomeMsg-link" href="https://www.youtube.com/watch?v=OHX4kKVdI28&feature=youtu.be"
+               target="_blank">
               <img src="/assets/svg/flogo.video.icon.svg"> <span>{{ 'FLOWS:FEATURED-VIDEO-TUTORIAL' | translate }}</span>
             </a>
+          </div>
+          <div class="flogo-mascot">
+            <object class="flogo-flows-mascotImg" data="/assets/svg/flogo-flynn.svg" type="image/svg+xml">
+              <img src="/assets/svg/flogo-flynn.svg"/>
+            </object>
+          </div>
         </div>
-        <div  class="flogo-mascot">
-          <object class="flogo-flows-mascotImg" data="/assets/svg/flogo-flynn.svg" type="image/svg+xml">
-            <img src="/assets/svg/flogo-flynn.svg" />
-          </object>
-        </div>
-    </div>
-
-    <div class="flogo-flows-container-header">
-        <div class="container-fluid">
+        <div class="flogo-flows-container-header">
+          <div class="container-fluid">
             <div class="flogo-flows-container-header-container">
-                <h3 class="flogo-flows-container-title">{{ 'FLOWS:MY-FLOWS' | translate }}</h3>
+              <h3 class="flogo-flows-container-title">{{ 'FLOWS:MY-FLOWS' | translate }}</h3>
             </div>
+          </div>
         </div>
-    </div>
-
-
-    <div class="flogo-flows-container-body container-fluid">
-        <ul class="flogo-flows-container-lists row">
+        <div class="flogo-flows-container-body container-fluid">
+          <flow-list [flows]="flows">
             <li class="flogo-flows-container-list-col">
-                <div class="flogo-flows-container-new">
-                    <flogo-flows-add class="flogo-flows-container-new__option"></flogo-flows-add>
-                    <flogo-flows-import class="flogo-flows-container-new__option" (importSuccess)="onFlowImportSuccess($event)" (importError)="onFlowImportError($event)"></flogo-flows-import>
-                </div>
+              <div class="flogo-flows-container-new">
+                <flogo-flows-add class="flogo-flows-container-new__option"></flogo-flows-add>
+                <flogo-flows-import class="flogo-flows-container-new__option" (importSuccess)="onFlowImportSuccess($event)"
+                                    (importError)="onFlowImportError($event)"></flogo-flows-import>
+              </div>
             </li>
-            <li *ngFor="let flow of flows" class="flogo-flows-container-list-col">
-                <div class="flogo-flows-container-list">
-                    <a class="flogo-flows-container-list-detail" href="javascript:void(0);" (click)="openFlow(flow._id, $event)">
-                        <header class="flogo-flows-container-list-detail-name" [title]="flow.name">
-                          {{flow.name}}
-                        </header>
-                        <section class="flogo-flows-container-list-detail-info">
-                            <p class="flogo-flows-container-list-detail-description" [title]="flow.description">{{flow.description}}</p>
-                            <i class="flogo-flows-container-list-detail-creatTime"> {{ 'FLOWS:CREATED' | translate:{value:flow.created_at} }} </i>
-                        </section>
-                    </a>
-                    <span class="flogo-flows-container-list-detail-trash" (click)="deleteFlow(flow, $event)"></span>
-                </div>
-            </li>
-        </ul>
-    </div>
+          </flow-list>
+        </div>
+       </div>
 
+  </div>
 
-    <div class="flogo-flows-footer-wrapper">
-        <flogo-footer></flogo-footer>
-    </div>
-
-
-
+  <div class="flogo-flows-footer-wrapper">
+    <flogo-footer></flogo-footer>
+  </div>
 
 
 </div>

@@ -1,0 +1,9 @@
+<div class="app-list">
+    <ul (mouseout)="onMouseOut()">
+        <li *ngFor="let app of applications" [class.selected]="app.name == selectedApp?.name"
+            (mouseover)="onMouseOver(app)" (click)="onSelectApp(app)">
+            {{app.name}}
+            <span [hidden]="app.name !== overApp?.name " class="glyphicon glyphicon-trash" (click)="confirmDelete(app)"></span>
+        </li>
+    </ul>
+</div>

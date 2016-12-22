@@ -16,6 +16,8 @@ module.exports = function (config) {
       'node_modules/lodash/lodash.js',
       // jquery
       'https://code.jquery.com/jquery-1.11.2.min.js',
+      // moment
+      'node_modules/moment/moment.js',
       'node_modules/zone.js/dist/zone.js',
       'node_modules/zone.js/dist/jasmine-patch.js',
       'node_modules/zone.js/dist/async-test.js',
