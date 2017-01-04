@@ -50,6 +50,7 @@
   "FLOWS:SUCCESS-MESSAGE-FLOW-CREATED": "Flow was created successfully!",
   "FLOWS:SUCCESS-MESSAGE-FLOW-DELETED": "Flow was deleted successfully!",
   "FLOWS:SUCCESS-MESSAGE-IMPORT":"Import flow successfully!",
+  "FLOWS:UPDATED": "Last edited {{value}}",
   "FLOWS:WELCOME-BACK": "Welcome back",
   "FLOWS-DETAILS-TASKS:INSTALL-NEW-ACTIVITY": "Install new Activity",
   "FORM-BUILDER-CONFIGURATION-BRANCH:IF": "If condition",

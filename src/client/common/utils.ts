@@ -766,3 +766,17 @@ export function updateBranchNodesRunStatus( nodes : IFlogoFlowDiagramNodeDiction
   } );
 
 }
+
+export function timeString(date) {
+  //let time = new Date(flow.created_at);
+  let time = new Date(date.getTime());
+
+  //moment(timeStr, 'YYYYMMDD hh:mm:ss').fromNow()
+
+  return ''+time.getFullYear()+ toDouble(time.getMonth()+1)+ toDouble(time.getDate())+' '+
+            toDouble(time.getHours())+':'+toDouble(time.getMinutes())+':'+toDouble(time.getSeconds());
+}
+
+export function toDouble(num:number) {
+  return num > 9? num: '0' + num;
+}

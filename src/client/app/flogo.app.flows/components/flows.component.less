@@ -1,0 +1,92 @@
+.flogo-app-flows {
+
+  .flows-container {
+    margin-left: -45px;
+    color: #808385;
+
+    .flow {
+      display: flex;
+      margin-top: 20px;
+      .trigger-info {
+        background-color: #dfe1e2;
+        cursor: pointer;
+        flex: 0 1 80px;
+        height: 80px;
+        left: 45px;
+        position: relative;
+        top: 22px;
+        z-index: 1;
+
+        img {
+          border: none;
+          left: 15px;
+          position:relative;
+          top: 20px;
+          width: 30px;
+        }
+      }
+      .flow-info {
+        background-image: url('/assets/svg/flow.svg');
+        background-repeat: no-repeat;
+        flex: 0 1 900px;
+        height: 120px;
+        z-index: 2;
+        padding-left: 50px;
+        padding-top: 5px;
+
+        .header {
+          display: flex;
+
+          .title {
+            cursor: pointer;
+            font-size: 1.3em;
+            text-transform: capitalize;
+            margin-bottom: 0;
+            margin-top: 15px;
+            width: 640px;
+          }
+
+          .options {
+            display: flex;
+            margin-top: 15px;
+
+            .menu {
+              color: #449ed8;
+              cursor: pointer;
+              margin-left: 10px;
+              margin-top: 2px;
+            }
+          }
+        }
+
+        .description {
+          cursor: pointer;
+          height: 40px;
+          margin-top: 5px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          display: block; // fallback
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          width: 500px;
+        }
+
+
+      }
+      .flow-info:hover {
+        background-image: url('/assets/svg/flow-hover.svg');
+        background-repeat: no-repeat;
+
+        .header > .title {
+          color: black;
+        }
+
+      }
+    }
+  }
+
+
+
+}

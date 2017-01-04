@@ -1,0 +1,42 @@
+<div class="flogo-app-details">
+    <div>
+        <input *ngIf="editingName" type="text" #appInputName
+               [(ngModel)]="application.name"
+               (ngModelChange)="onInputNameChange($event)"
+               (blur)="onInputNameBlur($event)"
+               (keyup)="onKeyUpName($event)"
+               id="appName" />
+        <label class="applicationLabel"
+               *ngIf="!editingName"
+               (click)="onClickLabelName($event)">{{application?.name}}</label>
+        <button class="btn btn-primary btn-md build">Build</button>
+    </div>
+    <label class="created">{{ 'FLOWS:CREATED' | translate:{value:''} }}<span>{{createdAtFormatted}}.</span> </label>
+    <label *ngIf="updateAtFormatted" class="created">{{ 'FLOWS:UPDATED' | translate:{value:''} }}<span>{{updateAtFormatted}}.</span> </label>
+    <div class="description">
+        <a *ngIf="application && !application.description && editingDescription == false"
+           (click)="onClickAddDescription($event)" >Add description</a>
+        <input *ngIf="editingDescription" type="text" #appInputDescription
+               (blur)="onInputDescriptionBlur($event)"
+               placeholder="Description"
+               (keyup)="onKeyUpDescription($event)"
+               id="appDescription"
+               [(ngModel)]="application.description" />
+        <label class="descriptionLabel"
+               *ngIf="!editingDescription && application?.description"
+               (click)="onClickLabelDescription($event)"><span>Description: </span>{{application?.description}}</label>
+    </div>
+
+    <div class="toolbar">
+        <flogo-app-search [placeholder]="'Search'" (changedSearch)="onChangedSearch($event)"
+                          class="search"></flogo-app-search>
+        <div class="commands">
+            <span class="new-flow">New flow</span>
+            <span class="import">Import</span>
+        </div>
+    </div>
+
+    <div class="flows">
+        <flogo-app-flows [flows]="flows"></flogo-app-flows>
+    </div>
+</div>

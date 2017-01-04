@@ -1,0 +1,19 @@
+<div class="flogo-app-flows">
+    <div class="flows-container">
+        <div *ngFor="let flow of flows" class="flow">
+           <div class="trigger-info">
+               <img src="/assets/svg/flogo.flows.detail.diagram.trigger.icon.svg" alt="Trigger">
+           </div>
+           <div class="flow-info">
+               <div class="header">
+                   <div class="title">{{flow.name}}</div>
+                   <div class="options">
+                       <span>{{ 'FLOWS:CREATED' | translate:{value:''} }} {{formatDate(flow.createdAt)}}</span>
+                       <span class="glyphicon glyphicon-option-vertical menu"> </span>
+                   </div>
+               </div>
+               <div [title]="flow.description" class="description">{{flow.description}}</div>
+           </div>
+        </div>
+    </div>
+</div>

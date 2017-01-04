@@ -1,0 +1,14 @@
+<div class="flogo-home">
+
+    <div class="application-list">
+        <flogo-app-list #appList
+                        (onAddedApp)="onAddedApp($event)"
+                        (onDeletedApp)="onDeletedApp($event)"
+                        (onSelectedApp)="onSelectedApp($event)"></flogo-app-list>
+    </div>
+
+    <div class="main">
+        <router-outlet></router-outlet>
+    </div>
+
+</div>

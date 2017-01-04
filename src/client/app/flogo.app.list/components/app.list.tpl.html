@@ -1,0 +1,18 @@
+<div class="application-list">
+    <div class="header">
+        <div class="title">My Apps</div>
+        <div class="add" (click)="onAdd($event)"><span class="glyphicon glyphicon-plus" ></span></div>
+    </div>
+    <hr>
+    <div class="applications">
+        <ul (mouseout)="onMouseOut()">
+            <li *ngFor="let app of applications" [class.selected]="app.name == selectedApp?.name"
+                (mouseover)="onMouseOver(app)" (click)="onSelectApp(app)">
+                {{app.name}}
+                <span [hidden]="app.name !== overApp?.name " class="glyphicon glyphicon-trash" (click)="confirmDelete(app)"></span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+

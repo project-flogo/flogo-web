@@ -1,0 +1,78 @@
+.flogo-app-details {
+  color: #bbbcbe;
+  margin-left: 20px;
+
+  a {
+    color: #269ed8;
+    display: block;
+  }
+
+  input,
+  .applicationLabel {
+    font-size: 2em;
+    width: 60%;
+  }
+
+  .descriptionLabel {
+    font-size: 1.3em;
+    span {
+      font-weight: bold;
+    }
+  }
+
+  .build  {
+    float: right;
+    margin-right: 80px;
+  }
+
+  .created {
+  }
+
+  .description {
+    margin-top: 10px;
+  }
+
+  .toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 80px;
+    margin-top: 10px;
+
+    .search {
+    }
+
+    .commands {
+      color: #449ed8;
+
+      span {
+        cursor: pointer;
+      }
+
+      span:nth-of-type(2) {
+        border-left: 1px solid #d2d4d5;
+        margin-left: 20px;
+        padding-left: 28px;
+      }
+
+      span:before {
+        left: -5px;
+        font-family: "Glyphicons Halflings";
+        position: relative;
+        top: 2px;
+        color:#449ed8;
+        cursor: pointer;
+      }
+
+      .import:before {
+        content: "\e167";
+      }
+
+      .new-flow:before {
+        content: "\2b";
+      }
+
+    }
+  }
+
+}

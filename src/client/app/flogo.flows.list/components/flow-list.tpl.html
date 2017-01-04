@@ -1,0 +1,19 @@
+<ul class="flogo-flows-container-lists row">
+  <ng-content></ng-content>
+  <li *ngFor="let flow of flows" class="flogo-flows-container-list-col">
+    <div class="flogo-flows-container-list">
+      <a class="flogo-flows-container-list-detail" href="javascript:void(0);" (click)="openFlow(flow._id, $event)">
+        <header class="flogo-flows-container-list-detail-name" [title]="flow.name">
+          {{flow.name}}
+        </header>
+        <section class="flogo-flows-container-list-detail-info">
+          <p class="flogo-flows-container-list-detail-description" [title]="flow.description">
+            {{flow.description}}</p>
+          <i class="flogo-flows-container-list-detail-creatTime"> {{ 'FLOWS:CREATED' |
+            translate:{value:flow.created_at} }} </i>
+        </section>
+      </a>
+      <span class="flogo-flows-container-list-detail-trash" (click)="deleteFlow(flow, $event)"></span>
+    </div>
+  </li>
+</ul>
