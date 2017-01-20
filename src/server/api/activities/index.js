@@ -3,6 +3,7 @@ import { TYPE_ACTIVITY, DEFAULT_PATH_ACTIVITY } from '../../common/constants';
 import { inspectObj } from '../../common/utils';
 import { getInitializedEngine } from '../../modules/engine';
 import { RemoteInstaller } from '../../modules/remote-installer';
+import { ActivitiesManager } from '../../modules/activities';
 import path from 'path';
 
 let basePath = config.app.basePath;
@@ -17,7 +18,7 @@ export function activities(app, router){
     console.error("[Error][api/activities/index.js]You must pass app");
   }
 
-  router.get(basePath+"/activities", getActivities);
+  router.get(basePath+"/activities", listActivities);
   router.post(basePath+"/activities", installActivities);
   router.delete(basePath+"/activities", deleteActivities);
 }
@@ -36,15 +37,20 @@ export function activities(app, router){
  *          items:
  *            $ref: '#/definitions/Activity'
  */
-function* getActivities(next){
-  let data = yield activitiesDBService.allDocs({ include_docs: true })
-    .then(activities => activities.map(activity => {
-      return activity.schema
-    }));
+function* listActivities() {
+  const searchTerms = {};
+  const filterName     = this.request.query['filter[name]'];
+  const filterWhereURL = this.request.query['filter[whereURL]'];
 
-  this.body = data;
-  yield next;
+  if (filterName)     { searchTerms.name     = filterName;     }
+  if (filterWhereURL) { searchTerms.whereURL = filterWhereURL; }
+
+  const foundActivities = yield ActivitiesManager.find(searchTerms);
+  this.body = {
+    data: foundActivities || [],
+  };
 }
+
 /**
  * @swagger
  * definition:

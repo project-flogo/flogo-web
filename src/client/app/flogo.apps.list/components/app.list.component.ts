@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef} from '@angular/core';
+import {TranslateService} from 'ng2-translate/ng2-translate';
+
 import {FlogoModal} from '../../../common/services/modal.service';
 import {IFlogoApplicationModel} from '../../../common/application.model';
-import {TranslateService} from 'ng2-translate/ng2-translate';
 import {RESTAPIApplicationsService} from '../../../common/services/restapi/applications-api.service';
-
+import { notification } from '../../../common/utils';
 
 @Component({
   selector: 'flogo-apps-list',
@@ -12,6 +13,7 @@ import {RESTAPIApplicationsService} from '../../../common/services/restapi/appli
   styleUrls: ['app.list.css']
 })
 export class FlogoAppListComponent implements OnInit, OnChanges {
+  @ViewChild('importInput') importInput: File;
   @Input() currentApp: IFlogoApplicationModel;
   @Output() onSelectedApp: EventEmitter<IFlogoApplicationModel> = new EventEmitter<IFlogoApplicationModel>();
   @Output() onAddedApp: EventEmitter<IFlogoApplicationModel> = new EventEmitter<IFlogoApplicationModel>();
@@ -53,6 +55,26 @@ export class FlogoAppListComponent implements OnInit, OnChanges {
         this.remove(app);
       }
     });
+  }
+
+  onFileSelected(event) {
+    let file = <File> _.get(event,'target.files[0]');
+    this.apiApplications.uploadApplication(file)
+      .then((results:any)=> {
+        let createdApp = results.createdApp;
+        this.applications.push(createdApp);
+        let message = this.translate.instant('APP-LIST:SUCCESSFULLY_IMPORTED');
+        this.onSelectApp(createdApp);
+        notification(message, 'success', 3000);
+      })
+      .catch((errors)=> {
+        if(errors.length) {
+          notification('Error:' + errors[0].detail, 'error');
+        }
+      })
+      .then(()=> {
+        this.importInput.nativeElement.value = '';
+      });
   }
 
   onAdd(event) {

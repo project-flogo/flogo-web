@@ -3,8 +3,8 @@ import path from 'path';
 import 'babel-polyfill';
 import {config, activitiesDBService, triggersDBService} from '../../config/app-config';
 
-import {RegisterActivities} from '../activities';
-import {RegisterTriggers} from '../triggers';
+import {RegisterActivities} from '../activities/register-activites';
+import {RegisterTriggers} from '../triggers/register-triggers';
 
 /*
  * Server start logic

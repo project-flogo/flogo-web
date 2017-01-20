@@ -1,3 +1,4 @@
+import { Response, ResponseOptions } from '@angular/http';
 import {
   FLOGO_TASK_TYPE,
   FLOGO_TASK_ATTRIBUTE_TYPE,
@@ -781,3 +782,30 @@ export function diffDates(beginDate:any, endDate:any, timeUnit:any) {
   return begin.diff(end, timeUnit);
 
 }
+
+//TODO document function
+
+export function uploadFile(url:string, importFile: File, fileName: string = 'importFile')  {  
+  return new Promise( ( resolve, reject ) => { 
+    var formData = new FormData(); 
+    var xhr = new XMLHttpRequest(); 
+    if(!importFile.type) { 
+      importFile = new File([importFile], importFile.name, {type: 'application/json'}); 
+    }  
+    formData.append( fileName, importFile, importFile.name );  
+    xhr.onreadystatechange = function () {  
+      if ( xhr.readyState == 4 ) {
+        let responseOptions = new ResponseOptions({body:xhr.response,status:xhr.status,statusText:xhr.statusText});
+        if ( xhr.status == 200 ) { 
+          resolve(new Response(responseOptions)); 
+        } else { 
+          reject(new Response(responseOptions)); 
+        } 
+      } 
+    }; 
+    xhr.open( 'POST', url, true ); 
+    xhr.send( formData ); 
+  });  }
+
+
+

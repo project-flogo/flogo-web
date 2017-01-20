@@ -10,6 +10,7 @@ import { VIEWS } from '../../common/db/apps';
 import { ErrorManager, ERROR_TYPES } from '../../common/errors';
 import { CONSTRAINTS } from '../../common/validation';
 import { FlowsManager } from '../flows';
+import { importFlows } from './import';
 
 /*
 app:
@@ -76,6 +77,24 @@ export class AppsManager {
         .then(response => AppsManager.findOne(response.id, { withFlows: true }));
     });
   }
+
+  // TODO documentation
+  static import(importedJSON) {
+
+    return this.create(importedJSON)
+           .then((app)=> {
+             console.log('@The app created is:');
+             console.log(app);
+             let {triggers, actions} = importedJSON;
+             let importedFlows = Object.assign({},{createdApp:app}, {triggers , actions}  );
+             return importFlows(importedFlows);
+            })
+          .catch((error)=> {
+            throw error;
+          });
+  }
+
+
 
   /**
    *
@@ -332,3 +351,5 @@ function augmentWithFlows(apps, flowFields) {
       return augmentedApp;
     })));
 }
+
+

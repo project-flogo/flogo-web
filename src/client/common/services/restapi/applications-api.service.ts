@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Http, Headers, RequestOptions, Response} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
+
 import { IFlogoApplicationModel } from '../../application.model';
+import { uploadFile } from '../../utils';
 
 const UNTITLED_APP = 'Untitled App';
 
@@ -98,6 +100,15 @@ export class RESTAPIApplicationsService {
     });
 
   }
+
+  uploadApplication( file : File, appName : string = '') {
+    let url = `/v1/api/apps/import` ;
+    url +=  (appName) ? `?appName=${appName}` : '';
+    return uploadFile(url, file)
+              .then(response => this.extractData(<Response>response) )
+              .catch(error => this.handleError(<Response>error) );
+  }
+
 
   private extractData(res : Response) {
     let body = res.json();

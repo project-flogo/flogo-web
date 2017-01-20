@@ -87,7 +87,7 @@ export class FlogoFlowsImport {
       .catch((err: any) => {
         let objError;
         try {
-          objError = JSON.parse(err.response);
+          objError =  err.json();
         } catch (exc) {
           objError = {};
         }

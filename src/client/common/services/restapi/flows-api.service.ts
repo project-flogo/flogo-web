@@ -3,6 +3,8 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 
+import { uploadFile } from '../../../common/utils';
+
 @Injectable()
 export class RESTAPIFlowsService{
   constructor(private http:Http ){
@@ -119,33 +121,8 @@ export class RESTAPIFlowsService{
   }
 
   importFlow( importFile : File, appId : string, flowName?:string ) {
-    return new Promise( ( resolve, reject ) => {
-      var formData = new FormData();
-      var xhr = new XMLHttpRequest();
-      if(!importFile.type) {
-        importFile = new File([importFile], importFile.name, {type: 'application/json'});
-      }
-
-      formData.append( 'importFile', importFile, importFile.name );
-
-      xhr.onreadystatechange = function () {
-        if ( xhr.readyState == 4 ) {
-          if ( xhr.status == 200 ) {
-            resolve( JSON.parse( xhr.response ) );
-          } else {
-            reject( {
-              status : xhr.status,
-              statusText : xhr.statusText,
-              response : xhr.response
-            } );
-          }
-        }
-      };
-      let url = `/v1/api/flows/upload?appId=${appId}` + (flowName ? '&name='+ flowName : '') ;
-
-      xhr.open( 'POST', url, true );
-      xhr.send( formData );
-    } );
+    let url = `/v1/api/flows/upload?appId=${appId}` + (flowName ? '&name='+ flowName : '') ;
+    return uploadFile(url, importFile);
   }
 
   // restartFlow() TODO need to inject instance related APIs

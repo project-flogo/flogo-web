@@ -2,7 +2,7 @@ import { config, dbService, triggersDBService, activitiesDBService, flowExport }
 import { DBService} from '../../common/db.service';
 import { FlowsManager } from '../../modules/flows';
 import { ErrorManager, ERROR_TYPES } from '../../common/errors';
-import { isJSON, flogoIDEncode, flogoIDDecode, flogoGenTaskID, genNodeID } from '../../common/utils';
+import { isJSON, flogoIDEncode, flogoIDDecode, flogoGenTaskID, genNodeID, retrieveJsonFromRequest  } from '../../common/utils';
 import { FLOGO_FLOW_DIAGRAM_NODE_TYPE, FLOGO_TASK_TYPE,FLOGO_TASK_ATTRIBUTE_TYPE, DEFAULT_APP_ID } from '../../common/constants';
 import _ from 'lodash';
 import * as flowUtils from './flows.utils';
@@ -322,55 +322,12 @@ function* getRecentFlows() {
 }
 
 function retrieveFlowDataFromRequest(ctx) {
-  let data = ctx.request.body||{};
-  if (ctx.headers['content-type'].startsWith('multipart/form-data')) {
+  let data = retrieveJsonFromRequest(ctx);
+  let params = ctx.query || {};
 
-    console.log( '[INFO] Import flow from JSON File' );
+  if(params.name)  { data.name = params.name.trim(); }
+  if(params.appId) { data.appId = params.appId; }
 
-    let importedFile = _.get(ctx, 'request.body.files.importFile');
-    let params = ctx.query || {};
-
-    if ( _.isObject( importedFile ) && !_.isEmpty( importedFile ) ) {
-
-      // only support `application/json`
-      if ( importedFile.type !== 'application/json' ) {
-        console.error( '[ERROR]: ', importedFile );
-        ctx.throw( 400, 'Unsupported file type: ' + importedFile.type + '; Support application/json only.' );
-      } else {
-        /* processing the imported file */
-
-        let fileContent;
-        // read file data into string
-        try {
-          // TODO remove synchronous method
-          fileContent = readFileSync( importedFile.path, { encoding : 'utf-8' } );
-        } catch ( err ) {
-          console.error( '[ERROR]: ', err );
-          ctx.throw( 500, 'Cannot read the uploaded file.', { expose : true } );
-        }
-
-        // parse file date to object
-        try {
-          data = JSON.parse( fileContent );
-          if(params.name) {
-            data.name = params.name.trim();
-          }
-          if(params.appId) {
-            data.appId = params.appId;
-          }
-        } catch ( err ) {
-          console.error( '[ERROR]: ', err );
-          ctx.throw( 400, 'Invalid JSON data.' );
-        }
-
-      }
-    } else {
-      ctx.throw( 400, 'Invalid file.' );
-    }
-
-  } else if(typeof data == 'string' && isJSON(data)) {
-    data = JSON.parse(data);
-  }
   return data;
 }
 

@@ -12,7 +12,8 @@ export class  RESTAPITriggersService {
     return this._http.get('/v1/api/triggers').toPromise()
       .then(response=> {
         if (response.text()) {
-          return _.map(response.json(), trigger => {
+          let data = response.json().data || [];
+          return _.map(data, trigger => {
             return _.assign(activitySchemaToTrigger(trigger), {
               // TODO fix this installed status.
               // as of now, whatever can be read from db, should have been installed.
