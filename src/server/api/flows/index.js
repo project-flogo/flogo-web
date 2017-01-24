@@ -92,8 +92,8 @@ function getAllFlows(){
  * @param query {name: string}
  * @returns {*}
  */
-function filterFlows(query){
-  query = _.assign({}, {name:''}, query);
+function filterFlows(query) {
+  query = _.assign({}, { name: '', appId: null }, query);
   query.name = query.name.trim();
 
   let options = {
@@ -105,17 +105,14 @@ function filterFlows(query){
 
   // TODO:  replace with a persistent query: https://pouchdb.com/guides/queries.html
   return _dbService.db
-    .query(function(doc, emit) { emit((doc.name||'').toLowerCase()); }, options)
+    .query(function(doc, emit) { emit((doc.name || '').toLowerCase()); }, options)
     .then((response) => {
-      let allFlows = [];
-      let rows = response&&response.rows||[];
-      rows.forEach((item)=>{
-        // if this item's tabel is FLOW
-        if(item&&item.doc&&item.doc.$table === FLOW){
-          allFlows.push(item.doc);
-        }
-      });
-      return allFlows;
+      const rows = response && response.rows ? response.rows : [];
+      return _.chain(rows)
+        .filter(row => row && row.doc && row.doc.$table === FLOW)
+        .filter(row => !query.appId || query.appId === row.doc.appId)
+        .map(row => row.doc)
+        .value();
     });
 }
 
@@ -731,7 +728,7 @@ export function createFlow(data) {
       console.log('CREATING with ', data);
       if(res.status == 200) {
 
-        return _dbService.create( data )
+        return _dbService.createFlow( data )
           .then((createFlowResult)=> {
             return ({status: res.status, details:createFlowResult});
           })

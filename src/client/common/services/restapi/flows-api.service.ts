@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Http, Headers, RequestOptions, URLSearchParams, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 
@@ -53,10 +53,18 @@ export class RESTAPIFlowsService{
   }
 
 
-  getFlowByName(flowName: string) {
+  findFlowsByName(flowName: string, options: { appId?: string } = {}) {
     let headers = new Headers({ Accept: 'application/json' });
-    let options = new RequestOptions({ headers });
-    return this.http.get(`/v1/api/flows?name=${flowName}`, options)
+
+    let searchParams = new URLSearchParams();
+    searchParams.set('name', flowName);
+    if (options.appId) {
+      searchParams.set('appId', options.appId);
+    }
+
+    let requestOptions = new RequestOptions({ headers, search: searchParams });
+
+    return this.http.get(`/v1/api/flows`, requestOptions)
       .map((res: Response) => res.json())
       .toPromise();
   }

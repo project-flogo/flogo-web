@@ -16,7 +16,7 @@ import { Observable } from 'rxjs/Rx';
 const EXISTING_FLOW_NAME = 'existing';
 let flowsServiceStub = {
 
-  getFlowByName(name: string) {
+  findFlowsByName(name: string) {
     let flowArr = [];
     if (name == EXISTING_FLOW_NAME) {
       flowArr = [{ id: '123', name: EXISTING_FLOW_NAME }];

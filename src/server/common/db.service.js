@@ -81,7 +81,7 @@ export class DBService {
    * create a doc to db
    * @param {Object} doc
    */
-  create(doc){
+  createFlow(doc){
     return new Promise((resolve, reject)=>{
       if(!doc) reject("Please pass doc");
 
@@ -91,7 +91,7 @@ export class DBService {
       //   reject("[Error]doc.$table is required.");
       // }
 
-      this.failWhenNameExists(doc.name)
+      this.failWhenNameExists(doc.name, doc.appId)
         .then(()=> {
           // if this doc don't have id, generate an id for it
           if(!doc._id){
@@ -124,13 +124,16 @@ export class DBService {
   /**
    * Get a document searching by name
    */
-  failWhenNameExists(name) {
-    let searchName = (name||'').toLowerCase().trim();
+  failWhenNameExists(name, appId) {
+    let searchName = (name || '').toLowerCase().trim();
     return new Promise((resolve, reject) => {
       this._db
-        .query(function(doc, emit) {emit((doc.name||'').toLowerCase().trim());}, {key:searchName, include_docs:true})
+        .query(function(doc, emit) { emit((doc.name || '').toLowerCase().trim()); }, { key: searchName, include_docs: true })
         .then((response) => {
-          let rows = response&&response.rows||[];
+          let rows = response && response.rows ? response.rows : [];
+          if (appId) {
+            rows = rows.filter(row => row && row.doc && row.doc.appId === appId);
+          }
           let doc = rows.length > 0 ? rows[0].doc : null;
           if(doc == null) {
             resolve({status:200, message:"Document doesn't exists"});

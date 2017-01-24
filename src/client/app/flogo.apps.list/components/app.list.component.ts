@@ -57,22 +57,22 @@ export class FlogoAppListComponent implements OnInit, OnChanges {
     });
   }
 
-  onFileSelected(event) {
-    let file = <File> _.get(event,'target.files[0]');
+  onImportFileSelected(event) {
+    let file = <File> _.get(event, 'target.files[0]');
     this.apiApplications.uploadApplication(file)
-      .then((results:any)=> {
+      .then((results: any) => {
         let createdApp = results.createdApp;
         this.applications.push(createdApp);
         let message = this.translate.instant('APP-LIST:SUCCESSFULLY_IMPORTED');
         this.onSelectApp(createdApp);
         notification(message, 'success', 3000);
       })
-      .catch((errors)=> {
-        if(errors.length) {
+      .catch((errors) => {
+        if (errors.length) {
           notification('Error:' + errors[0].detail, 'error');
         }
       })
-      .then(()=> {
+      .then(() => {
         this.importInput.nativeElement.value = '';
       });
   }

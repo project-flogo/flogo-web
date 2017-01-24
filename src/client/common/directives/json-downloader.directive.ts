@@ -11,7 +11,7 @@ export class JsonDownloader {
   private _link: HTMLAnchorElement;
 
   @Input('jsonDownloader')
-  generateObject: () => Promise<any> = () => null;
+  generateObject: () => Promise<{fileName: string, data: any}[]|{fileName: string, data: any}> = () => null;
 
   constructor(private el: ElementRef) {
     this._el = el.nativeElement;
@@ -26,7 +26,7 @@ export class JsonDownloader {
           let outputs = [];
 
           if(result) {
-              outputs = (result.constructor == Array) ? result : [result];
+              outputs = <{fileName: string, data: any}[]> ( (result.constructor == Array) ? result : [result] );
 
               this._link = document.createElement('a');
               this._link.setAttribute('download', 'flow.json');
@@ -45,7 +45,7 @@ export class JsonDownloader {
                   this._link.setAttribute('target', '_blank');
               }
               this._link.click();
-          })
+          });
 
           if(result) {
               document.body.removeChild(this._link);

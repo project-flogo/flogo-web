@@ -78,6 +78,15 @@ export class RESTAPIApplicationsService {
       .catch(error => this.handleError(error));
   }
 
+  export(appId: string) {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+
+    return this.http.get(`/v1/api/apps/${appId}/export`, options).toPromise()
+      .then(response => response.json())
+      .catch(error => this.handleError(error));
+  }
+
   determineUniqueName(name: string) {
     return this.getAllApps().then((apps:Array<IFlogoApplicationModel>) => {
       let normalizedName = name.trim().toLowerCase();

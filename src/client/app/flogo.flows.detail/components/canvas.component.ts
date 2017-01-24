@@ -262,24 +262,19 @@ export class FlogoCanvasComponent implements OnInit {
             if(name == this.flowName) {
                 resolve(true);
             } else {
-                this._restAPIFlowsService.getFlowByName(name)
-                    .then((doc) => {
-                        let results;
-                        try {
-                            results = JSON.parse(doc['_body']);
-                        }catch(err) {
-                            results = [];
-                        }
+                this._restAPIFlowsService.findFlowsByName(name, { appId: this.flow.appId })
+                    .then((flows) => {
+                        let results = flows || [];
 
                         if(!_.isEmpty(results)) {
-                            let message = this.translate.instant('CANVAS:FLOW-NAME-EXISTS',{value: name});
+                            let message = this.translate.instant('CANVAS:FLOW-NAME-EXISTS', {value: name});
                             this.flow.name = this.flowName;
                             notification(message, 'error');
-                            resolve(doc);
-                        }else {
+                            resolve(results);
+                        } else {
                             this.flow.name = name;
                             this._updateFlow(this.flow).then((response: any)=> {
-                                let message = this.translate.instant('CANVAS:SUCCESS-MESSAGE-UPDATE',{value: property});
+                                let message = this.translate.instant('CANVAS:SUCCESS-MESSAGE-UPDATE', {value: property});
                                 this.flowName = this.flow.name;
                                 notification(message, 'success', 3000);
                                 resolve(response);

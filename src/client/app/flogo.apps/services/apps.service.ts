@@ -136,6 +136,10 @@ export class AppDetailService {
       });
   }
 
+  public toEngineSpec() {
+    return this.appsApiService.export(this.currentApp$.getValue().app.id);
+  }
+
   private transformErrors(errors:ApiError[]) : {[key:string]: boolean} {
     let firstError = errors[0];
     if (firstError && firstError.status == 500) {
