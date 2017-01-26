@@ -72,7 +72,9 @@ export class FlogoAppListComponent implements OnInit, OnChanges {
       })
       .catch((errors) => {
         if (errors.length) {
-          notification('Error:' + errors[0].detail, 'error');
+          let error = errors[0];
+          let message = `Error: ${error.title} `;
+          notification(message, 'error');
         }
       });
   }

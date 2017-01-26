@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs';
 import _ from 'lodash';
+import { ErrorManager, ERROR_TYPES } from '../../common/errors';
 
 import { isJSON } from '../../common/utils';
 
@@ -18,7 +19,16 @@ export function retrieveJsonFromRequest(ctx, fileName) {
       // only support `application/json`
       if ( importedFile.type !== 'application/json' ) {
         console.error( '[ERROR]: ', importedFile );
-        ctx.throw( 400, 'Unsupported file type: ' + importedFile.type + '; Support application/json only.' );
+        throw ErrorManager.makeError('Unsupported file type',
+          { type: ERROR_TYPES.COMMON.VALIDATION,
+            details:{
+              errors: [
+                {
+                  title: 'Unsupported file type',
+                  detail: 'Support application/json only.'
+                }
+              ]
+            }});
       } else {
         /* processing the imported file */
 
@@ -37,7 +47,17 @@ export function retrieveJsonFromRequest(ctx, fileName) {
           data = JSON.parse( fileContent );
         } catch ( err ) {
           console.error( '[ERROR]: ', err );
-          ctx.throw( 400, 'Invalid JSON data.' );
+
+          throw ErrorManager.makeError('Invalid JSON data',
+            { type: ERROR_TYPES.COMMON.VALIDATION,
+              details:{
+                errors: [
+                  {
+                    title: 'Invalid JSON data',
+                    detail: 'Error parsing JSON file'
+                  }
+                ]
+              }});
         }
 
       }

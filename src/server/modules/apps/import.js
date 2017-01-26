@@ -55,7 +55,7 @@ class ImportFlows {
 
           flows.triggers.forEach((trigger)=> {
 
-            let endpoints = get(trigger, 'data.endpoints', []);
+            let endpoints = get(trigger, 'handlers', []);
             // make the flows for this trigger
             endpoints.forEach((endpoint)=> {
 
@@ -150,7 +150,9 @@ class ImportFlows {
                 errors: [
                   {
                     title: 'Trigger is not installed',
-                    detail: `The trigger is not installed: ${trigger.ref}`,
+                    detail: `Trigger: ${trigger.ref}`,
+                    property: 'trigger',
+                    value: trigger
                   }
                 ]
               }});
@@ -174,7 +176,9 @@ class ImportFlows {
                   errors: [
                     {
                       title: 'Activity is not installed',
-                      detail: `The activity is not installed: ${task.activityRef}`,
+                      detail: `Activity: ${task.activityRef}`,
+                      property: 'task',
+                      value: task
                     }
                   ]
                 }});
@@ -213,6 +217,7 @@ class ImportFlows {
       return {nodes, items, branches};
 
       function linkTiles(nodes, links, nodeTrigger ) {
+
         try {
           links.forEach((link)=> {
             let from = nodes.find((result)=> result.cli.id === link.from);
@@ -229,7 +234,9 @@ class ImportFlows {
           if(orphanNode) {
             linkNodes(nodeTrigger, orphanNode.node);
           }else {
-            throw new Error('Function linkTiles:Cannot link trigger with first node');
+            if(links.length) {
+              throw new Error('Function linkTiles:Cannot link trigger with first node');
+            }
           }
         }catch(error) {
           console.error(error);
@@ -274,9 +281,22 @@ class ImportFlows {
       let triggers = flows.triggers || [];
 
       let triggersURL = triggers.map((trigger)=> {
+
         if(!trigger.ref) {
-          throw new Error('Cannot get ref for trigger:', trigger.name || trigger.id);
+          throw ErrorManager.makeError('Wrong input json file',
+            { type: ERROR_TYPES.COMMON.VALIDATION,
+              details:{
+                errors: [
+                  {
+                    title: 'Wrong input json file',
+                    detail: 'Cannot get ref for trigger:',
+                    property: 'trigger',
+                    value: trigger
+                  }
+                ]
+              }});
         }
+
         return trigger.ref;
       });
       triggersURL.forEach((url)=> promises.push(TriggerManager.find({whereURL: url})) );
@@ -298,7 +318,19 @@ class ImportFlows {
         tasks.forEach((task)=> {
           let ref = task.activityRef;
           if(!ref) {
-            throw new Error('Cannot get activityRef for task:', task.name);
+            throw ErrorManager.makeError('Wrong input json file',
+              { type: ERROR_TYPES.COMMON.VALIDATION,
+                details:{
+                  errors: [
+                    {
+                      title: 'Wrong input json file',
+                      detail: 'Cannot get activityRef for task:',
+                      property: 'task',
+                      value: task
+                    },
+                  ]
+                }
+              });
           }
 
           if(processed.indexOf(ref) == -1) {
@@ -445,7 +477,7 @@ class ItemFactory {
                                 {id: trigger.node.taskID},
                                 {nodeId: trigger.node.taskID, type : FLOGO_TASK_TYPE.TASK_ROOT, triggerType : installed.name} );
 
-    let settings = get(cli, 'data.settings', {});
+    let settings = get(cli, 'settings', {});
     // get settings
     for(var property in settings) {
       let schema = installed.settings.find((setting)=> {
@@ -506,25 +538,42 @@ class ItemFactory {
       {inputMappings: cli.inputMappings || [] },
       {id: node.taskID, type : FLOGO_TASK_TYPE.TASK, activityType : installed.id} );
 
-    //-------- set inputs  ----------------
-    let schemaInputs = installed.inputs || [];
+    //-------- set attributes inputs  ----------------
+    let installedInputs = installed.inputs || [];
     let cliAttributes = cli.attributes || [];
 
-    schemaInputs.forEach((input)=> {
+    installedInputs.forEach((installedInput)=> {
+
       let cliValue = cliAttributes.find((attribute) => {
-        return attribute.name === input.name;
+        return attribute.name === installedInput.name;
       });
 
       let newAttribute = {
-        name: input.name,
-        type:FLOGO_TASK_ATTRIBUTE_TYPE[get(input,'type','STRING').toUpperCase()]
+        name: installedInput.name,
+        type:FLOGO_TASK_ATTRIBUTE_TYPE[get(installedInput,'type','STRING').toUpperCase()]
       };
+
       if(cliValue) {
         newAttribute.value = cliValue.value;
+      }else {
+        // use the value provided by the schema
+        newAttribute.value = installedInput.value;
       }
 
       item.attributes.inputs.push(newAttribute);
     });
+
+    //-----------------
+    // set attributes outputs
+    let outputs  = installed.outputs || [];
+
+    item.attributes.outputs = outputs.map((output)=> {
+      return {
+        name: output.name,
+        type: FLOGO_TASK_ATTRIBUTE_TYPE[get(output,'type','STRING').toUpperCase()]
+      }
+    });
+
 
     return item;
   }
