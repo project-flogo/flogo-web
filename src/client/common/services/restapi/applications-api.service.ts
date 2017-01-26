@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Http, Headers, RequestOptions, Response} from '@angular/http';
+import {Http, Headers, RequestOptions, Response, URLSearchParams} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { IFlogoApplicationModel } from '../../application.model';
-import { uploadFile } from '../../utils';
 
 const UNTITLED_APP = 'Untitled App';
 
@@ -111,11 +110,17 @@ export class RESTAPIApplicationsService {
   }
 
   uploadApplication( file : File, appName : string = '') {
-    let url = `/v1/api/apps/import` ;
-    url +=  (appName) ? `?appName=${appName}` : '';
-    return uploadFile(url, file)
-              .then(response => this.extractData(<Response>response) )
-              .catch(error => this.handleError(<Response>error) );
+    let formData: FormData = new FormData();
+    formData.append('importFile', file, file.name);
+
+    let searchParams = new URLSearchParams();
+    searchParams.set('appName', appName);
+    let headers = new Headers({ Accept: 'application/json' });
+    let requestOptions = new RequestOptions({ headers, search: searchParams });
+
+    return this.http.post('/v1/api/apps/import', formData, requestOptions).toPromise()
+              .then(response => this.extractData(response) )
+              .catch(error => this.handleError(error) );
   }
 
 

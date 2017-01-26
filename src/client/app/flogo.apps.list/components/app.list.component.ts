@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef} from '@angular/core';
+import {Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import {TranslateService} from 'ng2-translate/ng2-translate';
 
 import {FlogoModal} from '../../../common/services/modal.service';
@@ -13,7 +13,6 @@ import { notification } from '../../../common/utils';
   styleUrls: ['app.list.css']
 })
 export class FlogoAppListComponent implements OnInit, OnChanges {
-  @ViewChild('importInput') importInput: File;
   @Input() currentApp: IFlogoApplicationModel;
   @Output() onSelectedApp: EventEmitter<IFlogoApplicationModel> = new EventEmitter<IFlogoApplicationModel>();
   @Output() onAddedApp: EventEmitter<IFlogoApplicationModel> = new EventEmitter<IFlogoApplicationModel>();
@@ -58,7 +57,11 @@ export class FlogoAppListComponent implements OnInit, OnChanges {
   }
 
   onImportFileSelected(event) {
-    let file = <File> _.get(event, 'target.files[0]');
+    let file = <File> _.get(event,'target.files[0]');
+
+    // clean input file value
+    event.target.value = '';
+
     this.apiApplications.uploadApplication(file)
       .then((results: any) => {
         let createdApp = results.createdApp;
@@ -71,9 +74,6 @@ export class FlogoAppListComponent implements OnInit, OnChanges {
         if (errors.length) {
           notification('Error:' + errors[0].detail, 'error');
         }
-      })
-      .then(() => {
-        this.importInput.nativeElement.value = '';
       });
   }
 
