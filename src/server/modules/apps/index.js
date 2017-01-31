@@ -117,7 +117,7 @@ export class AppsManager {
         const consolidatedData = consolidateFlowsAndTriggers(flowsData);
         return {
           name: app.name,
-          type: 'flogo',
+          type: 'flogo:app',
           version: app.version || '0.0.1',
           description: app.description,
           triggers: consolidatedData.triggers,

@@ -1,5 +1,4 @@
 import isEqual from 'lodash/isEqual';
-import isEmpty from 'lodash/isEmpty';
 import cloneDeep from 'lodash/cloneDeep';
 
 /**
@@ -26,14 +25,14 @@ export function consolidateFlowsAndTriggers(flowsData = []) {
       }
 
       const triggerEntry = determineTriggerEntry(trigger);
-      const triggerEndpoints = trigger.data.endpoints || [];
-      const endpointsEntry = triggerEndpoints[0] || { settings: {} };
-      triggerEntry.data.endpoints.push(endpointsEntry);
+      const triggerEndpoints = trigger.data.handlers || [];
+      const handlersEntry = triggerEndpoints[0] || { settings: {} };
+      triggerEntry.data.handlers.push(handlersEntry);
 
       // link trigger to flow/action
       if (flowData.flow) {
         flows.push(flow);
-        endpointsEntry.actionId = flow.id;
+        handlersEntry.actionId = flow.id;
       }
     });
 
@@ -48,7 +47,7 @@ export function consolidateFlowsAndTriggers(flowsData = []) {
     if (!triggerEntry) {
       // no previous entry for this trigger, we need to create one
       triggerEntry = cloneDeep(trigger);
-      triggerEntry.data.endpoints = [];
+      triggerEntry.data.handlers = [];
       triggers.push(triggerEntry);
     }
     return triggerEntry;
