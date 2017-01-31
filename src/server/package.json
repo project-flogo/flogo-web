@@ -5,11 +5,13 @@
   "repository": {
     "url": "https://github.com/TIBCOSoftware/flogo-web.git"
   },
+  "main": "server.js",
   "scripts": {
     "start": "concurrently \"pouchdb-server --host 0.0.0.0 -p 5984 -d './docker-shared'\" \"node server.js\"",
     "start-db": "pouchdb-server -n -p 5984 -d ./docker-shared --host 0.0.0.0",
-    "start-server": "npm run start-prod-server",
+    "start-server": "node server.js",
     "start-dev-server": "babel-node server.js",
+    "start-debug": "node --debug server.js",
     "start-prod-server": "node server.js",
     "dump-db": "mkdir db-init && pouchdb-dump http://0.0.0.0:5984/flogo-web > db-init/installed-flows.init"
   },

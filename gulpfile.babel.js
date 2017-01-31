@@ -46,7 +46,7 @@ gulp.task('build', 'Build in production mode (does not start the server or db, u
 ));
 
 /**
- * Build an start development mode
+ * Build and start development mode
  */
 gulp.task('dev', 'Build and start in development mode', cb => {
 
@@ -55,6 +55,24 @@ gulp.task('dev', 'Build and start in development mode', cb => {
     'dev.build',
     'dev.watch',
     'dev.start',
+    cb
+  );
+
+});
+
+/**
+ * Build development mode, start db and watch for changes.
+ *
+ * Start your server manually by running `node --debug server.js` in dist/server
+ *
+ */
+gulp.task('local-debug', 'Build development mode, start db and watch for changes', cb => {
+
+  runSequence(
+    'clean',
+    'dev.build',
+    'dev.watch',
+    'dev.start.db',
     cb
   );
 

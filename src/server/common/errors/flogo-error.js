@@ -1,6 +1,7 @@
-export class FlogoError {
+export class FlogoError extends Error {
 
-  constructor(message, {type, details} = {}) {
+  constructor(message, { type, details } = {}) {
+    super();
     this.name = 'FlogoError';
     this.message = message;
     this.stack = new Error().stack; // Optional
@@ -12,7 +13,6 @@ export class FlogoError {
     if (details) {
       this.details = Object.assign({}, details);
     }
-
   }
 }
-FlogoError.prototype = Object.create(Error.prototype);
+//FlogoError.prototype = Object.create(Error.prototype);

@@ -11,16 +11,24 @@ const FLOGO_WEB_READY = 'flogo-web::server::ready';
 
 let browserSyncInstance = null;
 
+gulp.task('dev.start.db', () => {
+  cp.spawn('npm', ['run', 'start-db'], {cwd: CONFIG.paths.dist.server, stdio: 'inherit'});
+});
+
 /**
  * Starts the server for development
  */
-gulp.task('dev.start', 'Starts server app and db for development', () => {
+gulp.task('dev.start', 'Starts server app and db for development', ['dev.start.db'], () => {
 
-  cp.spawn('npm', ['run', 'start-db'], {cwd: CONFIG.paths.dist.server, stdio: 'inherit'});
+  let npmTask = 'start-server';
+  if (process.env['FLOGO_DEBUG']) {
+    npmTask = 'start-debug';
+  }
+
   nodemon({
     verbose: true,
     // DON'T use cwd here, it will change the whole gulp process cwd
-    exec: `npm --prefix="${CONFIG.paths.dist.server}" run start-dev-server`,
+    exec: `npm --prefix="${CONFIG.paths.dist.server}" run ${npmTask}`,
     watch: CONFIG.paths.serverWatch.map(watchPath => path.join(CONFIG.paths.dist.server, watchPath)),
     stdout: false
   })

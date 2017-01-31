@@ -7,21 +7,22 @@ This document describes how to set up your development environment to build, run
 * [Getting the Images](#getting-the-images)
 * [Setting Up the Build Environment](#setting-up-the-build-environment)
 * [Running the Application](#running-the-application)
+* [Debugging the Application](#debugging-the-application)
 * [Running Tests Locally](#running-tests-locally)
+* [Advanced Usage](#advanced-usage)
 * [Troubleshooting and Known Issues](#troubleshooting-and-known-issues)
-
 
 ## Prerequisite Software
 - git
 - Docker and docker-compose for Mac or Windows or Linux (https://www.docker.com) 1.12.0-rc4-beta20 or later
 - For windows you will need basic support for bash scripting, you can use git's bash replacement or any other terminal emulator instead of the dos/window standard command line
 
-- For local mode only:
+- Required only for local mode:
   - GO Lang 1.7 - Follow the instructions here https://golang.org/doc/install
     - Make sure you add $GOPATH/bin to your $PATH variable. Instructions related to the $GOPATH variable are found in the above link in the "Test your installation" section.
   - GB - Follow instructions from here: https://getgb.io
   - Node JS 6.4.0 - Download it from here https://nodejs.org/en/download/releases/
-  - Install the flogo cli tool: https://github.com/TIBCOSoftware/flogo-cli
+  - Install the flogo CLI tool: https://github.com/TIBCOSoftware/flogo-cli
 
 ## Getting the Sources
 
@@ -137,7 +138,7 @@ Example:
 export FLOGO_WEB_DEV_ROOT=/home/user/projects/flogo-web
 ```
 
-You can add the export sentence to your profile to avoid manually executing it each time you open a terminal. 
+You can add the export sentence to your profile to avoid manually executing it each time you open a new terminal. 
 
 *TIP:* You can add an alias to your profile for easier flogo start, for example:
 
@@ -167,7 +168,7 @@ Application and services will be started, when you see the following banner in t
 ```
 
 =============================================================================================
-[success] open http://localhost:3010 or http://localhost:3010/_config in your browser
+[success] open http://localhost:3303 or http://localhost:3303/_config in your browser
 =============================================================================================
 
 ```
@@ -185,10 +186,53 @@ Application and services will be started, when you see the following banner in t
 ```
 
 =============================================================================================
-[success] open http://localhost:3010 or http://localhost:3010/_config in your browser
+[success] open http://localhost:3303 or http://localhost:3303/_config in your browser
 =============================================================================================
 
 ```
+
+## Debugging the Application
+
+### Debugging the server application
+
+**Note**: Server debugging is not supported in the container/docker run mode.
+
+#### Local debug
+
+In this mode server database will be started and source files will be watched and will be automatically processed when
+they change.
+
+However, server application won't be started and it needs to be manually started. This will allow you
+to configure your IDE and debugger to suit your needs. 
+
+Replace with your path to flogo-cicd and run:
+
+```sh
+FLOGO_WEB_TASK=local-debug <flogo-cicd>/docker/flogo-web/dev.sh start local
+
+``` 
+
+Follow your IDE instructions to configure your debugger to run the file `server.js` that will be generated
+ in `<FLOGO_WEB_DEV_ROOT>/dist/server`.
+ 
+Breakpoints can be added directly to the javascript source files in `/src/server` or to the generated files in `dist/server`.
+
+
+#### Remote debug
+
+Replace with your path to flogo-cicd and run:
+
+```sh
+FLOGO_DEBUG=1 <flogo-cicd>/docker/flogo-web/dev.sh start local
+```
+
+Server will be started in debug mode and debugger will listen to port 5858. Will also watch for changes
+and automatically update.
+
+Follow your IDE instructions to attach your debugger to the port 5858.
+
+Breakpoints can be added directly to the javascript source files in `/src/server` or to the generated files in `dist/server`.
+
 
 ## Running Tests Locally
 
@@ -211,6 +255,37 @@ Run:
 npm test
 ```
 
+## Advanced Usage
+
+The `dev.sh` script used throughout this guide executes roughly the following steps:
+ 
+1. Updates the flogo CLI tool installed in the system by fetching it again via `go get`
+1. Starts the flow and state services (required to test-execute a flow when using the UI)
+1. Starts the gulp build process. By default it runs the `dev` task
+
+You can chose which gulp task(s) to run by setting the `FLOGO_WEB_TASK` environment variable.
+For example, to run the "prod" task execute:
+
+```sh
+FLOGO_WEB_TASK=prod /path/to/dev.sh start local
+```
+
+If you want to run more than one task you will need to quote them to avoid issues with white spaces. 
+For example to run the "dev.build" and "dev.watch" tasks execute:
+
+```sh
+FLOGO_WEB_TASK="dev.build dev.watch" /path/to/dev.sh start local
+```
+
+To see all available tasks navigate to your <flogo-web> root directory and run:
+
+```sh
+npm run gulp help
+```
+
+If for some reason you are starting the services manually or don't need to start them, you can skip
+using the dev.sh script and directly execute the gulp process by navigating to your <flogo-web> root
+and run `npm run start [...your tasks]`.
 
 ## Troubleshooting and Known Issues
 
