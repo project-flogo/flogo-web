@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable} from 'rxjs/Rx';
 import { IFlogoApplicationModel } from '../../../common/application.model';
 import { RESTAPIApplicationsService } from '../../../common/services/restapi/applications-api.service';
 import { ApiError } from '../../../common/services/restapi/restapi.model';
+import { ErrorService } from '../../../common/services/error.service';;
 
 const DEFAULT_STATE = {
   name: {
@@ -42,7 +43,7 @@ export class AppDetailService {
   private currentApp$ = new BehaviorSubject<ApplicationDetail>(undefined);
   private fetching: boolean;
 
-  constructor(private appsApiService : RESTAPIApplicationsService) {
+  constructor(private appsApiService : RESTAPIApplicationsService, private errorService: ErrorService) {
   }
 
   public currentApp() :Observable<ApplicationDetail> {
@@ -102,7 +103,7 @@ export class AppDetailService {
         nextApp.state[prop] = {
           pendingSave: false,
           hasErrors: !!errors.length,
-          errors: this.transformErrors(errors)
+          errors: this.errorService.transformErrors(errors)
         };
         this.currentApp$.next(nextApp);
       });
@@ -136,21 +137,8 @@ export class AppDetailService {
       });
   }
 
-  private transformErrors(errors:ApiError[]) : {[key:string]: boolean} {
-    let firstError = errors[0];
-    if (firstError && firstError.status == 500) {
-      // internal error
-      return {unknown: true};
-    }
-
-    let transformed = {};
-    errors.forEach(error => {
-      if(error.code == 'UniqueValue') {
-        transformed['notUnique'] = true;
-      }
-    });
-    return transformed;
-
+  public toEngineSpec() {
+    return this.appsApiService.export(this.currentApp$.getValue().app.id);
   }
 
   private fetchApp(appId:string) {

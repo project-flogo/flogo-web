@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { TranslateService } from 'ng2-translate/ng2-translate';
@@ -15,45 +15,53 @@ import { UniqueNameValidator } from '../validators/unique-name.validator';
     templateUrl: 'add.tpl.html',
     styleUrls: ['add.component.css']
 })
-export class FlogoFlowsAddComponent {
+export class FlogoFlowsAddComponent implements OnChanges {
   @ViewChild('modal')
   public modal: ModalComponent;
+  @Input()
+  public appId: string;
   public flow: FormGroup;
 
-    constructor(public translate: TranslateService,
-      private postService: PostService,
-      private flowsService: RESTAPIFlowsService,
-      private formBuilder: FormBuilder
-    ) {
+  constructor(public translate: TranslateService,
+    private postService: PostService,
+    private flowsService: RESTAPIFlowsService,
+    private formBuilder: FormBuilder
+  ) {
+    this.resetForm();
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+    const appIdChange = changes['appId'];
+    if (appIdChange && appIdChange.currentValue !== appIdChange.previousValue) {
       this.resetForm();
     }
+  }
 
-    private resetForm() {
-      this.flow = this.formBuilder.group({
-        name: ['', [],
-          Validators.composeAsync([
-            // we need to wrap into a compose async validator, otherwise async validators overwrite sync validators
-            (control: AbstractControl) => Promise.resolve(Validators.required(control)),
-            UniqueNameValidator.make(this.flowsService)
-          ])
-        ],
-        description: ['']
-      });
-    }
+  public open() {
+    this.resetForm();
+    this.modal.open();
+  }
 
-    public createFlow({ value, valid }: { value: { name: string, description?: string }, valid: boolean }) {
-      this.postService.publish(_.assign({}, PUB_EVENTS.addFlow, {data: value}));
-      this.closeAddFlowModal();
-    }
+  public createFlow({ value, valid }: { value: { name: string, description?: string }, valid: boolean }) {
+    this.postService.publish(_.assign({}, PUB_EVENTS.addFlow, {data: value}));
+    this.closeAddFlowModal();
+  }
 
-    public open() {
+  public closeAddFlowModal() {
       this.resetForm();
-      this.modal.open();
-    }
+      this.modal.close();
+  }
 
-    public closeAddFlowModal() {
-        this.resetForm();
-        this.modal.close();
-    }
-
+  private resetForm() {
+    this.flow = this.formBuilder.group({
+      name: ['', [],
+        Validators.composeAsync([
+          // we need to wrap into a compose async validator, otherwise async validators overwrite sync validators
+          (control: AbstractControl) => Promise.resolve(Validators.required(control)),
+          UniqueNameValidator.make(this.flowsService, { appId: this.appId })
+        ])
+      ],
+      description: ['']
+    });
+  }
 }

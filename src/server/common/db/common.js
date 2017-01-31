@@ -9,7 +9,7 @@ export function initViews(db, viewsData) {
 
   let designId = `_design/views`;
 
-  db.get(designId)
+  return db.get(designId)
     .then(doc => db.remove(doc))
     .catch(err => {
       if (err.name === 'not_found') {

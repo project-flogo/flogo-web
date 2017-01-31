@@ -1,3 +1,4 @@
+import { Response, ResponseOptions } from '@angular/http';
 import {
   FLOGO_TASK_TYPE,
   FLOGO_TASK_ATTRIBUTE_TYPE,
@@ -781,3 +782,7 @@ export function diffDates(beginDate:any, endDate:any, timeUnit:any) {
   return begin.diff(end, timeUnit);
 
 }
+
+
+
+

@@ -142,7 +142,7 @@ export function triggerFlowToJSON(flow:flowToJSON_InputFlow) : triggerToJSON_Tri
             name: rootTask.triggerType,
             settings: settings,
             endpoints: endpoints
-          }
+          };
 
           result = { triggers: [ trigger ] };
       }

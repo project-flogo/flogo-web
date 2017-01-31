@@ -11,6 +11,7 @@ export const FLOGO_FLOW_DIAGRAM_NODE_TYPE = {
   7: "NODE_LINK",
   8: "NODE_SUB_PROC",
   9: "NODE_LOOP",
+  10: "NODE_ROOT_ERROR_NEW",
   "NODE_PADDING": 0,   // padding node
   "NODE_HOLDER": 1,    // placeholder node
   "NODE_ADD": 2,       // node to add an activity
@@ -20,7 +21,8 @@ export const FLOGO_FLOW_DIAGRAM_NODE_TYPE = {
   "NODE_BRANCH": 6,    // the branch line node
   "NODE_LINK": 7,      // the link node
   "NODE_SUB_PROC": 8,  // activity with sub flow
-  "NODE_LOOP": 9       // repeatable activity
+  "NODE_LOOP": 9,       // repeatable activity
+  "NODE_ROOT_ERROR_NEW":10
 };
 
 export const FLOGO_TASK_TYPE = {
@@ -59,13 +61,15 @@ export const FLOGO_TASK_ATTRIBUTE_TYPE = {
   4: "OBJECT",
   5: "ARRAY",
   6: "PARAMS",
+  7: "ANY",
   "STRING": 0,
   "INTEGER": 1,
   "NUMBER": 2,
   "BOOLEAN": 3,
   "OBJECT": 4,
   "ARRAY": 5,
-  "PARAMS": 6
+  "PARAMS": 6,
+  "ANY": 7
 };
 
 export const FLOGO_ENGINE_STATUS = {

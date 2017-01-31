@@ -4,6 +4,7 @@ import { RemoteInstaller } from '../../modules/remote-installer';
 import { inspectObj } from '../../common/utils';
 import path from 'path';
 import { getInitializedEngine } from '../../modules/engine';
+import { TriggerManager } from '../../modules/triggers';
 
 let basePath = config.app.basePath;
 
@@ -16,7 +17,7 @@ export function triggers(app, router){
   if(!app){
     console.error("[Error][api/triggers/index.js]You must pass app");
   }
-  router.get(basePath+"/triggers", getTriggers);
+  router.get(basePath+"/triggers", listTriggers);
   router.post(basePath+"/triggers", installTriggers);
   router.delete(basePath+"/triggers", deleteTriggers);
 }
@@ -36,16 +37,18 @@ export function triggers(app, router){
  *            items:
  *              $ref: '#/definitions/Trigger'
  */
-function* getTriggers(next){
-  let data = [];
+function* listTriggers() {
+  const searchTerms = {};
+  const filterName     = this.request.query['filter[name]'];
+  const filterWhereURL = this.request.query['filter[whereURL]'];
 
-  data = yield triggersDBService.allDocs({ include_docs: true })
-    .then(triggers => triggers.map(trigger => {
-      return trigger.schema;
-    }));
+  if (filterName)     { searchTerms.name     = filterName;     }
+  if (filterWhereURL) { searchTerms.whereURL = filterWhereURL; }
 
-  this.body = data;
-  yield next;
+  const foundTriggers = yield TriggerManager.find(searchTerms);
+  this.body = {
+    data: foundTriggers || [],
+  };
 }
 
 /**

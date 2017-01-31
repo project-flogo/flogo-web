@@ -30,18 +30,12 @@ export class FlogoFlowsFlowNameComponent implements OnChanges {
         flowNameModal: ModalComponent;
 
     public sendAddFlowMsg() {
-        this.APIFlows.getFlowByName(this.repeatedName)
-            .then((res) => {
-                let results;
-                try {
-                    results = JSON.parse(res['_body']);
-                }catch(err) {
-                    results = [];
-                }
+        this.APIFlows.findFlowsByName(this.repeatedName)
+            .then((results) => {
                 if(!_.isEmpty(results)) {
                     this.flowNameExists = true;
                     this.nameModified = false;
-                }else {
+                } else {
                     this.correctName.emit(this.repeatedName);
                     this.closeModal();
                 }

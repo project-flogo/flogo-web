@@ -10,13 +10,13 @@ import 'rxjs/add/operator/switchMap';
 
 export class UniqueNameValidator {
 
-  static make(flowsService: RESTAPIFlowsService): AsyncValidatorFn {
-    return createUniqueNameValidator(flowsService);
+  static make(flowsService: RESTAPIFlowsService, options: {appId?: string} = {}): AsyncValidatorFn {
+    return createUniqueNameValidator(flowsService, options);
   }
 
 }
 
-function createUniqueNameValidator(flowsService: RESTAPIFlowsService): AsyncValidatorFn {
+function createUniqueNameValidator(flowsService: RESTAPIFlowsService, options: {appId?: string} = {}): AsyncValidatorFn {
 
   // This is used to signal streams to terminate.
   let changed$ = new Subject<any>();
@@ -35,7 +35,7 @@ function createUniqueNameValidator(flowsService: RESTAPIFlowsService): AsyncVali
         if (!value || !value.trim()) {
           return Promise.resolve(null);
         }
-        return flowsService.getFlowByName(value).then(result => {
+        return flowsService.findFlowsByName(value, options).then(result => {
           let validationResult = null;
           if (result && result.length) {
             validationResult = { uniqueInvalid: true };

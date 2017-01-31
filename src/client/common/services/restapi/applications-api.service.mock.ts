@@ -3,6 +3,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { IFlogoApplicationModel } from '../../../common/application.model';
 import { RESTAPIApplicationsService } from './applications-api.service';
+import { ErrorService } from '../../../common/services/error.service';
 
 const UNTITLED_APP = 'Untitled App';
 
@@ -48,8 +49,8 @@ export class RESTAPIApplicationsServiceMock  extends RESTAPIApplicationsService 
         }
     ];
 
-  constructor(public _http : Http ) {
-      super(_http);
+  constructor(public _http : Http, errorService: ErrorService ) {
+      super(_http, errorService);
   }
 
   getAllApps() {

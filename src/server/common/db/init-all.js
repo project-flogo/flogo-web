@@ -5,8 +5,6 @@ import {
   appsDBService
 } from '../../config/app-config';
 
-import { initViews as initAppViews } from './apps';
-import { initViews as initFlowsViews } from './flows';
 
 /**
  * Init all dbs
@@ -17,10 +15,8 @@ export function initAllDbs() {
   return Promise.all([
     activitiesDBService.init(),
     triggersDBService.init(),
-    flowsDBService.init()
-      .then(() => initFlowsViews(flowsDBService.db)),
+    flowsDBService.init(),
     appsDBService.init()
-      .then(() => initAppViews(appsDBService.db))
   ]);
 
 }

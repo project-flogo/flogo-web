@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Http, Headers, RequestOptions, URLSearchParams, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
+
 
 @Injectable()
 export class RESTAPIFlowsService{
@@ -51,10 +52,18 @@ export class RESTAPIFlowsService{
   }
 
 
-  getFlowByName(flowName: string) {
+  findFlowsByName(flowName: string, options: { appId?: string } = {}) {
     let headers = new Headers({ Accept: 'application/json' });
-    let options = new RequestOptions({ headers });
-    return this.http.get(`/v1/api/flows?name=${flowName}`, options)
+
+    let searchParams = new URLSearchParams();
+    searchParams.set('name', flowName);
+    if (options.appId) {
+      searchParams.set('appId', options.appId);
+    }
+
+    let requestOptions = new RequestOptions({ headers, search: searchParams });
+
+    return this.http.get(`/v1/api/flows`, requestOptions)
       .map((res: Response) => res.json())
       .toPromise();
   }
@@ -118,34 +127,19 @@ export class RESTAPIFlowsService{
       );
   }
 
-  importFlow( importFile : File, appId : string, flowName?:string ) {
-    return new Promise( ( resolve, reject ) => {
-      var formData = new FormData();
-      var xhr = new XMLHttpRequest();
-      if(!importFile.type) {
-        importFile = new File([importFile], importFile.name, {type: 'application/json'});
-      }
+  importFlow( file : File, appId : string, flowName?:string ) {
+    let formData: FormData = new FormData();
+    formData.append('importFile', file, file.name);
 
-      formData.append( 'importFile', importFile, importFile.name );
+    let searchParams = new URLSearchParams();
+    if(flowName) { searchParams.set('name', flowName); }
+    if(appId)    { searchParams.set('appId', flowName); }
 
-      xhr.onreadystatechange = function () {
-        if ( xhr.readyState == 4 ) {
-          if ( xhr.status == 200 ) {
-            resolve( JSON.parse( xhr.response ) );
-          } else {
-            reject( {
-              status : xhr.status,
-              statusText : xhr.statusText,
-              response : xhr.response
-            } );
-          }
-        }
-      };
-      let url = `/v1/api/flows/upload?appId=${appId}` + (flowName ? '&name='+ flowName : '') ;
+    let headers = new Headers({ Accept: 'application/json' });
+    let requestOptions = new RequestOptions({ headers, search: searchParams });
 
-      xhr.open( 'POST', url, true );
-      xhr.send( formData );
-    } );
+    return this.http.post('/v1/api/flows/upload', formData, requestOptions).toPromise()
+      .catch(error => Promise.reject(error.json())  );
   }
 
   // restartFlow() TODO need to inject instance related APIs

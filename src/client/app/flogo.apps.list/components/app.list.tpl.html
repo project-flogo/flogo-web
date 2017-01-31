@@ -3,8 +3,9 @@
   <div class="flogo-app-list__header">
     <div class="title">{{ 'APP-LIST:MY-APPS' | translate }}</div>
     <div>
-      <button class="flogo-button--import-app">
+      <button class="flogo-button--import-app" (click)="importInput.click()">
         <i class="flogo-icon flogo-icon-download"></i><span>Import</span>
+        <input #importInput type="file" accept="application/json" (change)="onImportFileSelected($event)">
       </button>
       <button class="flogo-button--add-app" (click)="onAdd($event)"><i class="flogo-icon-add"></i></button>
     </div>

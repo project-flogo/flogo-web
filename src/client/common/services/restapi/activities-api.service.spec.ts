@@ -6,7 +6,8 @@ import { MockBackend } from '@angular/http/testing';
 
 describe('Service: RESTAPIActivitiesService', ()=> {
     let mockbackend, service = null;
-    let mockActivities = [
+    let mockActivities = {
+        data:[
         {
             "name": "sendWSMessage",
             "version": "0.0.1",
@@ -399,7 +400,7 @@ describe('Service: RESTAPIActivitiesService', ()=> {
             ],
             "outputs": []
         }
-    ];
+    ]};
 
     beforeEach(()=> {
         TestBed.configureTestingModule({

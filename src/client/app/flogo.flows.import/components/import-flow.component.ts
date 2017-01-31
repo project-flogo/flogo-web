@@ -79,33 +79,25 @@ export class FlogoFlowsImport {
   }
 
   uploadFlow(flow, flowName) {
-    let promise = this._flowsAPIs.importFlow(flow, this.appId, flowName);
-
-    promise.then((result: any) => {
-      this.importSuccess.emit(result);
-    })
-      .catch((err: any) => {
-        let objError;
-        try {
-          objError = JSON.parse(err.response);
-        } catch (exc) {
-          objError = {};
-        }
-        let errorCode = objError.details && objError.details.ERROR_CODE || '';
+   this._flowsAPIs.importFlow(flow, this.appId, flowName)
+      .then((result: any) => {
+        this.importSuccess.emit(result);
+      })
+      .catch((error: any) => {
+        let errorCode = error.details && error.details.ERROR_CODE || '';
 
         switch (errorCode) {
           case 'NAME_EXISTS':
             this.showFileNameDialog = true;
             break;
           case 'ERROR_VALIDATION':
-            let errorMessage = this.getErrorMessageActivitiesNotInstalled(objError);
+            let errorMessage = this.getErrorMessageActivitiesNotInstalled(error);
             this.importError.emit({response: errorMessage});
             break;
           default:
-            this.importError.emit(err);
+            this.importError.emit(error);
             break;
         }
-
       });
   }
 

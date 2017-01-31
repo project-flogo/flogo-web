@@ -14,7 +14,7 @@
             <li class="fa fa-angle-left"></li>
           </div>
           <div class="">
-            <h3 class="flogo-flow-detail-name" [(myContenteditable)]="flow.name" (myContenteditableChange)="changeFlowDetail($event, 'name')"></h3>
+            <h3 class="flogo-flow-detail-name" [(myContenteditable)]="flow.name" (myContenteditableChange)="changeFlowDetailName($event, 'name')"></h3>
               <span>in</span> <span (click)="navigateToApp()"
                                     class="flogo-flow-detail-header-back-app-name"
                                     (mouseover)="onMouseOverBackControl()"

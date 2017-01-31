@@ -1,7 +1,6 @@
 import pick from 'lodash/pick';
 import defaults from 'lodash/defaults';
 import kebabCase from 'lodash/kebabCase';
-import lowerCase from 'lodash/lowerCase';
 
 import { DEFAULT_APP_ID } from '../../common/constants';
 
@@ -10,6 +9,8 @@ import { VIEWS } from '../../common/db/apps';
 import { ErrorManager, ERROR_TYPES } from '../../common/errors';
 import { CONSTRAINTS } from '../../common/validation';
 import { FlowsManager } from '../flows';
+import { importFlows } from './import';
+import { consolidateFlowsAndTriggers } from './export';
 
 /*
 app:
@@ -75,6 +76,54 @@ export class AppsManager {
         .post(cleanApp)
         .then(response => AppsManager.findOne(response.id, { withFlows: true }));
     });
+  }
+
+  // TODO documentation
+  static import(importedJSON) {
+
+    return this.create(importedJSON)
+           .then((app)=> {
+             console.log('@The app created is:');
+             console.log(app);
+             let {triggers, actions} = importedJSON;
+             let importedFlows = Object.assign({},{createdApp:app}, {triggers , actions}  );
+             return importFlows(importedFlows);
+            })
+          .catch((error)=> {
+            throw error;
+          });
+  }
+
+  /**
+   * Export an app to the schema expected by cli
+   * This will export apps and flows
+   * @param appId {string} app to export
+   * @return {object} exported object
+   * @throws Not found error if app not found
+   */
+  static export(appId) {
+    return AppsManager.findOne(appId, { withFlows: 'raw' })
+      .then((app) => {
+        if (!app) {
+          throw ErrorManager.makeError('Application not found', { type: ERROR_TYPES.COMMON.NOT_FOUND });
+        }
+        return Promise.all([
+          app,
+          FlowsManager.convertManyToCliSchema({ appId }),
+        ]);
+      })
+      .then((data) => {
+        const [app, flowsData] = data;
+        const consolidatedData = consolidateFlowsAndTriggers(flowsData);
+        return {
+          name: app.name,
+          type: 'flogo',
+          version: app.version || '0.0.1',
+          description: app.description,
+          triggers: consolidatedData.triggers,
+          actions: consolidatedData.flows,
+        };
+      });
   }
 
   /**

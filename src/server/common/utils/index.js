@@ -6,6 +6,7 @@ import { inspect } from 'util';
 import { FLOGO_TASK_TYPE } from '../constants';
 
 export * from './file';
+export * from './request';
 
 export function extractDomain(url) {
   var domain;

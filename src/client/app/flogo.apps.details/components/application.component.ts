@@ -65,6 +65,16 @@ export class FlogoApplicationComponent implements OnChanges, OnInit {
     }
   }
 
+  appExporter() {
+    return () => this.appDetailService.toEngineSpec()
+      .then(engineApp => {
+        return [{
+          fileName: 'app.json',
+          data: engineApp
+        }];
+      });
+  }
+
   openCreateFlow() {
     this.addFlow.open();
   }

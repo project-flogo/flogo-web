@@ -78,7 +78,7 @@ function generateBuild(id, compileOptions) {
     .then((doc)=> {
       console.log(doc);
 
-      let flowJSON = flogoFlowToJSON(doc);
+      let flowJSON = flogoFlowToJSON(doc, { useRef: false });
       console.log(flowJSON);
 
       // step1: add flow.json

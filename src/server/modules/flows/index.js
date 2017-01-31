@@ -1,18 +1,14 @@
 import pick from 'lodash/pick';
-import defaults from 'lodash/defaults';
-import kebabCase from 'lodash/kebabCase';
-import lowerCase from 'lodash/lowerCase';
 import uniq from 'lodash/uniq';
 import keyBy from 'lodash/keyBy';
 
 import { flowsDBService } from '../../config/app-config';
 import { VIEWS } from '../../common/db/flows';
-import { ErrorManager } from '../../common/errors';
-import { CONSTRAINTS } from '../../common/validation';
 
 import { AppsManager } from '../apps';
 
 import { PUBLISH_FIELDS_LONG, PUBLISH_FIELDS_SHORT } from './constants';
+import { convertToCliSchema } from './export';
 
 /*
 
@@ -151,7 +147,7 @@ export class FlowsManager {
     return flowsDBService.db.get(flowId)
       .then((flow) => {
         return Promise.resolve(cleanForOutput(flow, fields))
-          .then(flow => withApp ? augmentWithApp(flow, { withFlows: false } ): flow);
+          .then(cleanFlow => withApp ? augmentWithApp(cleanFlow, { withFlows: false }) : cleanFlow);
       })
       .catch((err) => {
         if (err.name === 'not_found') {
@@ -159,6 +155,20 @@ export class FlowsManager {
         }
         throw err;
       });
+  }
+
+  /**
+   * Exports many flows to the schema of flogo cli
+   * @param options {object} options
+   * @param options.appId {string} the appId of the flows to export
+   * @return {Promise<{flow:object,trigger:object}>}
+   */
+  static convertManyToCliSchema(options = {}) {
+    if (options.appId) {
+      return FlowsManager.find({ appId: options.appId }, { fields: 'raw' })
+        .then(flows => flows.map(flow => convertToCliSchema(flow)));
+    }
+    return Promise.resolve([]);
   }
 
   /**
@@ -180,7 +190,7 @@ function cleanForOutput(flow, fields) {
     createdAt: flow.createdAt || flow.created_at,
   }, flow);
 
-  if(fields == 'raw') {
+  if (fields === 'raw') {
     return flow;
   }
 

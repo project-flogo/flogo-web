@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import {Http, Headers, RequestOptions, Response} from '@angular/http';
+import {Http, Headers, RequestOptions, Response, URLSearchParams} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
+
 import { IFlogoApplicationModel } from '../../application.model';
+import { ErrorService } from '../../../common/services/error.service';
 
 const UNTITLED_APP = 'Untitled App';
 
 @Injectable()
 export class RESTAPIApplicationsService {
 
-  constructor(private http : Http ) {
+  constructor(private http : Http, private errorService: ErrorService ) {
   }
 
   recentFlows() {
@@ -76,6 +78,15 @@ export class RESTAPIApplicationsService {
       .catch(error => this.handleError(error));
   }
 
+  export(appId: string) {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers: headers});
+
+    return this.http.get(`/v1/api/apps/${appId}/export`, options).toPromise()
+      .then(response => response.json())
+      .catch(error => this.handleError(error));
+  }
+
   determineUniqueName(name: string) {
     return this.getAllApps().then((apps:Array<IFlogoApplicationModel>) => {
       let normalizedName = name.trim().toLowerCase();
@@ -99,6 +110,21 @@ export class RESTAPIApplicationsService {
 
   }
 
+  uploadApplication( file : File, appName : string = '') {
+    let formData: FormData = new FormData();
+    formData.append('importFile', file, file.name);
+
+    let searchParams = new URLSearchParams();
+    searchParams.set('appName', appName);
+    let headers = new Headers({ Accept: 'application/json' });
+    let requestOptions = new RequestOptions({ headers, search: searchParams });
+
+    return this.http.post('/v1/api/apps/import', formData, requestOptions).toPromise()
+              .then(response => this.extractData(response) )
+              .catch(error => this.handleError(error) );
+  }
+
+
   private extractData(res : Response) {
     let body = res.json();
     return body.data || { };
@@ -107,7 +133,7 @@ export class RESTAPIApplicationsService {
   private handleError (error: Response | any) {
     if (error instanceof Response) {
       const body = error.json();
-      const errs = body.errors || [body];
+      const errs = this.errorService.transformErrors(body.errors || [body]);
       return Promise.reject(errs);
     } else {
       return Promise.reject(new Error('Unknown error'));
