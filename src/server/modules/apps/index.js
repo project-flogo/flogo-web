@@ -1,6 +1,7 @@
 import pick from 'lodash/pick';
 import defaults from 'lodash/defaults';
 import kebabCase from 'lodash/kebabCase';
+import toInteger from 'lodash/toInteger';
 
 import { DEFAULT_APP_ID } from '../../common/constants';
 
@@ -68,12 +69,15 @@ export class AppsManager {
 
   static create(app) {
     const inputData = app;
-    let cleanApp = cleanInput(inputData);
+    const cleanApp = cleanInput(inputData);
 
     return validate(cleanApp).then(() => {
-      cleanApp = build(cleanApp);
-      return appsDBService.db
-        .post(cleanApp)
+      return ensureUniqueName(cleanApp.name)
+        .then((uniqueName) => {
+          cleanApp.name = uniqueName;
+          return build(cleanApp);
+        })
+        .then(builtApp => appsDBService.db.post(builtApp))
         .then(response => AppsManager.findOne(response.id, { withFlows: true }));
     });
   }
@@ -82,14 +86,14 @@ export class AppsManager {
   static import(importedJSON) {
 
     return this.create(importedJSON)
-           .then((app)=> {
+           .then((app) => {
              console.log('@The app created is:');
              console.log(app);
-             let {triggers, actions} = importedJSON;
-             let importedFlows = Object.assign({},{createdApp:app}, {triggers , actions}  );
+             let { triggers, actions } = importedJSON;
+             let importedFlows = Object.assign({}, { createdApp: app }, { triggers, actions });
              return importFlows(importedFlows);
-            })
-          .catch((error)=> {
+           })
+          .catch((error) => {
             throw error;
           });
   }
@@ -321,7 +325,7 @@ function validate(app) {
     });
   }
 
-  if (appName) {
+  if (appName && (app.id || app._id)) {
     promise = appsDBService
       .db.query(`views/${VIEWS.name}`, { key: appName.trim().toLowerCase() })
       .then((result) => {
@@ -380,4 +384,27 @@ function augmentWithFlows(apps, flowFields) {
       augmentedApp.flows = flows;
       return augmentedApp;
     })));
+}
+
+function ensureUniqueName(forName) {
+  const normalizedName = forName.trim().toLowerCase();
+  const namePattern = new RegExp(`^${normalizedName}(\\s\\((\\d+)\\))?$`);
+  return appsDBService
+    .db.query(`views/${VIEWS.name}`, { startkey: normalizedName, endkey: `${normalizedName}\uffff` })
+    .then((result) => {
+      const rows = result.rows || [];
+      const greatestIndex = findGreatestNameIndex(rows);
+      return greatestIndex < 0 ? forName : `${forName} (${greatestIndex + 1})`;
+    });
+
+  function findGreatestNameIndex(rows) {
+    return rows.reduce((greatest, row) => {
+      const matches = namePattern.exec(row.key);
+      if (matches) {
+        const index = toInteger(matches[2]);
+        return index > greatest ? index : greatest;
+      }
+      return greatest;
+    }, -1);
+  }
 }
