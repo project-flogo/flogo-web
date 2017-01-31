@@ -53,3 +53,18 @@ export const FLOGO_ERROR_ROOT_NAME = '__error-trigger';
 
 export * from '../app/flogo.flows.detail.diagram/constants';
 export {REGEX_INPUT_VALUE_EXTERNAL as FLOGO_AUTOMAPPING_FORMAT} from '../app/flogo.transform/constants';
+
+export const CODE_ERRORS = {
+  REQUIRED: 'RequiredProperty',
+  UNIQUE: 'UniqueValue',
+  NOT_INSTALLED_TRIGGER: 'notInstalledTrigger',
+  NOT_INSTALLED_ACTIVITY: 'notInstalledActivity',
+  WRONG_INPUT_JSON_FILE: 'wrongInputJSONFile'
+};
+
+export const CODE_BROKEN_RULE = {
+  NOT_UNIQUE: 'notUnique',
+  NOT_INSTALLED_TRIGGER: 'notInstalledTrigger',
+  NOT_INSTALLED_ACTIVITY: 'notInstalledActivity',
+  WRONG_INPUT_JSON_FILE: 'wrongInputJSONFile'
+};

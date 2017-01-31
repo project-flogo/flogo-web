@@ -5,6 +5,7 @@ import {FlogoModal} from '../../../common/services/modal.service';
 import {IFlogoApplicationModel} from '../../../common/application.model';
 import {RESTAPIApplicationsService} from '../../../common/services/restapi/applications-api.service';
 import { notification } from '../../../common/utils';
+import { CODE_BROKEN_RULE } from '../../../common/constants';
 
 @Component({
   selector: 'flogo-apps-list',
@@ -70,13 +71,25 @@ export class FlogoAppListComponent implements OnInit, OnChanges {
         this.onSelectApp(createdApp);
         notification(message, 'success', 3000);
       })
-      .catch((errors) => {
-        if (errors.length) {
-          let error = errors[0];
-          let message = `Error: ${error.title} `;
-          notification(message, 'error');
-        }
+      .catch((error) => {
+        notification(this.getErrorMessage(error), 'error');
       });
+  }
+
+  getErrorMessage(error) {
+    if(error[CODE_BROKEN_RULE.WRONG_INPUT_JSON_FILE]) {
+      return this.translate.instant('APP-LIST:BROKEN_RULE_WRONG_INPUT_JSON_FILE');
+    }
+
+    if(error[CODE_BROKEN_RULE.NOT_INSTALLED_ACTIVITY]) {
+      return this.translate.instant('APP-LIST:BROKEN_RULE_NOT_INSTALLED_ACTIVITY');
+    }
+
+    if(error[CODE_BROKEN_RULE.NOT_INSTALLED_TRIGGER]) {
+      return this.translate.instant('APP-LIST:BROKEN_RULE_NOT_INSTALLED_TRIGGER');
+    }
+
+    return this.translate.instant('APP-LIST:BROKEN_RULE_UNKNOWN');
   }
 
   onAdd(event) {

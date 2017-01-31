@@ -8,6 +8,7 @@ import { TriggerManager } from './../../modules/triggers/';
 import { ActivitiesManager } from './../../modules/activities/';
 import { genNodeID, flogoGenTriggerID, flogoGenTaskID, flogoIDEncode } from './../../common/utils';
 import {FLOGO_FLOW_DIAGRAM_NODE_TYPE, FLOGO_TASK_TYPE, FLOGO_TASK_ATTRIBUTE_TYPE,FLOGO_FLOW_DIAGRAM_FLOW_LINK_TYPE} from '../../common/constants';
+import { CONSTRAINTS } from '../../common/validation';
 const FLOW_NODE   = 'node';
 const FLOW_ITEM   = 'item';
 // TODO user FlowsManager
@@ -152,7 +153,8 @@ class ImportFlows {
                     title: 'Trigger is not installed',
                     detail: `Trigger: ${trigger.ref}`,
                     property: 'trigger',
-                    value: trigger
+                    value: trigger,
+                    type:  CONSTRAINTS.NOT_INSTALLED_TRIGGER
                   }
                 ]
               }});
@@ -178,7 +180,8 @@ class ImportFlows {
                       title: 'Activity is not installed',
                       detail: `Activity: ${task.activityRef}`,
                       property: 'task',
-                      value: task
+                      value: task,
+                      type: CONSTRAINTS.NOT_INSTALLED_ACTIVITY
                     }
                   ]
                 }});
@@ -291,7 +294,8 @@ class ImportFlows {
                     title: 'Wrong input json file',
                     detail: 'Cannot get ref for trigger:',
                     property: 'trigger',
-                    value: trigger
+                    value: trigger,
+                    type: CONSTRAINTS.WRONG_INPUT_JSON_FILE
                   }
                 ]
               }});
@@ -326,7 +330,8 @@ class ImportFlows {
                       title: 'Wrong input json file',
                       detail: 'Cannot get activityRef for task:',
                       property: 'task',
-                      value: task
+                      value: task,
+                      type: CONSTRAINTS.WRONG_INPUT_JSON_FILE
                     },
                   ]
                 }

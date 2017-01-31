@@ -9,6 +9,7 @@ import {IFlogoApplicationModel} from '../../../common/application.model';
 import {FlogoModal} from '../../../common/services/modal.service';
 import { RESTAPIApplicationsService } from '../../../common/services/restapi/applications-api.service';
 import { RESTAPIApplicationsServiceMock } from '../../../common/services/restapi/applications-api.service.mock';
+import { ErrorService } from '../../../common/services/error.service';
 
 describe('FlogoAppList component', () => {
   let applications = [
@@ -51,9 +52,10 @@ describe('FlogoAppList component', () => {
         useFactory: (http: Http) => new TranslateStaticLoader(http, '/base/dist/public/assets/i18n', '.json'),
         deps: [Http]
       })],
-      declarations: [FlogoAppListComponent, FlogoAppListComponent], // declare the test component
+      declarations: [FlogoAppListComponent ], // declare the test component
       providers: [
         {provide: FlogoModal, useClass: FlogoModal},
+        {provide: ErrorService, useClass: ErrorService},
         {provide: RESTAPIApplicationsService, useClass: RESTAPIApplicationsServiceMock}
       ]
     });
