@@ -8,7 +8,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
 
 // builtPaths: root paths for output ("built") files
 // get from karma.config.js, then prefix with '/base/' (default is 'app/')
-var builtPaths = (__karma__.config.builtPaths || ['app/', 'common/'])
+var builtPaths = (__karma__.config.builtPaths || ['app/', 'common/', 'i18n/' ])
   .map(function(p) { return '/base/'+p;});
 
 __karma__.loaded = function () { };

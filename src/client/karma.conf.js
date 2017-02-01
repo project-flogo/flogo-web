@@ -3,6 +3,7 @@ module.exports = function(config) {
   var appBase      = 'app/'; // component assets fetched by Angular's compiler
   var appCommon    = 'common/';      // transpiled app JS and map files
   var appAssets    = 'assets/';      // transpiled app JS and map files
+  var i18nFiles    = 'i18n/';
 
   config.set({
     basePath: '',
@@ -17,7 +18,7 @@ module.exports = function(config) {
 
 
     client: {
-      builtPaths: [appBase, appCommon, appAssets ], // add more spec base paths as needed
+      builtPaths: [appBase, appCommon, appAssets, i18nFiles ], // add more spec base paths as needed
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
 
@@ -95,8 +96,11 @@ module.exports = function(config) {
       // (these paths need to be rewritten, see proxies section)
       { pattern: appBase + '**/*.*(html|css)', included: false, watched: true },
       { pattern: appAssets + '**/*.*(png|svg)', included: false, watched: true },
+      // i18n files
+      { pattern: i18nFiles + '**/*.json', included: false, watched: true }
 
       // Paths for debugging with source maps in dev tools
+      //
       //{ pattern: appSrcBase + '**/*.ts', included: false, watched: false },
       //{ pattern: appCommon + '**/*.js.map', included: false, watched: false },
       //{ pattern: testingSrcBase + '**/*.ts', included: false, watched: false },
@@ -108,7 +112,8 @@ module.exports = function(config) {
       // required for component assets fetched by Angular's compiler
       "/app/": "/base/"+appBase,
       "/common/": "/base/common/",
-      "/assets/": "/base/assets/"
+      "/assets/": "/base/assets/",
+      "/i18n/": "/base/i18n/"
     },
 
     exclude: [

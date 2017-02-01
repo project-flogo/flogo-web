@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
 import {Router, NavigationEnd, NavigationCancel} from '@angular/router';
+import { Http } from '@angular/http';
 import {LoadingStatusService} from '../../../common/services/loading-status.service';
 
 import {Observable} from 'rxjs/Observable';
 import { TranslateService } from 'ng2-translate/ng2-translate';
+import 'rxjs/add/operator/toPromise';
 
 @Component({
   selector: 'flogo-app',
@@ -12,31 +14,16 @@ import { TranslateService } from 'ng2-translate/ng2-translate';
   styleUrls: [ 'flogo.component.css' ]
 })
 
-// @RouteConfig([
-//   {
-//     path: '/...', name: "FlogoHome", component:FlogoAppsComponent, useAsDefault: true
-//   },
-//   {
-//     path:'/flows/:id/...', name:"FlogoFlowDetail", component: FlogoCanvasComponent
-//   },
-//   {
-//     path:'/task', name: 'FlogoTask', component: FlogoFormBuilderComponent
-//   },
-//   {
-//     path:'/rest-api-test', name: 'FlogoRESTAPITest', component: RESTAPITest
-//   },
-//   // TODO
-//   //  temp config page to change server URL settings
-//   {
-//     path: '/_config', name: "FlogoDevConfig", component:FlogoConfigComponent
-//   }
-// ])
-
 export class FlogoAppComponent {
+  DEFAULT_LANGUAGE: string = 'en';
 
   public isPageLoading : Observable<boolean>;
 
-  constructor(private router : Router, private loadingStatusService : LoadingStatusService, translate: TranslateService){
+  constructor(public router : Router,
+              public loadingStatusService : LoadingStatusService,
+              public translate: TranslateService ,
+              public http: Http ){
+
     this.isPageLoading = this.loadingStatusService.status;
 
     this.router.events.subscribe((event:any):void => {
@@ -45,12 +32,25 @@ export class FlogoAppComponent {
       }
     });
 
-    var userLang = navigator.language.split('-')[0]; // use navigator lang if available
-    userLang = /(fr|en)/gi.test(userLang) ? userLang : 'en';
+    this.configureLanguage();
+  }
+
+  getUserLanguage() {
+    return navigator.language.split('-')[0];
+  }
+
+  configureLanguage() {
+    var userLang = this.getUserLanguage(); // use navigator lang if available
+    userLang = userLang || this.DEFAULT_LANGUAGE;
 
     // this language will be used as a fallback when a translation isn't found in the current language
-    translate.setDefaultLang('en');
-    // the lang to use, if the lang isn't available, it will use the current loader to get them
-    translate.use(userLang);
+    this.translate.setDefaultLang(this.DEFAULT_LANGUAGE);
+
+    // Try to load the I18N JSON file for the detected language
+    return this.http.get(`/i18n/${userLang}.json`).toPromise()
+      .then((app)=>  this.translate.use(userLang) )
+      .catch((err)=> this.translate.use(this.DEFAULT_LANGUAGE) );
+
   }
+
 }
