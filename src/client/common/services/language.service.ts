@@ -30,7 +30,6 @@ export class LanguageService {
 
 
 export class CustomTranslateLoader implements TranslateLoader {
-    DEFAULT_LANGUAGE:string = 'en';
     constructor(private http: Http) {}
 
     getLanguage(lang: string) {
@@ -39,7 +38,6 @@ export class CustomTranslateLoader implements TranslateLoader {
     }
 
     public getTranslation(lang: string): Observable<any> {
-
         return Observable.create(observer => {
             this.getLanguage(lang)
               .subscribe((res: any)=> {
