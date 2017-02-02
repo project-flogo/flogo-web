@@ -10,10 +10,8 @@ import { CopyToClipboardComponent, INFORMATION_POPUP_DIRECTIVES } from './compon
 import { TimeFromNowPipe } from './pipes';
 import { Contenteditable, JsonDownloader, AutofocusDirective, EditableInputDirective } from './directives';
 import { LoadingIndicatorComponent } from "./components/loading-indicator.component";
+import { CustomTranslateLoader } from '../common/services/language.service';
 
-export function createTranslateLoader(http: Http) {
-    return new TranslateStaticLoader(http, '/i18n', '.json');
-}
 
 const ALL_MODULE_DECLARABLES = [
   CopyToClipboardComponent,
@@ -32,7 +30,7 @@ const ALL_MODULE_DECLARABLES = [
     NgHttpModule,
     TranslateModule.forRoot({
       provide: TranslateLoader,
-      useFactory: (createTranslateLoader),
+      useClass: CustomTranslateLoader,
       deps: [Http]
     })
   ],

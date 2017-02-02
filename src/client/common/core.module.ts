@@ -12,6 +12,7 @@ import {PostService} from './services/post.service';
 import {ConfigurationLoadedGuard} from './services/configuration-loaded-guard.service';
 import {LoadingStatusService} from './services/loading-status.service';
 import {LogService} from './services/log.service';
+import { LanguageService } from './services/language.service';
 
 @NgModule({
   providers: [ // services
@@ -26,7 +27,8 @@ import {LogService} from './services/log.service';
     PostService,
     ConfigurationLoadedGuard,
     LoadingStatusService,
-    LogService
+    LogService,
+    LanguageService
   ]
 })
 export class CoreModule { }
