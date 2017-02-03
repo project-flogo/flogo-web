@@ -17,7 +17,7 @@
     "@types/d3": "^3.5.16",
     "@types/jasmine": "2.5.40",
     "@types/jquery": "2.0.39",
-    "@types/lodash": "4.14.47",
+    "@types/lodash": "ts2.0",
     "@types/node": "6.0.58",
     "@types/postal": "1.0.28",
     "@types/socket.io-client": "1.4.29",
