@@ -14,7 +14,6 @@ import { Observable } from 'rxjs/Observable';
 })
 
 export class FlogoAppComponent {
-  DEFAULT_LANGUAGE: string = 'en';
 
   public isPageLoading : Observable<boolean>;
 
