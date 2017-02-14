@@ -1,24 +1,35 @@
-<div *ngIf="errors" class="tc-notifications tc-notifications-error wrapper" style="width: 100%; min-width: 1px">
+<div *ngIf="errors" class="tc-notifications tc-notifications-error wrapper transform-error-wrapper"
+     style="width: 100%; min-width: 1px">
   <div class="tc-notifications-message">
     <div>Errors found</div>
   </div>
 
   <ul>
-    <li *ngIf="errors.invalidJson">Invalid json</li>
-    <li *ngIf="errors.notArray">Mappings should be an array</li>
+    <li *ngIf="errors.invalidJson" class="transform-error-msg">{{ 'TRANSFORM-ERROR:INVALID-JSON' | translate }}</li>
+    <li *ngIf="errors.notArray" class="transform-error-msg">{{ 'TRANSFORM-ERROR:NOT-ARRAY' | translate }}</li>
     <template [ngIf]="errors.invalidMappings">
       <ul *ngFor="let mapErrors of errors.invalidMappings.errors">
-          <li *ngIf="mapErrors.errors.notObject">Not an object</li>
-          <li *ngIf="mapErrors.errors.type?.missing">Missing or empty property "type"</li>
-          <li *ngIf="mapErrors.errors.type?.invalidValue">"{{ mapErrors.value.type }}" is not a valid value for
-            property "type"
-          </li>
-          <li *ngIf="mapErrors.errors.value?.missing">Missing or empty property "value"</li>
-          <li *ngIf="mapErrors.errors.value?.invalidValue">Cannot find "{{ mapErrors.value.value }}" to map to property "{{ mapErrors.value.mapTo }}"
-          </li>
-          <li *ngIf="mapErrors.errors.mapTo?.missing">Missing or empty property "mapTo"</li>
-          <li *ngIf="mapErrors.errors.mapTo?.invalidValue">Cannot find input named "{{ mapErrors.value.mapTo }}" to map to.
-          </li>
+        <li *ngIf="mapErrors.errors.notObject" class="transform-error-msg">{{ 'TRANSFORM-ERROR:NOT-OBJECT' |
+          translate }}
+        </li>
+        <li *ngIf="mapErrors.errors.type?.missing" class="transform-error-msg">{{ 'TRANSFORM-ERROR:TYPE-MISSING' |
+          translate }}
+        </li>
+        <li *ngIf="mapErrors.errors.type?.invalidValue" class="transform-error-msg">{{ 'TRANSFORM-ERROR:TYPE-INVALID' |
+          translate:{valueType:mapErrors.value.type} }}
+        </li>
+        <li *ngIf="mapErrors.errors.value?.missing" class="transform-error-msg">{{ 'TRANSFORM-ERROR:VALUE-MISSING' |
+          translate }}
+        </li>
+        <li *ngIf="mapErrors.errors.value?.invalidValue" class="transform-error-msg">{{ 'TRANSFORM-ERROR:VALUE-INVALID' |
+          translate:{keyValue:mapErrors.value.value, mapTo: mapErrors.value.mapTo} }}
+        </li>
+        <li *ngIf="mapErrors.errors.mapTo?.missing" class="transform-error-msg">{{ 'TRANSFORM-ERROR:MAPTO-MISSING' |
+          translate }}
+        </li>
+        <li *ngIf="mapErrors.errors.mapTo?.invalidValue" class="transform-error-msg">{{ 'TRANSFORM-ERROR:MAPTO-INVALID' |
+          translate:{mapTo:mapErrors.value.mapTo} }}
+        </li>
       </ul>
     </template>
   </ul>

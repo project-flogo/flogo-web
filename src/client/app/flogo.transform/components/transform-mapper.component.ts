@@ -12,7 +12,7 @@ export class TransformMapperComponent implements OnChanges {
 
     @Input() mappings:any = '';
     @Input() tileInputInfo:any = null;
-    @Input() precedingTilesOutputs:any[] = [];
+    @Input() precedingTilesOutputs:any = [];
     @Output() selectedItem:EventEmitter<any>;
 
     transformationJSON:string = '';

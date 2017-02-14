@@ -1,5 +1,6 @@
 
 import { Component, Input, OnChanges, EventEmitter } from '@angular/core';
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
     selector: 'flogo-transform-json-panel',
@@ -14,19 +15,19 @@ export class TransformJsonPanelComponent implements OnChanges {
     @Input() isInput: boolean = false;
     @Input() currentFieldSelected: any = {};
     isCollapsed:boolean = true;
-    currentSchema:string = '';
+    currentSchema:any = '';
 
     toggledControl:EventEmitter<any> = new EventEmitter();
 
-    constructor() {
+    constructor(private sanitizer: DomSanitizer) {
 
     }
 
     ngOnInit() {
         if(this.isInput) {
-            this.currentSchema = this.getFormattedHTMLInput(this.schema, '');
+            this.currentSchema = this.sanitizer.bypassSecurityTrustHtml(this.getFormattedHTMLInput(this.schema, ''));
         } else {
-            this.currentSchema = this.getFormattedHTMLOutput(this.schema, '','');
+            this.currentSchema = this.sanitizer.bypassSecurityTrustHtml(this.getFormattedHTMLOutput(this.schema, '',''));
         }
     }
 
@@ -40,9 +41,9 @@ export class TransformJsonPanelComponent implements OnChanges {
                     if(itemSelected.tile) {
                         itemSelected.name = '';
                     }
-                    this.currentSchema =  this.getFormattedHTMLInput(this.schema, itemSelected.name || '');
+                    this.currentSchema =  this.sanitizer.bypassSecurityTrustHtml(this.getFormattedHTMLInput(this.schema, itemSelected.name || ''));
                 }else {
-                    this.currentSchema =  this.getFormattedHTMLOutput(this.schema, itemSelected.tile || '', itemSelected.name || '');
+                    this.currentSchema =  this.sanitizer.bypassSecurityTrustHtml(this.getFormattedHTMLOutput(this.schema, itemSelected.tile || '', itemSelected.name || ''));
                 }
             }
         }
@@ -59,9 +60,9 @@ export class TransformJsonPanelComponent implements OnChanges {
 
         if(!this.isCollapsed) {
             if(this.isInput) {
-                this.currentSchema =  this.getFormattedHTMLInput(this.schema,  '');
+                this.currentSchema =  this.sanitizer.bypassSecurityTrustHtml(this.getFormattedHTMLInput(this.schema,  ''));
             }else {
-                this.currentSchema =  this.getFormattedHTMLOutput(this.schema, '', '');
+                this.currentSchema =  this.sanitizer.bypassSecurityTrustHtml(this.getFormattedHTMLOutput(this.schema, '', ''));
             }
         }
 
