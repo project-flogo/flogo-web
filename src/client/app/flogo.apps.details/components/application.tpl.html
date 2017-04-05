@@ -47,6 +47,12 @@
       </div>
       <div class="col-xs-6 col-md-5 col-lg-5">
         <div class="flogo-app-header__options">
+          <!--
+           <button [jsonDownloader]="appExporter()" class="flogo-button flogo-button--secondary">
+            <i class="flogo-icon flogo-icon-import"></i>
+            {{ 'DETAILS:IMPORT' | translate }}
+          </button>
+          -->
           <button [jsonDownloader]="appExporter()" class="flogo-button flogo-button--secondary">
             <i class="flogo-icon flogo-icon-export"></i>
             {{ 'DETAILS:EXPORT' | translate }}
@@ -75,9 +81,10 @@
     <div class="row">
       <div class="col-md-10 col-md-offset-1 col-sm-12">
         <div class="flogo-commands">
+          <flogo-flows-import [appId]="application?.id" (importSuccess)="onFlowImportSuccess($event)"
+          (importError)="onFlowImportError($event)"></flogo-flows-import>
           <flogo-flows-add [appId]="application?.id"></flogo-flows-add>
-          <!--<flogo-flows-import [appId]="application?.id" (importSuccess)="onFlowImportSuccess($event)"-->
-          <!--(importError)="onFlowImportError($event)"></flogo-flows-import>-->
+
         </div>
         <!--<div class="row">
           <div class="col-sm-3">
