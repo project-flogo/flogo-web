@@ -58,13 +58,10 @@ function _readTasks(enginePath, type, data) {
   }
 
   return Promise.all(data.map(function (taskInfo) {
-    return Promise.all([
-      readJSONFile(path.join(enginePath, TASK_SRC_ROOT, taskInfo.path, `${type}.json`)),
-      readJSONFile(path.join(enginePath, TASK_SRC_ROOT, taskInfo.path, DIR_NAME_UI, `${type}.json`))
-    ])
-    .then(schemas => Object.assign({}, taskInfo, {
-      rt: schemas[0],
-      ui: schemas[1]
-    }));
+      return readJSONFile(path.join(enginePath, TASK_SRC_ROOT, taskInfo.path, `${type}.json`))
+      .then(schema => Object.assign({}, taskInfo, {
+        rt: schema,
+        ui: schema
+      }));
   }));
 }
