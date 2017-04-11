@@ -381,7 +381,8 @@ export class BaseRegistered{
 
     // generate all the activity docs
     originalItems.forEach(item => {
-      let info = item.ui;
+      let info = item.rt;
+
       let version = info && info.version ? info.version : item.version;
       let id = BaseRegistered.generateID(item.name, version);
 
