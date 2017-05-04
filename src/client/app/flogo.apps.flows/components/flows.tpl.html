@@ -1,30 +1,33 @@
-<div *ngFor="let flow of flows; let i = index; trackBy: trackByFlowId" class="flogo-flow-wrapper" (click)="onSelect(flow)"
-     [ngStyle]="{'animation-delay': (200 * i) + 'ms' }">
+<div class="row">
+  <div *ngFor="let flow of flows; let i = index; trackBy: trackByFlowId" class="flogo-flow-card col-md-4 col-sm-12" (click)="onSelect(flow)"
+       [ngStyle]="{'animation-delay': (200 * i) + 'ms' }">
 
-  <div class="flogo-flow">
+    <div class="flogo-flow">
 
-    <h4 class="flogo-flow-title">
-      {{ flow.name }}
-    </h4>
+      <h4 class="flogo-flow-title">
+        {{ flow.name }}
+      </h4>
 
-    <p [title]="flow.description" class="flogo-flow-description">
-      {{ flow.description }}
-    </p>
+      <p class="flogo-flow-date">{{ 'FLOWS:CREATED' | translate:{value:''} }} {{ flow.createdAt | timeFromNow }}</p>
 
-    <span class="flogo-flow-date">{{ 'FLOWS:CREATED' | translate:{value:''} }} {{ flow.createdAt | date }}</span>
+      <p [title]="flow.description" class="flogo-flow-description">
+        <span *ngIf="flow.description">
+          {{ flow.description }}
+        </span>
+        <span *ngIf="!flow.description">
+          {{ 'FLOWS:NODESCRIPTION' | translate}}
+        </span>
+      </p>
 
-    <div class="flogo-flow-menu">
-      <ul class="flogo-flow-menu__options-list">
-          <li class="flogo-flow-menu__options-element" (click)="onDeleteFlow($event, flow)">
-            <i class="flogo-icon flogo-icon-delete"></i>
-            {{ 'FLOWS:OPTION-DELETE' | translate}}
-          </li>
-      </ul>
-      <i class="flogo-icon-kebabmenu flogo-flow-menu__btn"> </i>
+      <p class="flogo-flow-date">
+        <span *ngIf="flow.updatedAt">
+          {{ 'FLOWS:UPDATED' | translate:{value:''} }} {{ flow.updatedAt | timeFromNow }}
+        </span>
+        <span *ngIf="!flow.updatedAt"></span>
+      </p>
+
+
     </div>
 
-
   </div>
-
-
 </div>

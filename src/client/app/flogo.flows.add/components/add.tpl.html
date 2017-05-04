@@ -1,4 +1,5 @@
-<button class="flogo-button flogo-button--secondary js-open-modal" (click)="open()">{{ 'ADD:CREATE-NEW-FLOW' | translate }}</button>
+<button class="flogo-button--flat js-open-modal flogo-app-header__add-flow" (click)="open()">
+  <i class="flogo-icon-add"></i>{{ 'DETAILS:NEW-FLOW' | translate }}</button>
 
 <modal [size]="'sm'" #modal>
   <form novalidate [formGroup]="flow" (ngSubmit)="createFlow(flow)">

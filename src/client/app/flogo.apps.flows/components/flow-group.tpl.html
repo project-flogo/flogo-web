@@ -1,13 +1,17 @@
 <div class="row flogo-flow-group">
   <div class="col-md-10 col-md-offset-1 col-sm-11 flogo-flow-group__trigger">
-    <div class="flogo-trigger" [class.flogo-trigger--empty]="!trigger">
-      <i class="flogo-icon-trigger flogo-trigger__icon"></i>
-      <span *ngIf="trigger">{{ trigger.name }}</span>
-      <span *ngIf="!trigger">{{ 'APP-DETAIL:EMPTY-TRIGGER' | translate }}</span>
+    <div style="" class="flogo-flow-trigger__container">
+      <div class="flogo-trigger" [class.flogo-trigger--empty]="!trigger">
+        <i class="flogo-icon-trigger flogo-trigger__icon"></i>
+        <span *ngIf="trigger" class="flogo-trigger__text">{{ trigger.name }}</span>
+        <span *ngIf="!trigger">{{ 'APP-DETAIL:EMPTY-TRIGGER' | translate }}</span>
+      </div>
+      <div class="pull-right flogo-add-flow__container">
+        <button class="flogo-flow-group__add-flow flogo-button--flat" *ngIf="trigger" (click)="onAddFlow()">
+          <i class="flogo-icon-add"></i>{{ 'DETAILS:NEW-FLOW' | translate }}
+        </button>
+      </div>
     </div>
-    <button class="flogo-flow-group__add-flow flogo-button-squared" *ngIf="trigger" (click)="onAddFlow()">
-      <i class="flogo-icon-add flogo-button-squared__icon"></i>
-    </button>
   </div>
   <div class="col-md-10 col-md-offset-1  col-sm-11 flogo-flow-group__flows">
     <div class="flogo-app-content__flows">

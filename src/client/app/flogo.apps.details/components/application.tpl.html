@@ -22,7 +22,7 @@
         <div class="flogo-app-header__date-container">
           <label class="flogo-app-header__date--creation">{{ 'FLOWS:CREATED' | translate:{value:''} }}<span>{{application?.createdAt | timeFromNow}}.</span>
           </label>
-          <label *ngIf="application && application.updatedAt" class="flogo-app-header__date--update">{{ 'FLOWS:UPDATED' |
+          <label *ngIf="application && application.updatedAt" class="flogo-app-header__date--update">{{ 'FLOWS:EDITED' |
             translate:{value:''} }}<span>{{application.updatedAt | timeFromNow}}.</span> </label>
         </div>
 
@@ -43,6 +43,17 @@
           <label class="flogo-app-header__description is-editable"
                  *ngIf="!isDescriptionInEditMode && !!editableDescription"
                  (click)="onClickLabelDescription($event)">{{ editableDescription }}</label>
+        </div>
+        <div class="flogo-app-header__filter-container">
+          <div class="col-md-3 flogo-app-header__new-flow">
+            <flogo-flows-add [appId]="application?.id"></flogo-flows-add>
+            <!--<flogo-flows-import [appId]="application?.id" (importSuccess)="onFlowImportSuccess($event)"-->
+            <!--(importError)="onFlowImportError($event)"></flogo-flows-import>-->
+          </div>
+          <!--<div class="col-md-9 col-sm-12">
+            <flogo-apps-search (changedSearch)="onChangedSearch($event)"
+                               class="search"></flogo-apps-search>
+          </div>-->
         </div>
       </div>
       <div class="col-xs-6 col-md-5 col-lg-5">
@@ -89,25 +100,6 @@
 
 <div class="container">
   <div class="flogo-app-content">
-
-    <div class="row">
-      <div class="col-md-10 col-md-offset-1 col-sm-12">
-        <div class="flogo-commands">
-          <flogo-flows-add [appId]="application?.id"></flogo-flows-add>
-          <!--<flogo-flows-import [appId]="application?.id" (importSuccess)="onFlowImportSuccess($event)"-->
-          <!--(importError)="onFlowImportError($event)"></flogo-flows-import>-->
-        </div>
-        <!--<div class="row">
-          <div class="col-sm-3">
-            <span class="flogo-app-title">{{ 'DETAILS:FLOWS' | translate }}</span>
-          </div>
-          <div class="col-sm-4 col-sm-offset-5">
-            <flogo-apps-search (changedSearch)="onChangedSearch($event)"
-                               class="search"></flogo-apps-search>
-          </div>
-        </div>-->
-      </div>
-    </div>
 
     <div class="row content-empty" *ngIf="!flowGroups?.length">
       <img src="/assets/svg/flogo.flynn-placeholder.svg">

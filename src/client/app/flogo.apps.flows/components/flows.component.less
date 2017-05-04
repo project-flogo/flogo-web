@@ -3,103 +3,26 @@
 @apps__flow-border-color: #d8d8d8;
 @connector-width: 6px;
 
-.flogo-flow-wrapper {
-  cursor: pointer;
-  height: 110px;
-  position: relative;
-  z-index: 0;
-  margin-left: 48px;
-  padding-left: @tail-width;
-
-  // connector to trigger
-  &:before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: -68px;
-    left: -35px;
-    height: 122px;
-    width: 96px;
-
-    background: transparent;
-    border-style: solid;
-    border-color: @apps__flow-border-color;
-    border-width: 0 0 @connector-width @connector-width;
-    border-bottom-left-radius: 4px;
-
-    z-index: -1;
-    pointer-events: none;
-
-  }
-
-  &:first-child:before {
-    height: 80px;
-    top: -26px
-  }
-
-  // left shape (the "tail")
-  &:after {
-    background: url('/assets/img/flogo.apps.flow-tail@1x.png') 8px 0 no-repeat;
-    display: block;
-    content: "";
-    position: absolute;
-    left: 0;
-    top: -5px;
-    height: 100%;
-    overflow-x: hidden;
-    width: @tail-width;
-    z-index: 1;
-  }
-
-  &:hover {
-    &:after {
-      background-position-x: -@tail-width + 6px;
-    }
-
-    .flogo-flow {
-      border-color: #fff;
-      box-shadow: 0 0 5px 0 #79b8dc;
-    }
-
-  }
-
-}
-
 .flogo-flow {
-  height: 100px;
+  cursor: pointer;
+  min-height: 140px;
   background: #fff;
   border: 1px solid @apps__flow-border-color;
-  border-left: none;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
   padding: 16px 18px;
-  position: relative;
-  transform: translateX(-1px);
+  margin-top: 1em;
+  color: #676a6d;
 
-  // small square to make a sharp cut in the shadow and make it match
-  // with the left image shadow
-  &:before {
-    display: block;
-    content: "";
-    position: absolute;
-    background: @color-bg;
-    left: -1px;
-    top: -5px;
-    height: calc(100% + 10px);
-    width: 1px;
+
+  &:hover {
+    border-color: #fff;
+    box-shadow: 0 0 5px 0 #79b8dc;
   }
-
 }
 
 .flogo-flow-title {
   display: block;
   margin: 0 0 6px;
-  // leave space for menu icon at the right
-  padding: 0 25px 0 0;
-  width: 100%;
-
-  font-size: 1em;
   font-weight: bold;
   line-height: 1.25;
 
@@ -111,12 +34,11 @@
 }
 
 .flogo-flow-description {
-  display: block;
-  font-size: 0.875em;
-  margin: 0 0 10px;
-  min-height: 1em;
+  height: 30px;
+  line-height: 1.25;
+  font-size: 0.75em;
+  margin: 12px 0 0;
   padding: 0;
-  width: 100%;
 
   overflow: hidden;
   text-overflow: ellipsis;
@@ -124,10 +46,11 @@
 }
 
 .flogo-flow-date {
-  display: block;
-  text-align: right;
-  font-style: italic;
-  font-size: 0.625em;
+  font-size: 0.75em;
+  min-height: 15px;
+  opacity: 0.54;
+  line-height: 1.25;
+  margin: 12px 0 0;
 }
 
 

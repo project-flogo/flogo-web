@@ -752,6 +752,30 @@ label {
   }
 }
 
+.flogo-button--flat {
+  height: @size-height-button;
+  text-align: center;
+  color: @color-secondary;
+  background: white;
+  border: none;
+
+  &:hover {
+    border-radius: 4px;
+    background-color: rgba(121, 184, 220, 0.2);
+  }
+
+  &:active {
+    border-radius: 4px;
+    background-color: @color-secondary;
+    color: white;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    color: @color-disabled;
+  }
+}
+
 .flogo-button--accent{
   height: @size-height-button;
   color: @color-accent;
