@@ -58,8 +58,7 @@
       </div>
       <div class="col-xs-6 col-md-5 col-lg-5">
         <div class="flogo-app-header__options">
-          <button [jsonDownloader]="appExporter()" class="flogo-button flogo-button--secondary">
-            <i class="flogo-icon flogo-icon-export"></i>
+          <button [jsonDownloader]="appExporter()" class="flogo-button flogo-button--secondary flogo-app-detail--export">
             {{ 'DETAILS:EXPORT' | translate }}
           </button>
           <div (fgClickOutside)="closeBuildBox()">
