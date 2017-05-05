@@ -1,11 +1,13 @@
-<label class="flogo-flows-import-label" (click)="selectFile($event)">
-  <span class="flogo-common-flows-new-flow__text"><i class="flogo-icon flogo-icon-import"></i>{{ 'IMPORT-FLOW:IMPORT-FLOW' | translate }}</span>
+<div>
   <input class="flogo-flows-import-input-file" type="file" accept="application/json" hidden
-         (change)="onFileChange($event)" name="importFile">
-</label>
+       (change)="onFileChange($event)" name="importFile">
+  <button class="flogo-button flogo-button--secondary js-open-modal" (click)="selectFile($event)">{{ 'IMPORT-FLOW:IMPORT-FLOW' | translate }}</button>
 
-<flogo-flows-flow-name class="flogo-flows-container-new__option"
+  <flogo-flows-flow-name class="flogo-flows-container-new__option"
                        [show]="showFileNameDialog"
                        (correctName)="onCorrectName($event)"
                        (close)="onClose($event)"
                        [repeatedName]="repeatedName"></flogo-flows-flow-name>
+</div>
+
+
