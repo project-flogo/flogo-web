@@ -23,9 +23,11 @@
 }
 
 .flogo-flow-trigger__container {
-  background: url('../../../assets/img/line.background.png') repeat-x center;
+  background: linear-gradient(180deg,
+              rgba(0, 0, 0, 0) calc(50% - 4px),
+              rgba(216, 216, 216,1) calc(50%),
+              rgba(0, 0, 0, 0) calc(50% + 4px));
   height: 35px;
-  background-size: contain;
 }
 
 .flogo-add-flow__container {
@@ -105,5 +107,13 @@
     display: none;
   }
 
+}
+
+.flogo-trigger__voidspace {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: 5px;
+  background: @color-bg;
 }
 

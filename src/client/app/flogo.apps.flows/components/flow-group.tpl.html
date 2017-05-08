@@ -6,6 +6,7 @@
         <span *ngIf="trigger" class="flogo-trigger__text">{{ trigger.name }}</span>
         <span *ngIf="!trigger">{{ 'APP-DETAIL:EMPTY-TRIGGER' | translate }}</span>
       </div>
+      <div *ngIf="!trigger" class="flogo-trigger__voidspace"></div>
       <div class="pull-right flogo-add-flow__container">
         <button class="flogo-flow-group__add-flow flogo-button--flat" *ngIf="trigger" (click)="onAddFlow()">
           <i class="flogo-icon-add"></i>{{ 'DETAILS:NEW-FLOW' | translate }}
