@@ -26,6 +26,15 @@
         <span *ngIf="!flow.updatedAt"></span>
       </p>
 
+      <div class="flogo-flow-menu">
+        <ul class="flogo-flow-menu__options-list">
+          <li class="flogo-flow-menu__options-element" (click)="onDeleteFlow($event, flow)">
+            <i class="flogo-icon flogo-icon-delete"></i>
+            {{ 'FLOWS:OPTION-DELETE' | translate}}
+          </li>
+        </ul>
+        <i class="flogo-icon-kebabmenu flogo-flow-menu__btn"> </i>
+      </div>
 
     </div>
 
