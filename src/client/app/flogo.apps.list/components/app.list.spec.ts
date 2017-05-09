@@ -5,12 +5,12 @@ import {TranslateModule, TranslateLoader, TranslateStaticLoader} from 'ng2-trans
 import {Http} from '@angular/http';
 
 import {FlogoAppListComponent} from './app.list.component';
-import {FlogoAppDeletePopoverComponent} from './delete.popover.component';
 import { ErrorService } from '../../../common/services/error.service';
 import {AppsApiService} from "../../../common/services/restapi/v2/apps-api.service";
 import {AppsApiServiceMock} from "../../../common/services/restapi/v2/apps-api.service.mock";
 import {TimeFromNowPipe} from "../../../common/pipes/time-from-now.pipe";
 import {HttpUtilsService} from "../../../common/services/restapi/http-utils.service";
+import {FlogoDeletePopupComponent} from "../../../common/components/delete.popup.component";
 
 describe('FlogoAppList component', () => {
   let applications = [
@@ -53,7 +53,7 @@ describe('FlogoAppList component', () => {
         useFactory: (http: Http) => new TranslateStaticLoader(http, '/base/dist/public/assets/i18n', '.json'),
         deps: [Http]
       })],
-      declarations: [FlogoAppListComponent, FlogoAppDeletePopoverComponent, TimeFromNowPipe], // declare the test component
+      declarations: [FlogoAppListComponent, FlogoDeletePopupComponent, TimeFromNowPipe], // declare the test component
       providers: [
         HttpUtilsService,
         {provide: ErrorService, useClass: ErrorService},

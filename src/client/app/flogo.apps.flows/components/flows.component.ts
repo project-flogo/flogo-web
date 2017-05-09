@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef} from '@angular/core';
 import {TranslateService} from 'ng2-translate/ng2-translate';
 import { FlogoModal } from '../../../common/services/modal.service';
 import {IFlogoApplicationFlowModel as FlowModel} from '../../../common/application.model';
@@ -28,17 +28,13 @@ export class FlogoApplicationFlowsComponent implements OnChanges{
     return flow ? flow.id : null;
   }
 
-  onSelect(flow: FlowModel) {
-    this.flowSelected.emit(flow);
+  onSelect(event: Event, removeBox: ElementRef, flow: FlowModel) {
+    if (!(event.target === removeBox.nativeElement || removeBox.nativeElement.contains(event.target))) {
+      this.flowSelected.emit(flow);
+    }
   }
 
-  onDeleteFlow(event: Event, flow: FlowModel) {
-    event.stopPropagation();
-    let message = this.translate.instant('FLOWS:CONFIRM_DELETE', {flowName: flow.name});
-    this.flogoModal.confirmDelete(message).then((res) => {
-      if (res) {
-        this.deleteFlow.emit(flow);
-      }
-    });
+  onDeleteFlow(flow: FlowModel) {
+    this.deleteFlow.emit(flow);
   }
 }

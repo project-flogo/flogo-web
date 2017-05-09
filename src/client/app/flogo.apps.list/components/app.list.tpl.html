@@ -23,9 +23,9 @@
             <p>{{ app.description ? app.description : '&nbsp;'}}</p>
           </div>
           <div class="col-md-1">
-            <flogo-app-delete-popover #deleteBox class="apps-list__delete-btn" (confirmDel)="remove($event)"
-                                      [app]="app">
-            </flogo-app-delete-popover>
+            <flogo-delete-popover #deleteBox class="apps-list__delete-btn" (confirmDel)="remove($event)"
+                                      [deleteContent]="app" [deleteContentType]="'application'">
+            </flogo-delete-popover>
           </div>
         </div>
         <div class="row">

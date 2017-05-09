@@ -7,6 +7,7 @@ import {Http} from '@angular/http';
 import {FlogoApplicationFlowsComponent} from './flows.component';
 import { FlogoModal } from '../../../common/services/modal.service';
 import {TimeFromNowPipe} from "../../../common/pipes/time-from-now.pipe";
+import {FlogoDeletePopupComponent} from "../../../common/components/delete.popup.component";
 
 @Component({
   selector: 'container',
@@ -92,7 +93,7 @@ describe('Application flows', () => {
         useFactory: (http: Http) => new TranslateStaticLoader(http, '/base/dist/public/assets/i18n', '.json'),
         deps: [Http]
       })],
-      declarations: [ FlogoApplicationFlowsComponent, ModalComponent, Container, TimeFromNowPipe ], // declare the test component
+      declarations: [ FlogoApplicationFlowsComponent, ModalComponent, Container, TimeFromNowPipe, FlogoDeletePopupComponent ], // declare the test component
       providers: [FlogoModal]
     });
   });

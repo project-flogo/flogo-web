@@ -1,6 +1,6 @@
 <div class="row">
-  <div *ngFor="let flow of flows; let i = index; trackBy: trackByFlowId" class="flogo-flow-card col-md-4 col-sm-12" (click)="onSelect(flow)"
-       [ngStyle]="{'animation-delay': (200 * i) + 'ms' }">
+  <div *ngFor="let flow of flows; let i = index; trackBy: trackByFlowId" class="flogo-flow-card col-md-4 col-sm-12"
+       (click)="onSelect($event, deleteBox, flow)" [ngStyle]="{'animation-delay': (200 * i) + 'ms' }">
 
     <div class="flogo-flow">
 
@@ -27,13 +27,9 @@
       </p>
 
       <div class="flogo-flow-menu">
-        <ul class="flogo-flow-menu__options-list">
-          <li class="flogo-flow-menu__options-element" (click)="onDeleteFlow($event, flow)">
-            <i class="flogo-icon flogo-icon-delete"></i>
-            {{ 'FLOWS:OPTION-DELETE' | translate}}
-          </li>
-        </ul>
-        <i class="flogo-icon-kebabmenu flogo-flow-menu__btn"> </i>
+        <flogo-delete-popover #deleteBox class="flogo-flow-menu__delete-btn" (confirmDel)="onDeleteFlow($event)"
+                                  [deleteContent]="flow" [deleteContentType]="'flow'">
+        </flogo-delete-popover>
       </div>
 
     </div>

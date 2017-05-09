@@ -12,6 +12,7 @@ import { Contenteditable, JsonDownloader, AutofocusDirective, EditableInputDirec
 import { LoadingIndicatorComponent } from "./components/loading-indicator.component";
 import { CustomTranslateLoader } from './services/language.service';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import {FlogoDeletePopupComponent} from "./components/delete.popup.component";
 
 
 const ALL_MODULE_DECLARABLES = [
@@ -25,6 +26,7 @@ const ALL_MODULE_DECLARABLES = [
   EditableInputDirective,
   TimeFromNowPipe,
   ClickOutsideDirective,
+  FlogoDeletePopupComponent
 ];
 
 @NgModule({ // module dependencies

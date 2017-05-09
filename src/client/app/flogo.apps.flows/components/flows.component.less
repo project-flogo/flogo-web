@@ -3,6 +3,11 @@
 @apps__flow-border-color: #d8d8d8;
 @connector-width: 6px;
 
+:host /deep/ .popup-container {
+  top: 25px !important;
+  left: -320px !important
+}
+
 .flogo-flow {
   cursor: pointer;
   min-height: 140px;
@@ -17,6 +22,11 @@
   &:hover {
     border-color: #fff;
     box-shadow: 0 0 5px 0 #79b8dc;
+
+    .flogo-flow-menu__delete-btn {
+      visibility: visible;
+    }
+
   }
 }
 
@@ -59,52 +69,9 @@
   top: 30px;
   right: 30px;
 
-  &:hover {
-    .flogo-flow-menu__btn {
-      color: #79b8dc;
-    }
-
-    .flogo-flow-menu__options-list {
-      transform: scale(1, 1);
-    }
-  }
-
-}
-
-.flogo-flow-menu__btn {
-  cursor: initial;
-}
-
-.flogo-flow-menu__options-list {
-  background-color: #ffffff;
-  border-radius: 2px;
-  border: 1px solid #727272;
-  box-shadow: 0 2px 4px 0 rgba(199, 199, 199, 0.5);
-  position: absolute;
-  top: 7px;
-  right: 7px;
-  width: 129px;
-  z-index: 1;
-  transform: scale(0, 0);
-  transform-origin: top right;
-  transition: all 250ms ease-in;
-
-  list-style: none;
-  font-size: .875em;
-  margin: 0;
-  padding: 0;
-
-  &:hover {
-    ~ .flogo-flow-menu__btn {
-      color: #79b8dc;
-    }
-  }
-}
-
-.flogo-flow-menu__options-element {
-  padding: 3px 0 5px 20px;
-  &:hover{
-    color: @color-secondary;
+  .flogo-flow-menu__delete-btn {
+    visibility: hidden;
+    cursor: pointer;
   }
 }
 

@@ -24,6 +24,7 @@
   "APP-DETAIL:ERROR-UNIQUE-NAME": "There's already an application with that name",
   "APP-DETAIL:CONFIRM_DELETE": "Are you sure you want to delete the application \"{{appName}}\"?",
   "APP-DETAIL:EMPTY-TRIGGER": "No trigger",
+  "APP-DETAIL-POPUP:CONFIRM-MESSAGE-DELETE":"Delete flow?",
   "CANVAS:ADD-FLOW-DESCRIPTION": "Add flow's description",
   "CANVAS:COPIED-TRIGGER": "Successfully copied",
   "CANVAS:ARM-LINUX": "ARM/Linux",
