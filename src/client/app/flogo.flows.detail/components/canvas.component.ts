@@ -1442,26 +1442,26 @@ export class FlogoCanvasComponent implements OnInit {
 
         taskID = flogoIDEncode('' + taskID);
         runTasksIDs.push(taskID);
-        let reAttrName = new RegExp(`^\\[A${step.taskId}\\..*`, 'g');
-        let reAttrErrMsg = new RegExp(`^\\[A${step.taskId}\\._errorMsg\\]$`, 'g');
+        let reAttrName = new RegExp(`^\{A${step.taskId}\\..*`, 'g');
+        let reAttrErrMsg = new RegExp(`^\{Error.message}`, 'g');
 
         let taskInfo = _.reduce(_.get(step, 'flow.attributes', []), (taskInfo: any, attr: any) => {
           if (reAttrName.test(_.get(attr, 'name', ''))) {
             taskInfo[attr.name] = attr;
+          }
 
-            if (reAttrErrMsg.test(attr.name)) {
-              let errs = <any[]>_.get(errors, `${taskID}`);
-              let shouldOverride = _.isUndefined(errs);
-              errs = errs || [];
+          if (reAttrErrMsg.test(attr.name)) {
+            let errs = <any[]>_.get(errors, `${taskID}`);
+            let shouldOverride = _.isUndefined(errs);
+            errs = errs || [];
 
-              errs.push({
-                msg: attr.value,
-                time: new Date().toJSON()
-              });
+            errs.push({
+              msg: attr.value,
+              time: new Date().toJSON()
+            });
 
-              if (shouldOverride) {
-                _.set(errors, `${taskID}`, errs);
-              }
+            if (shouldOverride) {
+              _.set(errors, `${taskID}`, errs);
             }
           }
           return taskInfo;
