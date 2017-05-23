@@ -1,3 +1,4 @@
+import { config } from '../../../config/app-config';
 import { runShellCMD, parseJSON } from '../../../common/utils';
 import { logger } from '../../../common/logging';
 import { build } from './build';
@@ -81,5 +82,5 @@ function uninstall(enginePath, contribNameOrPath) {
 
 function _exec(enginePath, params) {
   logger.info(`Exec command: flogo ${params && params.join(' ')} in ${enginePath}`);
-  return runShellCMD('flogo', params, { cwd: enginePath });
+  return runShellCMD(config.cli, params, { cwd: enginePath });
 }

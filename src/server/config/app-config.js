@@ -35,6 +35,7 @@ const defaultEngine = `${enginesPath}/${defaultEngineName}`;
 
 let config = {
   db: 'http://localhost:5984/flogo-web',
+  cli: process.env.FLOGO_CLI || "flogo",
   rootPath: rootPath,
   publicPath: publicPath,
   logLevel,
