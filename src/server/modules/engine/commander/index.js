@@ -81,6 +81,6 @@ function uninstall(enginePath, contribNameOrPath) {
 }
 
 function _exec(enginePath, params) {
-  logger.info(`Exec command: flogo ${params && params.join(' ')} in ${enginePath}`);
+  logger.info(`Exec command: ${config.cli} ${params && params.join(' ')} in ${enginePath}`);
   return runShellCMD(config.cli, params, { cwd: enginePath });
 }

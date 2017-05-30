@@ -60,7 +60,7 @@ export function initEngine(engine, options) {
               return Promise.resolve(true);
             }
             // TODO: add palette version
-            let palettePath = path.resolve('config', config.defaultEngine.defaultPalette);
+            let palettePath = path.join(config.rootPath, 'config/' + config.defaultEngine.defaultPalette);
             logger.info(`Will install palette at ${palettePath}`);
             return engine.installPalette(palettePath);
           })
