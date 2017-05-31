@@ -28,15 +28,14 @@ console.log("publicPath: ", publicPath);
 
 let appPort = process.env.PORT || 3303;
 
-const cliName = process.env.FLOGO_CLI;
 const enginesPath = 'local/engines';
 const enginesRoot = path.join(rootPath, enginesPath);
-const defaultEngineName = cliName + '-web';
+const defaultEngineName = process.env.ENGINE_NAME || 'flogo-web';
 const defaultEngine = `${enginesPath}/${defaultEngineName}`;
 
 let config = {
   db: 'http://localhost:5984/flogo-web',
-  cli: cliName || "flogo",
+  cli: process.env.FLOGO_CLI || "flogo",
   rootPath: rootPath,
   publicPath: publicPath,
   logLevel,
