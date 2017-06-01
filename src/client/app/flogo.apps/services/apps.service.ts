@@ -60,6 +60,10 @@ export class AppDetailService {
     return this.currentApp$.asObservable();
   }
 
+  public resetApp() {
+    this.currentApp$.next(null);
+  }
+
   public load(appId: string) {
     this.fetchApp(appId).then(app => {
       this.currentApp$.next(<ApplicationDetail>_.defaultsDeep({}, {

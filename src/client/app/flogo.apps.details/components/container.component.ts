@@ -9,6 +9,7 @@ import { AppDetailService, ApplicationDetail } from '../../flogo.apps/services/a
 
 import 'rxjs/add/operator/map';
 import {FlowsService} from "../../../common/services/flows.service";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'flogo-app-container',
@@ -19,6 +20,7 @@ import {FlowsService} from "../../../common/services/flows.service";
 export class FlogoApplicationContainerComponent implements OnInit, OnDestroy {
   public appDetail: ApplicationDetail = null;
   private subscriptions: any;
+  private appObserverSubscription: Subscription;
 
   constructor(
     public translate: TranslateService,
@@ -38,7 +40,7 @@ export class FlogoApplicationContainerComponent implements OnInit, OnDestroy {
         this.appService.load(appId);
       });
 
-    this.appService.currentApp()
+    this.appObserverSubscription = this.appService.currentApp()
       .subscribe((appDetail: ApplicationDetail) => {
         if (!appDetail) {
           // not initialized yet
@@ -54,6 +56,10 @@ export class FlogoApplicationContainerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
+    // Unsubscribe the subscription on currentApp's observable object created in this instance of container component
+    this.appObserverSubscription.unsubscribe();
+    // Reset currentApp$ next element to null
+    this.appService.resetApp();
     // cancel subscriptions
     _.each(this.subscriptions, sub => {
         this.postService.unsubscribe(sub);
