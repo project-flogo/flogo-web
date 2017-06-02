@@ -53,7 +53,8 @@ module.exports = {
     activity: uninstall,
   },
   list(enginePath) {
-    return _exec(enginePath, ['list', '-json'])
+    var listParameter = config.cli === "flogo" ? "-json" : "triggers";
+    return _exec(enginePath, ['list', listParameter])
       .then(output => parseJSON(output));
   },
 };
