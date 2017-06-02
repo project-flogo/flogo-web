@@ -56,11 +56,11 @@ export function initEngine(engine, options) {
           .then(() => {
             logger.info('New engine created');
             // when vendor provided it's not needed to install a palette
-            if(vendor) {
+            if(vendor || options.isIgnoreInstallPalette) {
               return Promise.resolve(true);
             }
             // TODO: add palette version
-            let palettePath = path.resolve('config', config.defaultEngine.defaultPalette);
+            let palettePath = path.join(config.rootPath, 'config/' + config.defaultEngine.defaultPalette);
             logger.info(`Will install palette at ${palettePath}`);
             return engine.installPalette(palettePath);
           })

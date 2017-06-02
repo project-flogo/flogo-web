@@ -9,7 +9,7 @@ import {config} from '../../config/app-config';
 
 module.exports = {
   start(enginePath, engineName, options) {
-    options = Object.assign({}, { binDir: 'bin' }, options);
+    options = Object.assign({}, options, { binDir: 'bin' });
 
     console.log( `[info] starting engine ${engineName}` );
 

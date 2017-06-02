@@ -30,17 +30,18 @@ let appPort = process.env.PORT || 3303;
 
 const enginesPath = 'local/engines';
 const enginesRoot = path.join(rootPath, enginesPath);
-const defaultEngineName = 'flogo-web';
+const defaultEngineName = process.env.ENGINE_NAME || 'flogo-web';
 const defaultEngine = `${enginesPath}/${defaultEngineName}`;
 
 let config = {
   db: 'http://localhost:5984/flogo-web',
+  cli: process.env.FLOGO_CLI || "flogo",
   rootPath: rootPath,
   publicPath: publicPath,
   logLevel,
   localPath: LOCAL_DIR,
   defaultAppJsonPath: path.join(rootPath, 'config/sample-app.json'),
-  defaultFlogoDescriptorPath: process.env.FLOGO_WEB_DEFAULT_DESCRIPTOR || path.join(rootPath, 'config/default-flogo.json'),
+  defaultFlogoDescriptorPath: process.env.hasOwnProperty('FLOGO_WEB_DEFAULT_DESCRIPTOR') ? process.env.FLOGO_WEB_DEFAULT_DESCRIPTOR : path.join(rootPath, 'config/default-flogo.json'),
   libVersion: process.env.FLOGO_LIB_VERSION || process.env.FLOGO_WEB_LIB_VERSION,
   app: {
     basePath: '/v1/api',

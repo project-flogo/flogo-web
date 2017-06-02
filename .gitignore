@@ -79,3 +79,4 @@ contrib/
 submodules/
 Dockerfile
 docker-start.sh
+src/flogo

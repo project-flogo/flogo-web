@@ -1,3 +1,4 @@
+import { config } from '../../../config/app-config';
 import {runShellCMD, copyFile, changePermissions, findMostRecentFile} from '../../../common/utils';
 var path = require('path');
 
@@ -26,12 +27,12 @@ export function build(enginePath, opts) {
   const args = _getCommandArgs(opts);
   const env = _getEnv(opts);
 
-  console.log(`[log] Build flogo: "flogo build ${args}" compileOpts:`);
+  console.log(`[log] Build flogo: "${config.cli} build ${args}" compileOpts:`);
 
   const copyFlogoDescriptor = opts.copyFlogoDescriptor;
   delete opts.copyFlogoDescriptor;
 
-  return runShellCMD('flogo', ['build'].concat(args), {
+  return runShellCMD(config.cli, ['build'].concat(args), {
     cwd: defaultEnginePath,
     env: Object.assign({}, process.env, env),
   })

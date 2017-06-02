@@ -1,3 +1,4 @@
+import { config } from '../../../config/app-config';
 import { runShellCMD, parseJSON } from '../../../common/utils';
 import { logger } from '../../../common/logging';
 import { build } from './build';
@@ -52,7 +53,8 @@ module.exports = {
     activity: uninstall,
   },
   list(enginePath) {
-    return _exec(enginePath, ['list', '-json'])
+    var listParameter = config.cli === "flogo" ? "-json" : "triggers";
+    return _exec(enginePath, ['list', listParameter])
       .then(output => parseJSON(output));
   },
 };
@@ -80,6 +82,6 @@ function uninstall(enginePath, contribNameOrPath) {
 }
 
 function _exec(enginePath, params) {
-  logger.info(`Exec command: flogo ${params && params.join(' ')} in ${enginePath}`);
-  return runShellCMD('flogo', params, { cwd: enginePath });
+  logger.info(`Exec command: ${config.cli} ${params && params.join(' ')} in ${enginePath}`);
+  return runShellCMD(config.cli, params, { cwd: enginePath });
 }
