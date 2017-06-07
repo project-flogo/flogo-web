@@ -34,6 +34,10 @@ import { FlogoModal } from '../../../common/services/modal.service';
 import { HandlerInfo } from '../models/models';
 import { FlogoFlowService as FlowsService } from '../services/flow.service';
 
+interface IPropsToUpdateFormBuilder {
+  name: string;
+}
+
 @Component({
   selector: 'flogo-canvas',
   // moduleId: module.id,
@@ -834,8 +838,19 @@ export class FlogoCanvasComponent implements OnInit {
       }
       let updateObject = {};
 
+      let propsToUpdateFormBuilder: IPropsToUpdateFormBuilder = <IPropsToUpdateFormBuilder> {};
+
+      propsToUpdateFormBuilder.name = task.name;
+
       this._updateFlow(this.flow).then(() => {
         this._postService.publish(FLOGO_DIAGRAM_PUB_EVENTS.render);
+        this._postService.publish(
+          _.assign(
+            {}, FLOGO_TASK_PUB_EVENTS.updatePropertiesToFormBuilder, {
+              data: propsToUpdateFormBuilder
+            }
+          )
+        );
       });
 
       if(task.type === FLOGO_TASK_TYPE.TASK_ROOT) {

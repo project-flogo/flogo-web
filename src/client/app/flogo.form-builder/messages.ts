@@ -29,8 +29,8 @@ export const PUB_EVENTS = {
  * Events subscribed by this module
  */
 export const SUB_EVENTS = {
-  updateTaskResults: {
+  updatePropertiesToFormBuilder: {
     channel: 'flogo-task',
-    topic: 'update-task-results'
+    topic: 'update-properties-form-builder'
   }
 };

@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { PostService} from '../../../common/services/post.service';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { PUB_EVENTS } from '../messages';
+import { PUB_EVENTS, SUB_EVENTS } from '../messages';
 import { FLOGO_ERROR_ROOT_NAME } from '../../../common/constants';
 import { convertTaskID, normalizeTaskName, getDefaultValue } from "../../../common/utils";
 import { TranslateService } from 'ng2-translate/ng2-translate';
@@ -54,10 +54,11 @@ export class FlogoFormBuilderComponent{
 
   private _initSubscribe() {
     this._subscriptions = [];
-    //let subs :any[] = [];
+    let subs = [
+      _.assign({}, SUB_EVENTS.updatePropertiesToFormBuilder, {callback: this._updatePropertiesToFormBuilder.bind(this)})
+    ];
 
-    _.each(
-      (subs:any, sub:any) => {
+    _.each(subs, (sub:any) => {
         this._subscriptions.push( this._postService.subscribe( sub ) );
       }
     );
@@ -569,5 +570,9 @@ export class FlogoFormBuilderComponent{
         }
       } );
     return condition;
+  }
+
+  _updatePropertiesToFormBuilder(data: any, envelope: any) {
+    this._task.name = data.name;
   }
 }
