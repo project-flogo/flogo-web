@@ -4,6 +4,7 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { TranslateService } from 'ng2-translate/ng2-translate';
 
 import { PostService } from '../../../common/services/post.service';
+import { SanitizeService } from '../../../common/services/sanitize.service';
 import { APIFlowsService } from '../../../common/services/restapi/v2/flows-api.service';
 import { PUB_EVENTS } from '../message';
 import { UniqueNameValidator } from '../validators/unique-name.validator';
@@ -26,7 +27,8 @@ export class FlogoFlowsAddComponent implements OnChanges {
   constructor(public translate: TranslateService,
     private postService: PostService,
     private flowsService: APIFlowsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private sanitizer: SanitizeService
   ) {
     this.resetForm();
   }
@@ -48,6 +50,9 @@ export class FlogoFlowsAddComponent implements OnChanges {
     if (this.triggerId) {
       value['triggerId'] = this.triggerId;
     }
+    value.name =  this.sanitizer.sanitizeHTMLInput(value.name);
+    value.description = this.sanitizer.sanitizeHTMLInput(value.description);
+
     this.postService.publish(_.assign({}, PUB_EVENTS.addFlow, {data: value}));
     this.closeAddFlowModal();
   }

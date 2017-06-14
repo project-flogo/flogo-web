@@ -7,6 +7,7 @@ import {
   FlowGroup, App
 } from '../../flogo.apps/services/apps.service';
 import { FlogoFlowsAddComponent } from '../../flogo.flows.add/components/add.component';
+import { SanitizeService } from '../../../common/services/sanitize.service';
 
 import { diffDates, notification } from '../../../common/utils';
 import { FlogoModal } from '../../../common/services/modal.service';
@@ -49,7 +50,8 @@ export class FlogoApplicationComponent implements OnChanges, OnInit {
 
   constructor(public translate: TranslateService,
               private appDetailService: AppDetailService,
-              public flogoModal: FlogoModal) {
+              public flogoModal: FlogoModal,
+              private sanitizer: SanitizeService) {
   }
 
   ngOnInit() {
@@ -106,6 +108,7 @@ export class FlogoApplicationComponent implements OnChanges, OnInit {
     if (!editableName) {
       return;
     }
+    editableName =  this.sanitizer.sanitizeHTMLInput(editableName);
     this.isNameInEditMode = false;
     this.appDetailService.update('name', editableName);
   }
@@ -118,6 +121,7 @@ export class FlogoApplicationComponent implements OnChanges, OnInit {
 
   onDescriptionSave() {
     this.isDescriptionInEditMode = false;
+    this.editableDescription = this.sanitizer.sanitizeHTMLInput(this.editableDescription);
     this.appDetailService.update('description', this.editableDescription);
   }
 
@@ -220,5 +224,4 @@ export class FlogoApplicationComponent implements OnChanges, OnInit {
   private extractFlows() {
     return _.clone(this.application.flows || []);
   }
-
 }

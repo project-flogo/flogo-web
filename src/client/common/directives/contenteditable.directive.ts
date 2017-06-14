@@ -1,4 +1,5 @@
 import {Directive, ElementRef, Input, Output, EventEmitter, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {SanitizeService} from '../../common/services/sanitize.service';
 
 @Directive({
     selector: '[myContenteditable]',
@@ -23,15 +24,16 @@ export class Contenteditable implements OnInit, OnChanges {
     @Output()
         myContenteditableChange = new EventEmitter();
 
-    constructor(private el: ElementRef ) {
+    constructor(private el: ElementRef, private sanitizer: SanitizeService) {
         this._el = el.nativeElement;
         this.$el = jQuery(this._el);
     }
 
     ngOnChanges( changes : { [key : string] : SimpleChange } )  {
             if(_.has(changes, 'myContenteditable')) {
-                if(changes['myContenteditable'].currentValue ) {
-                    this.$el.html(changes['myContenteditable'].currentValue);
+              const input = changes['myContenteditable'].currentValue;
+                if(input) {
+                  this.el.nativeElement.innerHTML = input;
                 }
             }
     }
@@ -90,7 +92,7 @@ export class Contenteditable implements OnInit, OnChanges {
             if(this.$el.text() === '' && this.myContenteditable === undefined) {
                 // omit
             } else if(this.$el.text() !== this.myContenteditable) {
-                this.myContenteditableChange.emit(this.$el.text());
+                this.myContenteditableChange.emit(this.sanitizer.sanitizeHTMLInput(this.$el.text()));
             }
             this._initPlaceholder();
         } else {

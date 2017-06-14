@@ -14,6 +14,7 @@ import { HttpUtilsService } from './services/restapi/http-utils.service';
 import {FlogoModal} from './services/modal.service';
 import {ConfigurationService} from './services/configuration.service';
 import {PostService} from './services/post.service';
+import {SanitizeService} from './services/sanitize.service';
 import {ConfigurationLoadedGuard} from './services/configuration-loaded-guard.service';
 import {LoadingStatusService} from './services/loading-status.service';
 import { LanguageService } from './services/language.service';
@@ -42,6 +43,7 @@ import {FlowsService} from "./services/flows.service";
     FlogoModal,
     ConfigurationService,
     PostService,
+    SanitizeService,
     ConfigurationLoadedGuard,
     LoadingStatusService,
     LanguageService,
