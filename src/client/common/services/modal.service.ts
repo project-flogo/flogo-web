@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import { TranslateService } from 'ng2-translate/ng2-translate';
+import * as lodash from 'lodash';
 
 export interface IOptions {
   primary?: string
@@ -24,11 +25,12 @@ export class FlogoModal {
         for(let attr in styles) {
             style += `${attr}: ${styles[attr]};`
         }
+        const textMessage = lodash.escape(message);
         jQuery('flogo-app').append(`
             <div class="flogo-common-service-modal-container fade">
                 <div class="flogo-common-service-modal-detail fade clearfix" style="${style}">
                     <div class="flogo-common-service-modal-confirm">${title}</div>
-                    <div class="flogo-common-service-modal-message">${message}</div>
+                    <div class="flogo-common-service-modal-message">${textMessage}</div>
                     <button class="flogo-common-service-modal-button flogo-button--default">${buttons.primary}</button>
                     <button class="flogo-common-service-modal-button flogo-button--secondary">${buttons.secondary}</button>
                 </div>

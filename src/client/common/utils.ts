@@ -15,6 +15,7 @@ import {
 //Refactoring data. Extracting functions related with branch creation in a different file.
 export * from '../app/flogo.flows.detail.diagram/utils';
 
+
 // URL safe base64 encoding
 // reference: https://gist.github.com/jhurliman/1250118
 export function flogoIDEncode( id : string ) : string {
@@ -526,6 +527,7 @@ export function diffDates(beginDate:any, endDate:any, timeUnit:any) {
   return begin.diff(end, timeUnit);
 
 }
+
 
 
 

@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { Contenteditable } from './contenteditable.directive';
+import { SanitizeService } from './../../common/services/sanitize.service';
 
 @Component({
     selector: 'container',
@@ -25,6 +26,7 @@ describe('Directive: Contenteditable', ()=> {
     let fixture: ComponentFixture<Container>, de: DebugElement, container: Container, element: HTMLElement;
     beforeEach(() => {
         TestBed.configureTestingModule({
+          providers: [SanitizeService],
             declarations: [ Contenteditable, Container ]
         });
     });
