@@ -5,7 +5,7 @@ import {FLOGO_PROFILE_TYPE} from "../constants";
 export class FlogoProfileService {
   getProfileType(app) {
     let profileType: FLOGO_PROFILE_TYPE;
-    if(app.deviceType){
+    if(app.device){
       profileType = FLOGO_PROFILE_TYPE.DEVICE;
     } else {
       profileType = FLOGO_PROFILE_TYPE.MICRO_SERVICE;

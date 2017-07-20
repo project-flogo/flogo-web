@@ -5,6 +5,7 @@ import {ModalComponent} from "ng2-bs3-modal/ng2-bs3-modal";
 import {ProfilesAPIService} from "../../../common/services/restapi/v2/profiles-api.service";
 import {MockProfilesAPIService} from "../../../common/services/restapi/v2/profiles-api.service.mock";
 import {By} from "@angular/platform-browser";
+import {FLOGO_PROFILE_TYPE} from "../../../common/constants";
 describe("Component: ProfileSelectionComponent", ()=>{
   let comp: ProfileSelectionComponent, service = null,
     fixture: ComponentFixture<ProfileSelectionComponent>;
@@ -32,8 +33,8 @@ describe("Component: ProfileSelectionComponent", ()=>{
         comp = fixture.componentInstance;
         comp.profileSelectionModal.open();
         fixture.detectChanges();
-        comp.onAdd.subscribe((deviceType)=>{
-          expect(deviceType).toEqual('microservice');
+        comp.onAdd.subscribe((profileDetails)=>{
+          expect(profileDetails.profileType).toEqual(FLOGO_PROFILE_TYPE.MICRO_SERVICE);
           done();
         });
         let de = fixture.debugElement.queryAll(By.css('.flogo-profile__section'));
@@ -64,8 +65,8 @@ describe("Component: ProfileSelectionComponent", ()=>{
         fixture = TestBed.createComponent(ProfileSelectionComponent);
         comp = fixture.componentInstance;
         comp.profileSelectionModal.open();
-        comp.onAdd.subscribe((deviceType)=>{
-          expect(deviceType).toEqual('Atmel AVR');
+        comp.onAdd.subscribe((profileDetails)=>{
+          expect(profileDetails.deviceType).toEqual('Atmel AVR');
           done();
         });
         comp.showList = true;

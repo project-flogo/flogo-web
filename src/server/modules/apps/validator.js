@@ -229,7 +229,7 @@ function deviceAppSchema() {
     required: [
       'name',
       'type',
-      'deviceType'
+      'device'
     ],
     properties: {
       name: {
@@ -243,8 +243,19 @@ function deviceAppSchema() {
         type: 'string',
         default: 'flogo:device',
       },
-      deviceType: {
-        type: 'string'
+      device: {
+        type: 'object',
+        required: [
+          'profile'
+        ],
+        properties: {
+          profile: {
+            type: 'string'
+          },
+          deviceType: {
+            type: 'string'
+          }
+        }
       },
       version: {
         type: 'string',

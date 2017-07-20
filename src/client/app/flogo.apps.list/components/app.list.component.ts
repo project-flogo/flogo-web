@@ -108,8 +108,8 @@ export class FlogoAppListComponent implements OnInit {
     this.showProfileSeclectionDialog = false;
   }
 
-  onAdd(profileType) {
-   this.apiApplications.createNewApp(profileType).then((application: IFlogoApplicationModel) => {
+  onAdd(profileDetails) {
+   this.apiApplications.createNewApp(profileDetails).then((application: IFlogoApplicationModel) => {
       this.closeModal();
       this.appSelected(application);
     });

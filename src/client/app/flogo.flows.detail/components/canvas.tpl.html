@@ -22,7 +22,7 @@
             <div class="clearfix">
               <h3 class="flogo-flow-detail-name" [(myContenteditable)]="flow.name"
                   (myContenteditableChange)="changeFlowDetailName($event, 'name')"></h3>
-              <span *ngIf="profileType === PROFILE_TYPES.DEVICE" class="flogo-profile__device-type">{{flow.app.deviceType}}</span>
+              <span *ngIf="profileType === PROFILE_TYPES.DEVICE" class="flogo-profile__device-type">{{flow.app.device.deviceType}}</span>
             </div>
             <div>
               <span>in</span> <span (click)="navigateToApp()"

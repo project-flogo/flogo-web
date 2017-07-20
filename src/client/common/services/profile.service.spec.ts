@@ -40,7 +40,10 @@ describe("Service: FlogoProfileService", function(this: {
         }
       }
     ],
-    "deviceType": "Intel ARC32"
+    "device": {
+      "deviceType": "Intel ARC32",
+      "profile": "github.com/TIBCOSoftware/flogo-contrib/device/profile/feather_m0_wifi"
+    }
   };
 
   let mockMicroServiceAppData = {
