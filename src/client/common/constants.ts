@@ -72,3 +72,14 @@ export const ERROR_CONSTRAINT = {
   NOT_INSTALLED_ACTIVITY: 'notInstalledActivity',
   WRONG_INPUT_JSON_FILE: 'wrongInputJSONFile'
 };
+
+export const DEFAULT_MQTT_SETTINGS = {
+  "settings": {
+    "mqtt:server": "192.168.50.164",
+    "mqtt:port": "1883",
+    "mqtt:user": "",
+    "mqtt:pass": "",
+    "wifi:ssid": "RT-N600_D8_2G",
+    "wifi:password": "random_7943"
+  }
+};

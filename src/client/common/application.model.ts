@@ -9,7 +9,7 @@ export interface IFlogoApplicationModel {
     triggers?: Array<Trigger>;
     actions?: Array<Action>;
     type?: string;
-    deviceType?: string;
+    device?: any;
 }
 
 export interface IFlogoApplicationFlowModel {

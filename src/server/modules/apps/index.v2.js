@@ -52,7 +52,7 @@ export class AppsManager {
   static create(app) {
     let inputData = app;
     let isDevice = false;
-    if(inputData.deviceType) {
+    if(inputData.device) {
       isDevice = true;
     }
     const errors = Validator.validateSimpleApp(inputData, isDevice);
@@ -326,8 +326,8 @@ function build(app) {
 function cleanForOutput(app) {
   const cleanedApp = Object.assign({ id: app._id }, app);
   let appDataToSend = pick(cleanedApp, PUBLISH_FIELDS);
-  if(app.deviceType) {
-    appDataToSend.deviceType = app.deviceType;
+  if(app.device) {
+    appDataToSend.device = app.device;
   }
   return appDataToSend;
 }

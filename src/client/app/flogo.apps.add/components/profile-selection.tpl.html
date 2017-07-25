@@ -12,7 +12,7 @@
             <div class="flogo-profile__tile flogo-profile__device--selectable">
             </div>
           </div>
-          <div class="flogo-profile__section" (click)="onAddProfile('microservice')">
+          <div class="flogo-profile__section" (click)="onAddProfile(FLOGO_PROFILE_TYPE.MICRO_SERVICE)">
             <div class="flogo-profile__tile flogo-profile__microservice--selectable">
             </div>
           </div>
@@ -34,7 +34,8 @@
         <h4 class="flogo-profile__head">{{'PROFILE-MODAL:SELECT_DEVICE' | translate}}</h4>
       </div>
       <ul class="flogo-profile__list list-unstyled clearfix">
-        <li *ngFor="let device of devicesList" (click)="onAddProfile(device.type)" class="flogo-profile__list-element">
+        <li *ngFor="let device of devicesList" (click)="onAddProfile(FLOGO_PROFILE_TYPE.DEVICE, device.type)"
+            class="flogo-profile__list-element">
           {{device.type}}
         </li>
       </ul>

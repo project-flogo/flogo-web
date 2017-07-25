@@ -6,6 +6,7 @@ import { HttpUtilsService } from '../http-utils.service';
 import { IFlogoApplicationModel } from '../../../application.model';
 import { ErrorService } from '../../../../common/services/error.service';
 import { Observable } from 'rxjs';
+import {FLOGO_PROFILE_TYPE} from "../../../constants";
 
 const UNTITLED_APP = 'Untitled App';
 
@@ -22,15 +23,19 @@ export class AppsApiService {
       .then(response => response.json().data);
   }
 
-  createNewApp(deviceType): Promise<any> {
+  createNewApp(profileDetails): Promise<any> {
     return this.determineUniqueName(UNTITLED_APP).then(appName => {
       let application: any = {
+        type: "flogo:app",
         name: appName,
         version: '',
         description: ''
       };
-      if (deviceType != 'microservice') {
-        application.deviceType = deviceType
+      if (profileDetails.profileType === FLOGO_PROFILE_TYPE.DEVICE) {
+        application.type = "flogo:device";
+        application.device = {};
+        application.device.profile = profileDetails.profile;
+        application.device.deviceType = profileDetails.deviceType;
       }
 
       let options = this.httpUtils.defaultOptions();
