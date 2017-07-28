@@ -15,20 +15,7 @@ export class RESTAPIActivitiesService {
   }
 
   getActivities() {
-    return this._http.get(this.apiPrefix('activities')).toPromise()
-      .then(response=> {
-        if (response.text()) {
-          let data = response.json().data || [];
-          return _.map(data, (activity)=> {
-            return _.assign(activitySchemaToTask(activity), {
-              // TODO fix this installed status.
-              // as of now, whatever can be read from db, should have been installed.
-              installed: true
-            })
-          });
-        } else
-          return response;
-      });
+    return this._http.get(this.apiPrefix('activities')).toPromise();
   }
 
   installActivities( urls : string[] ) {

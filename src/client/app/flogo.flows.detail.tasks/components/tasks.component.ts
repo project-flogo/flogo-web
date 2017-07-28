@@ -4,7 +4,7 @@ import { SUB_EVENTS, PUB_EVENTS } from '../messages';
 
 import { TranslateService } from 'ng2-translate/ng2-translate';
 
-import { RESTAPIActivitiesService } from '../../../common/services/restapi/activities-api.service';
+import {FlogoProfileService} from "../../../common/services/profile.service";
 
 @Component(
   {
@@ -23,11 +23,12 @@ export class FlogoFlowsDetailTasks {
   private _subscriptions : any;
   private _addTaskMsg : any;
 
-  constructor( public translate : TranslateService, private _postService : PostService,  private _restAPIActivitiesService: RESTAPIActivitiesService ) {
+  constructor( public translate : TranslateService,
+               private _postService : PostService,
+               private _profileService: FlogoProfileService ) {
     console.group( 'Constructing FlogoFlowsDetailTasks' );
 
     this.initSubscribe();
-    this._loadActivities();
 
     console.groupEnd();
   }
@@ -80,10 +81,10 @@ export class FlogoFlowsDetailTasks {
     );
   }
 
-  private _loadActivities() {
+  private _loadActivities(profileType) {
     console.log('Loading activities');
 
-    this._restAPIActivitiesService.getActivities()
+    this._profileService.getActivities(profileType)
       .then(
         ( tasks : any )=> {
           this.tasks = tasks;
@@ -105,6 +106,7 @@ export class FlogoFlowsDetailTasks {
     console.log( envelope );
 
     this._addTaskMsg = data;
+    this._loadActivities(this._addTaskMsg.appProfileType);
 
     console.groupEnd();
   }
@@ -122,7 +124,7 @@ export class FlogoFlowsDetailTasks {
     console.group( `[FlogoFlowsDetailTasks] onInstalled` );
     console.log( response );
     console.groupEnd();
-    this._loadActivities();
+    this._loadActivities(this._addTaskMsg.appProfileType);
   }
 
 }

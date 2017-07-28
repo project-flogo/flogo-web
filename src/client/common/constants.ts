@@ -42,6 +42,7 @@ export const FLOGO_PROCESS_MODELS = {
 let defaultValues = <{[key : number] : any}>{};
 defaultValues[FLOGO_TASK_ATTRIBUTE_TYPE.STRING] = '';
 defaultValues[FLOGO_TASK_ATTRIBUTE_TYPE.INTEGER] = 0;
+defaultValues[FLOGO_TASK_ATTRIBUTE_TYPE.INT] = 0;
 defaultValues[FLOGO_TASK_ATTRIBUTE_TYPE.NUMBER] = 0.0;
 defaultValues[FLOGO_TASK_ATTRIBUTE_TYPE.BOOLEAN] = false;
 defaultValues[FLOGO_TASK_ATTRIBUTE_TYPE.OBJECT] = null;

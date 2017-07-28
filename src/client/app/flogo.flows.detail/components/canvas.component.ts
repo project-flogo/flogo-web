@@ -572,6 +572,8 @@ export class FlogoCanvasComponent implements OnInit {
         () => {
           console.group('after navigation');
 
+          data.appProfileType = this.profileType;
+
           this._postService.publish(
             _.assign(
               {}, FLOGO_ADD_TASKS_PUB_EVENTS.addTask, {

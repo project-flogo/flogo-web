@@ -17,6 +17,9 @@ import { InstallerModule } from '../../flogo.installer/flogo.installer.module';
 import { PostService } from '../../../common/services/post.service';
 import { PUB_EVENTS as SUB_EVENTS_ADD_TRIGGER } from '../../flogo.select-trigger/messages'
 import {HttpUtilsService} from "../../../common/services/restapi/http-utils.service";
+import {FlogoProfileService} from "../../../common/services/profile.service";
+import {FlogoProfileServiceMock} from "../../../common/services/profile.service.mock";
+import {FLOGO_PROFILE_TYPE} from "../../../common/constants";
 
 let postServiceStub = {
 
@@ -63,6 +66,7 @@ describe('FlogoSelectTrigger component', () => {
       providers: [
         RESTAPIActivitiesService,
         {provide:PostService, useValue: postServiceStub },
+        {provide: FlogoProfileService, useClass: FlogoProfileServiceMock},
         {provide: RESTAPITriggersService, useClass: RESTAPITriggersServiceMock},
         {provide: RESTAPITriggersServiceV2, useClass: RESTAPITriggersServiceMockV2},
         HttpUtilsService
@@ -75,6 +79,9 @@ describe('FlogoSelectTrigger component', () => {
       .then(() => {
         fixture = TestBed.createComponent(FlogoSelectTriggerComponent);
         comp = fixture.componentInstance;
+        comp.appDetails = {
+          appProfileType: FLOGO_PROFILE_TYPE.MICRO_SERVICE
+        };
         comp.loadInstalledTriggers()
           .then(() => {
             fixture.detectChanges();
@@ -91,6 +98,9 @@ describe('FlogoSelectTrigger component', () => {
       .then(() => {
         fixture = TestBed.createComponent(FlogoSelectTriggerComponent);
         comp = fixture.componentInstance;
+        comp.appDetails = {
+          appProfileType: FLOGO_PROFILE_TYPE.MICRO_SERVICE
+        };
         let existing =  function() {
           return Promise.resolve(existingMock);
         };
@@ -110,6 +120,9 @@ describe('FlogoSelectTrigger component', () => {
       .then(() => {
         fixture = TestBed.createComponent(FlogoSelectTriggerComponent);
         comp = fixture.componentInstance;
+        comp.appDetails = {
+          appProfileType: FLOGO_PROFILE_TYPE.MICRO_SERVICE
+        };
         let existing = function () {
           return Promise.resolve([]);
         };
@@ -131,6 +144,9 @@ describe('FlogoSelectTrigger component', () => {
       .then(() => {
         fixture = TestBed.createComponent(FlogoSelectTriggerComponent);
         comp = fixture.componentInstance;
+        comp.appDetails = {
+          appProfileType: FLOGO_PROFILE_TYPE.MICRO_SERVICE
+        };
         let existing =  function() {
           return Promise.resolve(existingMock);
         };

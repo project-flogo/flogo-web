@@ -83,6 +83,7 @@ function getSchema() {
                 enum: [
                   'string',
                   'integer',
+                  'int',
                   'number',
                   'boolean',
                   'object',

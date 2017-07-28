@@ -31,21 +31,10 @@ describe("Service: Flow", function(this: {
 
   it("Should get the Flow Details and convert it to work with canvas component", ()=>{
     var spyConverterService = <Spy>this.modelConverter.getWebFlowModel;
-    spyConverterService.and.returnValue(mockResultantUIFlow);
+    spyConverterService.and.returnValue(Promise.resolve(Object.assign({},mockResultantUIFlow)));
     this.service.getFlow("dummy")
       .then((response) => {
         expect(_.isEqual(response, resultantFlowModelForCanvas)).toEqual(true);
-      });
-  });
-
-
-  // why? null means error? means flow not found?
-  it("Should return null when the UI Model Converter service throws an error", ()=>{
-    var spyConverterService = <Spy>this.modelConverter.getWebFlowModel;
-    spyConverterService.and.throwError("Sample Error");
-    this.service.getFlow("dummy")
-      .then((response) => {
-        expect(response).toBeNull();
       });
   });
 

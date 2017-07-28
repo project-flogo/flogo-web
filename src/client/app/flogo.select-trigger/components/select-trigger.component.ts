@@ -6,9 +6,9 @@ import { IFlogoApplicationModel } from '../../../common/application.model';
 import { RESTAPIApplicationsService }  from '../../../common/services/restapi/applications-api.service';
 import { notification } from '../../../common/utils';
 import { ERROR_CONSTRAINT } from '../../../common/constants';
-import { RESTAPITriggersService } from '../../../common/services/restapi/triggers-api.service';
 import { RESTAPITriggersService as RESTAPITriggersServiceV2 } from '../../../common/services/restapi/v2/triggers-api.service';
 import { PUB_EVENTS } from '../messages';
+import {FlogoProfileService} from "../../../common/services/profile.service";
 
 @Component({
   selector: 'flogo-select-trigger',
@@ -17,7 +17,7 @@ import { PUB_EVENTS } from '../messages';
   styleUrls: ['select-trigger.less']
 })
 export class FlogoSelectTriggerComponent implements OnInit, OnChanges {
-  @Input() appId: string;
+  @Input() appDetails: any;
   public installedTriggers = [];
   public installTriggerActivated = false;
   public onInstalled = new EventEmitter();
@@ -29,7 +29,7 @@ export class FlogoSelectTriggerComponent implements OnInit, OnChanges {
 
   constructor(public translate: TranslateService,
               private postService: PostService,
-              private triggersService: RESTAPITriggersService,
+              private profileService: FlogoProfileService,
               private triggersServiceV2: RESTAPITriggersServiceV2) {
     this.displayExisting = true;
   }
@@ -38,12 +38,12 @@ export class FlogoSelectTriggerComponent implements OnInit, OnChanges {
   }
 
   getExistingTriggers() {
-    return this.triggersServiceV2.listTriggersApp(this.appId);
+    return this.triggersServiceV2.listTriggersApp(this.appDetails.appId);
   }
 
   loadInstalledTriggers() {
 
-    return this.triggersService.getTriggers()
+    return this.profileService.getTriggers(this.appDetails.appProfileType)
       .then(
         ( triggers : any )=> {
           this.installedTriggers = triggers;
@@ -88,7 +88,7 @@ export class FlogoSelectTriggerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes['appId']) {
+    if(changes['appDetails']) {
       this.loadInstalledTriggers();
     }
   }

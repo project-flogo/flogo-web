@@ -31,7 +31,8 @@ describe("Service: UI Model Converter", function(this: {
       'getContributionDetails'
     ]);
     this.errorService = new ErrorService();
-    this.profileService = new FlogoProfileService();
+    this.profileService = new FlogoProfileService(this.triggerServiceMock,
+      this.activityServiceMock, this.contribServiceMock);
     this.service = new UIModelConverterService(this.triggerServiceMock,
       this.activityServiceMock, this.contribServiceMock, this.profileService, this.errorService);
   });
@@ -64,13 +65,13 @@ describe("Service: UI Model Converter", function(this: {
 
   it('Should convert the Engine Flow Model to UI Flow model', (done) => {
     var spyTriggerService = <Spy>this.triggerServiceMock.getTriggerDetails;
-    spyTriggerService.and.returnValue(mockTriggerDetails);
+    spyTriggerService.and.returnValue(Promise.resolve(mockTriggerDetails));
     var spyActivityService = <Spy>this.activityServiceMock.getActivityDetails;
     spyActivityService.and.callFake(function(activityRef){
       if(activityRef === 'github.com/TIBCOSoftware/flogo-contrib/activity/log') {
-        return mockActivitiesDetails[0];
+        return Promise.resolve(mockActivitiesDetails[0]);
       } else {
-        return mockActivitiesDetails[1];
+        return Promise.resolve(mockActivitiesDetails[1]);
       }
     });
     this.service.getWebFlowModel(mockFlow, mockTrigger)

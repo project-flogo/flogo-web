@@ -11,4 +11,8 @@ export class RESTAPIContributionsService {
     return this._http.get(this.httpUtils.apiPrefix(this.pathToService+'?filter[ref]=' + ref)).toPromise()
       .then(response => response.json().data[0]);
   }
+
+  listContribs(type){
+    return this._http.get(this.httpUtils.apiPrefix(this.pathToService+'?filter[type]=' + type)).toPromise();
+  }
 }

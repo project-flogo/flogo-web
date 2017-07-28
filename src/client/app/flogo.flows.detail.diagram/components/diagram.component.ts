@@ -20,7 +20,7 @@ import { FlogoFlowDiagramNode } from '../models/node.model';
       'tasks',
       'diagram',
        'id',
-      'appId'
+      'appDetails'
     ]
   }
 )
@@ -29,7 +29,7 @@ export class FlogoFlowsDetailDiagramComponent implements AfterViewInit {
   public tasks : IFlogoFlowDiagramTaskDictionary;
   public diagram : IFlogoFlowDiagram;
   public id: string;
-  public appId: string;
+  public appDetails: string;
 
   private _elmRef : ElementRef;
   private _diagram : FlogoFlowDiagram;

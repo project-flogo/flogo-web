@@ -54,7 +54,7 @@ export class AppsManager {
   static create(app) {
     let inputData = app;
     let isDevice = false;
-    if(inputData.device) {
+    if(getProfileType(app) === FLOGO_PROFILE_TYPES.DEVICE) {
       isDevice = true;
     }
     const errors = Validator.validateSimpleApp(inputData, isDevice);
@@ -101,7 +101,12 @@ export class AppsManager {
           return false;
         }
 
-        const errors = Validator.validateSimpleApp(mergedData);
+        let isDevice = false;
+        if(getProfileType(mergedData) === FLOGO_PROFILE_TYPES.DEVICE) {
+          isDevice = true;
+        }
+
+        const errors = Validator.validateSimpleApp(mergedData, isDevice);
         if (errors) {
           throw ErrorManager.createValidationError('Validation error', { details: errors });
         }
@@ -373,7 +378,7 @@ function build(app) {
 function cleanForOutput(app) {
   const cleanedApp = Object.assign({ id: app._id }, app);
   let appDataToSend = pick(cleanedApp, PUBLISH_FIELDS);
-  if(app.device) {
+  if(getProfileType(app) === FLOGO_PROFILE_TYPES.DEVICE) {
     appDataToSend.device = app.device;
   }
   return appDataToSend;

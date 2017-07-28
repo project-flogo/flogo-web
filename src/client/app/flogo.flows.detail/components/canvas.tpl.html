@@ -64,7 +64,7 @@
     <div  class="flogo-flow-container">
       <flogo-canvas-flow-diagram *ngIf="mainHandler" [tasks]="mainHandler.tasks" [diagram]="mainHandler.diagram"
                                  [id]="'root'"
-                                 [appId]="flow?.app?.id"
+                                 [appDetails]="{appId:flow?.app?.id, appProfileType: profileType}"
                                  data-flogo-diagram-id="root">
       </flogo-canvas-flow-diagram>
 
