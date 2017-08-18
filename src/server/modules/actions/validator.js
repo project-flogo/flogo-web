@@ -16,13 +16,9 @@ function getSchema() {
     $schema: 'http://json-schema.org/draft-04/schema#',
     type: 'object',
     required: [
-      'name',
       'data',
     ],
     properties: {
-      name: {
-        type: 'string',
-      },
       description: {
         type: 'string',
       },
@@ -46,6 +42,9 @@ function getSchema() {
         type: 'object',
         default: {},
         properties: {
+          name: {
+            type: 'string',
+          },
           attributes: {
             type: 'array',
             items: {

@@ -420,9 +420,6 @@ function fullAppSchema() {
           id: {
             type: 'string',
           },
-          name: {
-            type: 'string',
-          },
           ref: {
             type: 'string',
           },
@@ -542,7 +539,7 @@ function fullAppSchema() {
             type: 'object',
             properties: {
               name: {
-                name: 'string',
+                type: 'string',
               },
               id: {
                 type: 'integer',
@@ -781,9 +778,6 @@ function fullDeviceAppSchema() {
           id: {
             type: 'string',
           },
-          name: {
-            type: 'string',
-          },
           ref: {
             type: 'string',
           },
@@ -835,7 +829,7 @@ function fullDeviceAppSchema() {
             type: 'object',
             properties: {
               name: {
-                name: 'string',
+                type: 'string',
               },
               id: {
                 type: 'integer',
