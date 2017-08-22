@@ -145,9 +145,15 @@ function* buildApp() {
 
 function* exportApp() {
   const appId = this.params.appId;
+  const type = this.request.query['type'];
+  const flowIds = this.request.query['flowids'];
 
   try {
-    this.body = yield AppsManager.export(appId);
+    if(type === 'flows'){
+      this.body = yield AppsManager.exportFlows(appId, flowIds);
+    } else {
+      this.body = yield AppsManager.export(appId);
+    }
   } catch (error) {
     if (error.isOperational) {
       if (error.type === ERROR_TYPES.COMMON.VALIDATION) {

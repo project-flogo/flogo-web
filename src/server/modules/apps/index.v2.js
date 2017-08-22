@@ -339,6 +339,75 @@ export class AppsManager {
 
         return app;
       });
+  }/**
+   * Export an app to the schema expected by cli
+   * This will export apps and flows
+   * @param appId {string} app to export
+   * @return {object} exported object
+   * @throws Not found error if app not found
+   */
+  static exportFlows(appId, flowIdsCSV) {
+    return AppsManager.findOne(appId)
+      .then(app => {
+        if (!app) {
+          throw ErrorManager.makeError('Application not found', { type: ERROR_TYPES.COMMON.NOT_FOUND });
+        }
+
+        const DEFAULT_COMMON_VALUES = [{
+          actionRef: "github.com/TIBCOSoftware/flogo-contrib/action/flow"
+        }, {
+          actionRef: "github.com/TIBCOSoftware/flogo-contrib/device/action/flow"
+        }];
+
+        const appProfileType = getProfileType(app);
+
+        app.type = "flogo:actions";
+
+        if(flowIdsCSV){
+          const flowIds = flowIdsCSV.split(',');
+          app.actions = app.actions.filter(a => flowIds.indexOf(a.id) !== -1);
+        }
+
+        app.actions.forEach(action => {
+          action.ref = DEFAULT_COMMON_VALUES[appProfileType].actionRef;
+          // convert to human readable action ids and update handler to point to new action id
+          action.id = normalizeName(action.name);
+          if(action.data.flow){
+            action.data.flow.name = action.name;
+            delete action.name;
+          }
+          const tasks = get(action, 'data.flow.rootTask.tasks', []);
+          const hasExplicitReply = tasks.find(t => t.activityRef === 'github.com/TIBCOSoftware/flogo-contrib/activity/reply');
+          if (hasExplicitReply) {
+            action.data.flow.explicitReply = true;
+          }
+          if(appProfileType === FLOGO_PROFILE_TYPES.DEVICE) {
+            if(action.data.flow){
+              action.data.flow.links = cloneDeep(action.data.flow.rootTask.links);
+              action.data.flow.tasks = cloneDeep(action.data.flow.rootTask.tasks);
+              action.data.flow.tasks.forEach(task => {
+                let attributes = {};
+                task.attributes.forEach(attribute => {
+                  attributes[attribute.name] = attribute.value;
+                });
+                task.attributes = attributes;
+              });
+            }
+          }
+        });
+
+        if(!app.version) {
+          app.version =  DEFAULT_APP_VERSION;
+        }
+
+        // will strip additional metadata such as createdAt, updatedAt
+        const errors = Validator.validateExportFlows(appProfileType, app, null, { removeAdditional: true, useDefaults: true });
+        if (errors && errors.length > 0) {
+          throw ErrorManager.createValidationError('Validation error', { details: errors });
+        }
+
+        return app;
+      });
   }
 
   static validate(app, { clean } = { clean: false }) {
