@@ -275,12 +275,22 @@ export class FlogoCanvasComponent implements OnInit {
 
   }
 
-  private uniqueTaskName(taskName: string) {
+  private uniqueTaskName(taskName: string, isTrigger?: boolean) {
     // TODO for performance pre-normalize and store task names?
     let newNormalizedName = normalizeTaskName(taskName);
 
     //All activities are gathered in one variable
     let allTasks = _.reduce(this.handlers, (all: any, current: any) => _.assign(all, current.tasks), {});
+
+    if(isTrigger){
+      let allTriggers = _.reduce(this.app.triggers, (all:any, current: any, index:number) => {
+        if(this.currentTrigger.id != current.id){
+          all['trigger'+index] = current;
+        }
+        return all;
+      }, {});
+      allTasks = _.assign({},allTasks,allTriggers);
+    }
 
     //search for the greatest index in all the flow
     let greatestIndex = _.reduce(allTasks, (greatest: number, task: any) => {
@@ -710,7 +720,7 @@ export class FlogoCanvasComponent implements OnInit {
             .then((app) => {
               // Refresh task detail
               var currentStep = this._getCurrentState(data.node.taskID);
-              var currentTask = this.handlers[diagramId].tasks[data.node.taskID];
+              var currentTask = _.assign({}, _.cloneDeep(this.handlers[diagramId].tasks[data.node.taskID]));
               var context = this._getCurrentContext(data.node.taskID, diagramId);
 
               if(!this.currentTrigger) {
@@ -841,7 +851,7 @@ export class FlogoCanvasComponent implements OnInit {
 
     if (task) {
       if (data.proper == 'name') {
-        task[data.proper] = this.uniqueTaskName(data.content);
+        task[data.proper] = this.uniqueTaskName(data.content, task.type === FLOGO_TASK_TYPE.TASK_ROOT);
       } else {
         task[data.proper] = data.content;
       }
