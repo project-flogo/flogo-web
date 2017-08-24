@@ -1,38 +1,56 @@
 sudo: required
+
 services:
   - docker
 cache:
   bundler: false
+  yarn: true
   directories:
   - .build-cache          # images.txt
 # Handle git submodules yourself
 git:
-    submodules: false
-# Do a github login using token
-before_install:
-  - "echo -e \"machine github.com\n  login ${GITHUB_USER_TOKEN}\" >> ~/.netrc"
-  - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" ;
-
-script:
-  - touch flogo-web.tgz
-  - tar cvfz flogo-web.tgz --exclude=flogo-web.tgz .
-  - find . -not -name "flogo-web.tgz" -not  -name "\." -not -name "\.\."  -print0 | xargs -0 rm -rf --
-  - "git ls-remote --exit-code https://github.com/TIBCOSoftware/flogo-cicd.git ${TRAVIS_BRANCH} ;
-    if [ $? -eq 0 ]; then
-        echo \"Branch ${TRAVIS_BRANCH} found on flogo-cicd\" ;
-        git clone https://github.com/TIBCOSoftware/flogo-cicd.git --branch ${TRAVIS_BRANCH} --single-branch flogo-cicd ;
-    else
-        echo \"Branch ${TRAVIS_BRANCH} not found on flogo-cicd using master\" ;
-        git clone https://github.com/TIBCOSoftware/flogo-cicd.git flogo-cicd ;
-    fi"
-  - pushd flogo-cicd/docker/flogo-web
-  - ./build-flogo-web.sh
-  - popd
+  submodules: false
+jobs:
+  include:
+    - stage: test
+      node_js:
+        - "6.9"
+      addons:
+        chrome: stable
+      env: FG_ENV=test
+      install:
+        - pushd src/client
+        - echo $(yarn --version)
+        - yarn install
+        - popd
+      script:
+        - pushd src/client
+        - yarn run test:once -- --progress=false
+        - popd
+    - stage: build
+      before_install:
+        - "echo -e \"machine github.com\n  login ${GITHUB_USER_TOKEN}\" >> ~/.netrc"
+        - docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}" ;
+      script:
+        - touch flogo-web.tgz
+        - tar cvfz flogo-web.tgz --exclude=flogo-web.tgz . >/dev/null
+        - find . -not -name "flogo-web.tgz" -not  -name "\." -not -name "\.\."  -print0 | xargs -0 rm -rf --
+        - "git ls-remote --exit-code https://github.com/TIBCOSoftware/flogo-cicd.git ${TRAVIS_BRANCH} ;
+          if [ $? -eq 0 ]; then
+              echo \"Branch ${TRAVIS_BRANCH} found on flogo-cicd\" ;
+              git clone https://github.com/TIBCOSoftware/flogo-cicd.git --branch ${TRAVIS_BRANCH} --single-branch flogo-cicd ;
+          else
+              echo \"Branch ${TRAVIS_BRANCH} not found on flogo-cicd using master\" ;
+              git clone https://github.com/TIBCOSoftware/flogo-cicd.git flogo-cicd ;
+          fi"
+        - pushd flogo-cicd/docker/flogo-web
+        - ./build-flogo-web.sh
+        - popd
+      after_success:
+        - "if [ \"${TRAVIS_BRANCH}\" == \"master\" ]; then
+          docker login -u=\"${DOCKER_USERNAME}\" -p=\"${DOCKER_PASSWORD}\" ;
+          source ${TRAVIS_BUILD_DIR}/flogo-cicd/scripts/init.sh ;
+          flogo::module::postbuild flogo-web flogo-web;
+          fi"
 after_script:
   - "[ -f \"${HOME}/.netrc\" ] && rm -f ${HOME}/.netrc"
-after_success:
-  - "if [ \"${TRAVIS_BRANCH}\" == \"master\" ]; then
-    docker login -u=\"${DOCKER_USERNAME}\" -p=\"${DOCKER_PASSWORD}\" ;
-    source ${TRAVIS_BUILD_DIR}/flogo-cicd/scripts/init.sh ;
-    flogo::module::postbuild flogo-web flogo-web;
-    fi"
