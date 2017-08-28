@@ -372,20 +372,29 @@ paths:
       summary: Export an app.json
       description: |-
         TODO
-        Import an app.json definition as defined by flogo-lib to be used directly in a flogo engine
+        Export an app.json definition as defined by flogo-lib to be used directly in a flogo engine
       tags: [Apps, Export]
       parameters:
          - $ref: '#/parameters/appId'
-         - name: alt
+         - name: type
            in: query
            description: |-
-            By passing the value "media" force the download of a file containg the export content instead of returning a regular json response.
+            By providing the type value we can export the whole application or only (selected / all) flows of an application.
 
-            Example: `GET /export/apps/123?alt=media`
+            Example: `GET /apps/123:export?type=application`, `GET /apps/123:export?type=flows`
 
            required: false
            type: string
-           enum: ['media']
+           enum: ['application', 'flows']
+         - name: flowids
+           in: query
+           description: |-
+            By providing the flowids value we can export the flows only which are selected. flowids only work when value for type is `flows`.
+
+            Example: `GET /apps/123:export?type=flows&flowids=abc,def,ghi`
+
+           required: false
+           type: string
       responses:
         200:
           description: Okay
