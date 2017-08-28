@@ -147,13 +147,10 @@ function* exportApp() {
   const appId = this.params.appId;
   const type = this.request.query['type'];
   const flowIds = this.request.query['flowids'];
+  const flowIdArray = flowIds ? flowIds.split(',') : null;
 
   try {
-    if(type === 'flows'){
-      this.body = yield AppsManager.exportFlows(appId, flowIds);
-    } else {
-      this.body = yield AppsManager.export(appId);
-    }
+    this.body = yield AppsManager.export(appId, type, flowIdArray);
   } catch (error) {
     if (error.isOperational) {
       if (error.type === ERROR_TYPES.COMMON.VALIDATION) {

@@ -230,10 +230,12 @@ export class AppsManager {
    * Export an app to the schema expected by cli
    * This will export apps and flows
    * @param appId {string} app to export
+   * @param exportType {string} type of export if it is an application export or a flows only export
+   * @param selectedFlowsIds {Array} Array of flow Id's which are to be exported in case of flows only export
    * @return {object} exported object
    * @throws Not found error if app not found
    */
-  static export(appId) {
+  static export(appId, exportType, selectedFlowsIds) {
     return AppsManager.findOne(appId)
       .then(app => {
         if (!app) {
@@ -267,6 +269,11 @@ export class AppsManager {
             });
           });
           app.triggers = allTriggers;
+        }
+
+        //While exporting only flows, export selected flows if provided any else export all flows
+        if(exportType === 'flows' && selectedFlowsIds){
+          app.actions = app.actions.filter(a => selectedFlowsIds.indexOf(a.id) !== -1);
         }
 
         const actionMap = new Map(app.actions.map(a => [a.id, a]));
@@ -337,73 +344,9 @@ export class AppsManager {
           throw ErrorManager.createValidationError('Validation error', { details: errors });
         }
 
-        return app;
-      });
-  }/**
-   * Export an app to the schema expected by cli
-   * This will export apps and flows
-   * @param appId {string} app to export
-   * @return {object} exported object
-   * @throws Not found error if app not found
-   */
-  static exportFlows(appId, flowIdsCSV) {
-    return AppsManager.findOne(appId)
-      .then(app => {
-        if (!app) {
-          throw ErrorManager.makeError('Application not found', { type: ERROR_TYPES.COMMON.NOT_FOUND });
-        }
-
-        const DEFAULT_COMMON_VALUES = [{
-          actionRef: "github.com/TIBCOSoftware/flogo-contrib/action/flow"
-        }, {
-          actionRef: "github.com/TIBCOSoftware/flogo-contrib/device/action/flow"
-        }];
-
-        const appProfileType = getProfileType(app);
-
-        app.type = "flogo:actions";
-
-        if(flowIdsCSV){
-          const flowIds = flowIdsCSV.split(',');
-          app.actions = app.actions.filter(a => flowIds.indexOf(a.id) !== -1);
-        }
-
-        app.actions.forEach(action => {
-          action.ref = DEFAULT_COMMON_VALUES[appProfileType].actionRef;
-          // convert to human readable action ids and update handler to point to new action id
-          action.id = normalizeName(action.name);
-          if(action.data.flow){
-            action.data.flow.name = action.name;
-            delete action.name;
-          }
-          const tasks = get(action, 'data.flow.rootTask.tasks', []);
-          const hasExplicitReply = tasks.find(t => t.activityRef === 'github.com/TIBCOSoftware/flogo-contrib/activity/reply');
-          if (hasExplicitReply) {
-            action.data.flow.explicitReply = true;
-          }
-          if(appProfileType === FLOGO_PROFILE_TYPES.DEVICE) {
-            if(action.data.flow){
-              action.data.flow.links = cloneDeep(action.data.flow.rootTask.links);
-              action.data.flow.tasks = cloneDeep(action.data.flow.rootTask.tasks);
-              action.data.flow.tasks.forEach(task => {
-                let attributes = {};
-                task.attributes.forEach(attribute => {
-                  attributes[attribute.name] = attribute.value;
-                });
-                task.attributes = attributes;
-              });
-            }
-          }
-        });
-
-        if(!app.version) {
-          app.version =  DEFAULT_APP_VERSION;
-        }
-
-        // will strip additional metadata such as createdAt, updatedAt
-        const errors = Validator.validateExportFlows(appProfileType, app, null, { removeAdditional: true, useDefaults: true });
-        if (errors && errors.length > 0) {
-          throw ErrorManager.createValidationError('Validation error', { details: errors });
+        if(exportType === 'flows'){
+          app.type = "flogo:actions";
+          delete app.triggers;
         }
 
         return app;
