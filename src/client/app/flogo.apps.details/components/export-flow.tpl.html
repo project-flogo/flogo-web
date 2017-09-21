@@ -1,0 +1,31 @@
+<modal [size]="'lg'" #modal class="flogo-export-flow-modal">
+  <i class="flogo-icon-close flogo-export-flow-close" data-dismiss="modal"></i>
+  <form novalidate>
+    <div class="flogo-export-flow-header">{{ 'FLOWS:EXPORT-FLOWS' | translate }}</div>
+    <div class="flogo-select-flow-link"><a class="js-btn-select-all" (click)="selectAllFlows($event)">Select All</a> | <a id="unselectAll" (click)="unselectAllFlows()">Unselect All</a> </div>
+    <modal-body>
+      <div class="export-flow-container" >
+        <div *ngFor="let flow of flows; let index = index" class="flogo-export-flow-list"  [ngClass]="{'flogo-export-flow-selected': checkAllFlows.indexOf(index) != -1}" ><div class="checkbox checkbox-primary">
+          <input id="flowCheckbox_{{index}}" type="checkbox" [checked]= "checkAllFlows.indexOf(index) != -1"  (change)="flowSelect(flow.id,$event.target.checked,index)">
+          <label for="flowCheckbox_{{index}}" ></label>
+        </div>
+          <div class="flogo-export-flow-name">{{flow.name}}</div>
+          <div>
+
+          <div class="flogo-export-flow-description" *ngIf="flow.description">{{flow.description}}</div>
+        </div>
+
+            <div class="flogo-export-flow-createdAt">created {{flow.createdAt | timeFromNow}}</div>
+
+        </div>
+      </div>
+    </modal-body>
+    <div class="flogo-export-flow-footer">
+    <button type="button" class="flogo-button--secondary flogo-flows-add-cancel" data-dismiss="modal">{{ 'ADD:CANCEL' | translate }}
+    </button>
+      <button type="submit" class="js-btn-export flogo-button--default" [jsonDownloader]="exportFlows()" [disabled]="checkedFlows?.length <= 0">
+        {{ 'DETAILS:EXPORT' | translate }}
+      </button>
+    </div>
+  </form>
+</modal>

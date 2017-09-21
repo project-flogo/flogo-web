@@ -531,11 +531,61 @@ label {
 .modal-dialog.modal-sm {
   width: 50%;
 }
-
+.modal-dialog.modal-lg {
+  width: 65%;
+}
 .modal-dialog.flogo-common-modal {
   width: 535px;
 }
-
+/*checkbox styles primary from bootstrap */
+.checkbox {
+  padding-left: 20px;
+  display: inline-block;
+}
+.checkbox label {
+  display: inline-block;
+  position: relative;
+  padding-left: 5px;
+}
+.checkbox label::before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  left: 0;
+  margin-left: -20px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  background-color: #fff;
+  -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+  -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+  transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+.checkbox label::after {
+  display: inline-block;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 0;
+  top: 0;
+  margin-left: -20px;
+  padding-left: 3px;
+  padding-top: 1px;
+  font-size: 11px;
+  color: @color-disabled
+}
+.checkbox input[type="checkbox"]:checked + label::after {
+  font-family: 'FontAwesome';
+  content: "\f00c";
+}
+.checkbox-primary input[type="checkbox"]:checked + label::before {
+  background-color: @color-primary;
+  border-color:@color-primary;
+}
+.checkbox-primary input[type="checkbox"]:checked + label::after {
+  color: @color-bg
+}
 /* the class of notification */
 .flogo-common-notification-container{
   position: fixed;
@@ -802,6 +852,7 @@ label {
     color: @color-disabled;
   }
 }
+
 
 .flogo-button--accent{
   height: @size-height-button;

@@ -9,6 +9,7 @@ import {
   App
 } from '../../flogo.apps/services/apps.service';
 import { FlogoFlowsAddComponent } from '../../flogo.flows.add/components/add.component';
+import { FlogoExportFlowsComponent } from '../../flogo.apps.details/components/export-flow.component';
 import { SanitizeService } from '../../../common/services/sanitize.service';
 import { diffDates, notification } from '../../../common/utils';
 import { FlogoModal } from '../../../common/services/modal.service';
@@ -25,6 +26,7 @@ const MAX_SECONDS_TO_ASK_APP_NAME = 5;
 })
 export class FlogoApplicationComponent implements OnChanges, OnInit {
   @ViewChild(FlogoFlowsAddComponent) addFlow: FlogoFlowsAddComponent;
+  @ViewChild(FlogoExportFlowsComponent) exportFlow: FlogoExportFlowsComponent;
   @Input() appDetail: ApplicationDetail;
 
   @Output() flowSelected: EventEmitter<IFlogoApplicationFlowModel> = new EventEmitter<IFlogoApplicationFlowModel>();
@@ -48,6 +50,7 @@ export class FlogoApplicationComponent implements OnChanges, OnInit {
   isNewApp = false;
 
   isBuildBoxShown = false;
+  isExportBoxShown = false;
   downloadLink: string;
 
   profileType: FLOGO_PROFILE_TYPE;
@@ -109,7 +112,9 @@ export class FlogoApplicationComponent implements OnChanges, OnInit {
   onClickAddDescription(event) {
     this.isDescriptionInEditMode = true;
   }
-
+  openExportFlow() {
+    this.exportFlow.openExport();
+  }
   onNameSave() {
     let editableName = this.editableName || '';
     editableName = editableName.trim();
@@ -211,7 +216,13 @@ export class FlogoApplicationComponent implements OnChanges, OnInit {
   closeBuildBox() {
     this.isBuildBoxShown = false;
   }
+  toggleExportBox() {
+    this.isExportBoxShown = !this.isExportBoxShown;
+  }
 
+  closeExportBox() {
+    this.isExportBoxShown = false;
+  }
   private appUpdated() {
     this.isDescriptionInEditMode = false;
 

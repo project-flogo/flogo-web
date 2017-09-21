@@ -13,6 +13,7 @@ import { FlogoApplicationFlowsComponent, FlowGroupComponent } from '../../flogo.
 import { AppDetailService, ApplicationDetail } from '../../flogo.apps/services/apps.service';
 import { FlogoProfileService } from '../../../common/services/profile.service';
 import { FlogoAppSettingsComponent } from '../../flogo.apps.settings/components/settings.component';
+import { FlogoExportFlowsComponent } from './export-flow.component';
 
 
 @Component({
@@ -75,7 +76,8 @@ describe('FlogoApplicationComponent component', () => {
         FlogoApplicationFlowsComponent,
         FlogoApplicationComponent,
         FlowGroupComponent,
-        ContainerComponent
+        ContainerComponent,
+        FlogoExportFlowsComponent,
       ], // declare the test component
       providers: [
         { provide: AppDetailService, useClass: MockAppDetailService },

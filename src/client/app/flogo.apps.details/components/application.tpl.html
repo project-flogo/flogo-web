@@ -85,10 +85,21 @@
         <div class="col-md-5">
           <div class="flogo-app-header__options">
 
-
-            <button [jsonDownloader]="appExporter()" class="flogo-button flogo-button--secondary">
+            <div (fgClickOutside)="closeExportBox()">
+            <button class="flogo-button flogo-button--secondary" (click)="toggleExportBox()">
               {{ 'DETAILS:EXPORT' | translate }}
             </button>
+            <div class="flogo-app-detail-export-list-wrapper"  [ngClass]="{'active' : isExportBoxShown}">
+              <ul class="flogo-app-detail-export-list list-unstyled">
+                <li class="flogo-app-detail-export-item" [jsonDownloader]="appExporter()">
+                  <a class="flogo-app-detail-export-link"><span>{{ 'DETAILS:EXPORT-APP' | translate }} </span></a>
+                </li>
+                <li class="flogo-app-detail-export-item">
+                  <a class="flogo-app-detail-export-link" (click)="openExportFlow();"><span>{{ 'DETAILS:EXPORT-FLOW' | translate }}</span></a>
+                </li>
+              </ul>
+            </div>
+            </div>
             <div (fgClickOutside)="closeBuildBox()" *ngIf="profileType !== PROFILE_TYPES.DEVICE">
               <button class="flogo-button flogo-button--default flogo-app-detail-build-button" (click)="toggleBuildBox()">{{ 'DETAILS:BUILD' | translate }}</button>
               <div class="flogo-app-detail-build-list-wrapper"
@@ -141,6 +152,6 @@
                                  (deleteFlow)="onFlowDelete($event)"
                                  (addFlow)="openCreateFlowFromTrigger($event)"
     ></flogo-apps-flows-flow-group>
-
+    <flogo-export-flow *ngIf="application?.actions?.length" [flows]="application?.actions" ></flogo-export-flow>
   </div>
 </div>

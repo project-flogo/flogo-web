@@ -155,7 +155,9 @@ export class AppDetailService {
   public toEngineSpec() {
     return this.appsApiService.exportApp(this.currentApp$.getValue().app.id);
   }
-
+  public exportFlow(flowids) {
+    return this.appsApiService.exportFlows(this.currentApp$.getValue().app.id, flowids);
+  }
   public getDownloadLink(appId: string): string {
     return this.appsApiService.downloadAppLink(appId);
   }
