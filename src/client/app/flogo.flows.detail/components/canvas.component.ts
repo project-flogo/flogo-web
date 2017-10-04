@@ -124,7 +124,6 @@ export class FlogoCanvasComponent implements OnInit {
       _.assign({}, FLOGO_DIAGRAM_SUB_EVENTS.selectTransform, { callback: this._selectTransformFromDiagram.bind(this) }),
       _.assign({}, FLOGO_DIAGRAM_SUB_EVENTS.selectTrigger, { callback: this._selectTriggerFromDiagram.bind(this) }),
       _.assign({}, FLOGO_TRIGGERS_SUB_EVENTS.addTrigger, { callback: this._addTriggerFromTriggers.bind(this) }),
-      _.assign({}, FLOGO_SELECT_TASKS_SUB_EVENTS.triggerAction , { callback: this._onActionTrigger.bind(this) }),
       _.assign({}, FLOGO_ADD_TASKS_SUB_EVENTS.addTask, { callback: this._addTaskFromTasks.bind(this) }),
       _.assign({}, FLOGO_TASK_SUB_EVENTS.runFromThisTile, { callback: this._runFromThisTile.bind(this) }),
       _.assign({}, FLOGO_TASK_SUB_EVENTS.runFromTrigger, { callback: this._runFromTriggerinTile.bind(this) }),

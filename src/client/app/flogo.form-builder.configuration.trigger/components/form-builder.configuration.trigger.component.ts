@@ -31,6 +31,7 @@ export class FlogoFormBuilderConfigurationTriggerComponent {
   updateMessageNumFlowsUsed(numFlows) {
     if(numFlows > 1) {
       this.needEditConfirmation = true;
+      this.isEditable = false;
     } else {
       this.needEditConfirmation = false;
       this.clickEditForNFlows();

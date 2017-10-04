@@ -63,13 +63,13 @@
 
     <div class="flogo-flow-container">
       <div class="clearfix flogo-flows-main">
-        <div class="flogo-flows-triggers-container pull-left">
+        <div class="flogo-flows-triggers-container">
           <flogo-flows-detail-triggers-panel
             [triggers]="triggersList"
             [actionId]="flowId"
             [appDetails]="{appId:flow?.app?.id, appProfileType: profileType}"></flogo-flows-detail-triggers-panel>
         </div>
-        <div class="flogo-flows-diagram-container pull-left">
+        <div class="flogo-flows-diagram-container">
           <flogo-canvas-flow-diagram *ngIf="mainHandler"
                                      [tasks]="mainHandler.tasks"
                                      [diagram]="mainHandler.diagram"

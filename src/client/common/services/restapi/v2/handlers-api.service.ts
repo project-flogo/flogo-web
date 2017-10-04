@@ -24,6 +24,10 @@ export class  RESTAPIHandlersService {
 
   }
 
+  deleteHandler(actionId, triggerId) {
+    return this.http.delete(this.apiPrefix(`triggers/${triggerId}/handlers/${actionId}`)).toPromise();
+  }
+
   private apiPrefix(path) {
     return this.httpUtils.apiPrefix(path, 'v2');
   }

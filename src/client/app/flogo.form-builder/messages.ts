@@ -15,6 +15,10 @@ export const PUB_EVENTS = {
     chanel: 'flogo-task',
     topic: 'task-details-changed'
   },
+  triggerDetailsChanged: {
+    chanel: 'flogo-task',
+    topic: 'trigger-details-changed'
+  },
   changeTileDetail: {
     channel : 'flogo-task',
     topic : 'change-tile-detail'

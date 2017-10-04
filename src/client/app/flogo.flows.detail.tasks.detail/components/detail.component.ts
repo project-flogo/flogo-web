@@ -51,7 +51,7 @@ export class FlogoFlowsDetailTasksDetail {
   }
 
   onAction(event) {
-    this._postService.publish( _.assign( {}, PUB_EVENTS.triggerAction, { data : {action: event} } ) );
+    // Applicable only for Triggers but not for tasks
   }
 
   private _getSelectTaskMsg( data : any, envelope : any ) {

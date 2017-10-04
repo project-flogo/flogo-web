@@ -90,22 +90,27 @@ export class FlogoFormBuilderComponent{
         if(this._context.isTask) {
           state['inputs'] = this._getCurrentTaskState(this._attributes.inputs);
           state['warnings'] = this.verifyRequiredFields(this._task);
+          this._postService.publish(_.assign({}, PUB_EVENTS.taskDetailsChanged, {
+            data: _.assign({},{id: this._flowId}, state, {changedStructure: changedStructure}) ,
+            done: ()=> {
+              this._hasChanges  = false;
+              resolve();
+            }
+          }));
         }
 
         if(this._context.isTrigger) {
           state['endpointSettings'] = this._getCurrentTaskState(this._attributes.endpointSettings || []);
           state['outputs'] = this._getCurrentTaskState(this._attributes.outputs || []);
           state['settings'] = this._getCurrentTaskState(this._attributes.settings || []);
+          this._postService.publish(_.assign({}, PUB_EVENTS.triggerDetailsChanged, {
+            data: _.assign({},{id: this._flowId}, state, {changedStructure: changedStructure}) ,
+            done: ()=> {
+              this._hasChanges  = false;
+              resolve();
+            }
+          }));
         }
-
-
-        this._postService.publish(_.assign({}, PUB_EVENTS.taskDetailsChanged, {
-          data: _.assign({},{id: this._flowId}, state, {changedStructure: changedStructure}) ,
-          done: ()=> {
-            this._hasChanges  = false;
-            resolve();
-          }
-        }));
     });
   }
 

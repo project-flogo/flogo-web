@@ -12,6 +12,7 @@ import {DeviceModelConverter} from '../models/profiles/device-converter.model';
 
 @Injectable()
 export class UIModelConverterService {
+  private converterModelInstance: AbstractModelConverter;
 
   constructor(public triggerService: RESTAPITriggersService,
               public activityService: RESTAPIActivitiesService,
@@ -65,13 +66,19 @@ export class UIModelConverterService {
 
   // todo: define interfaces
   getWebFlowModel(flowObj: any) {
-    let converterModelInstance: AbstractModelConverter;
     if (this.profileSerivce.getProfileType(flowObj.app) === FLOGO_PROFILE_TYPE.MICRO_SERVICE) {
-      converterModelInstance = new MicroServiceModelConverter(this.triggerService, this.activityService, this.errorService);
+      this.converterModelInstance = new MicroServiceModelConverter(this.triggerService, this.activityService, this.errorService);
     } else {
-      converterModelInstance = new DeviceModelConverter(this.contribService, this.errorService);
+      this.converterModelInstance = new DeviceModelConverter(this.contribService, this.errorService);
     }
-    return converterModelInstance.convertToWebFlowModel(flowObj);
+    return this.converterModelInstance.convertToWebFlowModel(flowObj);
+  }
+
+  getTriggerTask(trigger) {
+    return this.converterModelInstance.getTriggerPromise(trigger)
+      .then((installedTrigger) => {
+        return this.converterModelInstance.makeTriggerTask(trigger, installedTrigger);
+      });
   }
 
 }

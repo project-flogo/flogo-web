@@ -35,14 +35,6 @@
           <div class="flogo-common-edit-panel__head-subtitle">{{ 'FORM-BUILDER:HINT-CONFIGURE-BRANCH' | translate }}</div>
         </div>
         <!-- PANEL BUTTONS -->
-        <div *ngIf="_context.isTrigger && _context.profileType !== PROFILE_TYPES.DEVICE" class="clearfix">
-          <button  class="flogo-button--accent left"
-                   [class.disabled]="!_canRunFromThisTile || _fieldsErrors.length"
-                   [disabled]="!_canRunFromThisTile || _fieldsErrors.length"
-                   [hidden]="_hasChanges" (click)="runFromThisTile($event)">
-            {{ 'FORM-BUILDER:RUN-FROM-TRIGGER' | translate }}
-          </button>
-        </div>
 
         <div *ngIf="_context.isTask && _context.profileType !== PROFILE_TYPES.DEVICE" class="clearfix">
           <button  class="flogo-button--default left" [class.disabled]="!_canRunFromThisTile || _fieldsErrors.length"

@@ -1,5 +1,7 @@
 @import '../../../assets/_variables';
 
+@common-bg-color: #FAFAFA;
+
 :host {
   display: flex;
   align-items: stretch;
@@ -42,6 +44,12 @@
 .flogo-flows-main {
   min-height: ~'calc(100% - 55px)';
   background-color: #eeeded;
+  display: flex;
+  flex-direction: row;
+
+  .flogo-flows-triggers-container {
+    background: @common-bg-color;
+  }
 
   .flogo-flows-diagram-container {
     width:78%;
@@ -72,7 +80,7 @@
 }
 
 .flogo-flow-detail {
-  background-color: #FAFAFA;
+  background-color: @common-bg-color;
   height: 113px;
   display: flex;
   align-items: center;

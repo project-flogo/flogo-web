@@ -21,4 +21,19 @@ export class MicroServiceModelConverter extends AbstractModelConverter {
     });
     return Promise.all(promises);
   }
+
+  getTriggerPromise(trigger) {
+    if (!trigger.ref) {
+      throw this.errorService.makeOperationalError('Trigger: Wrong input json file', 'Cannot get ref for trigger',
+        {
+          type: 'ValidationError',
+          title: 'Wrong input json file',
+          detail: 'Cannot get ref for trigger:',
+          property: 'trigger',
+          value: trigger
+        });
+    } else {
+      return this.triggerService.getTriggerDetails(trigger.ref);
+    }
+  }
 }

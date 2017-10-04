@@ -7,6 +7,9 @@ import {FlogoSelectTriggerComponent} from '../../flogo.select-trigger/components
 import {ModalComponent} from 'ng2-bs3-modal/ng2-bs3-modal';
 import {RESTAPITriggersService} from '../../../common/services/restapi/v2/triggers-api.service';
 import {RESTAPIHandlersService} from '../../../common/services/restapi/v2/handlers-api.service';
+import {UIModelConverterService} from '../../flogo.flows.detail/services/ui-model-converter.service';
+import {PostService} from '../../../common/services/post.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'flogo-container',
@@ -111,6 +114,29 @@ class MockHandlerService {
 
 }
 
+class MockUIConverterService {
+
+}
+
+class MockRouterService {
+
+}
+
+const postServiceStub = {
+
+  subscribe(options: any) {
+    this.subscribeData = options;
+  },
+
+  publish(envelope: any) {
+    this.published = envelope;
+  },
+
+  unsubscribe(sub: any) {
+  }
+
+};
+
 describe('Component: FlogoFlowTriggersPanelComponent', () => {
   let comp: ContainerComponent;
   let fixture: ComponentFixture<ContainerComponent>;
@@ -124,8 +150,11 @@ describe('Component: FlogoFlowTriggersPanelComponent', () => {
       imports: [TranslateModule.forRoot()],
       declarations: [FlogoFlowTriggersPanelComponent, ContainerComponent, ModalComponent, FlogoSelectTriggerComponent],
       providers: [
+        {provide: PostService, useValue: postServiceStub },
+        {provide: Router, useClass: MockRouterService},
         {provide: RESTAPITriggersService, useClass: MockTriggerService},
-        {provide: RESTAPIHandlersService, useClass: MockHandlerService}
+        {provide: RESTAPIHandlersService, useClass: MockHandlerService},
+        {provide: UIModelConverterService, useClass: MockUIConverterService}
       ]
     });
   });

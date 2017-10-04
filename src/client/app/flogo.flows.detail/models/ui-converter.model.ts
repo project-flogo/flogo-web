@@ -14,6 +14,7 @@ export abstract class AbstractModelConverter {
   }
 
   abstract getActivitiesPromise(list);
+  abstract getTriggerPromise(trigger);
 
   convertToWebFlowModel(flowObj) {
     return this.getActivitiesPromise(this.getActivities(flowObj))
@@ -264,6 +265,26 @@ export abstract class AbstractModelConverter {
         throw error;
       }
     }
+  }
+
+  makeTriggerTask(trigger, installedTrigger) {
+    const nodeElement = new FlowElement(FLOW_NODE);
+    const itemElement = new FlowElement(FLOW_ITEM);
+    const nodeTrigger = nodeElement.makeTrigger(trigger);
+    const itemTrigger = itemElement.makeTrigger({
+      node: nodeTrigger,
+      cli: trigger,
+      installed: installedTrigger,
+      endpointSetting: trigger.handler
+    });
+    itemTrigger.name = trigger.name;
+    itemTrigger.description = trigger.description;
+    itemTrigger.outputs.forEach(o => {
+      if (trigger.handler.outputs[o.name]) {
+        o.value = trigger.handler.outputs[o.name];
+      }
+    });
+    return itemTrigger;
   }
 }
 

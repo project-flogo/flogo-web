@@ -15,7 +15,7 @@ import { FlogoCanvasComponent } from './components/canvas.component';
 
 import { FlogoFlowsDetail } from './components/flow-detail.component';
 import { FlogoFlowsDetailTriggers } from '../flogo.flows.detail.triggers/components/triggers.component';
-import { FlogoFlowsDetailTriggersDetail } from '../flogo.flows.detail.triggers.detail/components/detail.component';
+import { FlogoFlowsDetailTriggersDetailComponent } from '../flogo.flows.detail.triggers.detail/components/detail.component';
 import { FlogoFlowsDetailTasks } from '../flogo.flows.detail.tasks/components/tasks.component';
 import { FlogoFlowsDetailTasksDetail } from '../flogo.flows.detail.tasks.detail/components/detail.component';
 import { FlogoSelectTriggerComponent } from '../flogo.select-trigger/components/select-trigger.component';
@@ -50,7 +50,7 @@ import {FlogoFlowTriggersPanelComponent} from '../flogo.flows.detail.triggers-pa
   declarations: [
     FlogoFlowsDetail,
     FlogoFlowsDetailTriggers,
-    FlogoFlowsDetailTriggersDetail,
+    FlogoFlowsDetailTriggersDetailComponent,
     FlogoFlowsDetailTasks,
     FlogoFlowsDetailTasksDetail,
     FlogoSelectTriggerComponent,
