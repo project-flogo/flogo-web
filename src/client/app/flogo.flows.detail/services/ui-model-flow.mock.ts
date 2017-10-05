@@ -335,6 +335,10 @@ export let mockResultantUIFlow = {
     "createdAt": "2017-03-21T09:43:38.614Z",
     "updatedAt": "2017-03-21T09:43:53.073Z"
   },
+  "metadata": {
+    "input": [],
+    "output": []
+  },
   "paths": {
     "root": {"is": "some_id_0"},
     "nodes": {
@@ -606,6 +610,10 @@ export let mockResultantUIFlowWithError = {
     "createdAt": "2017-03-21T09:43:38.614Z",
     "updatedAt": "2017-03-21T09:43:53.073Z"
   },
+  "metadata": {
+    "input": [],
+    "output": []
+  },
   "paths": {
     "root": {"is": "some_id_0"},
     "nodes": {
@@ -875,6 +883,10 @@ export let mockResultantUIFlowWithError = {
       "createdAt": "2017-03-21T09:43:38.614Z",
       "updatedAt": "2017-03-21T09:43:53.073Z"
     },
+    "metadata": {
+      "input": [],
+      "output": []
+    },
     "paths": {
       "root": {"is": "some_id_0"},
       "nodes": {
@@ -1015,6 +1027,10 @@ export let mockResultantUIFlowWithTransformations = {
     "description": "",
     "createdAt": "2017-03-21T09:43:38.614Z",
     "updatedAt": "2017-03-21T09:43:53.073Z"
+  },
+  "metadata": {
+    "input": [],
+    "output": []
   },
   "paths": {
     "root": {"is": "some_id_0"},

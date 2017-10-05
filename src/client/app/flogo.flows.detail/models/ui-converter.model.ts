@@ -15,6 +15,7 @@ export abstract class AbstractModelConverter {
 
   abstract getActivitiesPromise(list);
   abstract getTriggerPromise(trigger);
+  abstract getFlowInformation(flow);
 
   convertToWebFlowModel(flowObj) {
     return this.getActivitiesPromise(this.getActivities(flowObj))
@@ -57,13 +58,7 @@ export abstract class AbstractModelConverter {
     // links tasks
     let links = _.get(flowJSON, 'data.flow.rootTask.links', []);
 
-    const flowInfo = {
-      id: flowJSON.id,
-      appId: flowJSON.app.id,
-      name: flowJSON.name || flowJSON.id,
-      description: flowJSON.description || '',
-      app: flowJSON.app
-    };
+    const flowInfo = this.getFlowInformation(flowJSON);
 
     const mainFlowParts = this.getFlowParts(installedContribs, tasks, links);
     const currentFlow = this.makeFlow(mainFlowParts, flowInfo, installedContribs);
@@ -88,7 +83,7 @@ export abstract class AbstractModelConverter {
     let flow: any = {};
     try {
       const {nodes, items, branches} = parts;
-      const {id, name, description, appId, app} = flowInfo;
+      const {id, name, description, appId, app, metadata} = flowInfo;
 
       const nodeTrigger = nodes.find((element) => {
         const nodeType = element.node.type;
@@ -109,6 +104,10 @@ export abstract class AbstractModelConverter {
         // todo: remove _id, keeping it for now for legacy code that should move to id
         _id: id,
       };
+
+      if (metadata) {
+        flow.metadata = metadata;
+      }
 
       if (nodeTrigger) {
         flow.paths.root = {};

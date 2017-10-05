@@ -36,4 +36,14 @@ export class DeviceModelConverter extends AbstractModelConverter {
       return this.contribService.getContributionDetails(trigger.ref);
     }
   }
+
+  getFlowInformation(flowJSON) {
+    return {
+      id: flowJSON.id,
+      appId: flowJSON.app.id,
+      name: flowJSON.name || flowJSON.id,
+      description: flowJSON.description || '',
+      app: flowJSON.app
+    };
+  }
 }

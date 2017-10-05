@@ -116,7 +116,7 @@ describe("Service: UI Model Converter", function(this: {
 
   function formFlowWithoutId(flow) {
     let dummyIndex = 0;
-    let noIdFlow: any = Object.assign({},_.pick(flow, ['name', 'description', 'appId', 'app']), {
+    let noIdFlow: any = Object.assign({},_.pick(flow, ['name', 'description', 'appId', 'app', 'metadata']), {
       paths: {
         root: {},
         nodes: {},
