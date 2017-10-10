@@ -317,7 +317,42 @@ function handlerEditableSchema() {
       outputs: {
         type: 'object',
       },
+      actionInputMappings: {
+        $ref: '#/definitions/ActionInputMappingsCollection'
+      },
+      actionOutputMappings: {
+        $ref: '#/definitions/ActionOutputMappingsCollection'
+      }
     },
+    definitions: {
+      ActionInputMappingsCollection: {
+        type: 'array',
+        items: {
+          $ref: '#/definitions/InputOutputMapping'
+        }
+      },
+      ActionOutputMappingsCollection: {
+        type: 'array',
+        items: {
+          $ref: '#/definitions/InputOutputMapping'
+        }
+      },
+      InputOutputMapping: {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          type: {
+            type: 'integer'
+          },
+          value: {
+            type: 'string'
+          },
+          mapTo: {
+            type: 'string'
+          }
+        }
+      }
+    }
   };
 }
 
@@ -386,10 +421,18 @@ function fullAppSchema() {
                     default: {
                     },
                   },
+                  actionInputMappings: {
+                    $ref: '#/definitions/ActionInputMappingsCollection'
+                  },
+                  actionOutputMappings: {
+                    $ref: '#/definitions/ActionOutputMappingsCollection'
+                  }
                 },
                 required: [
                   'actionId',
                   'settings',
+                  'actionInputMappings',
+                  'actionOutputMappings'
                 ],
               },
             },
@@ -411,6 +454,35 @@ function fullAppSchema() {
       },
     },
     definitions: {
+      ActionInputMappingsCollection: {
+        type: 'array',
+        default: [],
+        items: {
+          $ref: '#/definitions/InputOutputMapping'
+        }
+      },
+      ActionOutputMappingsCollection: {
+        type: 'array',
+        default: [],
+        items: {
+          $ref: '#/definitions/InputOutputMapping'
+        }
+      },
+      InputOutputMapping: {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          type: {
+            type: 'integer'
+          },
+          value: {
+            type: 'string'
+          },
+          mapTo: {
+            type: 'string'
+          }
+        }
+      },
       ActionMetadata: {
         type: 'object',
         additionalProperties: false,
