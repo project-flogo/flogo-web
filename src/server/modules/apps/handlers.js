@@ -56,8 +56,10 @@ export class HandlersManager {
           });
           /* Need to add actionInputMappings and actionOutputMappings only for Microservice profile*/
           if (getProfileType(app) === FLOGO_PROFILE_TYPES.MICRO_SERVICE) {
-            handler.actionInputMappings = [];
-            handler.actionOutputMappings = [];
+            handler = defaults(handler, {
+              actionInputMappings: [],
+              actionOutputMappings: []
+            });
           }
           updateQuery = { $push: { [`triggers.${triggerIndex}.handlers`]: handler } };
         }

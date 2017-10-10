@@ -350,7 +350,8 @@ function handlerEditableSchema() {
           mapTo: {
             type: 'string'
           }
-        }
+        },
+        required: ['type', 'value', 'mapTo']
       }
     }
   };
@@ -430,9 +431,7 @@ function fullAppSchema() {
                 },
                 required: [
                   'actionId',
-                  'settings',
-                  'actionInputMappings',
-                  'actionOutputMappings'
+                  'settings'
                 ],
               },
             },
@@ -481,7 +480,8 @@ function fullAppSchema() {
           mapTo: {
             type: 'string'
           }
-        }
+        },
+        required: ['type', 'value', 'mapTo']
       },
       ActionMetadata: {
         type: 'object',
