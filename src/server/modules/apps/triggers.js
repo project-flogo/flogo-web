@@ -27,7 +27,7 @@ const EDITABLE_FIELDS_UPDATE = [
 
 
 /**
- {
+{
   "id": "my_rest_trigger",
   "name": "My rest trigger",
   "description": "My rest trigger description",
@@ -43,17 +43,33 @@ const EDITABLE_FIELDS_UPDATE = [
       "settings": {
         "method": "GET",
         "path": "/test"
-      }
+      },
+      "actionInputMappings": [
+        { "type": 1, "value": "content.customerId", "mapTo": "customerId" },
+        { "type": 1, "value": "content.orderId", "mapTo": "orderId" }
+      ],
+      "actionOutputMappings": [
+        { "type": 1, "value": "responseCode", "mapTo": "status" },
+        { "type": 1, "value": "responceData", "mapTo": "data" }
+      ]
     },
     {
       "actionId": "my_simple_flow_2",
       "settings": {
         "method": "GET",
         "path": "/test2"
-      }
+      },
+      "actionInputMappings": [
+        { "type": 1, "value": "content.customerId", "mapTo": "customerId" },
+        { "type": 1, "value": "content.orderId", "mapTo": "orderId" }
+      ],
+      "actionOutputMappings": [
+        { "type": 1, "value": "responseCode", "mapTo": "status" },
+        { "type": 1, "value": "responceData", "mapTo": "data" }
+      ]
     }
-  }
- }
+  ]
+}
  */
 export class AppsTriggersManager {
 
