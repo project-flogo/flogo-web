@@ -26,14 +26,6 @@
         },
         {
             "type": "activity",
-            "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/actreply"
-        },
-        {
-            "type": "activity",
-            "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/actreturn"
-        },
-        {
-            "type": "activity",
             "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/app"
         },
         {
@@ -59,10 +51,6 @@
         {
             "type": "activity",
             "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/log"
-        },
-        {
-            "type": "activity",
-            "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/mapper"
         },
         {
             "type": "activity",
