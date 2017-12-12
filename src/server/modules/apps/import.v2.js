@@ -27,20 +27,19 @@ export function importApp(fromApp) {
         throw ErrorManager.createValidationError('Validation error', { details: errors });
       }
     })
-    .then(() => AppsManager.create(clonedApp))
-    .then(app => {
+    .then(() => {
       if (appProfile === FLOGO_PROFILE_TYPES.DEVICE) {
         return Promise.all([
-          ContribDeviceManager.find({ type: 'flogo:device:trigger' }),
-          ContribDeviceManager.find({ type: 'flogo:device:activity' }),
+          ContribDeviceManager.find({type: 'flogo:device:trigger'}),
+          ContribDeviceManager.find({type: 'flogo:device:activity'}),
         ])
-        .then(([triggerContribs, activityContribs]) => {
-          fromApp.triggers = fromApp.triggers.map(trigger => deviceTriggerFormatter(trigger, triggerContribs));
-          fromApp.actions = fromApp.actions.map(action => deviceActionFormatter(action, activityContribs));
-        });
+          .then(([triggerContribs, activityContribs]) => {
+            fromApp.triggers = fromApp.triggers.map(trigger => deviceTriggerFormatter(trigger, triggerContribs));
+            fromApp.actions = fromApp.actions.map(action => deviceActionFormatter(action, activityContribs));
+          });
       }
-      return app;
     })
+    .then(() => AppsManager.create(clonedApp))
     .then(app => Promise.all(fromApp.actions.map(action =>
         ActionsManager.create(app.id, action).then(storedAction => [action.id, storedAction])))
         .then(actionPairs => ({ appId: app.id, actionsMap: new Map(actionPairs) })),
