@@ -266,6 +266,9 @@ export function getSchema() {
               activityRef: {
                 type: 'string',
               },
+              flowRef: {
+                type: 'string',
+              },
               attributes: {
                 type: 'array',
                 items: {
@@ -300,10 +303,17 @@ export function getSchema() {
                 },
               },
             },
-            required: [
-              'id',
-              'activityRef',
-            ],
+            anyOf: [{
+              properties: {
+                type: {enum: [4]}
+              },
+              required: ['id', 'flowRef']
+            }, {
+              properties: {
+                type: {enum: [0,1,2,3]}
+              },
+              required: ['id', 'activityRef']
+            }]
           },
         },
       },
