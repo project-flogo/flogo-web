@@ -1457,9 +1457,10 @@ export class FlowComponent implements OnInit, OnDestroy {
       return;
     }
     const allTasks = this._getAllTasks();
-    const iteratorTasks = Object.keys(allTasks)
-      .filter(taskId => isIterableTask(allTasks[taskId]));
-    if (iteratorTasks.length > 0) {
+    const subflowOrIteratorTasks = Object.keys(allTasks).find(task => {
+      return isSubflowTask(allTasks[task].type) || isIterableTask(allTasks[task]);
+    })
+    if (subflowOrIteratorTasks) {
       this.runnableInfo.disabled = true;
       this.runnableInfo.disableReason = this.translate.instant('CANVAS:WARNING-UNSUPPORTED-TEST-RUN');
     }
