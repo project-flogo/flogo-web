@@ -4,6 +4,8 @@ import { FLOGO_FLOW_DIAGRAM_NODE_TYPE, FLOGO_FLOW_DIAGRAM_VERBOSE as VERBOSE } f
 import { Node } from '@flogo/core/interfaces/flow-diagram/node';
 
 export class FlogoFlowDiagramNode implements Node {
+  static count = 1;
+
   id: string; // id of the node
   taskID: string; // id of the task
   type: FLOGO_FLOW_DIAGRAM_NODE_TYPE; // type of the node
@@ -12,15 +14,12 @@ export class FlogoFlowDiagramNode implements Node {
   // subProc: FlowDiagram[ ]; // [optional] sub process diagram of a task with sub process
 
   static genNodeID(): string {
-    let id = '';
-
-    if (performance && _.isFunction(performance.now)) {
-      id = `FlogoFlowDiagramNode::${Date.now()}::${performance.now()}`;
-    } else {
-      id = `FlogoFlowDiagramNode::${Date.now()}}`;
-    }
-
+    const id = `FlogoFlowDiagramNode::${Date.now()}::${FlogoFlowDiagramNode.count++}`;
     return flogoIDEncode(id);
+  }
+
+  static resetCount() {
+    FlogoFlowDiagramNode.count = 1;
   }
 
   constructor(node ?: Node) {
