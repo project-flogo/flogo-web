@@ -34,7 +34,9 @@ export class DraggableDirective implements OnDestroy, OnInit {
       this.dragItem = event.target['cloneNode'](true);
       this.dragItem.style.visibility = 'hidden';
       document.body.appendChild(this.dragItem);
-      event.dataTransfer['setDragImage'](this.dragItem, 0, 0);
+      if (event.dataTransfer['setDragImage']) { // IE Edge does not support setDragImage
+        event.dataTransfer['setDragImage'](this.dragItem, 0, 0);
+      }
 
       this.Δx = event.x - this.el.nativeElement.offsetLeft;
       this.Δy = event.y - this.el.nativeElement.offsetTop;

@@ -28,7 +28,7 @@
 
     </div>
 
-    <div class="flogo-logs-lines" [style.overflow-y]="isExternal ? 'none' : 'scroll'">
+    <div class="flogo-logs-lines" [style.overflow-y]="isExternal ? 'none' : 'auto'">
         <div class="content-section">
             <div *ngFor="let message of logService.lines | flogoLogsSearch : searchValue" class="log-line">
                 <div class="log-line__timestamp">{{message.timestamp}}</div>
