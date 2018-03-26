@@ -4,6 +4,7 @@ import {config} from '../../config/app-config';
 import {createFolder as ensureDir} from '../../common/utils/file';
 
 import { removeDir } from './file-utils';
+import {getHostExecutableExtension} from "../../common/utils/process";
 
 const loader = require('./loader');
 const commander = require('./commander');
@@ -24,6 +25,7 @@ class Engine {
 
   constructor(pathToEngine, libVersion, runLogger) {
     this.path = pathToEngine;
+    this.hostExt = getHostExecutableExtension();
     this.tasks = {
       activities: [],
       triggers: [],
@@ -138,7 +140,7 @@ class Engine {
   }
 
   getName() {
-    return path.parse(this.path).name;
+    return `${path.parse(this.path).name}${this.hostExt}`;
   }
 
   /**

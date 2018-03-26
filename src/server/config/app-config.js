@@ -27,7 +27,7 @@ const appPort = process.env.PORT || 3303;
 const enginesPath = path.join('local', 'engines');
 const enginesRoot = path.join(rootPath, enginesPath);
 const defaultEngineName = 'flogo-web';
-const defaultEngine = `${enginesPath}/${defaultEngineName}`;
+const defaultEngine = path.join(enginesPath, defaultEngineName);
 
 let libVersion = process.env.FLOGO_LIB_VERSION || process.env.FLOGO_WEB_LIB_VERSION;
 if (!libVersion || libVersion === 'latest') {

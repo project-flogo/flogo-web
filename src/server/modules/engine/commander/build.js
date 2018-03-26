@@ -108,7 +108,7 @@ function _getEnv(opts) {
 function _copyBinaryToTarget(binaryPath, targetDir) {
   const enginePathInfo = path.parse(binaryPath);
   const from = binaryPath;
-  const to = path.join(targetDir, enginePathInfo.name);
+  const to = path.join(targetDir, enginePathInfo.base);
 
   const execPermissions = 0o755;
   return copyFile(from, to)
