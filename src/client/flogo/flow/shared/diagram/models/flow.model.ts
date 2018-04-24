@@ -18,63 +18,10 @@ import {
   flowToJSON_Task,
   LegacyFlow,
   LegacyFlowWrapper,
-  triggerToJSON_Trigger,
-  triggerToJSON_TriggerInfo,
   ValueType,
   FLOGO_PROCESS_TYPE,
   FLOGO_TASK_TYPE,
 } from '@flogo/core';
-
-export function triggerFlowToJSON(flow: UiFlow): triggerToJSON_Trigger {
-  let result: triggerToJSON_Trigger;
-  let rootTask: any;
-
-  _.forOwn(flow.items, function (value, key) {
-    if (value.type === FLOGO_TASK_TYPE.TASK_ROOT) {
-      rootTask = _.cloneDeep(value);
-      return false;
-    } else {
-      return true;
-    }
-  });
-
-  if (rootTask) {
-    const settings = {};
-    const endpoint = {};
-    let endpoints = [];
-
-    if (rootTask.settings) {
-      rootTask.settings.forEach((setting) => {
-        settings[setting.name] = setting.value;
-      });
-    }
-
-    if (rootTask.endpoint && rootTask.settings) {
-      rootTask.endpoint.settings.forEach((setting) => {
-        if (setting.value && typeof setting.value !== 'undefined') {
-          endpoint[setting.name] = setting.value;
-        }
-      });
-    }
-
-    if (_.isEmpty(endpoint)) {
-      endpoints = null;
-    } else {
-      endpoints.push(endpoint);
-    }
-
-    let trigger: triggerToJSON_TriggerInfo;
-    trigger = {
-      name: rootTask.triggerType,
-      settings: settings,
-      endpoints: endpoints
-    };
-
-    result = { triggers: [trigger] };
-  }
-
-  return result;
-}
 
 /**
  * Convert the flow to flow.json

@@ -5,7 +5,18 @@ import * as _ from 'lodash';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/toPromise';
 
-import {MetadataAttribute, FlowDiagram, Task, UiFlow, LanguageService} from '@flogo/core';
+import {
+  MetadataAttribute,
+  FlowDiagram,
+  Task,
+  UiFlow,
+  LanguageService,
+  ActivitySchema,
+  ItemTask,
+  Item,
+  ItemSubflow,
+  ItemBranch
+} from '@flogo/core';
 import { TriggersApiService, OperationalError } from '@flogo/core/services';
 import { PostService } from '@flogo/core/services/post.service';
 import { ValueType } from '@flogo/core/constants';
@@ -75,6 +86,7 @@ import { ParamsSchemaComponent } from './params-schema/params-schema.component';
 import { updateBranchNodesRunStatus } from './shared/diagram/utils';
 import { SaveTaskConfigEventData } from './task-configurator';
 import { makeDefaultErrorTrigger } from '@flogo/flow/shared/diagram/models/task.model';
+import { mergeItemWithSchema, extractItemInputsFromTask } from '@flogo/core/models';
 
 export interface IPropsToUpdateFormBuilder {
   name: string;
@@ -407,7 +419,7 @@ export class FlowComponent implements OnInit, OnDestroy {
   private _getCurrentTaskContext(taskId: any, diagramId: string): TaskContext {
     const taskType = this.handlers[diagramId].tasks[taskId].type;
     return {
-      isTrigger: taskType === FLOGO_TASK_TYPE.TASK_ROOT,
+      isTrigger: false, // taskType === FLOGO_TASK_TYPE.TASK_ROOT,
       isBranch: taskType === FLOGO_TASK_TYPE.TASK_BRANCH,
       isTask: taskType === FLOGO_TASK_TYPE.TASK || taskType === FLOGO_TASK_TYPE.TASK_SUB_PROC,
       shouldSkipTaskConfigure: this.isTaskSubflowOrMapper(taskId, diagramId),
@@ -421,7 +433,7 @@ export class FlowComponent implements OnInit, OnDestroy {
   }
 
   private isTaskSubflowOrMapper(taskId: any, diagramId: string): boolean {
-    const currentTask = this.handlers[diagramId].tasks[taskId];
+    const currentTask = <ItemTask> this.handlers[diagramId].tasks[taskId];
     const activitySchema = this.flow.schemas[currentTask.ref];
     return isSubflowTask(currentTask.type) || isMapperActivity(activitySchema);
   }
@@ -490,57 +502,6 @@ export class FlowComponent implements OnInit, OnDestroy {
         notification(message, 'error');
         return Promise.reject(err);
       });
-  }
-
-  private getSettingsCurrentHandler() {
-    let settings;
-    let outputs;
-    for (const key in this.flow.items) {
-      if (this.flow.items[key].type === FLOGO_TASK_TYPE.TASK_ROOT) {
-        // casting to any for now because we need to check first that this is still used
-        settings = objectFromArray((<any>this.flow.items[key]).endpoint.settings, true);
-        outputs = objectFromArray((<any>this.flow.items[key]).outputs, true);
-      }
-    }
-
-    return { settings, outputs };
-  }
-
-  private _onActionTrigger(data: any, envelope: any) {
-
-    if (data.action === 'trigger-copy') {
-      const triggerSettings = _.pick(this.currentTrigger, ['name', 'description', 'ref', 'settings']);
-      this.triggersApiService.createTrigger(this.app.id, triggerSettings)
-        .then((createdTrigger) => {
-          this.currentTrigger = createdTrigger;
-          const settings = this.getSettingsCurrentHandler();
-          return this._restAPIHandlerService.updateHandler(createdTrigger.id, this.flow.id, settings)
-            .then((res) => {
-              const message = this.translate.instant('CANVAS:COPIED-TRIGGER');
-              notification(message, 'success', 3000);
-              this._restAPIAppsService.getApp(this.flow.app.id)
-                .then((app) => {
-                  const updatedTriggerDetails = _.assign({}, this.currentTrigger);
-                  updatedTriggerDetails.handlers.push(_.assign({}, _.pick(res, [
-                    'actionId',
-                    'createdAt',
-                    'outputs',
-                    'settings',
-                    'updatedAt'
-                  ])));
-                  this.currentTrigger = updatedTriggerDetails;
-                  this.app = app;
-                  this._postService.publish(_.assign({}, FLOGO_SELECT_TASKS_PUB_EVENTS.updateTriggerTask, {
-                    data: {
-                      updatedApp: app,
-                      updatedTrigger: updatedTriggerDetails
-                    }
-                  }));
-                });
-            });
-        });
-    }
-
   }
 
   private _addTaskFromDiagram(data: any, envelope: any) {
@@ -751,10 +712,13 @@ export class FlowComponent implements OnInit, OnDestroy {
 
     // Refresh task detail
     const currentStep = this._getCurrentState(data.node.taskID);
-    const currentTask = _.cloneDeep(this.handlers[diagramId].tasks[data.node.taskID]);
     const context = this._getCurrentTaskContext(data.node.taskID, diagramId);
 
-    const activitySchema = this.flow.schemas[currentTask.ref];
+    const currentItem = <ItemTask> _.cloneDeep(this.handlers[diagramId].tasks[data.node.taskID]);
+    // schema == {} for subflow case
+    const activitySchema = this.flow.schemas[currentItem.ref] || <any>{};
+    const currentTask = mergeItemWithSchema(currentItem, activitySchema);
+
     this._navigateFromModuleRoot(['task', data.node.taskID])
       .then(
         () => {
@@ -767,7 +731,13 @@ export class FlowComponent implements OnInit, OnDestroy {
     console.groupEnd();
   }
 
-  private openTaskDetail(diagramId: string, data: any, currentTask: any, currentStep: Step, context: TaskContext) {
+  private openTaskDetail(
+    diagramId: string,
+    data: any,
+    currentTask: Task,
+    currentStep: Step,
+    context: TaskContext,
+  ) {
     this._postService.publish(
       _.assign(
         {}, FLOGO_SELECT_TASKS_PUB_EVENTS.selectTask, {
@@ -808,7 +778,7 @@ export class FlowComponent implements OnInit, OnDestroy {
     tileType: string
   }, envelope: any) {
     if (data.tileType === 'activity') {
-      const task = this.handlers[data.id].tasks[data.taskId];
+      const task = <ItemTask> this.handlers[data.id].tasks[data.taskId];
 
       if (task) {
         if (data.proper === 'name') {
@@ -833,7 +803,8 @@ export class FlowComponent implements OnInit, OnDestroy {
           );
         });
 
-        if (task.type === FLOGO_TASK_TYPE.TASK_ROOT) {
+        // TODO: used?
+        if (<any>task.type === FLOGO_TASK_TYPE.TASK_ROOT) {
           updateObject[data.proper] = task[data.proper];
           this.triggersApiService.updateTrigger(this.currentTrigger.id, updateObject);
         }
@@ -918,31 +889,14 @@ export class FlowComponent implements OnInit, OnDestroy {
                   // TODO
                   //  NOTE that once delete branch, not only single task is removed
                   const tasks = this.handlers[diagramId].tasks;
-                  const deletedTask = _.cloneDeep(tasks[_.get(data, 'node.taskID', '')]);
+                  const deletedTask = <Item>_.cloneDeep(tasks[_.get(data, 'node.taskID', '')]);
                   delete tasks[_.get(data, 'node.taskID', '')];
-                  const taskIds = Object.keys(tasks);
-                  if ((diagramId === 'errorHandler') && (taskIds.length === 1 ) && (tasks[taskIds[0]].type === FLOGO_TASK_TYPE.TASK_ROOT)) {
-                    this.flow.errorHandler = <any>{
-                      paths: {},
-                      items: {}
-                    };
-                    const errorTasks = this.flow.errorHandler.items;
-                    const errorDiagram = this.flow.errorHandler.paths = <any>{
-                      root: {},
-                      nodes: {}
-                    };
-                    this.handlers[diagramId] = {
-                      diagram: errorDiagram,
-                      tasks: errorTasks
-                    };
-                    this.errorHandler = this.handlers[diagramId];
-                  } else {
-                    _.assign(this.handlers[diagramId].diagram, diagram);
-                  }
+                  _.assign(this.handlers[diagramId].diagram, diagram);
                   this._updateFlow(this.flow);
                   this._isDiagramEdited = true;
 
-                  if (isSubflowTask(deletedTask.type)) {
+                  const isSubflowItem = (checkItem: Item): checkItem is ItemSubflow => isSubflowTask(checkItem.type);
+                  if (isSubflowItem(deletedTask)) {
                     this.manageFlowRelationships(deletedTask.settings.flowPath);
                   }
 
@@ -972,7 +926,7 @@ export class FlowComponent implements OnInit, OnDestroy {
     //  remove this mock later
     //    here just creating a branch node with new branch info
 
-    const branchInfo = {
+    const branchInfo: ItemBranch = {
       id: flogoGenBranchID(),
       type: FLOGO_TASK_TYPE.TASK_BRANCH,
       condition: 'true'
@@ -1073,11 +1027,10 @@ export class FlowComponent implements OnInit, OnDestroy {
     if (task.type === FLOGO_TASK_TYPE.TASK) {
       // set/unset the warnings in the tile
       _.set(task, '__props.warnings', data.warnings);
-
       const changedInputs = data.inputs || {};
-      this._updateAttributesChanges(task, changedInputs, 'attributes.inputs');
-
-    } else if (task.type === FLOGO_TASK_TYPE.TASK_ROOT) { // trigger
+      task.input = {...changedInputs};
+    } else if (<any>task.type === FLOGO_TASK_TYPE.TASK_ROOT) { // trigger
+      // todo: used?
       let updatePromise: any = Promise.resolve(true);
 
       if (data.changedStructure === 'settings') {
@@ -1237,7 +1190,8 @@ export class FlowComponent implements OnInit, OnDestroy {
 
     const selectedTask = this.mainHandler.tasks[data.taskId];
 
-    if (selectedTask.type === FLOGO_TASK_TYPE.TASK_ROOT) {
+    if (<any>selectedTask.type === FLOGO_TASK_TYPE.TASK_ROOT) {
+      // todo: used?
       this._runFromTriggerinTile(data, envelope);
       return;
     } else if (!this.runState.processInstanceId) {
@@ -1253,7 +1207,7 @@ export class FlowComponent implements OnInit, OnDestroy {
       // TODO
       //  handling the case that trying to start from the middle of a path without run from the trigger for the first time.
       const task = this.mainHandler.tasks[data.taskId];
-      console.error(`Cannot start from task ${task.name} (${task.id})`);
+      console.error(`Cannot start from task ${(<any>task).name} (${task.id})`);
       return;
     }
 
@@ -1623,7 +1577,7 @@ export class FlowComponent implements OnInit, OnDestroy {
     let searchTitleKey;
     let transformTitle;
 
-    const currentTask = _.cloneDeep(this.handlers[diagramId].tasks[data.node.taskID]);
+    const currentTask = <ItemTask> _.cloneDeep(this.handlers[diagramId].tasks[data.node.taskID]);
     const activitySchema = this.flow.schemas[currentTask.ref];
     const  outputMapper = isMapperActivity(activitySchema);
 
@@ -1671,28 +1625,25 @@ export class FlowComponent implements OnInit, OnDestroy {
 
   private _saveConfigFromTaskConfigurator(data: SaveTaskConfigEventData, envelope: any) {
     const diagramId = data.handlerId;
-    const tile = this.handlers[diagramId].tasks[data.tile.id];
+    const tile = <ItemTask> this.handlers[diagramId].tasks[data.tile.id];
     const changedSubflowSchema = data.changedSubflowSchema;
-    if (changedSubflowSchema && tile.settings.flowPath !== data.tile.settings.flowPath) {
-      this.manageFlowRelationships(tile.settings.flowPath);
+    const tileAsSubflow = <ItemSubflow> tile;
+    if (changedSubflowSchema && tileAsSubflow.settings.flowPath !== data.tile.settings.flowPath) {
+      this.manageFlowRelationships(tileAsSubflow.settings.flowPath);
       tile.name = this.uniqueTaskName(changedSubflowSchema.name);
       tile.description = changedSubflowSchema.description;
-      tile.settings.flowPath = changedSubflowSchema.id;
+      tileAsSubflow.settings.flowPath = changedSubflowSchema.id;
       this._flowService.currentFlowDetails.addSubflowSchema(changedSubflowSchema);
     }
     const activitySchema = this.flow.schemas[tile.ref];
     const isMapperTask = isMapperActivity(activitySchema);
     if (isMapperTask) {
-      tile.attributes.inputs = [{
-        name: 'mappings',
-        type: ValueType.Array,
-        value: _.cloneDeep(data.inputMappings)
-      }];
+      tile.input.mappings = _.cloneDeep(data.inputMappings);
     } else {
       tile.inputMappings = _.cloneDeep(data.inputMappings);
     }
 
-    tile.type = data.tile.type;
+    tile.type = <any>data.tile.type;
     if (data.iterator.isIterable) {
       tile.settings = Object.assign({}, tile.settings, { iterate:  data.iterator.iterableValue });
     } else if (tile.settings) {
@@ -1754,10 +1705,10 @@ export class FlowComponent implements OnInit, OnDestroy {
         const node = from.diagram.nodes[nodeId];
         if (isApplicableNodeType(node.type)) {
           const task = from.tasks[node.taskID];
-          if (isSubflowTask(task.type)) {
-            const subFlowSchema = this._flowService.currentFlowDetails.getSubflowSchema(task.settings.flowPath);
-            task.attributes.outputs = _.get(subFlowSchema, 'metadata.output', []);
-          }
+          // if (isSubflowTask(task.type)) {
+          //   const subFlowSchema = this._flowService.currentFlowDetails.getSubflowSchema(task.settings.flowPath);
+          //   task.attributes.outputs = _.get(subFlowSchema, 'metadata.output', []);
+          // }
           return task;
         } else {
           return null;
@@ -1825,7 +1776,7 @@ export class FlowComponent implements OnInit, OnDestroy {
     const diagramId: string = data.id;
     const currentDiagram: any = this.handlers[diagramId];
     const step = this._getCurrentState(data.taskId);
-    const task = _.assign({}, _.cloneDeep(currentDiagram.tasks[data.taskId]));
+    const task = _.cloneDeep(currentDiagram.tasks[data.taskId]);
     const context = this._getCurrentTaskContext(data.taskId, diagramId);
 
     this._postService.publish(
@@ -1912,7 +1863,7 @@ export class FlowComponent implements OnInit, OnDestroy {
   }
 
   private isFlowUsedAgain(id: string) {
-    return !!_.values(this._getAllTasks()).find(t => t.settings && t.settings.flowPath === id);
+    return !!_.values(this._getAllTasks()).find((t: ItemSubflow) => t.settings && t.settings.flowPath === id);
   }
 
 }

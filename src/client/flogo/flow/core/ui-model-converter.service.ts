@@ -27,26 +27,6 @@ export class UIModelConverterService {
   /**
    * Convert Engine Flow Model to UI flow model.
    *
-   * @example
-   * const uiFlowModel = converterService.runFromRoot({
-   *   useFlow: { _id: "flows:flogoweb-admin:2017-02-24T18:21:29.014Z", items: { ... }, paths: {...}  },
-   *   attrsData: [{"name":"params", "type":"params", "value":{ "id":3 }}]
-   * });
-   *
-   * runner.state.subscribe(...);
-   * runner.completed.subscribe(...);
-   *
-   * @example
-   * try {
-   *   const runner = runnerService.getWebFlowModel({
-   *    engineFlowObj,
-   *    flowTriggerObj
-   *   });
-   * } catch(error) {
-   *    **Error Handling**
-   * }
-   *
-   *
    * @param flowObj - Engine flow model JSON. See mockFlow in ./ui-model-flow.mock.ts
    * @param subflowSchemas - Map object which maintains the registry of flow schemas used as subflows
    * @return {Promise<Object>}

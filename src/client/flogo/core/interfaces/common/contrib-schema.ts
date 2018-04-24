@@ -7,7 +7,7 @@ export interface ActivitySchema extends BaseSchema {
   return: boolean;
   /** @deprecated */
   reply?: boolean;
-  input: SchemaAttribute[];
+  inputs: SchemaAttribute[];
 }
 
 export interface TriggerSchema extends BaseSchema {
@@ -44,6 +44,6 @@ export interface BaseSchema {
   description: string;
   author?: string;
   homepage: string;
-  output?: SchemaAttribute[];
+  outputs?: SchemaAttribute[];
 }
 

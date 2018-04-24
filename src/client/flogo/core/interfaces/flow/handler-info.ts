@@ -1,6 +1,6 @@
-import { FlowDiagram, TaskDictionary } from 'flogo/core/index';
+import { FlowDiagram, Dictionary, Item } from 'flogo/core/index';
 
 export interface HandlerInfo {
   diagram: FlowDiagram;
-  tasks: TaskDictionary;
+  tasks: Dictionary<Item>;
 }
