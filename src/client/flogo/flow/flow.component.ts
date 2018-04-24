@@ -301,7 +301,6 @@ export class FlowComponent implements OnInit, OnDestroy {
     // processing this._flow to pure JSON object
     flow = _.cloneDeep(flow);
     cleanPaths(flow.paths);
-    flow.schemas = _.get(this.handlers, 'root.schemas');
 
     if (flow.errorHandler && !_.isEmpty(flow.errorHandler.paths)) {
       cleanPaths(flow.errorHandler.paths);
