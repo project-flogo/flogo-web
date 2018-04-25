@@ -86,7 +86,7 @@ import { ParamsSchemaComponent } from './params-schema/params-schema.component';
 import { updateBranchNodesRunStatus } from './shared/diagram/utils';
 import { SaveTaskConfigEventData } from './task-configurator';
 import { makeDefaultErrorTrigger } from '@flogo/flow/shared/diagram/models/task.model';
-import { mergeItemWithSchema, extractItemInputsFromTask } from '@flogo/core/models';
+import { mergeItemWithSchema, extractItemInputsFromTask, PartialActivitySchema } from '@flogo/core/models';
 
 export interface IPropsToUpdateFormBuilder {
   name: string;
@@ -107,6 +107,7 @@ interface TaskContext {
 
 const FLOW_HANDLER_TYPE_ROOT = 'root';
 const FLOW_HANDLER_TYPE_ERROR = 'errorHandler';
+const isSubflowItem = (item: Item): item is ItemSubflow => isSubflowTask(item.type);
 
 @Component({
   selector: 'flogo-flow',
@@ -894,7 +895,6 @@ export class FlowComponent implements OnInit, OnDestroy {
                   this._updateFlow(this.flow);
                   this._isDiagramEdited = true;
 
-                  const isSubflowItem = (checkItem: Item): checkItem is ItemSubflow => isSubflowTask(checkItem.type);
                   if (isSubflowItem(deletedTask)) {
                     this.manageFlowRelationships(deletedTask.settings.flowPath);
                   }
@@ -1562,13 +1562,16 @@ export class FlowComponent implements OnInit, OnDestroy {
       scope = this.mapNodesToTiles(previousNodes, this.handlers[diagramId]);
     }
 
-    const selectedTaskId = selectedNode.taskID;
-    const selectedTile = <Task>_.cloneDeep(this.handlers[diagramId].tasks[selectedTaskId]);
-
     const metadata = <FlowMetadata>  _.defaultsDeep({
       type: 'metadata',
     }, this.flow.metadata, { input: [], output: [] });
     scope.push(metadata);
+
+    const selectedTaskId = selectedNode.taskID;
+    const selectedItem = <ItemTask>_.cloneDeep(this.handlers[diagramId].tasks[selectedTaskId]);
+    const activitySchema: PartialActivitySchema = this.flow.schemas[selectedItem.ref] || {};
+    const task = mergeItemWithSchema(selectedItem, activitySchema);
+    const outputMapper = isMapperActivity(activitySchema);
 
     let overridePropsToMap = null;
     let overrideMappings = null;
@@ -1576,19 +1579,16 @@ export class FlowComponent implements OnInit, OnDestroy {
     let searchTitleKey;
     let transformTitle;
 
-    const currentTask = <ItemTask> _.cloneDeep(this.handlers[diagramId].tasks[data.node.taskID]);
-    const activitySchema = this.flow.schemas[currentTask.ref];
-    const  outputMapper = isMapperActivity(activitySchema);
-
     if (outputMapper) {
       overridePropsToMap = metadata.output;
-      overrideMappings = _.get(selectedTile.attributes.inputs, '[0].value', []);
-      transformTitle = this.translate.instant('TASK-CONFIGURATOR:TITLE-OUTPUT-MAPPER', { taskName: selectedTile.name });
+      const inputs = selectedItem.input || {};
+      overrideMappings = inputs.mappings || [];
+      transformTitle = this.translate.instant('TASK-CONFIGURATOR:TITLE-OUTPUT-MAPPER', { taskName: selectedItem.name });
       searchTitleKey = 'TASK-CONFIGURATOR:FLOW-OUTPUTS';
       inputMappingsTabLabelKey = 'TASK-CONFIGURATOR:FLOW-OUTPUTS';
     }
 
-    const taskSettings = selectedTile.settings;
+    const taskSettings = selectedItem.settings;
     const dataToPublish = _.assign(
       {}, FLOGO_TRANSFORM_PUB_EVENTS.selectTask, {
         data: <SelectTaskConfigEventData>{
@@ -1596,19 +1596,19 @@ export class FlowComponent implements OnInit, OnDestroy {
           overridePropsToMap,
           overrideMappings,
           inputMappingsTabLabelKey,
-          tile: selectedTile,
+          tile: task,
           handlerId: diagramId,
           title: transformTitle,
           inputsSearchPlaceholderKey: searchTitleKey,
           iterator: {
-            isIterable: isIterableTask(selectedTile),
+            isIterable: isIterableTask(selectedItem),
             iterableValue: taskSettings && taskSettings.iterate ? taskSettings.iterate : null,
           },
         }
       }
     );
-    if (isSubflowTask(selectedTile.type)) {
-      const subflowSchema = this._flowService.currentFlowDetails.getSubflowSchema(selectedTile.settings.flowPath);
+    if (isSubflowItem(selectedItem)) {
+      const subflowSchema = this._flowService.currentFlowDetails.getSubflowSchema(selectedItem.settings.flowPath);
       if (subflowSchema) {
         dataToPublish.data.subflowSchema = subflowSchema;
         dataToPublish.data.appId = this.flow.appId;
@@ -1693,7 +1693,6 @@ export class FlowComponent implements OnInit, OnDestroy {
   }
 
   private mapNodesToTiles(nodeIds: any[], from: HandlerInfo) {
-
     const isApplicableNodeType = _.includes.bind(null, [
       FLOGO_FLOW_DIAGRAM_NODE_TYPE.NODE,
       FLOGO_FLOW_DIAGRAM_NODE_TYPE.NODE_ROOT,
@@ -1703,12 +1702,13 @@ export class FlowComponent implements OnInit, OnDestroy {
       .map(nodeId => {
         const node = from.diagram.nodes[nodeId];
         if (isApplicableNodeType(node.type)) {
-          const task = from.tasks[node.taskID];
-          // if (isSubflowTask(task.type)) {
-          //   const subFlowSchema = this._flowService.currentFlowDetails.getSubflowSchema(task.settings.flowPath);
-          //   task.attributes.outputs = _.get(subFlowSchema, 'metadata.output', []);
-          // }
-          return task;
+          const item = <ItemTask> from.tasks[node.taskID];
+          let schema: PartialActivitySchema = this.flow.schemas[item.ref];
+          if (isSubflowItem(item)) {
+            const subFlowSchema = this._flowService.currentFlowDetails.getSubflowSchema(item.settings.flowPath);
+            schema = { outputs: _.get(subFlowSchema, 'metadata.output', []) };
+          }
+          return mergeItemWithSchema(item, schema);
         } else {
           return null;
         }
