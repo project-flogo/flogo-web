@@ -76,183 +76,71 @@ export let resultantFlowModelForCanvas = {
     'items': {
       'some_id_7': {
         'name': 'First Log',
-        'version': '0.0.1',
-        'homepage': 'https://github.com/TIBCOSoftware/flogo-contrib/tree/master/activity/log',
         'description': 'Simple Log Activity',
-        'installed': true,
+        return: false,
         'settings': {},
-        'outputs': [],
         'ref': 'github.com/TIBCOSoftware/flogo-contrib/activity/log',
-        'endpoint': { 'settings': [] },
         '__props': { 'errors': [] },
         '__status': {},
-        'attributes': {
-          'inputs': [
-            {
-              'name': 'message',
-              'type': 'string',
-              'value': 'I am here 1',
-              'required': false
-            },
-            {
-              'name': 'flowInfo',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            },
-            {
-              'name': 'addToFlow',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            }
-          ],
-          'outputs': [
-            {
-              'name': 'message',
-              'type': 'string'
-            }
-          ]
+        input: {
+          message: 'I am here 1',
+          flowInfo: 'true',
+          addToFlow: 'true',
         },
         'inputMappings': [],
         'id': 'some_id_7',
         'type': 1,
-        'activityType': 'tibco-log'
       },
       'some_id_8': {
         'name': 'Counter1',
-        'version': '0.0.1',
-        'homepage': 'https://github.com/TIBCOSoftware/flogo-contrib/tree/master/activity/counter',
         'description': 'Simple Global Counter Activity',
-        'installed': true,
+        return: false,
         'settings': {},
-        'outputs': [],
         'ref': 'github.com/TIBCOSoftware/flogo-contrib/activity/counter',
-        'endpoint': { 'settings': [] },
         '__props': { 'errors': [] },
         '__status': {},
-        'attributes': {
-          'inputs': [
-            {
-              'name': 'counterName',
-              'type': 'string',
-              'value': 'counter1',
-              'required': false
-            },
-            {
-              'name': 'increment',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            },
-            {
-              'name': 'reset',
-              'type': 'boolean',
-              'value': false,
-              'required': false
-            }
-          ],
-          'outputs': [
-            {
-              'name': 'value',
-              'type': 'integer'
-            }
-          ]
+        input: {
+          counterName: 'counter1',
+          increment: 'true',
+          reset: false,
         },
         'inputMappings': [],
         'id': 'some_id_8',
         'type': 1,
-        'activityType': 'tibco-counter'
       },
       'some_id_9': {
         'name': 'Second Log',
-        'version': '0.0.1',
-        'homepage': 'https://github.com/TIBCOSoftware/flogo-contrib/tree/master/activity/log',
         'description': 'Simple Log Activity',
-        'installed': true,
+        return: false,
         'settings': {},
-        'outputs': [],
         'ref': 'github.com/TIBCOSoftware/flogo-contrib/activity/log',
-        'endpoint': { 'settings': [] },
         '__props': { 'errors': [] },
         '__status': {},
-        'attributes': {
-          'inputs': [
-            {
-              'name': 'message',
-              'type': 'string',
-              'value': 'I am here 2',
-              'required': false
-            },
-            {
-              'name': 'flowInfo',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            },
-            {
-              'name': 'addToFlow',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            }
-          ],
-          'outputs': [
-            {
-              'name': 'message',
-              'type': 'string'
-            }
-          ]
+        input: {
+          message: 'I am here 2',
+          flowInfo: 'true',
+          addToFlow: 'true',
         },
         'inputMappings': [],
         'id': 'some_id_9',
         'type': 1,
-        'activityType': 'tibco-log'
       },
       'some_id_10': {
         'name': 'Third Log',
-        'version': '0.0.1',
-        'homepage': 'https://github.com/TIBCOSoftware/flogo-contrib/tree/master/activity/log',
         'description': 'Simple Log Activity',
-        'installed': true,
+        return: false,
         'settings': {},
-        'outputs': [],
         'ref': 'github.com/TIBCOSoftware/flogo-contrib/activity/log',
-        'endpoint': { 'settings': [] },
         '__props': { 'errors': [] },
         '__status': {},
-        'attributes': {
-          'inputs': [
-            {
-              'name': 'message',
-              'type': 'string',
-              'value': 'I am here 3',
-              'required': false
-            },
-            {
-              'name': 'flowInfo',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            },
-            {
-              'name': 'addToFlow',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            }
-          ],
-          'outputs': [
-            {
-              'name': 'message',
-              'type': 'string'
-            }
-          ]
+        input: {
+          message: 'I am here 3',
+          flowInfo: 'true',
+          addToFlow: 'true',
         },
         'inputMappings': [],
         'id': 'some_id_10',
         'type': 1,
-        'activityType': 'tibco-log'
       },
       'some_id_11': {
         'id': 'some_id_11',
@@ -338,183 +226,71 @@ export let resultantFlowModelForCanvas = {
     'tasks': {
       'some_id_7': {
         'name': 'First Log',
-        'version': '0.0.1',
-        'homepage': 'https://github.com/TIBCOSoftware/flogo-contrib/tree/master/activity/log',
         'description': 'Simple Log Activity',
-        'installed': true,
+        return: false,
         'settings': {},
-        'outputs': [],
         'ref': 'github.com/TIBCOSoftware/flogo-contrib/activity/log',
-        'endpoint': { 'settings': [] },
         '__props': { 'errors': [] },
         '__status': {},
-        'attributes': {
-          'inputs': [
-            {
-              'name': 'message',
-              'type': 'string',
-              'value': 'I am here 1',
-              'required': false
-            },
-            {
-              'name': 'flowInfo',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            },
-            {
-              'name': 'addToFlow',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            }
-          ],
-          'outputs': [
-            {
-              'name': 'message',
-              'type': 'string'
-            }
-          ]
+        input: {
+          message: 'I am here 1',
+          flowInfo: 'true',
+          addToFlow: 'true',
         },
         'inputMappings': [],
         'id': 'some_id_7',
         'type': 1,
-        'activityType': 'tibco-log'
       },
       'some_id_8': {
         'name': 'Counter1',
-        'version': '0.0.1',
-        'homepage': 'https://github.com/TIBCOSoftware/flogo-contrib/tree/master/activity/counter',
         'description': 'Simple Global Counter Activity',
-        'installed': true,
+        return: false,
         'settings': {},
-        'outputs': [],
         'ref': 'github.com/TIBCOSoftware/flogo-contrib/activity/counter',
-        'endpoint': { 'settings': [] },
         '__props': { 'errors': [] },
         '__status': {},
-        'attributes': {
-          'inputs': [
-            {
-              'name': 'counterName',
-              'type': 'string',
-              'value': 'counter1',
-              'required': false
-            },
-            {
-              'name': 'increment',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            },
-            {
-              'name': 'reset',
-              'type': 'boolean',
-              'value': false,
-              'required': false
-            }
-          ],
-          'outputs': [
-            {
-              'name': 'value',
-              'type': 'integer'
-            }
-          ]
+        input: {
+          counterName: 'counter1',
+          increment: 'true',
+          reset: false,
         },
         'inputMappings': [],
         'id': 'some_id_8',
         'type': 1,
-        'activityType': 'tibco-counter'
       },
       'some_id_9': {
         'name': 'Second Log',
-        'version': '0.0.1',
-        'homepage': 'https://github.com/TIBCOSoftware/flogo-contrib/tree/master/activity/log',
         'description': 'Simple Log Activity',
-        'installed': true,
+        return: false,
         'settings': {},
-        'outputs': [],
         'ref': 'github.com/TIBCOSoftware/flogo-contrib/activity/log',
-        'endpoint': { 'settings': [] },
         '__props': { 'errors': [] },
         '__status': {},
-        'attributes': {
-          'inputs': [
-            {
-              'name': 'message',
-              'type': 'string',
-              'value': 'I am here 2',
-              'required': false
-            },
-            {
-              'name': 'flowInfo',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            },
-            {
-              'name': 'addToFlow',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            }
-          ],
-          'outputs': [
-            {
-              'name': 'message',
-              'type': 'string'
-            }
-          ]
+        input: {
+          message: 'I am here 2',
+          flowInfo: 'true',
+          addToFlow: 'true',
         },
         'inputMappings': [],
         'id': 'some_id_9',
         'type': 1,
-        'activityType': 'tibco-log'
       },
       'some_id_10': {
         'name': 'Third Log',
-        'version': '0.0.1',
-        'homepage': 'https://github.com/TIBCOSoftware/flogo-contrib/tree/master/activity/log',
         'description': 'Simple Log Activity',
-        'installed': true,
+        return: false,
         'settings': {},
-        'outputs': [],
         'ref': 'github.com/TIBCOSoftware/flogo-contrib/activity/log',
-        'endpoint': { 'settings': [] },
         '__props': { 'errors': [] },
         '__status': {},
-        'attributes': {
-          'inputs': [
-            {
-              'name': 'message',
-              'type': 'string',
-              'value': 'I am here 3',
-              'required': false
-            },
-            {
-              'name': 'flowInfo',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            },
-            {
-              'name': 'addToFlow',
-              'type': 'boolean',
-              'value': 'true',
-              'required': false
-            }
-          ],
-          'outputs': [
-            {
-              'name': 'message',
-              'type': 'string'
-            }
-          ]
+        input: {
+          message: 'I am here 3',
+          flowInfo: 'true',
+          addToFlow: 'true',
         },
         'inputMappings': [],
         'id': 'some_id_10',
         'type': 1,
-        'activityType': 'tibco-log'
       },
       'some_id_11': {
         'id': 'some_id_11',
