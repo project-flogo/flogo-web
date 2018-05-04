@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import { get, cloneDeep, flattenDeep, fromPairs, isArray, pick, uniqueId } from 'lodash';
 import { FLOGO_TASK_TYPE, ValueType } from '@flogo/core/constants';
 import {flogoGenTriggerID, isSubflowTask} from '@flogo/shared/utils';
 import { ErrorService } from '@flogo/core/services/error.service';
@@ -9,12 +9,9 @@ import {
 } from '../../shared/diagram/constants';
 
 import { FlogoFlowDiagramNode } from '../../shared/diagram/models/node.model';
-import {ActionBase, FLOGO_PROFILE_TYPE} from '@flogo/core';
+import { ActionBase, FLOGO_PROFILE_TYPE, ItemActivityTask, ItemTask, UiFlow } from '@flogo/core';
 import {CONTRIB_REF_PLACEHOLDER} from '@flogo/core/constants';
 import {RESTAPIContributionsService} from '@flogo/core/services/restapi/v2/contributions.service';
-
-const FLOW_NODE = 'node';
-const FLOW_ITEM = 'item';
 
 export abstract class AbstractModelConverter {
   subflowSchemaRegistry: Map<string, ActionBase>;
@@ -51,16 +48,16 @@ export abstract class AbstractModelConverter {
     this.subflowSchemaRegistry = subflowSchema;
     return this.getActivitiesSchema(this.activitiesUsed(flowObj))
       .then((installedActivities) => {
-        const installedTiles = _.flattenDeep(installedActivities);
+        const installedTiles = flattenDeep(installedActivities);
         return this.processFlowObj(flowObj, installedTiles);
       });
   }
 
   activitiesUsed(flow: any) {
     const activitiesList = [];
-    let tasks = _.get(flow, 'data.flow.rootTask.tasks', []);
+    let tasks = get(flow, 'data.flow.rootTask.tasks', []);
     // add tiles from error diagram
-    tasks = tasks.concat(_.get(flow, 'data.flow.errorHandlerTask.tasks', []));
+    tasks = tasks.concat(get(flow, 'data.flow.errorHandlerTask.tasks', []));
     // filter only tasks of type activity and ignore subflows
     tasks = tasks.filter(t => !isSubflowTask(t.type));
 
@@ -87,10 +84,9 @@ export abstract class AbstractModelConverter {
 
   processFlowObj(flowJSON, installedContribs) {
     // task flows
-    let tasks = _.get(flowJSON, 'data.flow.rootTask.tasks', []);
-    const defaultErrorRootId = tasks.length + 2;
+    let tasks = get(flowJSON, 'data.flow.rootTask.tasks', []);
     // links tasks
-    let links = _.get(flowJSON, 'data.flow.rootTask.links', []);
+    let links = get(flowJSON, 'data.flow.rootTask.links', []);
 
     const flowInfo = this.getFlowInformation(flowJSON);
 
@@ -100,9 +96,9 @@ export abstract class AbstractModelConverter {
     const flowData = flowJSON.data.flow;
     if (flowData && flowData.errorHandlerTask) {
       // task flows of error handler
-      tasks = _.get(flowData, 'errorHandlerTask.tasks', []);
+      tasks = get(flowData, 'errorHandlerTask.tasks', []);
       // links tasks of error handler
-      links = _.get(flowData, 'errorHandlerTask.links', []);
+      links = get(flowData, 'errorHandlerTask.links', []);
       // error task's root id value
       const errorFlowParts = this.getFlowParts(installedContribs, tasks, links);
 
@@ -112,7 +108,7 @@ export abstract class AbstractModelConverter {
   }
 
 
-  makeFlow(parts, flowInfo, installedTiles?) {
+  makeFlow(parts, flowInfo, schemas?): UiFlow {
     let flow: any = {};
     try {
       const { nodes, items, branches } = parts;
@@ -128,9 +124,6 @@ export abstract class AbstractModelConverter {
           nodes: {},
         },
         items: {},
-
-        // todo: remove _id, keeping it for now for legacy code that should move to id
-        _id: id,
       };
 
       if (metadata) {
@@ -144,7 +137,7 @@ export abstract class AbstractModelConverter {
         flow.paths.root.is = orphanNode.node.id;
       }
 
-      if (installedTiles) {
+      if (schemas) {
         flow.schemas = {};
       }
 
@@ -153,11 +146,11 @@ export abstract class AbstractModelConverter {
       });
 
       items.forEach((element) => {
-        element.node.name = _.get(element, 'cli.name', element.node.name);
-        element.node.description = _.get(element, 'cli.description', element.node.description);
+        element.node.name = get(element, 'cli.name', element.node.name);
+        element.node.description = get(element, 'cli.description', element.node.description);
         flow.items[element.node.id || element.node.nodeId] = element.node;
-        if (installedTiles && element.cli && !isSubflowTask(element.cli.type)) {
-          flow.schemas[element.node.ref] = installedTiles.find((tile) => {
+        if (schemas && element.cli && !isSubflowTask(element.cli.type)) {
+          flow.schemas[element.node.ref] = schemas.find((tile) => {
             return tile.ref === element.node.ref;
           });
         }
@@ -173,17 +166,15 @@ export abstract class AbstractModelConverter {
     const nodes = [];
     const items = [];
     const branches = [];
-    const node = new FlowElement(FLOW_NODE);
-    const item = new FlowElement(FLOW_ITEM);
 
     try {
 
       tasks.forEach((task) => {
-        const nodeItem = node.makeItem({ taskID: task.id });
+        const nodeItem = NodeFactory.makeItem({ taskID: task.id });
 
         let installedActivity = installedTiles.find(tile => tile.ref === task.activityRef);
         if (isSubflowTask(task.type)) {
-          installedActivity = {ref: CONTRIB_REF_PLACEHOLDER.REF_SUBFLOW};
+          installedActivity = { ref: CONTRIB_REF_PLACEHOLDER.REF_SUBFLOW };
 
           if (task.inputMappings) {
             // If the flow is still available get the inputs of a subflow from its latest definition
@@ -205,7 +196,7 @@ export abstract class AbstractModelConverter {
               value: task
             });
         }
-        const itemActivity = item.makeItem({ node: nodeItem, cli: task, installed: installedActivity });
+        const itemActivity = ItemFactory.makeItem({ node: nodeItem, taskInstance: task, activitySchema: installedActivity });
 
         nodes.push({ node: nodeItem, cli: task });
         items.push({ node: itemActivity, cli: task });
@@ -214,8 +205,8 @@ export abstract class AbstractModelConverter {
       // add branches
       links.forEach((link) => {
         if (link.type === FLOGO_FLOW_DIAGRAM_FLOW_LINK_TYPE.BRANCH) {
-          const branchNode = node.makeBranch();
-          const branchItem = item.makeBranch({ taskID: branchNode.taskID, condition: link.value });
+          const branchNode = NodeFactory.makeBranch();
+          const branchItem = ItemFactory.makeBranch({ taskID: branchNode.taskID, condition: link.value });
           // get connectors points
           const nodeFrom = nodes.find(result => result.cli.id === link.from);
           const nodeTo = nodes.find(result => result.cli.id === link.to);
@@ -283,10 +274,8 @@ export abstract class AbstractModelConverter {
   }
 
   makeTriggerTask(trigger, installedTrigger) {
-    const nodeElement = new FlowElement(FLOW_NODE);
-    const itemElement = new FlowElement(FLOW_ITEM);
-    const nodeTrigger = nodeElement.makeTrigger(trigger);
-    const itemTrigger = itemElement.makeTrigger({
+    const nodeTrigger = NodeFactory.makeTrigger();
+    const itemTrigger = ItemFactory.makeTrigger({
       node: nodeTrigger,
       cli: trigger,
       installed: installedTrigger,
@@ -302,38 +291,6 @@ export abstract class AbstractModelConverter {
 
     return itemTrigger;
   }
-}
-
-class FlowElement {
-  factory: any;
-
-  constructor(factoryName) {
-    switch (factoryName) {
-      case FLOW_NODE:
-        this.factory = NodeFactory;
-        break;
-
-      case FLOW_ITEM:
-        this.factory = ItemFactory;
-        break;
-
-      default:
-        throw new Error('Wrong factory Name in class FlowElement');
-    }
-  }
-
-  makeTrigger(trigger) {
-    return this.factory.makeTrigger(trigger);
-  }
-
-  makeItem(item) {
-    return this.factory.makeItem(item);
-  }
-
-  makeBranch(branch?) {
-    return this.factory.makeBranch(branch);
-  }
-
 }
 
 class NodeFactory {
@@ -361,13 +318,27 @@ class NodeFactory {
   }
 
   static flogoGenBranchID() {
-    return _.uniqueId(`Flogo::Branch::${Date.now()}::`);
+    return uniqueId(`Flogo::Branch::${Date.now()}::`);
   }
 }
 
 class ItemFactory {
 
-  static getSharedProperties(installed) {
+  static getDefaultTaskProperties(installed) {
+    const defaults = {
+      name: '',
+      description: '',
+      settings: {},
+      ref: '',
+      __props: {
+        errors: [],
+      },
+      __status: {}
+    };
+    return Object.assign({}, defaults, pick(installed, ['name', 'description', 'ref']));
+  }
+
+  static getDefaultTriggerProperties(installed) {
     const defaults = {
       name: '',
       version: '',
@@ -383,21 +354,21 @@ class ItemFactory {
       },
       __status: {}
     };
-    return Object.assign({}, defaults, _.pick(installed, ['name', 'version', 'homepage', 'description', 'ref']));
+    return Object.assign({}, defaults, pick(installed, ['name', 'version', 'homepage', 'description', 'ref']));
   }
 
   static makeTrigger(trigger): any {
     // todo: what does cli means in this context??
     const { installed, cli, endpointSetting } = trigger;
-    const item = Object.assign({}, this.getSharedProperties(installed), { id: trigger.node.taskID }, {
+    const item = Object.assign({}, this.getDefaultTriggerProperties(installed), { id: trigger.node.taskID }, {
       nodeId: trigger.node.taskID, type: FLOGO_TASK_TYPE.TASK_ROOT, triggerType: installed.name, settings: [],
     });
 
-    const settings = _.get(cli, 'settings', {});
-    const triggerSchemaSettings = _.isArray(installed.settings) ? installed.settings : [];
+    const settings = get(cli, 'settings', {});
+    const triggerSchemaSettings = isArray(installed.settings) ? installed.settings : [];
     item.settings = mergeAttributesWithSchema(settings, triggerSchemaSettings);
 
-    const endpointSettings = _.get(installed, 'endpoint.settings', []);
+    const endpointSettings = get(installed, 'endpoint.settings', []);
     item.endpoint.settings = mergeAttributesWithSchema(endpointSetting.settings || {}, endpointSettings);
 
     const mapType = prop => ({
@@ -415,57 +386,20 @@ class ItemFactory {
     return item;
   }
 
-  static makeItem(activitySource): any {
-    const { node, installed: activitySchema, cli: taskInstance } = activitySource;
+  static makeItem(activitySource: {node, activitySchema, taskInstance}): ItemTask {
+    const { node, activitySchema, taskInstance } = activitySource;
 
-    const item = <any> Object.assign({}, this.getSharedProperties(activitySchema), {
-      attributes: {
-        inputs: [], outputs: []
-      },
+    const attributes = taskInstance.attributes || [];
+
+    const item: ItemActivityTask = {
+      ...this.getDefaultTaskProperties(activitySchema),
       inputMappings: taskInstance.inputMappings || [],
       id: node.taskID,
       type: FLOGO_TASK_TYPE[taskInstance.type] ? FLOGO_TASK_TYPE[FLOGO_TASK_TYPE[taskInstance.type]] : FLOGO_TASK_TYPE.TASK,
-      activityType: activitySchema.id,
-      settings: taskInstance.settings || {}
-    });
-
-    if (activitySchema.return) {
-      item.return = true;
-    }
-
-    // -------- set attributes inputs  ----------------
-    const schemaInputs = activitySchema.inputs || [];
-    const taskInstanceAttributes = taskInstance.attributes || [];
-
-    schemaInputs.forEach((schemaInput) => {
-      const attrValue = taskInstanceAttributes.find(attribute => attribute.name === schemaInput.name);
-
-      const newAttribute: any = {
-        name: schemaInput.name,
-        type: schemaInput.type || ValueType.String,
-      };
-
-      if (attrValue) {
-        newAttribute.value = attrValue.value;
-        newAttribute.required = attrValue.required || false;
-      } else {
-        // use the value provided by the schema
-        newAttribute.value = schemaInput.value;
-      }
-
-      item.attributes.inputs.push(newAttribute);
-    });
-
-    // -----------------
-    // set attributes outputs
-    const outputs = activitySchema.outputs || [];
-
-    item.attributes.outputs = outputs.map(output => ({
-      name: output.name,
-      type: output.type || ValueType.String,
-    }));
-
-
+      settings: taskInstance.settings || {},
+      return: !!activitySchema.return,
+      input: fromPairs(attributes.map(attr => [attr.name, attr.value])),
+    };
     return item;
   }
 
@@ -478,7 +412,7 @@ class ItemFactory {
 
 function mergeAttributesWithSchema(properties: { [key: string]: any }, schemaAttributes: any[]) {
   return schemaAttributes.map(attribute => {
-    const mappedAttribute = _.cloneDeep(attribute);
+    const mappedAttribute = cloneDeep(attribute);
     if (properties[attribute.name]) {
       mappedAttribute.value = properties[attribute.name];
     }

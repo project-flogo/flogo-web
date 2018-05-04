@@ -7,9 +7,7 @@ import {
   AttributeMapping as DiagramTaskAttributeMapping,
   Node as DiagramNode,
   NodeDictionary,
-  Task as DiagramTask,
   TaskAttribute as DiagramTaskAttribute,
-  TaskDictionary,
   flowToJSON_Attribute,
   UiFlow,
   flowToJSON_Link,
@@ -18,64 +16,17 @@ import {
   flowToJSON_Task,
   LegacyFlow,
   LegacyFlowWrapper,
-  triggerToJSON_Trigger,
-  triggerToJSON_TriggerInfo,
   ValueType,
   FLOGO_PROCESS_TYPE,
   FLOGO_TASK_TYPE,
+  Dictionary,
+  Item,
+  ActivitySchema,
+  ItemActivityTask,
+  ItemBranch,
+  ItemTask,
 } from '@flogo/core';
-
-export function triggerFlowToJSON(flow: UiFlow): triggerToJSON_Trigger {
-  let result: triggerToJSON_Trigger;
-  let rootTask: any;
-
-  _.forOwn(flow.items, function (value, key) {
-    if (value.type === FLOGO_TASK_TYPE.TASK_ROOT) {
-      rootTask = _.cloneDeep(value);
-      return false;
-    } else {
-      return true;
-    }
-  });
-
-  if (rootTask) {
-    const settings = {};
-    const endpoint = {};
-    let endpoints = [];
-
-    if (rootTask.settings) {
-      rootTask.settings.forEach((setting) => {
-        settings[setting.name] = setting.value;
-      });
-    }
-
-    if (rootTask.endpoint && rootTask.settings) {
-      rootTask.endpoint.settings.forEach((setting) => {
-        if (setting.value && typeof setting.value !== 'undefined') {
-          endpoint[setting.name] = setting.value;
-        }
-      });
-    }
-
-    if (_.isEmpty(endpoint)) {
-      endpoints = null;
-    } else {
-      endpoints.push(endpoint);
-    }
-
-    let trigger: triggerToJSON_TriggerInfo;
-    trigger = {
-      name: rootTask.triggerType,
-      settings: settings,
-      endpoints: endpoints
-    };
-
-    result = { triggers: [trigger] };
-  }
-
-  return result;
-}
-
+import { mergeItemWithSchema } from '@flogo/core/models';
 /**
  * Convert the flow to flow.json
  *
@@ -161,7 +112,7 @@ export function flogoFlowToJSON(inFlow: UiFlow): LegacyFlowWrapper {
     return flowJSON;
   }
 
-  const flowItems = <TaskDictionary>_.get(inFlow, 'items');
+  const flowItems = inFlow.items;
 
   if (_.isEmpty(flowItems)) {
     /* tslint:disable-next-line:no-unused-expression */
@@ -202,7 +153,7 @@ export function flogoFlowToJSON(inFlow: UiFlow): LegacyFlowWrapper {
       /*
        * add the root node to tasks of the root flow as it now is an activity
        */
-      const taskInfo = _prepareTaskInfo(<DiagramTask>flowItems[rootNode.taskID]);
+      const taskInfo = _prepareTaskInfo(<ItemActivityTask>flowItems[rootNode.taskID]);
       if (!_.isEmpty(taskInfo)) {
         rootTask.tasks.push(taskInfo);
       }
@@ -213,7 +164,7 @@ export function flogoFlowToJSON(inFlow: UiFlow): LegacyFlowWrapper {
     }());
 
 
-    const errorItems = <TaskDictionary>_.get(inFlow, 'errorHandler.items');
+    const errorItems = inFlow.errorHandler.items;
     const errorPath = <{
       root: {
         is: string
@@ -245,7 +196,7 @@ export function flogoFlowToJSON(inFlow: UiFlow): LegacyFlowWrapper {
        * add the root node to tasks of the root flow as it now is an activity
        */
       const rootNode = errorPathNodes[errorPathRoot.is];
-      const taskInfo = _prepareTaskInfo(<DiagramTask>errorItems[rootNode.taskID]);
+      const taskInfo = _prepareTaskInfo(<ItemActivityTask>errorItems[rootNode.taskID]);
       if (!_.isEmpty(taskInfo)) {
         errorTask.tasks.push(taskInfo);
       }
@@ -267,7 +218,7 @@ export function flogoFlowToJSON(inFlow: UiFlow): LegacyFlowWrapper {
 
   function _traversalDiagram(rootNode: DiagramNode,
                              nodes: NodeDictionary,
-                             tasks: TaskDictionary,
+                             tasks: Dictionary<Item>,
                              tasksDest: flowToJSON_Task[ ],
                              linksDest: flowToJSON_Link[ ]): void {
 
@@ -279,7 +230,7 @@ export function flogoFlowToJSON(inFlow: UiFlow): LegacyFlowWrapper {
   function _traversalDiagramChildren(node: DiagramNode,
                                      visitedNodes: string[ ],
                                      nodes: NodeDictionary,
-                                     tasks: TaskDictionary,
+                                     tasks: Dictionary<Item>,
                                      tasksDest: flowToJSON_Task[ ],
                                      linksDest: flowToJSON_Link[ ]) {
     // if haven't visited
@@ -324,7 +275,7 @@ export function flogoFlowToJSON(inFlow: UiFlow): LegacyFlowWrapper {
          * add task
          */
 
-        const taskInfo = _prepareTaskInfo(<DiagramTask>tasks[childNode.taskID]);
+        const taskInfo = _prepareTaskInfo(<ItemActivityTask>tasks[childNode.taskID]);
         if (!_.isEmpty(taskInfo)) {
           tasksDest.push(taskInfo);
         }
@@ -345,7 +296,7 @@ export function flogoFlowToJSON(inFlow: UiFlow): LegacyFlowWrapper {
         } else if (node.type === FLOGO_FLOW_DIAGRAM_NODE_TYPE.NODE_BRANCH && node.parents.length === 1) {
 
           const parentNode = nodes[node.parents[0]];
-          const branch = tasks[node.taskID];
+          const branch = tasks[node.taskID] as ItemBranch;
 
           // ignore the case that the parent node of the branch node is the trigger
           //  TODO
@@ -459,7 +410,10 @@ export function flogoFlowToJSON(inFlow: UiFlow): LegacyFlowWrapper {
 
   }
 
-  function _prepareTaskInfo(task: DiagramTask) {
+  function _prepareTaskInfo(item: ItemTask) {
+    // todo: remove schema === {} for subflow case
+    const schema = <ActivitySchema> inFlow.schemas[item.ref] || <any>{};
+    const task = mergeItemWithSchema(item, schema);
     const taskInfo = <flowToJSON_Task>{};
     if (_isValidInternalTaskInfo(task)) {
       taskInfo.id = convertTaskID(task.id);
@@ -471,18 +425,7 @@ export function flogoFlowToJSON(inFlow: UiFlow): LegacyFlowWrapper {
         taskInfo.activityRef = task.ref;
       }
 
-
-      /* add `inputs` of a task to the `attributes` of the taskInfo in flow.json */
-
       taskInfo.attributes = _parseFlowAttributes(<DiagramTaskAttribute[]>_.get(task, 'attributes.inputs'));
-
-      // filter null/undefined/{}/[]
-      // enabling this block, remove attribute settings, like (required)
-      /*
-       taskInfo.attributes = _.filter( taskInfo.attributes, ( attr : any )=> {
-       return !(_.isNil( attr.value ) || (_.isObject( attr.value ) && _.isEmpty( attr.value )));
-       } );
-       */
 
       /* add inputMappings */
 

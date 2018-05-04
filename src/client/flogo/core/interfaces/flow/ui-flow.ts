@@ -1,8 +1,8 @@
-import { Dictionary } from '../common';
+import { Dictionary, ContribSchema } from '../common';
 import { App } from './app';
 import { NodeDictionary } from '../flow-diagram';
-import { TaskDictionary } from './task-dictionary';
 import { FlowMetadata } from './flow-metadata';
+import { Item } from './items';
 
 export interface Handler {
   paths: {
@@ -11,7 +11,7 @@ export interface Handler {
     };
     nodes: NodeDictionary,
   };
-  items: TaskDictionary;
+  items: Dictionary<Item>;
 }
 
 export interface UiFlow extends Handler {
@@ -22,8 +22,7 @@ export interface UiFlow extends Handler {
   app: App;
   metadata?: FlowMetadata;
   attributes?: any[];
-  items: TaskDictionary;
+  items: Dictionary<Item>;
   errorHandler?: Handler;
-  //// { [ref]: ContribSchema
-  schemas: Dictionary<any>;
+  schemas: Dictionary<ContribSchema>;
 }

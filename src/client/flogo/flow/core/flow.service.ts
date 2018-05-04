@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/operator/toPromise';
 
-import { FlowDiagram, TaskDictionary, UiFlow } from '@flogo/core';
+import { Dictionary, FlowDiagram, Item, TaskDictionary, UiFlow } from '@flogo/core';
 import { APIFlowsService } from '@flogo/core/services/restapi/v2/flows-api.service';
 import { FlowsService } from '@flogo/core/services/flows.service';
 
@@ -71,8 +71,8 @@ export class FlogoFlowService {
   processFlowModel(model, hasTrigger?: boolean): Promise<FlowData> {
     let diagram: FlowDiagram;
     let errorDiagram: FlowDiagram;
-    let tasks: TaskDictionary;
-    let errorTasks: TaskDictionary;
+    let tasks: Dictionary<Item>;
+    let errorTasks: Dictionary<Item>;
     let flow: any;
     if (!_.isEmpty(model)) {
       // initialisation

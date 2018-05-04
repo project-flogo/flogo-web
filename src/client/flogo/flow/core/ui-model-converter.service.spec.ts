@@ -62,7 +62,7 @@ describe('Service: UI Model Converter', function (this: {
     this.service.getWebFlowModel(thisTestData, this.emptySchemaRegistry)
       .then((flow) => {
         const flowWithoutId = formFlowWithoutId(_.cloneDeep(flow));
-        expect(_.isEqual(flowWithoutId, mockResultantUIFlow)).toEqual(true);
+        expect(flowWithoutId).toEqual(mockResultantUIFlow);
         done();
       });
   });
@@ -83,7 +83,7 @@ describe('Service: UI Model Converter', function (this: {
     this.service.getWebFlowModel(thisTestData, this.emptySchemaRegistry)
       .then((flow) => {
         const flowWithoutId = formFlowWithoutId(_.cloneDeep(flow));
-        expect(_.isEqual(flowWithoutId, mockResultantUIFlowWithError)).toEqual(true);
+        expect(flowWithoutId).toEqual(mockResultantUIFlowWithError);
         done();
       });
   });
@@ -105,7 +105,7 @@ describe('Service: UI Model Converter', function (this: {
     this.service.getWebFlowModel(thisTestData, this.emptySchemaRegistry)
       .then((flow) => {
         const flowWithoutId = formFlowWithoutId(_.cloneDeep(flow));
-        expect(_.isEqual(flowWithoutId, mockResultantUIFlowWithTransformations)).toEqual(true);
+        expect(flowWithoutId).toEqual(mockResultantUIFlowWithTransformations);
         done();
       });
   });

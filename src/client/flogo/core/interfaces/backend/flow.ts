@@ -39,7 +39,7 @@ export namespace flow {
   }
 
   export interface Link {
-    id: string;
+    id: number|string;
     name?: string;
     from: string;
     to: string;
