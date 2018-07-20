@@ -8,6 +8,6 @@
 </div>
 
 <div class="uxpl-modal-confirmation__footer footer">
-  <button class="flogo-button--secondary" (click)="control.discard()">Discard changes</button><!-- comment to avoid gap bc style:inline-blocks
-  --><button *ngIf="status?.isValid" class="flogo-button--primary" (click)="control.confirm()">Save</button>
+  <button class="flogo-button flogo-button--secondary" (click)="control.discard()">Discard changes</button><!-- comment to avoid gap bc style:inline-blocks
+  --><button *ngIf="status?.isValid" class="flogo-button flogo-button--primary" (click)="control.confirm()">Save</button>
 </div>

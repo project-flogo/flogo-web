@@ -75,7 +75,7 @@
           </div>
           <div class="flogo-app-detail-commands">
             <div class="app-detail-views-dropdown" (fgClickOutside)="closeViewsDropdown()">
-              <button class="flogo-button--secondary views-dropdown_button" (click)="toggleViewsDropdown()">
+              <button class="flogo-button flogo-button--secondary views-dropdown_button" (click)="toggleViewsDropdown()">
                 <span class="views-dropdown_label"  [ngClass]="{'active' : isViewsDropdownShown}">{{selectedViewTranslateKey | translate}}</span>
                 <span class="flogo-icon-back flogo-button-dropdown-caret views-dropdown_caret" [ngClass]="{'active' : isViewsDropdownShown}"></span>
               </button>
@@ -100,7 +100,7 @@
           <div class="flogo-app-header__options">
 
             <div (fgClickOutside)="closeExportBox()">
-              <button class="flogo-button--secondary flogo-app-detail-button" (click)="toggleExportBox()">
+              <button class="flogo-button flogo-button--secondary flogo-app-detail-button" (click)="toggleExportBox()">
                 <span class="button-title">{{ 'DETAILS:EXPORT' | translate }}</span>
                 <span class="flogo-icon flogo-icon-back flogo-button-dropdown-caret"></span>
               </button>
@@ -120,7 +120,7 @@
               </div>
             </div>
             <div (fgClickOutside)="closeBuildBox()" *ngIf="application?.profileType !== PROFILE_TYPES.DEVICE">
-              <button class="flogo-button--default flogo-app-detail-button flogo-app-detail-build-button"
+              <button class="flogo-button flogo-button--default flogo-app-detail-button flogo-app-detail-build-button"
                       [disabled]="isBuilding"
                       (click)="toggleBuildBox()">
                 <ng-container *ngIf="!isBuilding; else buildIndicator">
@@ -172,7 +172,7 @@
     <div class="row content-empty" *ngIf="!flowGroups?.length">
       <img src="/assets/svg/flogo.flynn-placeholder.svg">
       <p class="content-empty__message">No flows found</p>
-      <button class="flogo-button--default" (click)="openCreateFlow()">{{'DETAILS:CREATE-A-FLOW' | translate}}</button>
+      <button class="flogo-button flogo-button--default" (click)="openCreateFlow()">{{'DETAILS:CREATE-A-FLOW' | translate}}</button>
     </div>
 
     <div *ngIf="isFlowsViewActive" class="flows-view_container">

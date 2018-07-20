@@ -4,7 +4,7 @@
          (@errorPanelIsOpen.done)="onAnimationEnd($event)" #wrapper>
       <div class="wrapper" #wrapper>
         <div class="actions-container">
-          <button (click)="toggle()" class="flogo-button--primary toggle-button"
+          <button (click)="toggle()" class="flogo-button flogo-button--primary toggle-button"
                   [class.toggle-button--open]="isOpen">
             <img class="toggle-button__icon" src="/assets/svg/error-icon-info.svg">
             <span class="toggle-button__text">Error Handler</span>

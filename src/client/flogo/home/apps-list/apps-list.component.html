@@ -5,13 +5,13 @@
       <!--<flogo-apps-search (changedSearch)="onChangedSearch($event)"
                          class="search pull-right"></flogo-apps-search>-->
     </div>
-    <div class="col-md-4 flogo-app-list-button">
-      <button class="flogo-button--secondary" (click)="importInput.click()">
+    <div class="col-md-4 flogo-app-list-buttons">
+      <button class="flogo-button flogo-button--secondary" (click)="importInput.click()">
         {{ 'DETAILS:IMPORT' | translate }}
         <input #importInput type="file" accept="application/json" class="app-list__app-import-input"
                (change)="onImportFileSelected($event)">
       </button>
-      <button class="flogo-button--default" (click)="openProfileSelect()">{{ 'APP-LIST:NEW' | translate }}</button>
+      <button class="flogo-button flogo-button--default" (click)="openProfileSelect()">{{ 'APP-LIST:NEW' | translate }}</button>
       <flogo-home-new-app *ngIf="showProfileSeclectionDialog" (close)="closeModal()"
                           (add)="onAdd($event)"></flogo-home-new-app>
       <flogo-home-app-import *ngIf="showValidationErrors" [importValidationErrors]="importValidationErrors" (modalClose)="resetValidationErrors()">

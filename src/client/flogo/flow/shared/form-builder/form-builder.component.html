@@ -41,7 +41,7 @@
         <!-- PANEL BUTTONS -->
 
         <div *ngIf="_context.isTask && _context.profileType !== PROFILE_TYPES.DEVICE" class="clearfix run-container">
-          <button  class="flogo-button--default" [class.disabled]="!_canRunFromThisTile || _fieldsErrors.length"
+          <button  class="flogo-button flogo-button--default" [class.disabled]="!_canRunFromThisTile || _fieldsErrors.length"
                    [disabled]="!_canRunFromThisTile || _fieldsErrors.length"  (click)="runFromThisTile($event)">
             {{ 'FORM-BUILDER:RUN-FROM-TILE' | translate }}
           </button>

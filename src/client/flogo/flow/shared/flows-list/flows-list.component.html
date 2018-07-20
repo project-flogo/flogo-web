@@ -1,7 +1,7 @@
 <div class="flogo-list__header">
   <div class="header-block">
     <span class="header-content">{{ 'FLOWS-LIST:HEADER-TEXT' | translate}}</span>
-    <button class="flogo-button--flat header-cancel" (click)="cancelList()">{{ 'FLOWS-LIST:CANCEL' | translate }}
+    <button class="flogo-button flogo-button--flat header-cancel" (click)="cancelList()">{{ 'FLOWS-LIST:CANCEL' | translate }}
     </button>
   </div>
   <input type="text" title="Filter flows"
@@ -24,7 +24,7 @@
     </div>
     <div>
       <a href="/flows/{{flow.id}}" class="flogo-link flows-list-new-tab-link " target="_blank">{{ 'FLOWS-LIST:LINK-TEXT' | translate }}</a>
-      <button class="flogo-button--secondary select-button" (click)="selectFlow(flow)">
+      <button class="flogo-button flogo-button--secondary select-button" (click)="selectFlow(flow)">
         {{ 'FLOWS-LIST:SELECT' | translate }}
       </button>
     </div>

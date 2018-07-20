@@ -5,10 +5,10 @@
 </div>
 
 <div class="footer">
-  <button class="flogo-button--flat" (click)="control.cancel()">{{
+  <button class="flogo-button flogo-button--flat" (click)="control.cancel()">{{
     "TRIGGER-CONFIGURATOR:SETTINGS:EDIT-CONFIRMATION-CANCEL" | translate }}
   </button>
-  <button class="flogo-button--primary confirmation-button__edit" (click)="control.confirm()">{{
+  <button class="flogo-button flogo-button--primary confirmation-button__edit" (click)="control.confirm()">{{
     "TRIGGER-CONFIGURATOR:SETTINGS:EDIT-CONFIRMATION-CONTINUE" | translate:{count: data.flowCount} }}
   </button>
 </div>

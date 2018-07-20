@@ -21,13 +21,13 @@
     </div>
 
     <div class="walkthrough-footer">
-      <button type="button" *ngIf="currentIndex > 0" id="buttonBack" class="walkthrough-button flogo-button--secondary"
+      <button type="button" *ngIf="currentIndex > 0" id="buttonBack" class="walkthrough-button flogo-button flogo-button--secondary"
               (click)="clickBack($event)">{{ 'MODAL:BACK' | translate }}
       </button>
-      <button type="button" *ngIf="currentIndex < STEPS_LENGTH " id="buttonNext" class="walkthrough-button flogo-button--default"
+      <button type="button" *ngIf="currentIndex < STEPS_LENGTH " id="buttonNext" class="walkthrough-button flogo-button flogo-button--default"
               (click)="clickNext($event)">{{ 'MODAL:NEXT' | translate }}
       </button>
-      <button type="button" *ngIf="currentIndex == STEPS_LENGTH" id="buttonClose" class="walkthrough-button flogo-button--default"
+      <button type="button" *ngIf="currentIndex == STEPS_LENGTH" id="buttonClose" class="walkthrough-button flogo-button flogo-button--default"
               (click)="closeModal()">{{ 'MODAL:CLOSE' | translate }}
       </button>
     </div>

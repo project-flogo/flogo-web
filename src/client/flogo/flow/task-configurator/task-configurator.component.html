@@ -3,10 +3,10 @@
     <div class="mapper-modal__header header">
       <h2 class="header__title" [ngClass]="{'header__title--subflow': isSubflowType}">{{ title }}</h2>
       <div class="header__actions actions">
-        <button class="flogo-button--secondary" (click)="cancel()">
+        <button class="flogo-button flogo-button--secondary" (click)="cancel()">
           Cancel
         </button>
-        <button class="flogo-button--primary  actions__action--save"
+        <button class="flogo-button flogo-button--primary  actions__action--save"
                 [class.disabled]="!this.tabs.areDirty() || !this.tabs.areValid()"
                 [disabled]="!this.tabs.areDirty() || !this.tabs.areValid()"
                 (click)="save()">{{ 'TASK-CONFIGURATOR:SAVE' | translate }}
