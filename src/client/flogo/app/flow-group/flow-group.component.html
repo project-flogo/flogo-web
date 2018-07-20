@@ -12,7 +12,7 @@
         <flogo-apps-flows [flows]="flows" (flowSelected)="onSelect($event)" (deleteFlow)="onDeleteFlow($event)"></flogo-apps-flows>
       </div>
       <div class="flogo-add-flow__container">
-        <button class="flogo-flows-group__add-flow flogo-button--flat" *ngIf="trigger" (click)="onAddFlow()">
+        <button class="flogo-flows-group__add-flow flogo-button flogo-button--flat" *ngIf="trigger" (click)="onAddFlow()">
           <i class="flogo-icon-add"></i>{{ 'DETAILS:NEW-FLOW' | translate }}
         </button>
       </div>

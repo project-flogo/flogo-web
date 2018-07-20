@@ -2,10 +2,10 @@
        [ngModel]="sourceUrl"
        (ngModelChange)="onSourceUrlChange($event)"/>
 <div class="flogo-installer-url__button-container">
-  <button class="flogo-button--secondary" (click)="onCancelAction($event)">
+  <button class="flogo-button flogo-button--secondary" (click)="onCancelAction($event)">
     {{'URL-INSTALLER:CANCEL' | translate}}
   </button>
-  <button class="flogo-button--default" (click)="onInstallAction($event)">
+  <button class="flogo-button flogo-button--default" (click)="onInstallAction($event)">
     {{'MODAL:INSTALL' | translate}}
   </button>
 </div>

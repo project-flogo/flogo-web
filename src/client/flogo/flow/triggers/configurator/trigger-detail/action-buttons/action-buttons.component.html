@@ -1,11 +1,11 @@
 <div *ngIf="status && status.isDirty; else noChanges" class="buttons qa-buttons">
-  <button class="flogo-button--secondary action qa-action-discard"
+  <button class="flogo-button flogo-button--secondary action qa-action-discard"
           [disabled]="isSaving"
           (click)="discardChanges.emit()">
     {{ 'TRIGGER-CONFIGURATOR:CANCEL' | translate }}
   </button>
   <button [disabled]="!status?.isValid || status?.isPending || isSaving"
-          class="flogo-button--primary action qa-action-save"
+          class="flogo-button flogo-button--primary action qa-action-save"
           (click)="save.emit()">
     {{ (isSaving ? 'TRIGGER-CONFIGURATOR:SAVING' : 'TRIGGER-CONFIGURATOR:SAVE') | translate }}
   </button>

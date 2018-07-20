@@ -25,10 +25,10 @@
         </div>
       </bs-modal-body>
       <div class="flogo-export-flow-footer">
-        <button type="button" class="flogo-button--secondary flogo-flows-add-cancel" data-dismiss="modal" (click)="closeExport()">{{
+        <button type="button" class="flogo-button flogo-button--secondary flogo-flows-add-cancel" data-dismiss="modal" (click)="closeExport()">{{
           'DETAILS:EXPORT-CANCEL' | translate }}
         </button>
-        <button type="submit" class="js-btn-export flogo-button--default" [fgJsonDownloader]="exportFlows()"
+        <button type="submit" class="js-btn-export flogo-button flogo-button--default" [fgJsonDownloader]="exportFlows()"
                 [disabled]="checkedFlows?.length <= 0" data-dismiss="modal">
           {{ 'DETAILS:EXPORT' | translate }}
         </button>

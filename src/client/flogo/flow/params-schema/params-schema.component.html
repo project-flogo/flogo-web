@@ -2,10 +2,10 @@
   <form [formGroup]="paramsForm" novalidate (ngSubmit)="saveParams()">
     <div class="flow-input-params-header">
       <div class="flow-input-params-header__title">{{ 'INPUT-PARAMS:DEFINE' | translate }}</div>
-      <button type="button" class="flogo-button--secondary" data-dismiss="modal" (click)="closeInputSchemaModel()">{{
+      <button type="button" class="flogo-button flogo-button--secondary" data-dismiss="modal" (click)="closeInputSchemaModel()">{{
         'INPUT-PARAMS:CANCEL' | translate }}
       </button>
-      <button type="submit" class="flogo-button--default" data-dismiss="modal"
+      <button type="submit" class="flogo-button flogo-button--default" data-dismiss="modal"
               [disabled]="!paramsForm.valid" (click)="saveParams()">
         {{ 'INPUT-PARAMS:SAVE' | translate }}
       </button>

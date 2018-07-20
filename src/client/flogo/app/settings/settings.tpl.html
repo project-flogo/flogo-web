@@ -1,4 +1,4 @@
-<button class="flogo-button--flat js-open-modal settings__title" (click)="openModal()">
+<button class="flogo-button flogo-button--flat js-open-modal settings__title" (click)="openModal()">
   <i class="flogo-icon-settings"></i>{{ 'SETTINGS:TITLE' | translate }}</button>
 
 
@@ -66,8 +66,8 @@
 
        <div class="device-settings__commands">
          <div>
-           <button type="button" class="flogo-button--secondary" data-dismiss="modal" (click)="closeModal()">{{ 'SETTINGS:CANCEL' | translate }}</button>
-           <button type="submit" class="flogo-button--default" (click)="saveChanges()" [disabled]="!hasChanges">
+           <button type="button" class="flogo-button flogo-button--secondary" data-dismiss="modal" (click)="closeModal()">{{ 'SETTINGS:CANCEL' | translate }}</button>
+           <button type="submit" class="flogo-button flogo-button--default" (click)="saveChanges()" [disabled]="!hasChanges">
              {{ 'SETTINGS:SAVE' | translate }}
            </button>
          </div>
@@ -103,7 +103,7 @@
                <input type="text" placeholder="value" (ngModelChange)="onSettingsChange()" [(ngModel)]="custom.value" />
              </div>
            </div>
-           <button type="button" class="flogo-button--default" (click)="addCustom()">{{ 'SETTINGS:ADD' | translate }}</button>
+           <button type="button" class="flogo-button flogo-button--default" (click)="addCustom()">{{ 'SETTINGS:ADD' | translate }}</button>
          </div>
 
 
