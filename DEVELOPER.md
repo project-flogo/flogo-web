@@ -144,6 +144,7 @@ That way you will only need to run `fg-dev start local` instead of the long path
 You can:
 - Run flogo-web locally or
 - Run flogo-web locally (for windows users)
+- Build Client App
 
 ### Run flogo-web locally
 
@@ -165,14 +166,14 @@ Application and services will be started, when you see the following banner in t
 
 ### Run flogo-web (for windows users)
 
-1. To start services , 'cd' to the directory where you cloned the [flogo-cicd repository](https://github.com/TIBCOSoftware/flogo-cicd.git) or clone it if you haven't already.
-1. Run
+1. To start services ,  `cd` to the directory where you cloned the [flogo-cicd repository](https://github.com/TIBCOSoftware/flogo-cicd.git) or clone it if you haven't already.
+- Run
 ```sh
 ./docker/flogo-web/dev.sh start services
 ```
 
-1. `cd` to the directory where you cloned the [flogo-web repository](https://github.com/TIBCOSoftware/flogo-web.git) or clone it if you haven't already.
-1. Run
+1. To run flogo-web, `cd` to the directory where you cloned the [flogo-web repository](https://github.com/TIBCOSoftware/flogo-web.git) or clone it if you haven't already.
+- Run
 ```
 yarn install
 yarn start dev-server
@@ -190,6 +191,21 @@ Application and services will be started, when you see the following banner in t
    [success] open http://localhost:3303 in your browser
   ======================================================
 
+```
+
+### Build Client App
+
+1.`cd` to the client directory inside `flogo-web/src/client`.
+- Run
+```
+yarn install
+yarn start
+```
+
+Client App gets started, when you see the following banner in the console flogo client app will be ready to be used in your browser:
+
+```
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
 ```
 
 ## Debugging the Application
