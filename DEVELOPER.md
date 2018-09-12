@@ -85,11 +85,6 @@ docker login reldocker.tibco.com
 
 After you authenticated, pull the images:
 
-Rename the base image:
-```sh
-docker tag reldocker.tibco.com/flogo/flogo-base:latest flogo/flogo-base:latest 
-```
-
 Pull the state service image
 ```sh
 docker pull reldocker.tibco.com/flogo/state-service:latest
@@ -148,7 +143,7 @@ That way you will only need to run `fg-dev start local` instead of the long path
 
 You can:
 - Run flogo-web locally or
-- Run flogo-web inside a docker-container (recommended for windows users)
+- Run flogo-web locally (for windows users)
 
 ### Run flogo-web locally
 
@@ -168,21 +163,32 @@ Application and services will be started, when you see the following banner in t
 
 ```
 
-### Run flogo-web in a docker container
+### Run flogo-web (for windows users)
 
-1. `cd` to the directory where you cloned the [flogo-cicd repository](https://github.com/TIBCOSoftware/flogo-cicd.git) or clone it if you haven't already.
+1. To start services , 'cd' to the directory where you cloned the [flogo-cicd repository](https://github.com/TIBCOSoftware/flogo-cicd.git) or clone it if you haven't already.
 1. Run
 ```sh
-./docker/flogo-web/dev.sh start container
+./docker/flogo-web/dev.sh start services
+```
+
+2. `cd` to the directory where you cloned the [flogo-web repository](https://github.com/TIBCOSoftware/flogo-web.git) or clone it if you haven't already.
+1. Run
+```
+yarn install
+yarn start dev-server
 ```
 
 Application and services will be started, when you see the following banner in the console flogo will be ready to be used in your browser:
 
 ```
 
-=============================================================================================
-[success] open http://localhost:3303 or http://localhost:3303/_config in your browser
-=============================================================================================
+ ======================================================
+                 ___       __   __   __ TM
+                |__  |    /  \ / _` /  \
+                |    |___ \__/ \__| \__/
+
+   [success] open http://localhost:3303 in your browser
+  ======================================================
 
 ```
 
