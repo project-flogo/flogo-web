@@ -171,7 +171,7 @@ Application and services will be started, when you see the following banner in t
 ./docker/flogo-web/dev.sh start services
 ```
 
-2. `cd` to the directory where you cloned the [flogo-web repository](https://github.com/TIBCOSoftware/flogo-web.git) or clone it if you haven't already.
+1. `cd` to the directory where you cloned the [flogo-web repository](https://github.com/TIBCOSoftware/flogo-web.git) or clone it if you haven't already.
 1. Run
 ```
 yarn install
