@@ -142,31 +142,12 @@ That way you will only need to run `fg-dev start local` instead of the long path
 ## Running the Application
 
 You can:
-- Run flogo-web locally or
-- Run flogo-web locally (for windows users)
-- Build Client App
+- Run flogo-web locally
+- Run Client App
 
 ### Run flogo-web locally
 
-1. `cd` to the directory where you cloned the [flogo-cicd repository](https://github.com/TIBCOSoftware/flogo-cicd.git) or clone it if you haven't already.
-1. Run
-```sh
-./docker/flogo-web/dev.sh start local
-```
-
-Application and services will be started, when you see the following banner in the console flogo will be ready to be used in your browser:
-
-```
-
-=============================================================================================
-[success] open http://localhost:3303 or http://localhost:3303/_config in your browser
-=============================================================================================
-
-```
-
-### Run flogo-web (for windows users)
-
-1. To start services ,  `cd` to the directory where you cloned the [flogo-cicd repository](https://github.com/TIBCOSoftware/flogo-cicd.git) or clone it if you haven't already.
+1. To start services ,  `cd` to the directory where you cloned the [flogo-cicd repository](https://github.com/TIBCOSoftware/flogo-cicd.git) or clone it if you haven't already.(For windows users use git bash or windows powershell to run this command).
 - Run
 ```sh
 ./docker/flogo-web/dev.sh start services
@@ -193,7 +174,7 @@ Application and services will be started, when you see the following banner in t
 
 ```
 
-### Build Client App
+### Run Client App
 
 1.`cd` to the client directory inside `flogo-web/src/client`.
 - Run
