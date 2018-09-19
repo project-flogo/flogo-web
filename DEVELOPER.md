@@ -85,11 +85,6 @@ docker login reldocker.tibco.com
 
 After you authenticated, pull the images:
 
-Rename the base image:
-```sh
-docker tag reldocker.tibco.com/flogo/flogo-base:latest flogo/flogo-base:latest 
-```
-
 Pull the state service image
 ```sh
 docker pull reldocker.tibco.com/flogo/state-service:latest
@@ -147,43 +142,51 @@ That way you will only need to run `fg-dev start local` instead of the long path
 ## Running the Application
 
 You can:
-- Run flogo-web locally or
-- Run flogo-web inside a docker-container (recommended for windows users)
+- Run flogo-web locally
+- Run Client App
 
 ### Run flogo-web locally
 
-1. `cd` to the directory where you cloned the [flogo-cicd repository](https://github.com/TIBCOSoftware/flogo-cicd.git) or clone it if you haven't already.
-1. Run
+1. To start services ,  `cd` to the directory where you cloned the [flogo-cicd repository](https://github.com/TIBCOSoftware/flogo-cicd.git) or clone it if you haven't already.(For windows users use git bash or windows powershell to run this command).
+- Run
 ```sh
-./docker/flogo-web/dev.sh start local
+./docker/flogo-web/dev.sh start services
+```
+
+1. To run flogo-web, `cd` to the directory where you cloned the [flogo-web repository](https://github.com/TIBCOSoftware/flogo-web.git) or clone it if you haven't already.
+- Run
+```
+yarn install
+yarn start dev-server
 ```
 
 Application and services will be started, when you see the following banner in the console flogo will be ready to be used in your browser:
 
 ```
 
-=============================================================================================
-[success] open http://localhost:3303 or http://localhost:3303/_config in your browser
-=============================================================================================
+ ======================================================
+                 ___       __   __   __ TM
+                |__  |    /  \ / _` /  \
+                |    |___ \__/ \__| \__/
+
+   [success] open http://localhost:3303 in your browser
+  ======================================================
 
 ```
 
-### Run flogo-web in a docker container
+### Run Client App
 
-1. `cd` to the directory where you cloned the [flogo-cicd repository](https://github.com/TIBCOSoftware/flogo-cicd.git) or clone it if you haven't already.
-1. Run
-```sh
-./docker/flogo-web/dev.sh start container
+1.`cd` to the client directory inside `flogo-web/src/client`.
+- Run
+```
+yarn install
+yarn start
 ```
 
-Application and services will be started, when you see the following banner in the console flogo will be ready to be used in your browser:
+Client App gets started, when you see the following banner in the console flogo client app will be ready to be used in your browser:
 
 ```
-
-=============================================================================================
-[success] open http://localhost:3303 or http://localhost:3303/_config in your browser
-=============================================================================================
-
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
 ```
 
 ## Debugging the Application
