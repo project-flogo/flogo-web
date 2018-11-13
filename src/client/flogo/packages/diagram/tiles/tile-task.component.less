@@ -195,9 +195,10 @@
 }
 
 :host(.tile-has-branch) {
+  z-index: 2;
   .content {
     width: 70%;
-    left: 1px;
+    left: 9px;
   }
   .menu__icon {
     padding: 2px 3px;
@@ -239,4 +240,26 @@
     stroke: @color-stroke;
     stroke-width: 2px;
   }
+}
+
+.main-branch-link {
+  border-top: solid 4px #afbbda;
+  width: 19px;
+  height: 2px;
+  position: relative;
+  top: 1px;
+  right: -18px;
+}
+.main-branch-link::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  border-radius: 50%;
+  z-index: 5;
+  width: 12px;
+  height: 12px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+  background-color: #afbbda;
+  border: solid 2px #afbbda;
 }

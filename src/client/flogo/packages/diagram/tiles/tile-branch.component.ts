@@ -49,10 +49,6 @@ export class TileBranchComponent extends AbstractTileTaskComponent implements On
     return (TILE_HEIGHT / 2) - this.containerHeight;
   }
 
-  get tilesConnectorPosition() {
-    return (BOTTOM_DISTANCE / 4) - this.containerHeight;
-  }
-
   onBranchOptions(event) {
     event.stopPropagation();
     this.displayBranchOptions = !this.displayBranchOptions;
