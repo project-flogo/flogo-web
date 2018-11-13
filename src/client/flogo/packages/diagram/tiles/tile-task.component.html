@@ -1,60 +1,69 @@
-<div class="badges">
-  <i *ngIf="tile.task?.status?.executionErrored" class="badge badge--error flogo-icon-info" [title]="errorMsg"></i>
-  <i *ngIf="tile.task?.status?.iterable" class="badge badge--iterator flogo-icon-iterator"></i>
-  <!--<i *ngIf="tile.task?.status?.configured" class="badge badge&#45;&#45;configure flogo-icon-settings"></i>-->
-</div>
-<div class="content" (click)="onSelect($event)" (fgClickOutside)="closeMenuOptions()" [attr.data-diagram-task-id]="tile.task.id">
-  <div class="content__items"   >
-    <img class=" content__icon content__icon-subflow" *ngIf="tile.task?.features?.subflow; else defaultActivityIcon" src="/assets/svg/subflow.svg" alt="Subflow">
-     <ng-template #defaultActivityIcon>
-       <i  *ngIf="!isTerminal; else returnActivityIcon" class="content__icon content__icon-activity flogo-icon-activity-gear"></i>
-     </ng-template>
-    <ng-template #returnActivityIcon>
-      <img class=" content__icon content__icon-return" src="/assets/svg/flogo-return-activity.svg" alt="Return">
-    </ng-template>
-    <div class="content__text content__text--title"
-         [ngClass]="{'content__text--subflow' : tile.task?.features?.subflow, 'content__text--return': isTerminal }">
-      {{ tile.task.title }}
-    </div>
-    <div class="content__text content__text--id" *ngIf="!tile.task?.features?.subflow && !isTerminal">
-      {{ tile.task.id }}
-    </div>
+<div class="tile-block">
+  <div class="badges">
+    <i *ngIf="tile.task?.status?.executionErrored" class="badge badge--error flogo-icon-info" [title]="errorMsg"></i>
+    <i *ngIf="tile.task?.status?.iterable" class="badge badge--iterator flogo-icon-iterator"></i>
+    <!--<i *ngIf="tile.task?.status?.configured" class="badge badge&#45;&#45;configure flogo-icon-settings"></i>-->
   </div>
-  <div class="menu-content" *ngIf="!isReadOnly">
-    <div *ngIf="displayMenuOptions" class="menu-options" [@menuOptions]>
-      <i *ngIf="tile.task?.features?.deletable" class="flogo-icon-delete menu__icon js-menu-option"
-         (click)="onRemove()"></i>
-      <i *ngIf="!isTerminal && tile.task?.features?.canBranch"
-         class="flogo-icon-addbranch menu__icon js-menu-option" (click)="onBranch()"></i>
-      <i class="flogo-icon-settings menu__icon js-menu-option" (click)="onConfigure()"></i>
+  <div class="content" (click)="onSelect($event)" (fgClickOutside)="closeMenuOptions()"
+       [attr.data-diagram-task-id]="tile.task.id">
+    <div class="content__items">
+      <img class=" content__icon content__icon-subflow" *ngIf="tile.task?.features?.subflow; else defaultActivityIcon"
+           src="/assets/svg/subflow.svg" alt="Subflow">
+      <ng-template #defaultActivityIcon>
+        <i *ngIf="!isTerminal; else returnActivityIcon"
+           class="content__icon content__icon-activity flogo-icon-activity-gear"></i>
+      </ng-template>
+      <ng-template #returnActivityIcon>
+        <img class=" content__icon content__icon-return" src="/assets/svg/flogo-return-activity.svg" alt="Return">
+      </ng-template>
+      <div class="content__text content__text--title"
+           [ngClass]="{'content__text--subflow' : tile.task?.features?.subflow, 'content__text--return': isTerminal }">
+        {{ tile.task.title }}
+      </div>
+      <div class="content__text content__text--id" *ngIf="!tile.task?.features?.subflow && !isTerminal">
+        {{ tile.task.id }}
+      </div>
     </div>
-    <i class="flogo-icon-kebabmenu kebabmenu js-menu-option" [ngClass]="{'kebabmenu-selected': displayMenuOptions}" (click)="onMenuOptions()"></i></div>
+    <div class="menu-content" *ngIf="!isReadOnly">
+      <div *ngIf="displayMenuOptions" class="menu-options" [@menuOptions]>
+        <i *ngIf="tile.task?.features?.deletable" class="flogo-icon-delete menu__icon js-menu-option"
+           (click)="onRemove()"></i>
+        <i *ngIf="!isTerminal && tile.task?.features?.canBranch"
+           class="flogo-icon-addbranch menu__icon js-menu-option" (click)="onBranch()"></i>
+        <i class="flogo-icon-settings menu__icon js-menu-option" (click)="onConfigure(tile.task.id)"></i>
+      </div>
+      <i class="flogo-icon-kebabmenu kebabmenu js-menu-option" [ngClass]="{'kebabmenu-selected': displayMenuOptions}"
+         (click)="onMenuOptions()"></i></div>
+  </div>
+  <!-- wrapper div required to avoid issue in chrome where shadows cuts off when z-index changes -->
+  <div class="shape-container">
+    <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns="http://www.w3.org/2000/svg" width="128" height="60" viewBox="0 0 128 62">
+      <ng-template [ngIf]="!hasBranch && !isTerminal" [ngIfElse]="tileWithBranch">
+        <g class="tile" fill="none" fill-rule="evenodd" transform="translate(2 1)">
+          <path class="tile__shadow" [attr.filter]="shadow" d="M117.27 60H0l11.264-29.92L0 0h117.371L128 30.376z"/>
+          <path class="tile__bg" [attr.fill]="bgFill" d="M117.27 60H0l11.264-29.92L0 0h117.371L128 30.376z"/>
+          <path class="tile__stroke" stroke="#F4F4F4" stroke-width=".8"
+                d="M117.27 60H0l11.264-29.92L0 0h117.371L128 30.376z"/>
+        </g>
+      </ng-template>
+      <ng-template #tileWithBranch>
+        <g *ngIf="!isTerminal; else terminalShape" class="tile__branch" fill="none" fill-rule="evenodd"
+           transform="translate(2 1)">
+          <path class="tile__shadow" [attr.filter]="shadow" d="M107.27 60H0l11.264-29.92L0 0h107.371L118 30.376z"/>
+          <path class="tile__bg" [attr.fill]="bgFill" d="M107.27 60H0l11.264-29.92L0 0h107.371L118 30.376z"/>
+          <path class="tile__stroke" stroke="#F4F4F4" stroke-width=".8"
+                d="M107.27 60H0l11.264-29.92L0 0h107.371L118 30.376z"/>
+        </g>
+      </ng-template>
+      <ng-template #terminalShape>
+        <g class="tile__terminal" fill="none" fill-rule="evenodd" transform="translate(2 1)">
+          <path class="tile__shadow" [attr.filter]="shadow" d="M117.27 60H0l11.264-29.92L0 0h117.371z"/>
+          <path class="tile__bg" [attr.fill]="bgFill" d="M117.27 60H0l11.264-29.92L0 0h117.371z"/>
+          <path class="tile__stroke" stroke="#F4F4F4" stroke-width=".8" d="M117.27 60H0l11.264-29.92L0 0h117.371z"/>
+        </g>
+      </ng-template>
+    </svg>
+  </div>
 </div>
-<!-- wrapper div required to avoid issue in chrome where shadows cuts off when z-index changes -->
-<div class="shape-container">
-  <svg xmlns="http://www.w3.org/2000/svg"
-       xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="60" viewBox="0 0 128 62">
-    <ng-template [ngIf]="!hasBranch && !isTerminal" [ngIfElse]="tileWithBranch">
-      <g class="tile" fill="none" fill-rule="evenodd" transform="translate(2 1)">
-        <path class="tile__shadow" [attr.filter]="shadow" d="M117.27 60H0l11.264-29.92L0 0h117.371L128 30.376z"/>
-        <path class="tile__bg" [attr.fill]="bgFill" d="M117.27 60H0l11.264-29.92L0 0h117.371L128 30.376z"/>
-        <path class="tile__stroke" stroke="#F4F4F4" stroke-width=".8" d="M117.27 60H0l11.264-29.92L0 0h117.371L128 30.376z"/>
-      </g>
-    </ng-template>
-    <ng-template #tileWithBranch>
-      <g *ngIf="!isTerminal; else terminalShape" class="tile__branch" fill="none" fill-rule="evenodd" transform="translate(2 1)">
-        <path class="tile__shadow" [attr.filter]="shadow" d="M107.27 60H0l11.264-29.92L0 0h107.371L118 30.376z"/>
-        <path class="tile__bg" [attr.fill]="bgFill" d="M107.27 60H0l11.264-29.92L0 0h107.371L118 30.376z" />
-        <path class="tile__stroke" stroke="#F4F4F4" stroke-width=".8" d="M107.27 60H0l11.264-29.92L0 0h107.371L118 30.376z"/>
-      </g>
-    </ng-template>
-    <ng-template #terminalShape>
-      <g  class="tile__terminal" fill="none" fill-rule="evenodd" transform="translate(2 1)">
-        <path class="tile__shadow" [attr.filter]="shadow" d="M117.27 60H0l11.264-29.92L0 0h117.371z"/>
-        <path class="tile__bg" [attr.fill]="bgFill" d="M117.27 60H0l11.264-29.92L0 0h117.371z" />
-        <path class="tile__stroke" stroke="#F4F4F4" stroke-width=".8" d="M117.27 60H0l11.264-29.92L0 0h117.371z"/>
-      </g>
-    </ng-template>
-  </svg>
-</div>
-<div class="main-branch-link" *ngIf="hasBranch"></div>
+<div class="main-branch-link" *ngIf="hasBranch" (click)="onConfigure(tile.branch.id)"></div>

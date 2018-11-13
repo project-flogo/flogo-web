@@ -7,7 +7,7 @@
     </div>
     <div *ngIf="displayBranchOptions" class="branch-options-display">
       <i class="flogo-icon-delete menu-icon" (click)="onRemove($event)"></i>
-      <i class="flogo-icon-settings menu-icon" (click)="onConfigure($event)"></i>
+      <i class="flogo-icon-settings menu-icon" (click)="onConfigure(tile.task.id)"></i>
       <i class="flogo-icon-kebabmenu  menu-icon menu-icon-open" (click)="onBranchOptions($event)"></i>
     </div>
   </div>

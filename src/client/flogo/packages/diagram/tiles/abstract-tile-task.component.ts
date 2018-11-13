@@ -63,8 +63,8 @@ export abstract class AbstractTileTaskComponent implements OnChanges {
     this.branch.emit(actionEventFactory.branch(this.tile.task.id));
   }
 
-  onConfigure() {
-    this.remove.emit(actionEventFactory.configure(this.tile.task.id));
+  onConfigure(taskID) {
+    this.remove.emit(actionEventFactory.configure(taskID));
   }
 
   protected fixSvgRef(ref: string) {

@@ -5,15 +5,26 @@
 @menu-tab-radius: 8px;
 
 :host {
-  .tile-container();
+  height: @tile-height;
+  width: @tile-width;
   cursor: pointer;
   position: relative;
-  transition: all 0.2s ease-in-out;
   font-size: 12px;
 
   &:hover {
-    transform: scale(1.04);
+    .tile-block {
+      transform: scale(1.04);
+    }
   }
+}
+
+.tile-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: 100%;
+  transition: all 0.2s ease-in-out;
 }
 
 .shape-container {
@@ -195,10 +206,12 @@
 }
 
 :host(.tile-has-branch) {
-  z-index: 2;
+  .tile-block {
+    z-index: 2;
+  }
   .content {
-    width: 70%;
-    left: 9px;
+    width: 67%;
+    left: 0;
   }
   .menu__icon {
     padding: 2px 3px;
@@ -245,11 +258,12 @@
 .main-branch-link {
   border-top: solid 4px #afbbda;
   width: 19px;
-  height: 2px;
-  position: relative;
-  top: 1px;
-  right: -18px;
+  position: absolute;
+  top: @tile-height/2px;
+  right: -10px;
+  z-index: 2;
 }
+
 .main-branch-link::after {
   content: '';
   position: absolute;
