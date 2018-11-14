@@ -66,4 +66,15 @@
     </svg>
   </div>
 </div>
-<div class="main-branch-link" *ngIf="hasBranch" (click)="onConfigure(tile.branch.id)"></div>
+<div class = "main-branch" *ngIf="hasBranch">
+  <div class="main-branch-link"></div>
+  <div class="main-branch-configure"
+       (fgClickOutside)="closeMainBranchOptions()" (click)="onMainBranchOptions($event)">
+    <i class="flogo-icon-kebabmenu options-open__icon"></i>
+  </div>
+  <div *ngIf="displayMainBranchOptions" class="main-branch-options">
+     <i class="flogo-icon-delete option-icon"></i>
+    <i class="flogo-icon-settings option-icon" (click)="onConfigure(tile.branch.id)"></i>
+    <i class="flogo-icon-kebabmenu  option-icon options-close__icon" (click)="onMainBranchOptions($event)"></i>
+  </div>
+</div>

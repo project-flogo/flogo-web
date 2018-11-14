@@ -111,7 +111,7 @@
 }
 
 .kebabmenu {
-  .kebabmenu();
+  .kebabmenu-option();
   height: 18px;
   width: 13px;
   padding-top: 3px;
@@ -259,16 +259,53 @@
   border-top: solid 4px #afbbda;
   width: 19px;
   position: absolute;
-  top: @tile-height/2px;
-  right: -10px;
+  top: 9px;
+  right: 10px;
   z-index: 2;
 }
 
-.main-branch-link::after {
-  content: '';
+.main-branch {
+  position: relative;
+  padding-top: 21px;
+  width: 36px;
+  top: -39px;
+  right: -112px;
+
+  &:hover {
+    .main-branch-configure {
+      width: 18px;
+      height: 18px;
+      top: 1px;
+      background-color: #899bcf;
+      border: solid 2px #899bcf;
+    }
+    .options-open__icon {
+      display: block;
+    }
+    .main-branch-link {
+      border-top: solid 4px #899bcf;
+    }
+  }
+}
+
+.main-branch-options {
+  width: 58px;
+  height: 18px;
+  border: solid 3px transparent;
+  border-radius: 8px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+  font-size: 12px;
   position: absolute;
-  top: -8px;
-  right: -10px;
+  top: 1px;
+  left: -20px;
+  background: white;
+  z-index: 6;
+  cursor: pointer;
+}
+.main-branch-configure {
+  position: absolute;
+  top: 5px;
+  right: 0;
   border-radius: 50%;
   z-index: 5;
   width: 12px;
@@ -276,4 +313,41 @@
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
   background-color: #afbbda;
   border: solid 2px #afbbda;
+}
+
+.option-icon {
+  color: @color-dark-gray;
+  margin-left: 3px;
+  margin-right: 3px;
+  position: relative;
+  top: -1px;
+  &:hover {
+    color: @primary-blue;
+    font-weight: 600;
+  }
+}
+.options-open__icon {
+  .kebabmenu-option();
+  color: @color-bg;
+  font-size: 0.8em;
+  position: relative;
+  height: 100%;
+  top: 0.16em;
+  left: -0.35em;
+  display: none;
+}
+.options-close__icon {
+  .kebabmenu-option();
+  position: absolute;
+  top: 2px;
+  font-size: 10px;
+}
+
+.main-branch-condition {
+  .main-branch-configure {
+    background-color: @color-bg;
+  }
+  .options-open__icon {
+    color: #afbbda;
+  }
 }

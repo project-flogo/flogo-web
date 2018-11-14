@@ -21,6 +21,7 @@ import { SvgRefFixerService } from '@flogo/core';
 export class TileTaskComponent extends AbstractTileTaskComponent implements OnChanges {
   @HostBinding('class.tile-has-branch') hasBranch = false;
   displayMenuOptions = false;
+  displayMainBranchOptions = false;
 
   constructor(svgFixer: SvgRefFixerService) {
     super(svgFixer);
@@ -32,6 +33,15 @@ export class TileTaskComponent extends AbstractTileTaskComponent implements OnCh
 
   closeMenuOptions() {
     this.displayMenuOptions = false;
+  }
+
+  onMainBranchOptions(event) {
+    event.stopPropagation();
+    this.displayMainBranchOptions = !this.displayMainBranchOptions;
+  }
+
+  closeMainBranchOptions() {
+    this.displayMainBranchOptions = false;
   }
 
   ngOnChanges(changes) {
