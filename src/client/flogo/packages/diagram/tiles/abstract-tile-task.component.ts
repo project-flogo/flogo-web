@@ -34,7 +34,10 @@ export abstract class AbstractTileTaskComponent implements OnChanges {
 
   @HostBinding('class.has-condition')
   get hasCondition() {
-    const condition = !this.tile.task.status.isBranchConfigured;
+    let condition = !this.tile.task.status.isBranchConfigured;
+    if (this.tile && !!this.tile.branch) {
+      condition = !this.tile.branch.status.isBranchConfigured;
+    }
     return condition;
   }
 

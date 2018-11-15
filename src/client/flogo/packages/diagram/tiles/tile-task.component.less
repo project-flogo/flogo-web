@@ -277,7 +277,7 @@
       height: 18px;
       top: 1px;
       background-color: #899bcf;
-      border: solid 2px #899bcf;
+      border: solid 3px #899bcf;
     }
     .options-open__icon {
       display: block;
@@ -312,7 +312,22 @@
   height: 12px;
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
   background-color: #afbbda;
-  border: solid 2px #afbbda;
+  border: solid 3px #afbbda;
+}
+
+.main-branch-condition {
+  .main-branch-configure {
+    background-color: @color-bg;
+  }
+  &:hover {
+    .main-branch-configure {
+      background-color: @color-bg;
+      border: solid 3px #899bcf;
+    }
+    .options-open__icon {
+      color: #899bcf;
+    }
+  }
 }
 
 .option-icon {
@@ -330,10 +345,10 @@
   .kebabmenu-option();
   color: @color-bg;
   font-size: 0.8em;
-  position: relative;
+  position: absolute;
   height: 100%;
-  top: 0.16em;
-  left: -0.35em;
+  top: 0;
+  left: -0.16em;
   display: none;
 }
 .options-close__icon {
@@ -343,11 +358,3 @@
   font-size: 10px;
 }
 
-.main-branch-condition {
-  .main-branch-configure {
-    background-color: @color-bg;
-  }
-  .options-open__icon {
-    color: #afbbda;
-  }
-}
