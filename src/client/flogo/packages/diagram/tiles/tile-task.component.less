@@ -221,7 +221,9 @@
 
 
 :host(.is-selected) {
-  transform: scale(1.04);
+  .tile-block {
+    transform: scale(1.04);
+  }
   .tile__bg {
     fill: @color-link-hover;
   }
@@ -341,7 +343,10 @@
 }
 .options-open__icon {
   color: @color-bg;
-  font-size: 1em;
+  font-size: 1.2em;
   display: none;
+  position: absolute;
+  top: -0.1em;
+  left: -0.05em;
 }
 

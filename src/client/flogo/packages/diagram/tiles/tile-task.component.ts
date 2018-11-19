@@ -22,6 +22,7 @@ export class TileTaskComponent extends AbstractTileTaskComponent implements OnCh
   @HostBinding('class.tile-has-branch') hasBranch = false;
   displayMenuOptions = false;
   displayMainBranchOptions = false;
+  hasBranchCondition = false;
 
   constructor(svgFixer: SvgRefFixerService) {
     super(svgFixer);
@@ -35,8 +36,7 @@ export class TileTaskComponent extends AbstractTileTaskComponent implements OnCh
     this.displayMenuOptions = false;
   }
 
-  onMainBranchOptions(event) {
-    event.stopPropagation();
+  toggleBranchOptions() {
     this.displayMainBranchOptions = !this.displayMainBranchOptions;
   }
 
@@ -47,6 +47,9 @@ export class TileTaskComponent extends AbstractTileTaskComponent implements OnCh
   ngOnChanges(changes) {
     super.ngOnChanges(changes);
     this.hasBranch = this.tile && !!this.tile.branch;
+    if (this.hasBranch) {
+      this.hasBranchCondition = this.tile.branch.status.isBranchConfigured;
+    }
   }
 
   get bgFill() {

@@ -37,6 +37,16 @@ export class TileBranchComponent extends AbstractTileTaskComponent implements On
     }
   }
 
+
+  @HostBinding('class.has-condition')
+  get hasCondition() {
+    const condition = !this.tile.task.status.isBranchConfigured;
+   /* if (this.tile && !!this.tile.branch) {
+      condition = !this.tile.branch.status.isBranchConfigured;
+    }*/
+    return condition;
+  }
+
   get containerHeight() {
     return ROW_HEIGHT * this.currentSpanRows;
   }
