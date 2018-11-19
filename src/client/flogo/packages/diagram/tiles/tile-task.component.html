@@ -32,7 +32,7 @@
            class="flogo-icon-addbranch menu__icon js-menu-option" (click)="onBranch()"></i>
         <i class="flogo-icon-settings menu__icon js-menu-option" (click)="onConfigure(tile.task.id)"></i>
       </div>
-      <i class="flogo-icon-kebabmenu kebabmenu js-menu-option" [ngClass]="{'kebabmenu-selected': displayMenuOptions}"
+      <i class="flogo-icon-menu-horizontal kebabmenu js-menu-option" [ngClass]="{'kebabmenu-selected': displayMenuOptions}"
          (click)="onMenuOptions()"></i></div>
   </div>
   <!-- wrapper div required to avoid issue in chrome where shadows cuts off when z-index changes -->
@@ -70,11 +70,11 @@
   <div class="main-branch-link"></div>
   <div class="main-branch-configure"
        (fgClickOutside)="closeMainBranchOptions()" (click)="onMainBranchOptions($event)">
-    <i class="flogo-icon-kebabmenu options-open__icon"></i>
+    <i class="flogo-icon-menu-horizontal options-open__icon"></i>
   </div>
   <div *ngIf="displayMainBranchOptions" class="main-branch-options">
      <i class="flogo-icon-delete option-icon"></i>
     <i class="flogo-icon-settings option-icon" (click)="onConfigure(tile.branch.id)"></i>
-    <i class="flogo-icon-kebabmenu  option-icon options-close__icon" (click)="onMainBranchOptions($event)"></i>
+    <i class="flogo-icon-menu-horizontal option-icon" (click)="onMainBranchOptions($event)"></i>
   </div>
 </div>

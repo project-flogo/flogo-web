@@ -3,12 +3,12 @@
     <div class="branch-child-line"></div>
     <div class="branch-option-container"
          (fgClickOutside)="closeBranchOptions()" (click)="onBranchOptions($event)">
-      <i class="flogo-icon-kebabmenu menu-icon-close" *ngIf="!displayBranchOptions"></i>
+      <i class="flogo-icon-menu-horizontal menu-icon-close" *ngIf="!displayBranchOptions"></i>
     </div>
     <div *ngIf="displayBranchOptions" class="branch-options-display">
       <i class="flogo-icon-delete menu-icon" (click)="onRemove($event)"></i>
       <i class="flogo-icon-settings menu-icon" (click)="onConfigure(tile.task.id)"></i>
-      <i class="flogo-icon-kebabmenu  menu-icon menu-icon-open" (click)="onBranchOptions($event)"></i>
+      <i class="flogo-icon-menu-horizontal menu-icon" (click)="onBranchOptions($event)"></i>
     </div>
   </div>
   <div class="main-child-link" [style.height.px]="branchHeight" [style.top.px]="branchPosition"></div>
