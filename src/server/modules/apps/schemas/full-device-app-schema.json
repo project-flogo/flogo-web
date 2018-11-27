@@ -132,8 +132,7 @@
         }
       },
       "required": [
-        "tasks",
-        "links"
+        "tasks"
       ],
       "definitions": {
         "attribute": {
