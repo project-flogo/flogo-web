@@ -148,9 +148,9 @@ export class AppsService {
    *    - false {boolean} - do not get the flows
    *
    * @param terms
-   * @params terms.name {string} name of the app
-   * @params options
-   * @params options.withFlows: retrieveFlows
+   * @param terms.name {string} name of the app
+   * @param options
+   * @param options.withFlows: retrieveFlows
    */
   find(terms: { name?: string | RegExp } = {}, { withFlows } = { withFlows: false }) {
     if (terms.name) {
@@ -183,10 +183,10 @@ export class AppsService {
   /**
    * Builds an app binary and returns the generated binary
    * @param appId {string} app to build
-   * @params options
-   * @params options.compile.os: target operating system
-   * @params options.compile.arch: target architecture
-   * @params options.shimTriggerId: create an app using shim mode using specified trigger id
+   * @param options
+   * @param options.compile.os: target operating system
+   * @param options.compile.arch: target architecture
+   * @param options.shimTriggerId: create an app using shim mode using specified trigger id
    * @return {object} built app stream
    * @throws Not found error if app not found
    */
@@ -198,10 +198,10 @@ export class AppsService {
   /**
    * Builds an app in shim mode and returns the generated file
    * @param triggerId {string} trigger to build
-   * @params options
-   * @params options.compile.os: target operating system
-   * @params options.compile.arch: target architecture
-   * @params options.shimTriggerId: create an app using shim mode using specified trigger id
+   * @param options
+   * @param options.compile.os: target operating system
+   * @param options.compile.arch: target architecture
+   * @param options.shimTriggerId: create an app using shim mode using specified trigger id
    * @return {{ trigger: string, appName: string, data: Stream }} built handler zip file
    * @throws Not found error if trigger not found
    */

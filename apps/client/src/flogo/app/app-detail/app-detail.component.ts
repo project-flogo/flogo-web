@@ -455,21 +455,18 @@ function getShimmableTriggerBuildOption(shimmableTriggerDetail: ContribSchema) {
   switch (shimmableTriggerDetail.ref) {
     case CONTRIB_REFS.LAMBDA:
       return {
-        label: this.translate.instant('TRIGGER-SHIM:SERVERLESS-APP'),
+        labelKey: 'TRIGGER-SHIM:SERVERLESS-APP',
         ref: shimmableTriggerDetail.ref,
       };
-      break;
     case CONTRIB_REFS.CLI:
       return {
-        label: this.translate.instant('TRIGGER-SHIM:CLI-APP'),
+        labelKey: 'TRIGGER-SHIM:CLI-APP',
         ref: shimmableTriggerDetail.ref,
       };
-      break;
     default:
       return {
-        label: shimmableTriggerDetail.name,
+        labelKey: shimmableTriggerDetail.name,
         ref: shimmableTriggerDetail.ref,
       };
-      break;
   }
 }

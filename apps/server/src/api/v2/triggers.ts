@@ -2,14 +2,21 @@ import * as Router from 'koa-router';
 import { Context } from 'koa';
 import { ERROR_TYPES, ErrorManager } from '../../common/errors';
 import { buildTrigger } from './triggers/build';
-import { appTriggersServiceMiddleware } from './shared/apps-service-middleware';
+import {
+  appTriggersServiceMiddleware,
+  appsServiceMiddleware,
+} from './shared/apps-service-middleware';
 
 export function triggers(router: Router, container) {
   const triggersServiceMiddleware = appTriggersServiceMiddleware(container);
   router.get(`/apps/:appId/triggers`, triggersServiceMiddleware, listTriggers);
   router.post(`/apps/:appId/triggers`, triggersServiceMiddleware, createTrigger);
   // !!IMPORTANT :shim endpoint should be declared before the other /triggers/{triggerId} urls
-  router.get(`/triggers/:triggerId\\:shim`, triggersServiceMiddleware, buildTrigger);
+  router.get(
+    `/triggers/:triggerId\\:shim`,
+    appsServiceMiddleware(container),
+    buildTrigger
+  );
   router.get(`/triggers/:triggerId`, triggersServiceMiddleware, getTrigger);
   router.patch(`/triggers/:triggerId`, triggersServiceMiddleware, updateTrigger);
   router.del(`/triggers/:triggerId`, triggersServiceMiddleware, deleteTrigger);

@@ -71,7 +71,7 @@ function _translateOptsToCommandArgs(opts) {
   }
 
   if (opts.shimTriggerId) {
-    args.push('-shim', opts.shimTriggerId);
+    args.push('--shim', opts.shimTriggerId);
   }
 
   return args;

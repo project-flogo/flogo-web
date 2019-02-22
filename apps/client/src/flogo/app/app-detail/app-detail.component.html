@@ -218,8 +218,10 @@
           *ngIf="shimTriggerOptions.length > 0"
         >
           <li *ngFor="let opt of shimTriggerOptions" class="dropdown-list__item">
-            <span class="dropdown-list__item-link" (click)="showShimTriggerList(opt.ref)">
-              {{ opt.label }}</span
+            <span
+              class="dropdown-list__item-link"
+              (click)="showShimTriggerList(opt.ref)"
+              >{{ opt.labelKey | translate }}</span
             >
           </li>
         </ul>
