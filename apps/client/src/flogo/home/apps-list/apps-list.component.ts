@@ -7,7 +7,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { App } from '@flogo-web/client-core';
+import { App } from '@flogo-web/core';
 import { NotificationsService } from '@flogo-web/client-core/notifications';
 import { AppsApiService } from '@flogo-web/client-core/services';
 

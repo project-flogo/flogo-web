@@ -23,7 +23,7 @@ export const mockImportErrorResponse = [
           keyword: 'activity-installed',
           message: 'Activity "38756435643" is not installed',
           data: 38756435643,
-          dataPath: '.actions[0].data.flow.rootTask.tasks[0].activityRef',
+          dataPath: '.resources[0].data.flow.rootTask.tasks[0].activityRef',
           schemaPath: '#/properties/activityRef/activity-installed',
           params: {
             ref: 'github.com/some/activity',
@@ -31,7 +31,7 @@ export const mockImportErrorResponse = [
         },
         {
           keyword: 'if',
-          dataPath: '.actions[0].data.flow.rootTask.tasks[0]',
+          dataPath: '.resources[0].data.flow.rootTask.tasks[0]',
           schemaPath: '#/if',
           params: {
             failingKeyword: 'else',

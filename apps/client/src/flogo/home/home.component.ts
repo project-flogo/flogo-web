@@ -2,8 +2,8 @@ import { fromEvent, timer, Subscription } from 'rxjs';
 import { bufferCount, exhaustMap } from 'rxjs/operators';
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { App, FlowSummary } from '@flogo-web/client-core';
-import { AppsApiService } from '@flogo-web/client-core/services/restapi/v2/apps-api.service';
+import { App } from '@flogo-web/core';
+import { FlowSummary, AppsApiService } from '@flogo-web/client-core';
 
 @Component({
   selector: 'flogo-home',

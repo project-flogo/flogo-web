@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, from, of } from 'rxjs';
 import { tap, shareReplay, switchMap } from 'rxjs/operators';
 
+import { App } from '@flogo-web/core';
 import {
-  App,
   AppsApiService,
   ResourceService,
   ErrorService,
@@ -228,7 +228,7 @@ export class AppDetailService {
       }
     ));
     this.resourcesState.triggers = app.triggers;
-    this.resourcesState.resources = app.actions;
+    this.resourcesState.resources = app.resources;
   }
 
   private getCurrentAsEditable() {

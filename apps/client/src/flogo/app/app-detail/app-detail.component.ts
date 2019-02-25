@@ -13,7 +13,7 @@ import {
 import { Observable, of as observableOf, combineLatest } from 'rxjs';
 import { switchMap, map, take, tap, filter, shareReplay } from 'rxjs/operators';
 
-import { Trigger } from '@flogo-web/core';
+import { App, Trigger } from '@flogo-web/core';
 import {
   LanguageService,
   FlowSummary,
@@ -24,7 +24,6 @@ import {
   ShimTriggerBuildApiService,
   RESTAPIContributionsService,
   ContribSchema,
-  App,
 } from '@flogo-web/client-core';
 import { ModalService } from '@flogo-web/client-core/modal';
 import {
@@ -223,7 +222,7 @@ export class FlogoApplicationDetailComponent implements OnChanges, OnInit {
   }
 
   openExportFlow() {
-    const flows = this.application.actions;
+    const flows = this.application.resources;
     return this.modalService.openModal<ExportFlowsData>(FlogoExportFlowsComponent, {
       flows,
     });

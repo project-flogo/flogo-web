@@ -1,4 +1,4 @@
-import { App } from '@flogo-web/client-core';
+import { App } from '@flogo-web/core';
 import { ApplicationDetailState } from './application-detail-state.interface';
 
 export interface ApplicationDetail {
