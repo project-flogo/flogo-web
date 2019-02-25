@@ -60,7 +60,7 @@ function getAppToExport(): App {
         ],
       },
     ],
-    actions: [
+    resources: [
       {
         id: '9ldwPipJc',
         name: 'Some flow',

@@ -11,7 +11,7 @@ export interface App {
   createdAt?: string;
   updatedAt?: string;
   // todo: rename to resources
-  actions?: Resource[];
+  resources?: Resource[];
   triggers?: Trigger[];
   properties?: FlogoAppModel.AppProperty[];
 }

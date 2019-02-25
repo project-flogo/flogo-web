@@ -1,4 +1,4 @@
-import { ContributionSchema } from '@flogo-web/core';
+import { App, FlogoAppModel, ContributionSchema } from '@flogo-web/core';
 import {
   Resource,
   ResourceImportContext,
@@ -10,9 +10,16 @@ import {
 
 import { constructApp } from '../../../core/models/app';
 import { actionValueTypesNormalizer } from '../common/action-value-type-normalizer';
-import { App, EngineSchemas } from '../../../interfaces';
 import { validatorFactory } from './validator';
 import { importTriggers } from './import-triggers';
+
+interface DefaultAppModelResource extends FlogoAppModel.Resource {
+  data: {
+    name?: string;
+    description?: string;
+    metadata?: any;
+  };
+}
 
 export type ResourceImporterFn = (
   resource: Resource,
@@ -20,20 +27,20 @@ export type ResourceImporterFn = (
 ) => Resource | Promise<Resource>;
 
 export async function importApp(
-  rawApp: EngineSchemas.App,
+  rawApp: FlogoAppModel.App,
   resolveImporterFn: (resourceType: string) => ResourceImporterFn,
   generateId: () => string,
   contributions: Map<string, ContributionSchema>
 ): Promise<App> {
   const now = new Date().toISOString();
   const newApp = cleanAndValidateApp(
-    rawApp as EngineSchemas.App,
+    rawApp as FlogoAppModel.App,
     Array.from(contributions.values()),
     generateId,
     now
   );
   const { resources, normalizedResourceIds } = normalizeResources(
-    rawApp.resources || [],
+    (rawApp.resources || []) as DefaultAppModelResource[],
     generateId,
     now
   );
@@ -51,7 +58,7 @@ export async function importApp(
     normalizedTriggerIds: normalizedTriggerIds,
   };
   const resolveImportHook = createImportResolver(resolveImporterFn, context);
-  newApp.actions = await applyImportHooks(resources, resolveImportHook);
+  newApp.resources = await applyImportHooks(resources, resolveImportHook);
   normalizedResourceIds.clear();
   normalizedTriggerIds.clear();
 
@@ -96,14 +103,14 @@ async function applyImportHooks(
 }
 
 function cleanAndValidateApp(
-  rawApp: EngineSchemas.App,
+  rawApp: FlogoAppModel.App,
   contributions: ContributionSchema[],
   getNextId: () => string,
   now = null
 ): App {
   const validator = createValidator(contributions);
   validator.validate(rawApp);
-  rawApp = rawApp as EngineSchemas.App;
+  rawApp = rawApp as FlogoAppModel.App;
   return constructApp({
     _id: getNextId(),
     name: rawApp.name,
@@ -115,7 +122,7 @@ function cleanAndValidateApp(
 }
 
 function normalizeResources(
-  resources: EngineSchemas.Resource[],
+  resources: DefaultAppModelResource[],
   generateId: () => string,
   now: string
 ): { resources: Resource[]; normalizedResourceIds: Map<string, string> } {

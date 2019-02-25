@@ -18,13 +18,13 @@ export class Exporter {
   export(app, onlyThisResources?: string[]) {
     // todo: re-enable resource selection
     // if (!this.isFullAppExportMode) {
-    //   app.actions = this.selectResources(app.actions, onlyThisResources);
+    //   app.resources = this.selectResources(app.actions, onlyThisResources);
     // }
 
     app = this.applyDefaultAppAttributes(app);
 
     const { resources, previousResourceIdsLinker } = this.humanizeResourceIds(
-      app.actions
+      app.resources
     );
     app.resources = resources;
     app.triggers = this.processTriggers(app.triggers, previousResourceIdsLinker);
@@ -55,14 +55,14 @@ export class Exporter {
   //   );
   // }
 
-  processTriggers(triggers, humanizedActions) {
+  processTriggers(triggers, humanizedResources) {
     if (this.isFullAppExportMode) {
       const {
         triggers: humanizedTriggers,
         handlers,
       } = this.humanizeTriggerNamesAndExtractHandlers(triggers);
       triggers = humanizedTriggers;
-      this.reconcileHandlersAndResources(handlers, humanizedActions);
+      this.reconcileHandlersAndResources(handlers, humanizedResources);
     } else {
       triggers = [];
     }

@@ -8,7 +8,7 @@
     "type",
     "version",
     "triggers",
-    "actions"
+    "resources"
   ],
   "properties": {
     "name": {
@@ -92,7 +92,7 @@
         ]
       }
     },
-    "actions": {
+    "resources": {
       "default": [],
       "type": "array",
       "items": {

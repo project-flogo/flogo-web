@@ -2,7 +2,6 @@ import { isEmpty, pick } from 'lodash';
 import { ResourceExportContext } from '@flogo-web/server/core';
 import { App, FlogoAppModel, ContributionSchema } from '@flogo-web/core';
 
-import { ensureKeyOrder } from '../../../../common/utils/object';
 import { ResourceExporterFn } from '../resource-exporter-fn';
 import { formatHandler } from './format-handler';
 
@@ -27,7 +26,7 @@ export class AppFormatter {
       contributions: this.activitySchemas,
       resourceIdReconciler,
     };
-    const resources = app.actions.map(resource =>
+    const resources = app.resources.map(resource =>
       this.exportResource(resource, exportContext)
     );
     const formattedTriggers = this.formatTriggers(app.triggers);

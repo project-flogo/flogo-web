@@ -40,7 +40,7 @@ export const importedApp = {
       ],
     }),
   ],
-  actions: [
+  resources: [
     expect.objectContaining({
       id: expect.any(String),
       name: 'GetStatus',

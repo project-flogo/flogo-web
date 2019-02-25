@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "Empty flogo app",
   "triggers": [],
-  "actions": [
+  "resources": [
     {
       "ref": "github.com/project-flogo/flow"
     }

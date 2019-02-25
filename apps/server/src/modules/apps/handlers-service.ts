@@ -12,13 +12,13 @@ const EDITABLE_FIELDS = ['settings', 'outputs', 'actionMappings'];
 export class HandlersService {
   constructor(@inject(TOKENS.AppsDb) private appsDb: Database) {}
 
-  save(triggerId, actionId, handlerData) {
-    if (!triggerId || !actionId) {
-      throw new TypeError('Params triggerId and actionId are required');
+  save(triggerId, resourceId, handlerData) {
+    if (!triggerId || !resourceId) {
+      throw new TypeError('Params triggerId and resourceId are required');
     }
 
-    const findQuery = { 'triggers.id': triggerId, 'actions.id': actionId };
-    return this.appsDb.findOne(findQuery, { actions: 1, triggers: 1 }).then(app => {
+    const findQuery = { 'triggers.id': triggerId, 'resources.id': resourceId };
+    return this.appsDb.findOne(findQuery, { resources: 1, triggers: 1 }).then(app => {
       if (!app) {
         throw ErrorManager.makeError('App not found', {
           type: ERROR_TYPES.COMMON.NOT_FOUND,
@@ -38,7 +38,7 @@ export class HandlersService {
       const now = ISONow();
 
       const existingHandlerIndex = trigger.handlers.findIndex(
-        h => h.actionId === actionId
+        h => h.resourceId === resourceId
       );
       if (existingHandlerIndex >= 0) {
         const existingHandler = trigger.handlers[existingHandlerIndex];
@@ -51,7 +51,7 @@ export class HandlersService {
         };
       } else {
         handler = defaults(handler, {
-          actionId,
+          resourceId,
           createdAt: now,
           updatedAt: null,
           settings: {},
@@ -68,11 +68,11 @@ export class HandlersService {
 
       return this.appsDb
         .update(findQuery, updateQuery, {})
-        .then(modifiedCount => this.findOne(triggerId, actionId));
+        .then(modifiedCount => this.findOne(triggerId, resourceId));
     });
   }
 
-  findOne(triggerId, actionId) {
+  findOne(triggerId, resourceId) {
     return this.appsDb
       .findOne({ 'triggers.id': triggerId }, { triggers: 1 })
       .then(app => {
@@ -80,7 +80,7 @@ export class HandlersService {
           return null;
         }
         const trigger = app.triggers.find(t => t.id === triggerId);
-        const handler = trigger.handlers.find(h => h.actionId === actionId);
+        const handler = trigger.handlers.find(h => h.resourceId === resourceId);
         if (handler) {
           handler.appId = app._id;
           handler.triggerId = trigger.id;
@@ -95,45 +95,45 @@ export class HandlersService {
       .then(app => (app.triggers.handlers ? app.triggers.handlers : []));
   }
 
-  remove(triggerId, actionId) {
-    if (!triggerId || !actionId) {
-      throw new TypeError('Params triggerId and actionId are required');
+  remove(triggerId, resourceId) {
+    if (!triggerId || !resourceId) {
+      throw new TypeError('Params triggerId and resourceId are required');
     }
     return this.appsDb
       .findOne(
-        { 'triggers.id': triggerId, 'actions.id': actionId },
-        { triggers: 1, actions: 1 }
+        { 'triggers.id': triggerId, 'resources.id': resourceId },
+        { triggers: 1, resources: 1 }
       )
       .then(app => {
         const triggerIndex = app.triggers.findIndex(t => t.id === triggerId);
         return this.appsDb.update(
-          { 'triggers.id': triggerId, 'actions.id': actionId },
-          { $pull: { [`triggers.${triggerIndex}.handlers`]: { actionId } } },
+          { 'triggers.id': triggerId, 'resources.id': resourceId },
+          { $pull: { [`triggers.${triggerIndex}.handlers`]: { resourceId } } },
           {}
         );
       })
       .then(numRemoved => numRemoved > 0);
   }
 
-  removeByActionId(actionId) {
+  removeByResourceId(resourceId) {
     return this.appsDb
-      .findOne({ 'triggers.handlers.actionId': actionId }, { triggers: 1 })
+      .findOne({ 'triggers.handlers.resourceId': resourceId }, { triggers: 1 })
       .then(app => {
         if (!app) {
           return null;
         }
         const pull = app.triggers.reduce((result, trigger, index) => {
           const existingHandlers = trigger.handlers.findIndex(
-            handler => handler.actionId === actionId
+            handler => handler.resourceId === resourceId
           );
           if (existingHandlers >= 0) {
-            result['triggers.' + index + '.handlers'] = { actionId: actionId };
+            result['triggers.' + index + '.handlers'] = { resourceId };
           }
           return result;
         }, {});
         if (!isEmpty(pull)) {
           return this.appsDb.update(
-            { 'triggers.handlers.actionId': actionId },
+            { 'triggers.handlers.resourceId': resourceId },
             { $pull: pull },
             {}
           );

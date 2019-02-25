@@ -1,9 +1,8 @@
 import { cloneDeep } from 'lodash';
-import { ContributionSchema, Resource, FlogoAppModel } from '@flogo-web/core';
+import { App, ContributionSchema, Resource, FlogoAppModel } from '@flogo-web/core';
 import { ResourceExportContext } from '@flogo-web/server/core';
 
 import { isValidApplicationType } from '../../../common/utils';
-import { App } from '../../../interfaces';
 import { AppFormatter } from './app-formatter';
 import { Exporter } from './exporter';
 import { UniqueIdAgent } from './utils/unique-id-agent';

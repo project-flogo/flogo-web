@@ -5,7 +5,6 @@ import { ResourceRegistrarFn } from '@flogo-web/server/core';
 import { TOKENS } from '../core';
 import { logger } from '../common/logging';
 import { ResourceRepository } from '../modules/resources/resource.repository';
-import { TransitionalResourceRepository } from '../modules/resources/transitional-resource.repository';
 
 import { bindAndCreatePluginRegistrar } from './plugin-injection';
 import { PersistenceModule } from './persistence/module';
@@ -17,7 +16,7 @@ export function createRootContainer(): {
 } {
   const rootContainer = new Container();
   rootContainer.bind(TOKENS.Logger).toConstantValue(logger);
-  rootContainer.bind(ResourceRepository).to(TransitionalResourceRepository);
+  rootContainer.bind(ResourceRepository).toSelf();
   rootContainer.load(PersistenceModule, ModelsModule);
   const registerResourcePlugin = bindAndCreatePluginRegistrar(rootContainer);
   return {

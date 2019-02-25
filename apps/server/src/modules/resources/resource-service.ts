@@ -1,5 +1,6 @@
 import { omit, pick } from 'lodash';
 import { inject, injectable } from 'inversify';
+import { App } from '@flogo-web/core';
 import {
   Resource,
   ResourceHooks,
@@ -12,7 +13,6 @@ import { ERROR_TYPES } from '../../common/errors';
 import { generateShortId } from '../../common/utils';
 import { findGreatestNameIndex } from '../../common/utils/collection';
 import { TOKENS, PluginResolverFn } from '../../core';
-import { App } from '../../interfaces';
 import { ResourceRepository } from './resource.repository';
 import { genericFieldsValidator, ValidatorFn } from './validation';
 import { cleanInputOnCreate, cleanInputOnUpdate } from './input-cleaner';
@@ -43,7 +43,7 @@ export class ResourceService {
     this.validateResource(resource);
 
     resource.id = generateShortId();
-    resource.name = ensureUniqueName(app.actions, resource.name);
+    resource.name = ensureUniqueName(app.resources, resource.name);
 
     resource = await this.applyCreationHook(resource);
 
@@ -54,7 +54,7 @@ export class ResourceService {
   async update(resourceId: string, changes: Partial<Resource>) {
     const existingResource = await this.findOne(resourceId);
     if (!existingResource) {
-      throw new FlogoError(`No action with id ${resourceId}`, {
+      throw new FlogoError(`No resource with id ${resourceId}`, {
         type: ERROR_TYPES.COMMON.NOT_FOUND,
       });
     }
@@ -77,7 +77,7 @@ export class ResourceService {
   ): Promise<Resource[]> {
     const app: App = await this.getApp(appId);
 
-    let resources = app && app.actions ? app.actions : [];
+    let resources = app && app.resources ? app.resources : [];
     resources = applyListFilters(resources, options);
 
     const hooks = this.createHookCache();
@@ -94,8 +94,7 @@ export class ResourceService {
     if (!app) {
       return null;
     }
-    // todo: change app.actions to app.resources
-    let resource = app.actions.find(r => r.id === resourceId);
+    let resource = app.resources.find(r => r.id === resourceId);
     const plugin = this.resolvePlugin(resource.type);
     if (plugin) {
       resource = await plugin.beforeList({ ...resource });
@@ -103,9 +102,8 @@ export class ResourceService {
     // todo: app normalization should be done somewhere else
     resource.appId = app._id;
     app.id = app._id;
-    // todo: change actions to resources
     const triggers = app.triggers.filter(isTriggerForResource(resource.id));
-    app = omit(app, ['triggers', 'actions', '_id']);
+    app = omit(app, ['triggers', 'resources', '_id']);
     return { ...resource, app, triggers };
   }
 
@@ -115,11 +113,11 @@ export class ResourceService {
     return recentResources.filter(Boolean);
   }
 
-  async remove(actionId) {
-    const wasRemoved = await this.resourceRepository.remove(actionId);
+  async remove(resourceId) {
+    const wasRemoved = await this.resourceRepository.remove(resourceId);
     if (wasRemoved) {
       // todo: HandlersManager should be injected
-      await this.handlersService.removeByActionId(actionId);
+      await this.handlersService.removeByResourceId(resourceId);
     }
     return wasRemoved;
   }
@@ -209,10 +207,10 @@ function applyListFilters(resources, options) {
   return projectOutputOnFields(resources, options.project);
 }
 
-function projectOutputOnFields(actionArray, fields) {
+function projectOutputOnFields(resourceArray, fields) {
   if (fields && fields.length > 0) {
     fields.push('id', 'type');
-    return actionArray.map(action => pick(action, fields));
+    return resourceArray.map(resource => pick(resource, fields));
   }
-  return actionArray;
+  return resourceArray;
 }

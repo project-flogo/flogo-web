@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
+import { App } from '@flogo-web/core';
 import { Resource } from '@flogo-web/server/core';
-import { App } from '../../interfaces';
 import { TOKENS } from '../../core';
 import { ISONow } from '../../common/utils';
 import { Database } from '../../common/database.service';
@@ -21,7 +21,7 @@ export class ResourceRepository {
   ) {}
 
   getApp(appId): Promise<App> {
-    return this.appsDb.findOne({ _id: appId }, { actions: 1 });
+    return this.appsDb.findOne({ _id: appId }, { resources: 1 });
   }
 
   async create(appId: string, resource: Resource): Promise<number> {
@@ -31,7 +31,7 @@ export class ResourceRepository {
       { _id: appId },
       {
         $push: {
-          actions: {
+          resources: {
             ...resource,
             createdAt: ISONow(),
             updatedAt: null,
@@ -59,19 +59,19 @@ export class ResourceRepository {
   }
 
   findAppByResourceId(resourceId: string) {
-    return this.appsDb.findOne({ 'actions.id': resourceId });
+    return this.appsDb.findOne({ 'resources.id': resourceId });
   }
 
   listRecent() {
     return this.indexerDb
       .findOne({ _id: RECENT_ACTIONS_ID })
-      .then(all => (all && all.actions ? all.actions : []));
+      .then(all => (all && all.resources ? all.resources : []));
   }
 
   async remove(resourceId: string) {
     const removedCount = await this.appsDb.update(
-      { 'actions.id': resourceId },
-      { $pull: { actions: { id: resourceId } } }
+      { 'resources.id': resourceId },
+      { $pull: { resources: { id: resourceId } } }
     );
     const wasDeleted = removedCount > 0;
     if (wasDeleted) {
@@ -116,9 +116,9 @@ function atomicUpdate(appsDb: Database, { resource, appId }) {
               {
                 property: 'name',
                 title: 'Name already exists',
-                detail: "There's another action in the app with this name",
+                detail: "There's another resource in the app with this name",
                 value: {
-                  actionId: resource.id,
+                  resourceId: resource.id,
                   appId: app.id,
                   name: resource.name,
                 },
@@ -129,18 +129,18 @@ function atomicUpdate(appsDb: Database, { resource, appId }) {
         }
       }
 
-      const actionIndex = app.actions.findIndex(t => t.id === resource.id);
+      const resourceIndex = app.resources.findIndex(t => t.id === resource.id);
       resource.updatedAt = ISONow();
       Object.assign(
         updateQuery,
-        prepareUpdateQuery(resource, app.actions[actionIndex], actionIndex)
+        prepareUpdateQuery(resource, app.resources[resourceIndex], resourceIndex)
       );
       return null;
     };
 
     // queue find and update operation to nedb to make sure they execute one after the other
     // and no other operation is mixed between them
-    appsDb.collection.findOne(appQuery, { actions: 1 }, createUpdateQuery);
+    appsDb.collection.findOne(appQuery, { resources: 1 }, createUpdateQuery);
     appsDb.collection.update(appQuery, updateQuery, {}, (err, updatedCount) =>
       err ? reject(err) : resolve(updatedCount)
     );
@@ -153,29 +153,34 @@ function resourceNameComparator(resource: Resource) {
   return (r: Resource) => resourceName(r.name) === resourceName && r.id !== resource.id;
 }
 
-function storeAsRecent(indexerDb: Database, actionInfo: { id: string; appId: string }) {
+function storeAsRecent(indexerDb: Database, resourceInfo: { id: string; appId: string }) {
   const findQuery = { _id: RECENT_ACTIONS_ID };
-  const updateQuery = {} as any;
+  const updateQuery = {} as { $set?: { resources: Partial<Resource>[] } };
 
   return new Promise((resolve, reject) => {
-    indexerDb.collection.findOne(findQuery, (error, recentActions) => {
-      if (error) {
-        reject(error);
-        return;
+    indexerDb.collection.findOne(
+      findQuery,
+      (error, recentResources: { resources: Partial<Resource>[] }) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+
+        recentResources = recentResources || { resources: [] };
+        const oldResources = recentResources.resources;
+
+        const existingResourcesIndex = oldResources.findIndex(
+          a => a.id === resourceInfo.id
+        );
+        if (existingResourcesIndex > -1) {
+          oldResources.splice(existingResourcesIndex, 1);
+        }
+
+        const newRecentResources = [resourceInfo, ...oldResources.slice(0, MAX_RECENT)];
+
+        updateQuery.$set = { resources: newRecentResources };
       }
-
-      recentActions = recentActions || { actions: [] };
-      const oldActions = recentActions.actions;
-
-      const existingActionIndex = oldActions.findIndex(a => a.id === actionInfo.id);
-      if (existingActionIndex > -1) {
-        oldActions.splice(existingActionIndex, 1);
-      }
-
-      const newRecentActions = [actionInfo, ...oldActions.slice(0, MAX_RECENT)];
-
-      updateQuery.$set = { actions: newRecentActions };
-    });
+    );
     indexerDb.collection.update(findQuery, updateQuery, { upsert: true }, error => {
       if (error) {
         reject(error);
@@ -194,11 +199,11 @@ function removeFromRecent(indexerDb: Database, compareField, fieldVal) {
   const findQuery = { _id: RECENT_ACTIONS_ID };
   const updateQuery: any = {};
   if (compareField === 'id') {
-    findQuery['actions.id'] = fieldVal;
-    updateQuery.$pull = { actions: { id: fieldVal } };
+    findQuery['resource.id'] = fieldVal;
+    updateQuery.$pull = { resource: { id: fieldVal } };
   } else {
-    findQuery['actions.appId'] = fieldVal;
-    updateQuery.$pull = { actions: { appId: fieldVal } };
+    findQuery['resource.appId'] = fieldVal;
+    updateQuery.$pull = { resource: { appId: fieldVal } };
   }
 
   return indexerDb.findOne(findQuery).then(result => {

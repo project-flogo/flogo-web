@@ -2,6 +2,8 @@ import { inject, injectable } from 'inversify';
 import { escapeRegExp, fromPairs, isEqual, pick } from 'lodash';
 import shortid from 'shortid';
 
+import { App } from '@flogo-web/core';
+
 import { EXPORT_MODE, REF_TRIGGER_LAMBDA } from '../../common/constants';
 
 import { normalizeName } from '../transfer/export/utils/normalize-name';
@@ -20,10 +22,9 @@ import { Validator } from './validator';
 import { AppTriggersService } from './triggers';
 import { constructApp } from '../../core/models/app';
 import { saveNew } from './common';
-import { flowifyApp, unflowifyApp } from '../resources/transitional-resource.repository';
 
 const EDITABLE_FIELDS = ['name', 'version', 'description'];
-const PUBLISH_FIELDS = [
+const PUBLISH_FIELDS: Array<keyof App> = [
   'id',
   'name',
   'type',
@@ -34,7 +35,7 @@ const PUBLISH_FIELDS = [
   'createdAt',
   'updatedAt',
   'triggers',
-  'actions',
+  'resources',
 ];
 
 @injectable()
@@ -48,7 +49,7 @@ export class AppsService {
     private appExporter: AppExporter
   ) {}
 
-  async create(app) {
+  async create(app): Promise<App> {
     let inputData = app;
     const errors = Validator.validateSimpleApp(inputData);
     if (errors) {
@@ -63,9 +64,7 @@ export class AppsService {
   }
 
   async importApp(app) {
-    let appToSave = await this.appImporter.import(app);
-    // todo: fcastill - adding as transition to resources, remove before v0.9.0
-    appToSave = flowifyApp(appToSave as any);
+    const appToSave = await this.appImporter.import(app);
     const savedApp = await saveNew(appToSave, this.appsDb);
     return this.findOne(savedApp._id);
   }
@@ -235,7 +234,7 @@ export class AppsService {
     appId,
     { format, flowIds }: { appModel?: string; format?: string; flowIds?: string[] } = {}
   ) {
-    let app = await this.findOne(appId);
+    const app = await this.findOne(appId);
     if (!app) {
       throw ErrorManager.makeError('Application not found', {
         type: GENERAL_ERROR_TYPES.COMMON.NOT_FOUND,
@@ -247,7 +246,6 @@ export class AppsService {
       isFullExportMode,
       selectResources: flowIds,
     };
-    app = unflowifyApp(app as any);
     return this.appExporter.export(app, exportOptions);
   }
 
