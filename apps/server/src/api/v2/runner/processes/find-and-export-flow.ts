@@ -1,5 +1,4 @@
 import { Context } from 'koa';
-import { ActionsManager } from '../../../../modules/actions';
 import { ActivitiesManager } from '../../../../modules/activities';
 import { ErrorManager } from '../../../../common/errors';
 // import { LegacyMicroServiceFormatter } from '../../../../modules/transfer/exporter/formatters/legacy-microservice-formatter';

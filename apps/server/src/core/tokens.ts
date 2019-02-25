@@ -6,5 +6,4 @@ export const TOKENS = {
   ActionIndexerDb: Symbol('ActionsIndexerDb'),
   ContribActivitiesManager: Symbol('ContribActivitiesManager'),
   ContribTriggersManager: Symbol('ContribActivitiesManager'),
-  ActionsManager: Symbol('ActionsManager'),
 };
