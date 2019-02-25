@@ -6,7 +6,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { BsModalModule } from 'ng2-bs3-modal';
 
-import { App } from '@flogo-web/client-core';
+import { App } from '@flogo-web/core';
 import {
   TriggersApiService,
   RESTAPIHandlersService,
