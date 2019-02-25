@@ -1,7 +1,7 @@
 import { remove } from 'lodash';
 import { Injectable } from '@angular/core';
 
-import { App } from '../../../interfaces';
+import { App } from '@flogo-web/core';
 import { HttpUtilsService } from '../http-utils.service';
 import { AppsApiService } from './apps-api.service';
 
@@ -14,31 +14,38 @@ export class AppsApiServiceMock extends AppsApiService {
       id: '1',
       name: 'Sample Application 1',
       version: '0.0.1',
+      type: 'flogo:app',
       description: null /* should be null for test */,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
       updatedAt: null /* should be null for test */,
       /* tslint:disable:max-line-length */
-      flows: [
+      resources: [
         {
           id: '897',
           name: 'Manually adjust temperature',
           description:
             'A flow for apietusam faccum esequi berum. Hentias porerum ent omniend itatempoer porem uga. Luptati optaquisist quibus rem quam unt Hentias porerum ent omniend itatempoer porem uga. Luptati optaquisist quibus rem quam unt Luptas oilsksd as asdfwo',
-          createdAt: new Date(),
+          createdAt: new Date().toISOString(),
+          type: 'flow',
+          data: null,
         },
         {
           id: '987',
           name: 'Raise temperature & notifiy operator',
           description:
             'A basic flow for apietusam faccum esequi berum. Hentias porerum ent omniend itatempoer porem uga. Luptati optaquisist quibus rem quam unt',
-          createdAt: new Date(),
+          createdAt: new Date().toISOString(),
+          type: 'flow',
+          data: null,
         },
         {
           id: '879',
           name: 'Log temperature',
           description:
             'A complex flow for apietusam faccum esequi berum. Hentias porerum ent omniend itatempoer porem uga. Luptati optaquisist quibus rem quam unt',
-          createdAt: new Date(),
+          createdAt: new Date().toISOString(),
+          type: 'flow',
+          data: null,
         },
       ],
     },
@@ -47,8 +54,9 @@ export class AppsApiServiceMock extends AppsApiService {
       name: 'Sample Application 2',
       version: '0.0.1',
       description: 'My App',
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      type: 'flogo:app',
     },
   ];
   /* tslint:enable:max-line-length */

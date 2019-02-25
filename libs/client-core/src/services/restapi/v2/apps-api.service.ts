@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 
-import { App } from '../../../interfaces';
+import { App } from '@flogo-web/core';
 import { FileDownloaderService } from '../../file-downloader.service';
 import { HttpUtilsService } from '../http-utils.service';
 import { RestApiService } from '../rest-api.service';
@@ -18,7 +18,7 @@ export class AppsApiService {
   ) {}
 
   recentFlows() {
-    return this.restApi.get('actions/recent').toPromise();
+    return this.restApi.get('resources/recent').toPromise();
   }
 
   createNewApp(): Promise<any> {

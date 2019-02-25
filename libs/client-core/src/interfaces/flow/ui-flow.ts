@@ -1,6 +1,6 @@
+import { App } from '@flogo-web/core';
 import { FlowGraph } from '../graph';
 import { Dictionary, ContribSchema } from '../common';
-import { App } from './app';
 import { FlowMetadata } from './flow-metadata';
 import { Item } from './items';
 
