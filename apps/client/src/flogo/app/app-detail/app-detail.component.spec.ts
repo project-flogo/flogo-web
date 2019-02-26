@@ -237,7 +237,7 @@ describe('FlogoApplicationDetailComponent component', () => {
     const nextApp = makeMockAppDetail();
     nextApp.app.id = '4';
     nextApp.app.name = 'Untitled Application';
-    nextApp.app.createdAt = new Date();
+    nextApp.app.createdAt = new Date().toISOString();
     comp.appDetail = nextApp;
     // tick(1000);
     fixture.detectChanges();
@@ -266,21 +266,24 @@ describe('FlogoApplicationDetailComponent component', () => {
 
 function makeMockAppDetail() {
   return {
-    app: {
+    app: <any>{
       id: '1',
       name: 'Sample Application 1',
       version: '0.0.1',
+      type: 'flogo:app',
       description: null /* should be null for test */,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
       updatedAt: null /* should be null for test */,
-      flows: [
+      resources: [
         {
           id: '897',
           name: 'Manually adjust temperature',
           // tslint:disable-next-line max-line-length
           description:
             'A flow for apietusam faccum esequi berum. Hentias porerum ent omniend itatempoer porem uga. Luptati optaquisist quibus rem quam unt Hentias porerum ent omniend itatempoer porem uga. Luptati optaquisist quibus rem quam unt Luptas oilsksd as asdfwo',
-          createdAt: new Date(),
+          createdAt: new Date().toISOString(),
+          type: 'sometype',
+          data: null,
         },
         {
           id: '987',
@@ -288,7 +291,8 @@ function makeMockAppDetail() {
           // tslint:disable-next-line max-line-length
           description:
             'A basic flow for apietusam faccum esequi berum. Hentias porerum ent omniend itatempoer porem uga. Luptati optaquisist quibus rem quam unt',
-          createdAt: new Date(),
+          createdAt: new Date().toISOString(),
+          data: null,
         },
         {
           id: '879',
@@ -296,11 +300,10 @@ function makeMockAppDetail() {
           // tslint:disable-next-line max-line-length
           description:
             'A complex flow for apietusam faccum esequi berum. Hentias porerum ent omniend itatempoer porem uga. Luptati optaquisist quibus rem quam unt',
-          createdAt: new Date(),
+          createdAt: new Date().toISOString(),
+          data: null,
         },
       ],
-      flowGroups: [],
-      triggerGroups: [],
     },
     state: {
       name: {

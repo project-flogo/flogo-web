@@ -1,9 +1,5 @@
-import {
-  TriggerSchema,
-  AppProperty,
-  FlowMetadata,
-  TriggerHandler,
-} from '@flogo-web/client-core';
+import { FlogoAppModel } from '@flogo-web/core';
+import { TriggerSchema, FlowMetadata, TriggerHandler } from '@flogo-web/client-core';
 
 import { InstalledFunctionSchema, Trigger, TriggerConfigureState } from '../../../core';
 import { Tabs } from '../../../shared/tabs/models/tabs.model';
@@ -57,6 +53,6 @@ export interface CurrentTriggerState {
   trigger: Trigger;
   // todo: define
   fields: any;
-  appProperties?: AppProperty[];
+  appProperties?: FlogoAppModel.AppProperty[];
   functions: InstalledFunctionSchema[];
 }

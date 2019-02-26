@@ -26,6 +26,7 @@ describe('FlogoAppList component', () => {
       description: 'My App',
       createdAt: '2016-12-16T00:24:26+00:00',
       updatedAt: '2016-12-16T00:24:26+00:00',
+      type: 'flogo:app',
     },
     {
       id: '2',
@@ -34,6 +35,7 @@ describe('FlogoAppList component', () => {
       description: 'My App',
       createdAt: '2016-12-16T00:24:26+00:00',
       updatedAt: '2016-12-16T00:24:26+00:00',
+      type: 'flogo:app',
     },
     {
       id: '3',
@@ -42,6 +44,7 @@ describe('FlogoAppList component', () => {
       description: 'My App',
       createdAt: '2016-12-16T00:24:26+00:00',
       updatedAt: '2016-12-16T00:24:26+00:00',
+      type: 'flogo:app',
     },
   ];
   let comp: FlogoAppsListComponent;
@@ -98,6 +101,7 @@ describe('FlogoAppList component', () => {
         description: 'My App',
         createdAt: '2016-12-16T00:24:26+00:00',
         updatedAt: '2016-12-16T00:24:26+00:00',
+        type: 'flogo:app',
       },
     ];
     fixture.detectChanges();
@@ -117,6 +121,7 @@ describe('FlogoAppList component', () => {
         description: 'My App',
         createdAt: '2016-12-16T00:24:26+00:00',
         updatedAt: '2016-12-16T00:24:26+00:00',
+        type: 'flogo:app',
       },
     ];
 
@@ -140,6 +145,7 @@ describe('FlogoAppList component', () => {
         description: 'My App',
         createdAt: '2016-12-16T00:24:26+00:00',
         updatedAt: '2016-12-16T00:24:26+00:00',
+        type: 'flogo:app',
       },
     ];
 
