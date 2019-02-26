@@ -3,7 +3,7 @@ export const TOKENS = {
   ResourcePluginFactory: Symbol('Factory<ResourcePlugin>'),
   Logger: Symbol('Logger'),
   AppsDb: Symbol('AppsDb'),
-  ActionIndexerDb: Symbol('ActionsIndexerDb'),
+  ResourceIndexerDb: Symbol('ResourceIndexerDb'),
   ContribActivitiesManager: Symbol('ContribActivitiesManager'),
   ContribTriggersManager: Symbol('ContribActivitiesManager'),
 };

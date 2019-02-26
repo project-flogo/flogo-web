@@ -4,5 +4,5 @@ import { TOKENS } from '../../core';
 
 export const PersistenceModule = new ContainerModule((bind: interfaces.Bind) => {
   bind(TOKENS.AppsDb).toConstantValue(apps);
-  bind(TOKENS.ActionIndexerDb).toConstantValue(indexer);
+  bind(TOKENS.ResourceIndexerDb).toConstantValue(indexer);
 });

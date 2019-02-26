@@ -9,14 +9,14 @@ import { CONSTRAINTS } from '../../common/validation';
 import { ErrorManager, ERROR_TYPES } from '../../common/errors';
 import { prepareUpdateQuery } from './prepare-update-query';
 
-const RECENT_ACTIONS_ID = 'actions:recent';
+const RECENT_RESOURCES_ID = 'resources:recent';
 const MAX_RECENT = 10;
 
 @injectable()
 export class ResourceRepository {
   constructor(
     @inject(TOKENS.AppsDb) private appsDb: Database,
-    @inject(TOKENS.ActionIndexerDb) private indexerDb: Database,
+    @inject(TOKENS.ResourceIndexerDb) private indexerDb: Database,
     @inject(TOKENS.Logger) private logger: Logger
   ) {}
 
@@ -64,7 +64,7 @@ export class ResourceRepository {
 
   listRecent() {
     return this.indexerDb
-      .findOne({ _id: RECENT_ACTIONS_ID })
+      .findOne({ _id: RECENT_RESOURCES_ID })
       .then(all => (all && all.resources ? all.resources : []));
   }
 
@@ -150,11 +150,11 @@ function atomicUpdate(appsDb: Database, { resource, appId }) {
 const comparableName = name => name.trim().toLowerCase();
 function resourceNameComparator(resource: Resource) {
   const resourceName = comparableName(resource.name);
-  return (r: Resource) => resourceName(r.name) === resourceName && r.id !== resource.id;
+  return (r: Resource) => comparableName(r.name) === resourceName && r.id !== resource.id;
 }
 
 function storeAsRecent(indexerDb: Database, resourceInfo: { id: string; appId: string }) {
-  const findQuery = { _id: RECENT_ACTIONS_ID };
+  const findQuery = { _id: RECENT_RESOURCES_ID };
   const updateQuery = {} as { $set?: { resources: Partial<Resource>[] } };
 
   return new Promise((resolve, reject) => {
@@ -196,7 +196,7 @@ function removeFromRecent(indexerDb: Database, compareField, fieldVal) {
     throw new TypeError('Field can only be id or appId');
   }
 
-  const findQuery = { _id: RECENT_ACTIONS_ID };
+  const findQuery = { _id: RECENT_RESOURCES_ID };
   const updateQuery: any = {};
   if (compareField === 'id') {
     findQuery['resource.id'] = fieldVal;

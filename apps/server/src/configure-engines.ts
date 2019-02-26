@@ -16,7 +16,7 @@ ensureDefaultDirs()
   })
   .then(() => {
     const apps = rootContainer.get<Database>(TOKENS.AppsDb);
-    const indexer = rootContainer.get<Database>(TOKENS.ActionIndexerDb);
+    const indexer = rootContainer.get<Database>(TOKENS.ResourceIndexerDb);
     return Promise.all([apps.compact(), indexer.compact()]);
   })
   .catch(error => {
