@@ -31,12 +31,12 @@ export function groupByTrigger(
   triggers.forEach(t => {
     handlers = handlers.concat(t.handlers);
   });
-  const orphanActions = resources.filter(a => !handlers.find(h => h.actionId === a.id));
+  const orphanActions = resources.filter(a => !handlers.find(h => h.resourceId === a.id));
   const orphanActionMap = new Map(<[string, any][]>orphanActions.map(a => [a.id, a]));
   const actionMap = new Map(<[string, any][]>resources.map(a => [a.id, a]));
 
-  const pullAction = actionId => {
-    const action = actionMap.get(actionId);
+  const pullAction = resourceId => {
+    const action = actionMap.get(resourceId);
     return action;
   };
 
@@ -45,7 +45,7 @@ export function groupByTrigger(
   const triggerGroups = triggers
     .map(trigger => {
       const groupResources = trigger.handlers
-        .map(h => pullAction(h.actionId))
+        .map(h => pullAction(h.resourceId))
         .filter(flow => !!flow);
       return {
         trigger: trigger,
@@ -74,7 +74,7 @@ export function groupByResource(
       return {
         flow: resource,
         triggers: triggers.filter(
-          t => !!t.handlers.find(h => h.actionId === resource.id)
+          t => !!t.handlers.find(h => h.resourceId === resource.id)
         ),
       };
     })

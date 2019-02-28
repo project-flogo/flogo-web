@@ -1,7 +1,7 @@
 import { Dictionary } from '../common';
 
 export interface TriggerHandler {
-  actionId: string;
+  resourceId: string;
   triggerId?: string;
   settings: { [name: string]: any };
   outputs: { [name: string]: any };

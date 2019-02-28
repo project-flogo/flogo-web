@@ -316,7 +316,7 @@ export class FlowComponent implements OnInit, OnDestroy {
     if (triggersForCurrentApp) {
       triggersForCurrentApp.forEach(currentTrigger => {
         const handlers = currentTrigger.handlers.find(handler => {
-          return handler.actionId === flowId;
+          return handler.resourceId === flowId;
         });
 
         if (handlers) {
@@ -466,7 +466,7 @@ export class FlowComponent implements OnInit, OnDestroy {
   private cleanDanglingTriggerMappingsToFlow(inputNames: string[]) {
     const handlersToUpdate = this.triggersList.reduce((result, trigger) => {
       const handlersToUpdateInTrigger = trigger.handlers
-        .filter(handler => handler.actionId === this.flowId)
+        .filter(handler => handler.resourceId === this.flowId)
         .reduce(reduceToUpdatableHandlers, [])
         .map(handler => ({ handler, triggerId: trigger.id }));
       return result.concat(handlersToUpdateInTrigger);

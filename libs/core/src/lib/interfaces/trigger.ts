@@ -11,7 +11,7 @@ export interface Trigger {
 }
 
 export interface Handler {
-  actionId: string;
+  resourceId: string;
   createdAt?: string;
   updatedAt?: string;
   settings: { [settingName: string]: any };

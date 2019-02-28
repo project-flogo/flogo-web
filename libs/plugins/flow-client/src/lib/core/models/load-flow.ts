@@ -52,7 +52,8 @@ function normalizeTriggersAndHandlersForAction(
 ) {
   const triggers: Dictionary<Trigger> = {};
   const handlers: Dictionary<TriggerHandler> = {};
-  const findHandlerForAction = (handler: TriggerHandler) => handler.actionId === actionId;
+  const findHandlerForAction = (handler: TriggerHandler) =>
+    handler.resourceId === actionId;
   originalTriggers.forEach(trigger => {
     triggers[trigger.id] = trigger;
     const handler = trigger.handlers.find(findHandlerForAction);

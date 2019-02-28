@@ -193,7 +193,7 @@ function ensureUniqueName(resources: Resource[], name: string) {
 
 function isTriggerForResource(resourceId: string) {
   // TODO: actionId is resourceId now?
-  const isHandlerForResource = h => h.actionId === resourceId;
+  const isHandlerForResource = h => h.resourceId === resourceId;
   return t => !!t.handlers.find(isHandlerForResource);
 }
 
