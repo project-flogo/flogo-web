@@ -55,7 +55,7 @@ export const ConfigureTriggersMock = [
             header: null,
             content: null,
           },
-          actionId: 'action_1',
+          resourceId: 'action_1',
           createdAt: 'datetime',
           updatedAt: 'datetime',
         },
@@ -86,7 +86,7 @@ export const ConfigureTriggersMock = [
             header: null,
             content: null,
           },
-          actionId: 'action_2',
+          resourceId: 'action_2',
           createdAt: 'datetime',
           updatedAt: 'datetime',
         },
@@ -119,7 +119,7 @@ export const ConfigureTriggersMock = [
           header: null,
           content: null,
         },
-        actionId: 'action_1',
+        resourceId: 'action_1',
         createdAt: 'datetime',
         updatedAt: 'datetime',
       },
@@ -151,7 +151,7 @@ export const ConfigureTriggersMock = [
         header: null,
         content: null,
       },
-      actionId: 'action_1',
+      resourceId: 'action_1',
       createdAt: 'datetime',
       updatedAt: 'datetime',
     },
@@ -190,7 +190,7 @@ export const ConfigureTriggersMock = [
             header: null,
             content: null,
           },
-          actionId: 'action_1',
+          resourceId: 'action_1',
           createdAt: 'datetime',
           updatedAt: 'datetime',
         },
@@ -218,7 +218,7 @@ export const ConfigureTriggersMock = [
           header: null,
           content: null,
         },
-        actionId: 'action_1',
+        resourceId: 'action_1',
         createdAt: 'datetime',
         updatedAt: 'datetime',
       },
@@ -245,7 +245,7 @@ export const ConfigureTriggersMock = [
         header: null,
         content: null,
       },
-      actionId: 'action_1',
+      resourceId: 'action_1',
       createdAt: 'datetime',
       updatedAt: 'datetime',
     },
@@ -351,7 +351,7 @@ export const ConfigureTriggerSchema: TriggerSchema = {
             'header': null,
             'content': null
           },
-          'actionId': 'action_1',
+          'resourceId': 'action_1',
           'createdAt': 'datetime',
           'updatedAt': 'datetime'
         }
@@ -379,7 +379,7 @@ export const ConfigureTriggerSchema: TriggerSchema = {
           'header': null,
           'content': null
         },
-        'actionId': 'action_1',
+        'resourceId': 'action_1',
         'createdAt': 'datetime',
         'updatedAt': 'datetime'
       }
@@ -406,7 +406,7 @@ export const ConfigureTriggerSchema: TriggerSchema = {
         'header': null,
         'content': null
       },
-      'actionId': 'action_1',
+      'resourceId': 'action_1',
       'createdAt': 'datetime',
       'updatedAt': 'datetime'
     },

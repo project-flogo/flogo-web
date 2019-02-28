@@ -56,7 +56,7 @@ const TRIGGERS_HANDLERS = {
             autoIdReply: null,
             useReplyHandler: null,
           },
-          actionId: 'abc',
+          resourceId: 'abc',
           outputs: {},
           actionMappings: {
             input: [],
@@ -70,7 +70,7 @@ const TRIGGERS_HANDLERS = {
             autoIdReply: null,
             useReplyHandler: null,
           },
-          actionId: 'abc',
+          resourceId: 'abc',
           outputs: {},
           actionMappings: {
             input: [],
@@ -97,7 +97,7 @@ const TRIGGERS_HANDLERS = {
             autoIdReply: null,
             useReplyHandler: null,
           },
-          actionId: 'abc',
+          resourceId: 'abc',
           outputs: {},
           actionMappings: {
             input: [],
@@ -111,7 +111,7 @@ const TRIGGERS_HANDLERS = {
             autoIdReply: null,
             useReplyHandler: null,
           },
-          actionId: 'ghi',
+          resourceId: 'ghi',
           outputs: {},
           actionMappings: {
             input: [],
@@ -124,7 +124,7 @@ const TRIGGERS_HANDLERS = {
   handlers: {
     trigger1: {
       triggerId: 'trigger1',
-      actionId: 'abc',
+      resourceId: 'abc',
       settings: {
         method: 'GET',
         path: null,
@@ -139,7 +139,7 @@ const TRIGGERS_HANDLERS = {
     },
     trigger2: {
       triggerId: 'trigger2',
-      actionId: 'ghi',
+      resourceId: 'ghi',
       settings: {
         method: null,
         path: null,

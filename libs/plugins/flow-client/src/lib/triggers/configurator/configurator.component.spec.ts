@@ -34,7 +34,7 @@ const TEST_STATE: FlowState = {
             autoIdReply: null,
             useReplyHandler: null,
           },
-          actionId: 'abc',
+          resourceId: 'abc',
           outputs: {},
           actionMappings: {
             input: [],
@@ -48,7 +48,7 @@ const TEST_STATE: FlowState = {
             autoIdReply: null,
             useReplyHandler: null,
           },
-          actionId: 'abc',
+          resourceId: 'abc',
           outputs: {},
           actionMappings: {
             input: [],
@@ -75,7 +75,7 @@ const TEST_STATE: FlowState = {
             autoIdReply: null,
             useReplyHandler: null,
           },
-          actionId: 'abc',
+          resourceId: 'abc',
           outputs: {},
           actionMappings: {
             input: [],
@@ -89,7 +89,7 @@ const TEST_STATE: FlowState = {
             autoIdReply: null,
             useReplyHandler: null,
           },
-          actionId: 'ghi',
+          resourceId: 'ghi',
           outputs: {},
           actionMappings: {
             input: [],
@@ -102,7 +102,7 @@ const TEST_STATE: FlowState = {
   handlers: {
     trigger1: {
       triggerId: 'trigger1',
-      actionId: 'abc',
+      resourceId: 'abc',
       settings: {
         method: 'GET',
         path: null,
@@ -117,7 +117,7 @@ const TEST_STATE: FlowState = {
     },
     trigger2: {
       triggerId: 'trigger2',
-      actionId: 'ghi',
+      resourceId: 'ghi',
       settings: {
         method: null,
         path: null,

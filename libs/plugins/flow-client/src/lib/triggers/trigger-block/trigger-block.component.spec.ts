@@ -36,7 +36,7 @@ class FlogoContainerComponent {
             input: [],
             output: [],
           },
-          actionId: '435435',
+          resourceId: '435435',
         },
       ],
       appId: '34543523',
@@ -47,7 +47,7 @@ class FlogoContainerComponent {
           input: [],
           output: [],
         },
-        actionId: '435643',
+        resourceId: '435643',
       },
     };
   }
