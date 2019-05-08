@@ -46,7 +46,7 @@ Let's bootstrap the project, in a terminal run the following:
 
 ```bash
 # Get the Flogo Web UI source from GitHub
-git clone https://github.com/project-flogo/webui.git
+git clone https://github.com/TIBCOSoftware/flogo-web.git
 
 # Go to the directory
 cd webui
