@@ -5,7 +5,7 @@ import { syncTasks } from './modules/contrib-install-controller/sync-tasks';
 import { AppsService } from './modules/apps';
 import { initDb, flushAndCloseDb } from './common/db';
 
-initDb()
+initDb({ autosave: false })
   .then(() => getInitializedEngine(config.defaultEngine.path, { forceCreate: false }))
   .then(engine => syncTasks(engine))
   .then(() => {

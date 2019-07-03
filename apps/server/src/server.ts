@@ -7,7 +7,7 @@ import { init as initWebsocketApi } from './api/ws';
 import { getInitializedEngine } from './modules/engine';
 import { syncTasks } from './modules/contrib-install-controller/sync-tasks';
 
-initDb({ autosave: false })
+initDb()
   .then(() => initEngine(config.defaultEngine.path))
   .then(() =>
     createServerApp({
