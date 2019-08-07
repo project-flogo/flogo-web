@@ -1,5 +1,10 @@
 sudo: required
 language: node_js
+addons:
+  apt:
+    # needed for cypress https://github.com/cypress-io/cypress/issues/1526
+    packages:
+      - libgconf-2-4
 node_js:
   - "10"
 cache:
