@@ -1,60 +1,60 @@
 # Contributing
 
-## About the architecture
+Thank you for your interest in contributing to Flogo Web. We've prepared the following guide to get you started.
 
-Most of the code is written using Typescript, the [official Typescript documentation](https://www.typescriptlang.org/docs/home.html) is a good resource to learn about it.
+## Things to Know Before Start Contributing
+
+### About the architecture
+
+Most of the code is written using Typescript, the [official Typescript documentation](https://www.typescriptlang.org/docs/home.html)
+is a good resource to learn about it.
 
 The Flogo Web UI follows a regular client-server model and as such it is divided into two principal components: the server and the client.
 
-The server application (located under [`/apps/server`](/apps/server)) is a NodeJs application. Besides persisting data, the server application wraps the [Flogo CLI](https://github.com/project-flogo/cli) to interact with and underlying Flogo engine project and exposes its functionality to the client application.
+The server application (located under [`/apps/server`](/apps/server)) is a NodeJs application.
+Besides persisting data, the server application wraps the [Flogo CLI](https://github.com/project-flogo/cli)
+to interact with an underlying Flogo engine project and exposes its functionality to the client application.
 
-The client application (located under [`/apps/client`](/apps/client)) is implemented using the [Angular](https://angular.io/) framework and provides a broswer based UI to design Flogo applications.
+The client application (located under [`/apps/client`](/apps/client)) is implemented using the [Angular](https://angular.io/) framework
+and provides a browser based UI to design Flogo applications.
 
 Communication between server and client is mostly done through a REST API exposed by the server.
 
 You can find more information in the [application docs](/docs) like an explanation of the
 [directory structure](./libs/). Also there's more information in the README file of the server and client apps.
 
-## Server Environment
+## Submitting a Pull Request (PR)
 
-Before starting the server copy and rename the [`.env.example`](/.env.example) to `.env`. Add or modify/uncomment
-the environment variables defined in created `.env` file.
+Before submitting a PR please make sure that:
 
-You can alternatively set regular environment variables the way your OS supports them.
+1. You've forked the repository and created a branch directly off of the `master` branch
+1. Your commit messages follows our [commit conventions](#commit-conventions)
+1. If you've changed code in `libs/lib-client` make sure the e2e test pass: run `yarn e2e demo-libs-e2e`
+1. You've added tests for bug fixes or new features that need to be tested
+1. All test suites pass: run `yarn test`
+1. Server code builds without errors: run `yarn build server`
+1. Client code builds without errors: run `yarn build client`
+1. Code is follows the format convention: run `yarn format:write` (More info in the [Code Formatting](#code-formatting) section)
+1. Code lints: run `yarn lint`
 
-## Testing
+## Development Workflow
 
-### Before running the tests
+Instructions for setting up the development environment are detailed in the [development section](/README.md#development)
+of the project README.
 
-Make sure your dependencies are up to date:
+These are some useful commands for your development workflow:
 
-```sh
-yarn install
-```
-
-### Running the tests
-
-From the project root:
-
-```sh
-yarn test
-```
-
-This will run the unit test for all the sub packages.
-
-### Running tests for a single subpackage
-
-From the project root:
-
-```sh
-yarn test <name-of-the-package>
-```
-
-For example
-
-```sh
-yarn test parser
-```
+- `yarn` or `yarn install` to make sure your dependencies are up to date
+- `yarn start server` start the server app in development mode
+- `yarn start client` start the client app in development mode
+- `yarn format:check` to validate all code is formatted
+- `yarn format:write` to format all the code
+- `yarn lint` to lint all packages
+- `yarn lint <package-name>` to lint a specific package. For example `yarn lint plugins-flow-client`
+- `yarn test` to run all unit tests in all packages
+- `yarn test <package-name>` to run all unit tests in a specific package. For example `yarn test plugins-flow-client`
+- `yarn build server` to build the server app (will output to `dist/apps/server`)
+- `yarn build client` to build the client app (will output to `dist/apps/client`)
 
 ## Style guide and code conventions
 
@@ -68,8 +68,58 @@ an explanation of how to set them up.
 Alternatively you can run the `format` script which will format, to all files in the project:
 
 ```bash
-yarn format
+yarn format:write
 ```
+
+### Commit conventions
+
+We try to follow the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0) and plan to introduce automation tools on top of
+it in the future. Please read the [Quick Summary](https://www.conventionalcommits.org/en/v1.0.0/#summary) of the specification.
+
+From the specification a commit message should be structured as follows:
+
+```
+<type>[(optional scope)]: <description>
+<BLANK LINE>
+[optional body]
+<BLANK LINE>
+[optional footer(s)]
+```
+
+The footer should reference any GitHub issues that the commit closes. Check out the [Github docs](https://help.github.com/en/articles/closing-issues-using-keywords)
+about closing issues using keywords
+
+#### Type
+
+Must be one of the following:
+
+- **fix:** a bug fix
+- **feat:** a new feature
+- **docs:** documentation related changes
+- **style:** changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+- **refactor:** no functional changes, no api changes
+- **test:** introduces changes only to test suites
+- **build:** changes that affect the build system
+- **test:** adding missing tests or correcting existing tests
+- **revert:** for revert commits
+- **chore:** Other changes that don't modify src or test files
+
+#### Scope
+
+Optional commit scope should reflect our libraries/packages. This is a list of our current scopes:
+
+- **client**
+- **server**
+- **core**
+- **lib-client**
+- **lib-server**
+- **parse**
+- **flow-server**
+- **flow-client**
+- **flow-core**
+- **stream-server**
+- **stream-client**
+- **stream-core**
 
 ## Other tasks
 
@@ -91,3 +141,12 @@ yarn run <command>
 
 Flogo Web uses npm/yarn scripts for its build process. Take a look at README.md of the packages as well as at the scripts section
 in the `package.json` of the root project and the subpackages to find other commands available.
+
+## Server Environment
+
+There are a couple of enviornment variables you can use to control the server behavior dynamically, they're document in the [`.env.example`](./.env.example) file.
+
+To use them make a copy and rename the [`.env.example`](/.env.example) to `.env` and then uncommentm, add or modify
+the environment variables defined in created `.env` file.
+
+You can alternatively set regular environment variables the way your OS supports them.

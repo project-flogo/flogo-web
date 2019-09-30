@@ -26,6 +26,10 @@ If you have any questions, feel free to post an issue and tag it as a question, 
 - The [project-flogo/Lobby](https://gitter.im/project-flogo/Lobby) Gitter channel should be used for general discussions, start here for all things Flogo!
 - The [project-flogo/developers](https://gitter.im/project-flogo/developers) Gitter channel should be used for developer/contributor focused conversations.
 
+## Contributing
+
+Thanks for your interest in contributing! There are many ways to contribute to this project. Get started here [CONTRIBUTING.md](./CONTRIBUTING.md)
+
 ## Development
 
 The recommended method is to [run the app locally](#run-locally) which is going to be easier for debugging as well as it is
