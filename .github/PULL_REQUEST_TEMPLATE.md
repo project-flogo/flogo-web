@@ -1,25 +1,44 @@
-**Please check if the PR fulfills these requirements**
-- [ ] The commit message follows our guidelines: TBD
-- [ ] Tests for the changes have been added (for bug fixes / features)
-- [ ] Docs have been added / updated (for bug fixes / features)
+<!--- Provide a general summary of your changes in the Title above -->
 
+## Description
 
-**What kind of change does this PR introduce?** (check one with "x")
+Describe your changes in detail
+
+## Motivation and Context
+
+Why is this change required? What problem does it solve?
+If it fixes an open issue, please link to the issue here.
+
+## How Has This Been Tested?
+
+Please describe in detail how you tested your changes.
+
+Include details of your testing environment, and the tests you ran to
+
+see how your change affects other areas of the code, etc.
+
+## Screenshots (if appropriate):
+
+## Types of changes
+
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+- [ ] Refactoring (no functional changes, no api changes)
+- [ ] Build/CI related changes
+- [ ] Other... Please describe:
+
+## Checklist:
+
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+
+- [ ] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+
 ```
-[ ] Bugfix
-[ ] Feature
-[ ] Code style update (formatting, local variables)
-[ ] Refactoring (no functional changes, no api changes)
-[ ] Build related changes
-[ ] CI related changes
-[ ] Other... Please describe:
+
 ```
-
-**What is the current behavior?** (You can also link to an open issue here)
-
-
-
-**What is the new behavior?**
-
-
-**Other information**:
