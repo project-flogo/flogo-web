@@ -28,6 +28,7 @@ see how your change affects other areas of the code, etc.
 - [ ] Breaking change (fix or feature that would cause existing functionality to change)
 - [ ] Refactoring (no functional changes, no api changes)
 - [ ] Build/CI related changes
+- [ ] Documentation related changes
 - [ ] Other... Please describe:
 
 ## Checklist:
@@ -39,6 +40,3 @@ see how your change affects other areas of the code, etc.
 - [ ] My change requires a change to the documentation.
 - [ ] I have updated the documentation accordingly.
 
-```
-
-```
