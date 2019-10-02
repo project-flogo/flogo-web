@@ -98,9 +98,8 @@ Must be one of the following:
 - **docs:** documentation related changes
 - **style:** changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
 - **refactor:** no functional changes, no api changes
-- **test:** introduces changes only to test suites
-- **build:** changes that affect the build system
 - **test:** adding missing tests or correcting existing tests
+- **build:** changes that affect the build system
 - **revert:** for revert commits
 - **chore:** Other changes that don't modify src or test files
 
@@ -120,6 +119,7 @@ Optional commit scope should reflect our libraries/packages. This is a list of o
 - **stream-server**
 - **stream-client**
 - **stream-core**
+- **docs**
 
 ## Other tasks
 
@@ -144,7 +144,7 @@ in the `package.json` of the root project and the subpackages to find other comm
 
 ## Server Environment
 
-There are a couple of enviornment variables you can use to control the server behavior dynamically, they're document in the [`.env.example`](./.env.example) file.
+There are a couple of environment variables you can use to control the server behavior dynamically, they're document in the [`.env.example`](./.env.example) file.
 
 To use them make a copy and rename the [`.env.example`](/.env.example) to `.env` and then uncommentm, add or modify
 the environment variables defined in created `.env` file.
