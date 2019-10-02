@@ -39,7 +39,15 @@ import { resourcePlugins } from '../plugins';
         deps: [HttpClient],
       },
     }),
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(
+      {},
+      {
+        runtimeChecks: {
+          strictStateImmutability: true,
+          strictStateSerializability: true,
+        },
+      }
+    ),
     EffectsModule.forRoot([]),
     BrowserModule,
     BrowserAnimationsModule,
