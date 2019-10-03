@@ -27,7 +27,7 @@ You can find more information in the [application docs](/docs) like an explanati
 
 Before submitting a PR please make sure that:
 
-1. You've forked the repository and created a branch directly off of the `master` branch
+1. You've forked the repository and created a branch which is up to date with the main repository's `master` branch
 1. Your commit messages follows our [commit conventions](#commit-conventions)
 1. If you've changed code in `libs/lib-client` make sure the e2e test pass: run `yarn e2e demo-libs-e2e`
 1. You've added tests for bug fixes or new features that need to be tested
@@ -42,7 +42,7 @@ Before submitting a PR please make sure that:
 Instructions for setting up the development environment are detailed in the [development section](/README.md#development)
 of the project README.
 
-These are some useful commands for your development workflow:
+These are some commands that will be useful for your development workflow:
 
 - `yarn` or `yarn install` to make sure your dependencies are up to date
 - `yarn start server` start the server app in development mode
@@ -55,6 +55,8 @@ These are some useful commands for your development workflow:
 - `yarn test <package-name>` to run all unit tests in a specific package. For example `yarn test plugins-flow-client`
 - `yarn build server` to build the server app (will output to `dist/apps/server`)
 - `yarn build client` to build the client app (will output to `dist/apps/client`)
+
+> :info: We're using [Nx - Extensible Dev Tools for Monorepos](https://nrwl.io/nx/overview) for most our tasks/commands. Nx provides options to the previous commands that can enable more advanced workflows, check out their [documentation](https://nx.dev/angular/api/home) for more information.
 
 ## Style guide and code conventions
 
