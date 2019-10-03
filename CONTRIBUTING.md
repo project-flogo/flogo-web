@@ -34,7 +34,7 @@ Before submitting a PR please make sure that:
 1. All test suites pass: run `yarn test`
 1. Server code builds without errors: run `yarn build server`
 1. Client code builds without errors: run `yarn build client`
-1. Code is follows the format convention: run `yarn format:write` (More info in the [Code Formatting](#code-formatting) section)
+1. Code follows the format convention: run `yarn format:write` (More info in the [Code Formatting](#code-formatting) section)
 1. Code lints: run `yarn lint`
 
 ## Development Workflow
@@ -112,7 +112,7 @@ Optional commit scope should reflect our libraries/packages. This is a list of o
 - **core**
 - **lib-client**
 - **lib-server**
-- **parse**
+- **parser**
 - **flow-server**
 - **flow-client**
 - **flow-core**
