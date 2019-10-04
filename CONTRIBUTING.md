@@ -148,7 +148,7 @@ in the `package.json` of the root project and the subpackages to find other comm
 
 There are a couple of environment variables you can use to control the server behavior dynamically, they're document in the [`.env.example`](./.env.example) file.
 
-To use them make a copy and rename the [`.env.example`](/.env.example) to `.env` and then uncommentm, add or modify
+To use them make a copy and rename the [`.env.example`](/.env.example) to `.env` and then uncomment, add or modify
 the environment variables defined in created `.env` file.
 
 You can alternatively set regular environment variables the way your OS supports them.
