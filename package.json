@@ -42,6 +42,7 @@
     "services:stop": "docker-compose -p flogo-dev -f tools/docker/services.docker-compose.yml stop flogo-flow-service flogo-state-service",
     "services:clear": "docker-compose -p flogo-dev -f tools/docker/services.docker-compose.yml down",
     "flogo:new-resource": "./node_modules/.bin/nx workspace-schematic flogo-resource",
+    "flogo:new-client-lib": "./node_modules/.bin/nx workspace-schematic lib-client",
     "release": "npm-run-all -l release:pre release:client-version release:build-app:* release:post-build-apps release:build-engines release:copy-docker-files",
     "release:pre": "del dist/build",
     "release:build-app:server": "ng build server --prod",
