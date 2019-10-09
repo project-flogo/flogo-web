@@ -140,3 +140,51 @@ class MyComponent implements OnInit {
   </li>
 </ul>
 ```
+
+### Integrating the Search component and the LocalSearch service
+
+The search component and LocalSearch service were implemented so they can be used easily together and solve many common
+use cases. But they were also designed so they are decoupled from each other so you can also use them separately.
+
+Here's an example of how to use the service and the component together:
+
+```typescript
+// users-search.component.ts
+import { Component, OnInit } from '@angular/core';
+import { LocalSearch, makeLocalSearchProvider } from '@flogo-web/lib-client/search';
+import { Observable } from 'rxjs';
+
+@Component({
+  // ...,
+  providers: [makeLocalSearchProvider({ matchFields: ['name'] })],
+  templateUrl: 'users-search.component.html',
+})
+class UsersSearchComponent implements OnInit {
+  filteredUsers$: Observable<User[]>;
+
+  constructor(private searchService: LocalSearch, private userService: UserService) {}
+
+  ngOnInit() {
+    this.filteredUsers$ = this.searchService.list$;
+    this.userService.getAll().subscribe((users: User[]) => {
+      this.searchService.setSourceList(users);
+    });
+  }
+
+  filterUsers(query: string) {
+    this.searchService.search(query);
+  }
+}
+```
+
+```html
+<!--users-search.component.html-->
+
+<flogo-search (search)="filterUsers($event)" placeholder="Search users"></flogo-search>
+
+<ul>
+  <li *ngFor="let users of filteredUsers$ | async">
+    {{ user.name }}
+  </li>
+</ul>
+```
