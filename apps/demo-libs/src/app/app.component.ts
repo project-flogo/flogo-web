@@ -11,6 +11,7 @@ export class AppComponent {
     { label: 'Notifications', path: ['/notifications'] },
     { label: 'Modals', path: ['/modals'] },
     { label: 'Context Panel', path: ['/context-panel'] },
+    { label: 'Search', path: ['/search'] },
   ];
 }
 

@@ -1,0 +1,28 @@
+@import '~@flogo-web/assets/styles/_variables';
+@import (reference) '~@flogo-web/assets/styles/uxpl/search';
+
+:host {
+  display: inline-block;
+  position: relative;
+}
+
+.search {
+  .search();
+  padding-right: 20px;
+  color: @color-ink;
+  flex: 1;
+  font-size: 14px;
+  background: transparent;
+  z-index: 1;
+
+  &:focus + .icon-search {
+    color: @primary-blue;
+  }
+}
+
+.icon-search {
+  position: absolute;
+  right: 0;
+  color: @color-dark-gray;
+  font-size: 20px;
+}
