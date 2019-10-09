@@ -7,6 +7,7 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { fromEvent, merge, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, tap, map, shareReplay } from 'rxjs/operators';
@@ -17,7 +18,7 @@ import { distinctUntilChanged, filter, tap, map, shareReplay } from 'rxjs/operat
   styleUrls: ['./search.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchComponent implements AfterViewInit {
+export class SearchComponent implements AfterViewInit, OnDestroy {
   /**
    * placeholder to display
    */
@@ -53,5 +54,9 @@ export class SearchComponent implements AfterViewInit {
         distinctUntilChanged()
       )
       .subscribe(this.search);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
