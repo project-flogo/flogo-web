@@ -1,25 +1,39 @@
-@import '~@flogo-web/assets/styles/_mixins';
+@import '~@flogo-web/assets/styles/_variables';
+@import (reference) '~@flogo-web/assets/styles/_mixins';
 
-@deep: ~'>>>';
-
-@{deep} .modal-dialog.sub-flow__modal {
-  width: 75%;
+:host {
+  height: 100%;
 }
 
-@{deep} .sub-flow__modal .header-block {
-  padding-left: 52px;
-  background: url(/assets/svg/subflow.svg) no-repeat left center;
-  font-size: 1.5em;
+@media screen and ( min-height: 600px ) {
+  .modal {
+    min-height: 600px;
+    height: 600px;
+  }
 }
 
-@{deep} .sub-flow__modal .header-cancel {
-  display: none;
+@bg-image-size: 76px;
+.header {
+  padding-left: @bg-image-size;
+  padding-right: 3.75rem;
+  background: url(/assets/svg/subflow.svg) no-repeat 24px center;
+  font-size: 1.5rem;
+  justify-content: space-between;
 }
 
-@{deep} .sub-flow__modal .flogo-list__container {
-  margin-top: 2em;
+.header__title {
+  font-weight: 600;
+  font-size: 1.125rem;
+  flex: 2;
 }
 
-.flows-list__close {
-  .modal__close;
+.search {
+  flex: 1;
+}
+
+.body {
+  display: flex;
+  background-color: @lighter-gray;
+  padding: 1.5rem 1.75rem 1.5rem 1.5rem;
+  .custom-scrollbar();
 }

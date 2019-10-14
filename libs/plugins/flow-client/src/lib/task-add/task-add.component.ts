@@ -10,13 +10,14 @@ import {
 import { FocusTrapFactory } from '@angular/cdk/a11y';
 import { Observable, ReplaySubject } from 'rxjs';
 
-import { Resource, CONTRIB_REFS } from '@flogo-web/core';
+import { CONTRIB_REFS } from '@flogo-web/core';
 import { FlogoInstallerComponent } from '@flogo-web/lib-client/contrib-installer';
 
 import { filterActivitiesBy } from './core/filter-activities-by';
 import { Activity, TaskAddOptions } from './core/task-add-options';
 import { ModalService } from '@flogo-web/lib-client/modal';
-import { delay } from 'rxjs/operators';
+import { delay, take, switchMap, filter } from 'rxjs/operators';
+import { SubflowSelectionParams, SubFlowComponent } from '../sub-flow';
 
 export const TASKADD_OPTIONS = new InjectionToken<TaskAddOptions>('flogo-flow-task-add');
 
@@ -31,7 +32,7 @@ export class TaskAddComponent implements OnInit, AfterViewInit {
   isSubflowOpen = false;
 
   constructor(
-    @Inject(TASKADD_OPTIONS) public control: TaskAddOptions,
+    @Inject(TASKADD_OPTIONS) public params: TaskAddOptions,
     private modalService: ModalService,
     private elementRef: ElementRef,
     private focusTrap: FocusTrapFactory
@@ -46,7 +47,7 @@ export class TaskAddComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.filteredActivities$ = filterActivitiesBy(
-      this.control.activities$,
+      this.params.activities$,
       this.filterText$
     );
     this.filterText$.next('');
@@ -58,9 +59,9 @@ export class TaskAddComponent implements OnInit, AfterViewInit {
 
   selectActivity(ref: string) {
     if (ref === CONTRIB_REFS.SUBFLOW) {
-      this.setSubflowWindowState(true);
+      this.openSubflowSelector();
     } else {
-      this.control.selectActivity(ref);
+      this.params.selectActivity(ref);
     }
   }
 
@@ -78,24 +79,36 @@ export class TaskAddComponent implements OnInit, AfterViewInit {
     this.updateWindowState();
   }
 
-  handleFlowSelection(selectedFlow: Resource | string) {
-    if (typeof selectedFlow !== 'string') {
-      this.control.selectActivity(CONTRIB_REFS.SUBFLOW, selectedFlow);
-    }
-    this.setSubflowWindowState(false);
-  }
-
   @HostListener('keyup.escape')
   cancel() {
-    this.control.cancel();
+    this.params.cancel();
+  }
+
+  private openSubflowSelector() {
+    this.isSubflowOpen = true;
+    this.updateWindowState();
+    this.params.appAndFlowInfo$
+      .pipe(
+        take(1),
+        switchMap(({ actionId, appId }) => {
+          return this.modalService.openModal<SubflowSelectionParams>(SubFlowComponent, {
+            currentFlowId: actionId,
+            appId,
+          }).result;
+        }),
+        filter(flow => !!flow)
+      )
+      .subscribe(
+        flow => this.params.selectActivity(CONTRIB_REFS.SUBFLOW, flow),
+        null,
+        () => {
+          this.isSubflowOpen = false;
+          this.updateWindowState();
+        }
+      );
   }
 
   private updateWindowState() {
-    this.control.updateActiveState(this.isInstallOpen || this.isSubflowOpen);
-  }
-
-  private setSubflowWindowState(state: boolean) {
-    this.isSubflowOpen = state;
-    this.updateWindowState();
+    this.params.updateActiveState(this.isInstallOpen || this.isSubflowOpen);
   }
 }

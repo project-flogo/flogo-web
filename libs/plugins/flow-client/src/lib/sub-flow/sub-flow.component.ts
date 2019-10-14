@@ -1,59 +1,62 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { BsModalComponent } from 'ng2-bs3-modal';
+import { Component, OnInit } from '@angular/core';
 
 import { Resource } from '@flogo-web/core';
-
+import {} from '@flogo-web/plugins/flow-core';
+import { ModalInstance } from '@flogo-web/lib-client/modal';
+import { makeLocalSearchProvider, LocalSearch } from '@flogo-web/lib-client/search';
+import { Observable } from 'rxjs';
 import { FlogoFlowService as FlowsService } from '../core/flow.service';
+import { FlowResource } from '../core/interfaces';
+
+export interface SubflowSelectionParams {
+  appId: string;
+  currentFlowId: string;
+}
 
 @Component({
   selector: 'flogo-flow-sub-flow',
   templateUrl: 'sub-flow.component.html',
   styleUrls: ['sub-flow.component.less'],
+  providers: [
+    makeLocalSearchProvider({
+      matchFields: ['name', 'description'],
+    }),
+  ],
 })
-export class SubFlowComponent implements AfterViewInit, OnInit {
-  @Input()
-  appId: string;
-  @Input()
-  currentFlow: string;
-  @Output()
-  flowSelected: EventEmitter<Resource | string> = new EventEmitter<Resource | string>();
+export class SubFlowComponent implements OnInit {
+  private appId: string;
+  private readonly currentFlowId: string;
+  flows$: Observable<FlowResource[]>;
 
-  @ViewChild('listModal', { static: true }) modal: BsModalComponent;
-  flowsList: Resource[];
-
-  constructor(private flowService: FlowsService) {}
+  constructor(
+    private flowService: FlowsService,
+    private search: LocalSearch<FlowResource>,
+    private modal: ModalInstance<SubflowSelectionParams>
+  ) {
+    const { appId, currentFlowId } = this.modal.data;
+    this.appId = appId;
+    this.currentFlowId = currentFlowId;
+  }
 
   ngOnInit() {
-    this.flowService.listFlowsForApp(this.appId).subscribe(flows => {
-      this.flowsList = flows.filter(flow => flow.id !== this.currentFlow);
+    this.flows$ = this.search.list$;
+    this.flowService.listFlowsForApp(this.appId).subscribe(resources => {
+      const flows = resources.filter(
+        flow => flow.id !== this.currentFlowId
+      ) as FlowResource[];
+      this.search.setSourceList(flows);
     });
-  }
-
-  ngAfterViewInit() {
-    this.open();
-  }
-
-  open() {
-    this.modal.open();
-  }
-
-  onModalCloseOrDismiss() {
-    this.flowSelected.emit('dismiss');
   }
 
   closeModal() {
     this.modal.close();
   }
 
+  filter(query: string) {
+    this.search.search(query);
+  }
+
   selectedFlow(flow: Resource) {
-    this.flowSelected.emit(flow);
+    this.modal.close(flow);
   }
 }

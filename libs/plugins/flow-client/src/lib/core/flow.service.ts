@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { of as observableOfValue, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
+import { Resource } from '@flogo-web/core';
 import { ResourceService, AppResourceService } from '@flogo-web/lib-client/core';
 
 import { savableFlow } from './models/backend-flow/flow.model';
@@ -14,6 +15,8 @@ import { FlowData } from './flow-data';
 import { AppState } from './state/app.state';
 import { FlowState, Init } from './state';
 import { FlowResource, ApiFlowResource, UiFlow } from './interfaces';
+
+const isFlow = (r: Resource): r is FlowResource => r.type === 'flow';
 
 @Injectable()
 export class FlogoFlowService {
@@ -78,8 +81,10 @@ export class FlogoFlowService {
     return this.resourceService.listResourcesWithName(name, appId).toPromise();
   }
 
-  listFlowsForApp(appId) {
-    return this.resourceService.listSubresources(appId);
+  listFlowsForApp(appId): Observable<FlowResource[]> {
+    return this.resourceService
+      .listSubresources(appId)
+      .pipe(map(resources => resources.filter(isFlow)));
   }
 
   private didFlowChange(nextValue: FlowResource) {

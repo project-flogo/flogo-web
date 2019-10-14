@@ -30,9 +30,3 @@
   </ng-template>
   <input type="hidden" cdkFocusRegionEnd />
 </div>
-<flogo-flow-sub-flow
-  *ngIf="isSubflowOpen"
-  [appId]="(control.appAndFlowInfo$ | async).appId"
-  [currentFlow]="(control.appAndFlowInfo$ | async).actionId"
-  (flowSelected)="handleFlowSelection($event)"
-></flogo-flow-sub-flow>
