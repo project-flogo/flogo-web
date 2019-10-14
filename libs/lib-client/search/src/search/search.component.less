@@ -1,6 +1,9 @@
 @import '~@flogo-web/assets/styles/_variables';
 @import (reference) '~@flogo-web/assets/styles/uxpl/search';
 
+@icon-dimension: 20px;
+@icon-bg-width: @icon-dimension + 8px;
+
 :host {
   display: inline-block;
   position: relative;
@@ -8,12 +11,12 @@
 
 .search {
   .search();
-  padding-right: 20px;
   color: @color-ink;
-  flex: 1;
-  font-size: 14px;
+  font-size: 1rem;
+  line-height: 1.5;
   background: transparent;
   z-index: 1;
+  width: 100%;
 
   &:focus + .icon-search {
     color: @primary-blue;
@@ -22,7 +25,30 @@
 
 .icon-search {
   position: absolute;
-  right: 0;
+  bottom: 4px;
   color: @color-dark-gray;
-  font-size: 20px;
+  font-size: @icon-dimension;
+}
+
+:host(.icon-left) {
+  .search {
+    padding-left: @icon-bg-width;
+    padding-right: 2px;
+  }
+
+  .icon-search {
+    position: absolute;
+    left: 2px;
+  }
+}
+
+:host:not(.icon-left) {
+  .search {
+    padding-left: 2px;
+    padding-right: @icon-bg-width;
+  }
+
+  .icon-search {
+    right: 2px;
+  }
 }
