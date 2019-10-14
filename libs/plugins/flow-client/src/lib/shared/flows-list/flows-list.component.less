@@ -1,113 +1,40 @@
 @import '~@flogo-web/assets/styles/_variables';
 
-.flogo-list__header {
+:host {
+  display: block;
+  flex: 1;
+}
+
+:host(.is-empty) {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin: 1em;
-  justify-content: space-between;
+  justify-content: center;
 
-  .filter-box {
-    width: 240px;
-  }
-}
-
-.header-content {
-  color: @color-ink;
-}
-
-.header-cancel {
-  background: transparent;
-  color: @primary-blue;
-  font-size: 16px;
-  margin-left: 1em;
-}
-
-.flogo-list__container {
   padding: 1.5em 1.125em;
   background: @lighter-gray;
   overflow-y: auto;
-  max-height: 470px;
   border: solid 1px @gainsboro-one;
 
-  &.--empty {
-    text-align: center;
+  &::before {
+    display: block;
+    content: '';
+    width: 110px;
+    height: 55px;
+    background: url(/assets/svg/empty-flows.svg) no-repeat left center;
   }
 }
 
-.flogo-list__container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.flogo-list__container::-webkit-scrollbar-thumb {
-  border-radius: 100px;
-  background-color: rgba(114, 114, 114, 0.2);
-}
-
-.flogo-list__card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: @color-bg;
-  padding: 20px 32px;
-  margin: 0 0 1em;
-  border-radius: 4px;
-  border: solid 1px @gainsboro;
-  cursor: default;
-
-  &:last-of-type {
-    margin-bottom: 0;
-  }
-
-  &:hover {
-    border-color: @color-bg;
-    box-shadow: 0 0 5px 0 @color-secondary;
-  }
-}
-
-.card-details {
-  max-width: 75%;
-}
-
-.card-header {
-  margin: 0 5px 0 0;
-  display: inline-block;
-  font-size: 1em;
-  font-weight: bold;
-  color: @color-plain;
-  letter-spacing: 0.5px;
-}
-
-.card-date {
-  font-size: 0.75em;
-  letter-spacing: 0.8px;
-  color: @color-plain;
-  font-style: italic;
-}
-
-.card-description {
-  font-size: 0.875em;
-  color: @color-plain;
-  height: 30px;
-  line-height: 1.25;
+.flows-list {
   margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  letter-spacing: 0.3px;
+  padding: 0;
+  list-style: none;
 }
 
-.flows-list-new-tab-link {
-  letter-spacing: 0.4px;
-  margin: 0 20px;
+.flows-list__flow:first-of-type {
+  margin-top: 0;
 }
 
-.select-button {
-  width: 96px;
-}
-
-.flogo-list--empty {
-  width: 110px;
-  height: 55px;
-  background: url(/assets/svg/empty-flows.svg) no-repeat left center;
-  margin: auto;
+.flows-list__flow {
+  margin: 1rem 0;
 }

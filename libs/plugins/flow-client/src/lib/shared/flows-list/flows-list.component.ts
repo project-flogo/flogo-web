@@ -1,41 +1,30 @@
-import { isEmpty } from 'lodash';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Resource } from '@flogo-web/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ChangeDetectionStrategy,
+  HostBinding,
+} from '@angular/core';
+import { FlowResource } from '../../core/interfaces';
 
 @Component({
   selector: 'flogo-flow-flows-list',
   templateUrl: 'flows-list.component.html',
   styleUrls: ['flows-list.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FlowsListComponent {
-  @Input()
-  list: Resource[];
+  @Input() flows: FlowResource[];
+  @Output() flowSelected = new EventEmitter<FlowResource>();
+  @Output() flowSelectionCancel = new EventEmitter<void>();
 
-  @Output()
-  flowSelected: EventEmitter<Resource | string> = new EventEmitter<Resource | string>();
-  @Output()
-  flowSelectionCancel: EventEmitter<string> = new EventEmitter<string>();
-
-  searchText: string;
-
-  get filteredFlows() {
-    if (this.searchText && !isEmpty(this.searchText.trim())) {
-      return this.list.filter(flow => {
-        return (
-          (flow.name || '').toLowerCase().includes(this.searchText.toLowerCase()) ||
-          (flow.description || '').toLowerCase().includes(this.searchText.toLowerCase())
-        );
-      });
-    } else {
-      return this.list;
-    }
+  @HostBinding('class.is-empty')
+  get isEmpty() {
+    return !this.flows || this.flows.length <= 0;
   }
 
-  cancelList() {
-    this.flowSelectionCancel.emit('cancel');
-  }
-
-  selectFlow(flow: Resource) {
+  selectFlow(flow: FlowResource) {
     this.flowSelected.emit(flow);
   }
 }

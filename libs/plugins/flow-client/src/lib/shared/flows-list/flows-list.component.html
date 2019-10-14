@@ -1,49 +1,12 @@
-<div class="flogo-list__header">
-  <div class="header-block">
-    <span class="header-content">{{ 'FLOWS-LIST:HEADER-TEXT' | translate }}</span>
-    <button class="flogo-button--flat header-cancel" (click)="cancelList()">
-      {{ 'FLOWS-LIST:CANCEL' | translate }}
-    </button>
-  </div>
-  <input
-    type="text"
-    title="Filter flows"
-    placeholder="{{ 'FLOWS-LIST:FILTER-TEXT' | translate }}"
-    class="form-control filter-box"
-    [(ngModel)]="searchText"
-  />
-</div>
-<div class="flogo-list__container" *ngIf="filteredFlows && filteredFlows.length > 0">
-  <div *ngFor="let flow of filteredFlows" class="flogo-list__card">
-    <div class="card-details">
-      <h4 class="card-header">{{ flow.name }}</h4>
-      <span class="card-date"
-        >{{ 'FLOWS-LIST:CREATED' | translate }} {{ flow.createdAt | timeFromNow }}</span
-      >
-      <p class="card-description">
-        <span *ngIf="flow.description"> {{ flow.description }} </span>
-        <span *ngIf="!flow.description">
-          {{ 'FLOWS-LIST:NODESCRIPTION' | translate }}
-        </span>
-      </p>
-    </div>
-    <div>
-      <a
-        href="/flows/{{ flow.id }}"
-        class="flogo-link flows-list-new-tab-link "
-        target="_blank"
-        >{{ 'FLOWS-LIST:LINK-TEXT' | translate }}</a
-      >
-      <button class="flogo-button--secondary select-button" (click)="selectFlow(flow)">
-        {{ 'FLOWS-LIST:SELECT' | translate }}
-      </button>
-    </div>
-  </div>
-</div>
-<div
-  class="flogo-list__container --empty"
-  *ngIf="filteredFlows && filteredFlows.length === 0"
->
-  <div class="flogo-list--empty"></div>
+<ul *ngIf="!isEmpty; else emptyState" class="flows-list">
+  <li *ngFor="let flow of flows" class="flows-list__flow">
+    <flogo-flow-flows-list-flow
+      [flow]="flow"
+      (select)="selectFlow(flow)"
+    ></flogo-flow-flows-list-flow>
+  </li>
+</ul>
+
+<ng-template #emptyState>
   <p>{{ 'FLOWS-LIST:NOFLOW' | translate }}</p>
-</div>
+</ng-template>

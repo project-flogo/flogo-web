@@ -1,0 +1,54 @@
+@import (reference) '~@flogo-web/assets/styles/_variables';
+
+:host {
+  border-radius: 4px;
+  background-color: #fff;
+  display: flex;
+  padding: 1rem;
+  align-items: center;
+}
+
+.option {
+  flex-shrink: 0;
+  margin-left: 1.25rem;
+}
+
+.details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-right: 1rem;
+}
+
+.title {
+  display: inline-block;
+  font-weight: 600;
+  color: @color-plain;
+  flex-shrink: 0;
+  line-height: 1.25;
+}
+
+.date {
+  margin-left: 0.25rem;
+  font-size: 0.75rem;
+  color: @color-medium-gray;
+  font-weight: normal;
+  // compensating to align with title
+  position: relative;
+  top: -1px;
+}
+
+.description {
+  @description-font-size: 0.875rem;
+  @description-line-height: 1.25;
+  @description-min-lines: 2;
+  font-size: @description-font-size;
+  color: @color-plain;
+  line-height: @description-line-height;
+  margin: 0.25rem 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-height: @description-min-lines * @description-font-size * @description-line-height;
+}
