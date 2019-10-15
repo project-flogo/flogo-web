@@ -48,18 +48,22 @@ This option is a little more complex than option B but allows to mock the local 
 
 ```typescript
 import { Component } from '@angular/core';
-import { makeLocalSearchProvider, LocalSearch } from '@flogo-web/lib-client/search';
+import { makeLocalSearchFactory, LocalSearch } from '@flogo-web/lib-client/search';
 
 @Component({
   template: '...',
   providers: [
-    // use the provider factory
-    makeLocalSearchProvider({
-      // specify which fields to target in the search
-      matchFields: ['name', 'description'],
-      // (optional) debounce the search events by this milliseconds
-      debounceMs: 250,
-    }),
+    // declare the provider
+    {
+      provide: LocalSearch,
+      // use the provider factory
+      useFactory: makeLocalSearchFactory({
+        // specify which fields to target in the search
+        matchFields: ['name', 'description'],
+        // (optional) debounce the search events by this milliseconds
+        debounceMs: 250,
+      }),
+    },
   ],
 })
 class MyComponent {
@@ -151,12 +155,17 @@ Here's an example of how to use the service and the component together:
 ```typescript
 // users-search.component.ts
 import { Component, OnInit } from '@angular/core';
-import { LocalSearch, makeLocalSearchProvider } from '@flogo-web/lib-client/search';
+import { LocalSearch, makeLocalSearchFactory } from '@flogo-web/lib-client/search';
 import { Observable } from 'rxjs';
 
 @Component({
   // ...,
-  providers: [makeLocalSearchProvider({ matchFields: ['name'] })],
+  providers: [
+    {
+      provide: LocalSearch,
+      useFactory: makeLocalSearchFactory({ matchFields: ['name'] }),
+    },
+  ],
   templateUrl: 'users-search.component.html',
 })
 class UsersSearchComponent implements OnInit {
