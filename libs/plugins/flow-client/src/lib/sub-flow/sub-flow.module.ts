@@ -7,13 +7,10 @@ import { LanguageModule } from '@flogo-web/lib-client/language';
 import { SearchModule } from '@flogo-web/lib-client/search';
 
 import { FlowsListModule } from '../shared/flows-list';
-
 import { SubFlowComponent } from './sub-flow.component';
-import { BsModalModule } from 'ng2-bs3-modal';
 
 @NgModule({
   imports: [
-    BsModalModule,
     CommonModule,
     ModalModule,
     FlowCoreModule,
