@@ -30,6 +30,7 @@ import {
   ItemTask,
   Task,
   FLOGO_TASK_TYPE,
+  FlowResource,
 } from '../core';
 import { FlowState, FlowActions, FlowSelectors } from '../core/state';
 import {
@@ -38,7 +39,7 @@ import {
   ITERABLE_VALUE_KEY,
   ITERATOR_OUTPUT_KEY,
 } from './models';
-import { SubFlowConfig } from './subflow-config';
+import { SubflowConfig } from './subflow-config';
 import { AppState } from '../core/state/app.state';
 import { mergeItemWithSchema } from '../core/models';
 import { isSubflowTask } from '../core/models/flow/is-subflow-task';
@@ -107,8 +108,8 @@ export class TaskConfiguratorComponent implements OnInit, OnDestroy {
   iterableValue: string;
   isSubflowType: boolean;
   currentSubflowSchema: Resource;
-  subFlowConfig: SubFlowConfig;
-  subflowList: Resource[];
+  subFlowConfig: SubflowConfig;
+  subflowList: FlowResource[];
   showSubflowList = false;
   isActive = false;
   flowState: FlowState;
@@ -126,7 +127,7 @@ export class TaskConfiguratorComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
-    private _flowService: FlowsService,
+    private flowsService: FlowsService,
     private mapperControllerFactory: MapperControllerFactory,
     private notificationsService: NotificationsService
   ) {
@@ -169,11 +170,13 @@ export class TaskConfiguratorComponent implements OnInit, OnDestroy {
   }
 
   selectSubFlow() {
-    this._flowService.listFlowsForApp(this.appId).subscribe(flows => {
+    const isParentFlow = (flowId: string) => flowId === this.actionId;
+    const isCurrentlySelectedSubflow = (flowId: string) =>
+      flowId === this.currentTile.settings.flowPath;
+    this.flowsService.listFlowsForApp(this.appId).subscribe(flows => {
       this.subflowList = flows.filter(
-        flow =>
-          !(flow.id === this.actionId || flow.id === this.currentTile.settings.flowPath)
-      );
+        flow => !isParentFlow(flow.id) && !isCurrentlySelectedSubflow(flow.id)
+      ) as FlowResource[];
       this.showSubflowList = true;
     });
   }
@@ -236,7 +239,7 @@ export class TaskConfiguratorComponent implements OnInit, OnDestroy {
     }
   }
 
-  flowSelectionCancel(event) {
+  subflowSelectionCancel() {
     this.showSubflowList = false;
   }
 

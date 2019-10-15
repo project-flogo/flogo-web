@@ -1,5 +1,9 @@
 @import '~@flogo-web/assets/styles/_variables';
 
+:host {
+  width: 100%;
+}
+
 .subflow-content {
   margin-left: 15px;
   margin-right: 15px;
@@ -24,10 +28,33 @@
   margin-top: 6px;
 }
 
-.subflow-createdAt {
+.subflow-created-at {
   font-size: 0.75em;
   color: @color-plain;
   font-style: italic;
   margin: 6px 0 24px;
   letter-spacing: 0.8px;
 }
+
+.selection-container {
+  width: 100%;
+  background-color: @lighter-gray;
+  padding: 1rem 1.5rem 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.selection-container__header {
+  margin-bottom: 1.75rem;
+  color: @color-ink;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.selection-container__header-search {
+  flex-basis: 17em;
+}
+

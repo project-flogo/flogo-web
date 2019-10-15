@@ -1,18 +1,43 @@
-<div class="subflow-content">
+<div class="subflow-content" *ngIf="!showFlowSelection; else flowSelection">
   <div class="subflow-name">
-    {{ subFlow.name
+    {{ subflow.name
     }}<a class="flogo-link subflow-select-link" (click)="selectFlow()">{{
       'SUBFLOW:SELECT-DIFFERENT-FLOW' | translate
     }}</a>
   </div>
-  <div class="subflow-description">{{ subFlow.description }}</div>
-  <div class="subflow-createdAt">
+  <div class="subflow-description">{{ subflow.description }}</div>
+  <div class="subflow-created-at">
     {{ 'TASK-CONFIGURATOR:SUB-FLOW:CREATED' | translate }}
-    {{ subFlow.createdAt | timeFromNow }}
+    {{ subflow.createdAt | timeFromNow }}
   </div>
   <div>
-    <a href="/flows/{{ subFlow.flowPath }}" class="flogo-link" target="_blank">{{
+    <a href="/resources/{{ subflow.flowPath }}" class="flogo-link" target="_blank">{{
       'TASK-CONFIGURATOR:SUB-FLOW:LINK-TEXT' | translate
     }}</a>
   </div>
 </div>
+
+<ng-template #flowSelection>
+  <div class="selection-container">
+    <div class="selection-container__header">
+      <div>
+        {{ 'FLOWS-LIST:HEADER-TEXT' | translate }}
+        <a class="flogo-link subflow-select-link" (click)="selectionCancel()">
+          {{ 'FLOWS-LIST:CANCEL' | translate }}
+        </a>
+      </div>
+      <flogo-search
+        class="selection-container__header-search"
+        placeholder="{{ 'FLOWS-LIST:FILTER-TEXT' | translate }}"
+        iconPosition="left"
+        (search)="filter($event)"
+      ></flogo-search>
+    </div>
+    <flogo-flow-flows-list
+      class="content subflow-list__content"
+      (flowSelected)="subflowChanged($event)"
+      (flowSelectionCancel)="selectionCancel()"
+      [flows]="subflows$ | async"
+    ></flogo-flow-flows-list>
+  </div>
+</ng-template>
