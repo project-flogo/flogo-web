@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Resource } from '@flogo-web/core';
-import {} from '@flogo-web/plugins/flow-core';
 import { ModalInstance } from '@flogo-web/lib-client/modal';
-import { makeLocalSearchProvider, LocalSearch } from '@flogo-web/lib-client/search';
+import { LocalSearch, makeLocalSearchFactory } from '@flogo-web/lib-client/search';
 import { Observable } from 'rxjs';
 import { FlogoFlowService as FlowsService } from '../core/flow.service';
 import { FlowResource } from '../core/interfaces';
@@ -18,9 +17,12 @@ export interface SubflowSelectionParams {
   templateUrl: 'sub-flow.component.html',
   styleUrls: ['sub-flow.component.less'],
   providers: [
-    makeLocalSearchProvider({
-      matchFields: ['name', 'description'],
-    }),
+    {
+      provide: LocalSearch,
+      useFactory: makeLocalSearchFactory({
+        matchFields: ['name', 'description'],
+      }),
+    },
   ],
 })
 export class SubFlowComponent implements OnInit {

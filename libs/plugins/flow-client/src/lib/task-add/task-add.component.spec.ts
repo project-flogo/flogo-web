@@ -72,7 +72,10 @@ describe('Component: TaskAddComponent', () => {
           provide: ModalService,
           useValue: {
             openModal() {
-              return { detach: of() };
+              return {
+                result: of(),
+                detach: of(),
+              };
             },
           },
         },
@@ -138,7 +141,7 @@ describe('Component: TaskAddComponent', () => {
     expect(state).toEqual(true);
   });
 
-  it('should open subflow window and mark the popover to keep active', () => {
+  it('should open subflow window and mark the popover to keep active', async(() => {
     const spyActiveState = spyOn(
       fixture.debugElement.injector.get(TASKADD_OPTIONS),
       'updateActiveState'
@@ -146,9 +149,6 @@ describe('Component: TaskAddComponent', () => {
     const activitiesElements = fixture.debugElement.queryAll(By.css('.qa-activities'));
     activitiesElements[2].triggerEventHandler('click', null);
     fixture.detectChanges();
-    const [state] = spyActiveState.calls.mostRecent().args;
-    expect(spyActiveState).toHaveBeenCalledTimes(1);
-    expect(component.isSubflowOpen).toEqual(true);
-    expect(state).toEqual(true);
-  });
+    expect(spyActiveState.calls.allArgs()).toEqual([[true], [false]]);
+  }));
 });

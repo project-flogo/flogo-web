@@ -40,7 +40,7 @@ You can either A. use a factory provider or B. manually create an instance
 
 **Option A. Use a factory provider**
 
-Add the provider definition using the `makeLocalSearchProvider()` function provided by this module. In the following example
+Add the provider definition using the `makeLocalSearchFactory()` function provided by this module. In the following example
 we're declaring the provider at the component level but you can declare it wherever fits your needs.
 After that you can inject the `LocalSearch` service in a constructor.
 

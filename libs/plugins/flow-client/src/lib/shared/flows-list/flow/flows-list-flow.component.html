@@ -18,6 +18,9 @@
   target="_blank"
   >{{ 'FLOWS-LIST:LINK-TEXT' | translate }}</a
 >
-<button class="flogo-button--secondary select-button option" (click)="select.emit(flow)">
+<button
+  class="flogo-button--secondary select-button option qa-button-select"
+  (click)="select.emit(flow)"
+>
   {{ 'FLOWS-LIST:SELECT' | translate }}
 </button>

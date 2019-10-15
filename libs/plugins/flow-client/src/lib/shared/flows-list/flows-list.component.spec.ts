@@ -8,6 +8,7 @@ import { FakeRootLanguageModule } from '@flogo-web/lib-client/language/testing';
 
 import { RESOURCE_TYPE_FLOW, FlowResource } from '../../core';
 import { FlowsListComponent } from './flows-list.component';
+import { FlowsListFlowComponent } from './flow/flows-list-flow.component';
 
 describe('Component: FlowsListComponent', () => {
   let comp: FlowsListComponent;
@@ -17,7 +18,7 @@ describe('Component: FlowsListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, FlogoSharedModule, FakeRootLanguageModule],
-      declarations: [FlowsListComponent],
+      declarations: [FlowsListComponent, FlowsListFlowComponent],
     });
     fixture = TestBed.createComponent(FlowsListComponent);
     comp = fixture.componentInstance;
@@ -27,28 +28,14 @@ describe('Component: FlowsListComponent', () => {
 
   it('Should show empty flow message', () => {
     fixture.detectChanges();
-    expect(de.queryAll(By.css('.flogo-list__container--empty')).length).toEqual(1);
+    expect(de.nativeElement.textContent.trim()).toEqual('FLOWS-LIST:NOFLOW');
   });
 
   it('Should list 3 applications', () => {
     comp.flows = getFlowsList();
     fixture.detectChanges();
-    expect(de.queryAll(By.css('.flogo-list__card')).length).toEqual(3);
+    expect(de.queryAll(By.css('flogo-flow-flows-list-flow')).length).toEqual(3);
   });
-
-  // it("Should filter 2 applications when filtered by term 'hello'", () => {
-  //   comp.flows = getFlowsList();
-  //   comp.searchText = 'Hello';
-  //   fixture.detectChanges();
-  //   expect(de.queryAll(By.css('.flogo-list__card')).length).toEqual(2);
-  // });
-  //
-  // it('Should form proper link to open a flow in new tab', () => {
-  //   comp.flows = getFlowsList();
-  //   fixture.detectChanges();
-  //   const firstLink = de.queryAll(By.css('.flogo-link'))[0].nativeElement;
-  //   expect(firstLink.getAttribute('href')).toEqual('/flows/flow_1');
-  // });
 
   it("Should emit selected flow's details", done => {
     comp.flows = getFlowsList();
@@ -58,7 +45,7 @@ describe('Component: FlowsListComponent', () => {
     });
     fixture.detectChanges();
     const firstSelectFlowButton = de.queryAll(
-      By.css('.flogo-list__card .flogo-button--secondary')
+      By.css('flogo-flow-flows-list-flow .qa-button-select')
     )[0].nativeElement;
     firstSelectFlowButton.click();
   });
