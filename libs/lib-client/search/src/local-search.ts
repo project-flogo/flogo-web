@@ -1,6 +1,12 @@
 import { isEmpty } from 'lodash';
-import { Subject, Observable, ReplaySubject, combineLatest } from 'rxjs';
-import { debounceTime, distinctUntilChanged, startWith, map } from 'rxjs/operators';
+import { Observable, ReplaySubject, combineLatest } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  startWith,
+  map,
+  shareReplay,
+} from 'rxjs/operators';
 
 type QueryMatcherFn<T> = (query: string) => (obj: T) => boolean;
 
@@ -10,18 +16,20 @@ export interface LocalSearchParams {
 }
 
 export class LocalSearch<T> {
+  public readonly query$: Observable<string | null>;
+  public readonly list$: Observable<T[]>;
+
   private sourceList = new ReplaySubject<T[]>(1);
-  private querySrc = new Subject<string>();
-  private query$: Observable<string | null>;
+  private querySrc = new ReplaySubject<string>();
   private queryMatcher: QueryMatcherFn<T>;
-  readonly list$: Observable<T[]>;
 
   constructor({ debounceMs, matchFields }: LocalSearchParams) {
     this.queryMatcher = fieldMatcher(matchFields);
     this.query$ = this.querySrc.pipe(
       debounceTime(debounceMs || 250),
       distinctUntilChanged(),
-      startWith('')
+      startWith(''),
+      shareReplay(1)
     );
     this.list$ = combineLatest(this.query$, this.sourceList).pipe(
       map(([query, list]) => this.filter(list, query))
