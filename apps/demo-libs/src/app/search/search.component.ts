@@ -19,6 +19,8 @@ export class SearchComponent implements OnInit {
   filteredPeopleList$: Observable<Person[]>;
   emitOnKey = true;
   lastQuery: string;
+  customValue = 'customValue';
+  lastCustomQuery: string;
 
   constructor(private searchService: LocalSearch<Person>) {}
 
@@ -35,6 +37,15 @@ export class SearchComponent implements OnInit {
 
   setEmitOnKey(emitOnKey: boolean) {
     this.emitOnKey = emitOnKey;
+  }
+
+  setCustomValue(customValue: string) {
+    this.customValue = customValue;
+  }
+
+  customQueryChanged(newValue) {
+    this.lastCustomQuery = newValue;
+    this.customValue = newValue;
   }
 
   private initList() {

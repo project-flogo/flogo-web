@@ -35,17 +35,35 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
    *  trigger the search event
    */
   @Input() emitOnKey = true;
+
   /**
    * Emits when the search query changes
    */
   @Output() search = new EventEmitter<string>();
 
+  /**
+   * Update the query to display in the input control before next user change.
+   * Useful to provide an initial value to display when the component initializes
+   * Note: this won't trigger any change events
+   */
+  @Input() set query(query: string) {
+    query = query !== undefined ? query : '';
+    if (query !== this.currentValue) {
+      this.currentValue = query;
+    }
+  }
+
+  currentValue = '';
   @ViewChild('searchInput', { static: true }) input: ElementRef;
   private subscription: Subscription;
 
   @HostBinding('class.icon-left')
   get isIconLeft() {
     return this.iconPosition === 'left';
+  }
+
+  onQueryChange(event: Event) {
+    this.currentValue = (event.target as HTMLInputElement).value;
   }
 
   ngAfterViewInit() {

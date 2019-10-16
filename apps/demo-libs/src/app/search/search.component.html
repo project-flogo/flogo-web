@@ -36,3 +36,18 @@
   <flogo-search iconPosition="left" placeholder="Left positioned icon"></flogo-search>
   <flogo-search iconPosition="right" placeholder="Right positioned icon"></flogo-search>
 </div>
+
+<h3>Control the value from outside</h3>
+<input type="text" #customText value="customValue" /><button
+  type="button"
+  (click)="setCustomValue(customText.value)"
+>
+  Set value
+</button>
+<flogo-search
+  iconPosition="left"
+  placeholder="Left positioned icon"
+  [query]="customValue"
+  (search)="customQueryChanged($event)"
+></flogo-search>
+Last: {{ lastCustomQuery }}
