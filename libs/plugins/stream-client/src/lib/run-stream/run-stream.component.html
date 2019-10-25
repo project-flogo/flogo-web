@@ -1,45 +1,18 @@
-<div class="file-upload">
-  <div class="import-header">
-    Import stream inputs from
-  </div>
-  <div
-    class="file-upload--upload-file"
-    fgDragDropFile
-    [status]="fileUploadStatus"
-    (fileDropped)="uploadFile($event)"
-  >
-    <flogo-stream-file-status
-      [status]="fileUploadStatus"
-      (remove)="removeFile()"
-    ></flogo-stream-file-status>
-    <div class="file-name">{{ fileName }}</div>
-    <div class="drag-and-drop">
-      Drag and drop
-    </div>
-    <div>
-      <span class="upload-text-color">
-        your file here, or
-      </span>
-      <span class="file-upload--browse-file" (click)="fileInput.click()">
-        browse to upload
-        <input type="file" #fileInput hidden (change)="uploadFile($event.target.files)" />
-      </span>
-    </div>
-    <div>
-      <!-- Todo: Remove this select element -->
-      <select [(ngModel)]="mappingType">
-        <option value="single-input">Single</option>
-        <option value="separate-by-column">Seperate By Column</option>
-      </select>
-    </div>
-  </div>
-  <div>
-    <button
-      [disabled]="disableRunStream"
-      (click)="runSimulation()"
-      class="flogo-button--default run-stream"
-    >
-      Run stream
-    </button>
-  </div>
-</div>
+<flogo-stream-simulation-controls
+  [status]="simulatorStatus$ | async"
+  [disableRunStream]="disableRunStream"
+  (run)="runStream()"
+  (pause)="pauseSimulation()"
+  (stop)="stopSimulation()"
+  (resume)="resumeSimulation()"
+></flogo-stream-simulation-controls>
+
+<flogo-stream-simulation-configuration
+  *ngIf="showFileInput"
+  [resourceId]="resourceId"
+  [fileName]="fileName"
+  [fileUploadStatus]="fileUploadStatus"
+  [mappingType]="simulationConfig.inputMappingType"
+  (setFilePath)="setFilePath($event)"
+  (startSimulation)="startSimulation($event)"
+></flogo-stream-simulation-configuration>

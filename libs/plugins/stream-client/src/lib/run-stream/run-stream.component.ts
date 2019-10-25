@@ -1,88 +1,119 @@
 import {
   Component,
-  EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
+  OnInit,
   Output,
+  EventEmitter,
+  OnChanges,
   SimpleChanges,
 } from '@angular/core';
+import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { SingleEmissionSubject } from '@flogo-web/lib-client/core';
-import { StreamSimulation } from '@flogo-web/core';
+import { isEmpty } from 'lodash';
 
-import { FileStatus } from '../file-status';
-import { RunStreamService } from './run-stream.service';
+import { StreamSimulation } from '@flogo-web/core';
+import { SingleEmissionSubject } from '@flogo-web/lib-client/core';
+
+import { SimulatorService } from '../simulator';
+import { FileStatus } from './file-status';
+import { SimulationConfigurationService } from './configuration';
 
 @Component({
   selector: 'flogo-stream-run-stream',
   templateUrl: 'run-stream.component.html',
-  styleUrls: ['run-stream.component.less'],
+  styleUrls: [],
 })
-export class RunStreamComponent implements OnChanges, OnDestroy {
+export class RunStreamComponent implements OnInit, OnDestroy, OnChanges {
   @Input() resourceId: string;
-  @Input() fileName: string;
-  @Input() fileUploadStatus: FileStatus;
-  @Input() mappingType: StreamSimulation.InputMappingType;
-  @Output() setFilePath: EventEmitter<object> = new EventEmitter<object>();
-  @Output() startSimulation: EventEmitter<any> = new EventEmitter();
+  @Input() disableRunStream: boolean;
+  @Input() simulationConfig: StreamSimulation.SimulationConfig;
+  @Output() startSimulationWithConfig: EventEmitter<
+    StreamSimulation.SimulationConfig
+  > = new EventEmitter();
 
-  disableRunStream = true;
   private ngOnDestroy$ = SingleEmissionSubject.create();
+  simulatorStatus$: Observable<StreamSimulation.ProcessStatus>;
 
-  constructor(private runStreamService: RunStreamService) {}
+  showFileInput = false;
+  isSimulatorRunning = false;
+  isSimulatorPaused = false;
+  filePath: string;
+  fileName: string;
+  fileUploadStatus = FileStatus.Empty;
 
-  ngOnChanges({ fileName }: SimpleChanges): void {
-    if (fileName && fileName.currentValue) {
-      this.setFileName(fileName.currentValue);
-      this.disableRunStream = false;
+  constructor(
+    private simulatorService: SimulatorService,
+    private runStreamService: SimulationConfigurationService
+  ) {}
+
+  ngOnInit(): void {
+    this.simulatorStatus$ = this.simulatorService.status$;
+  }
+
+  ngOnChanges({ disableRunStream }: SimpleChanges): void {
+    if (
+      disableRunStream &&
+      !disableRunStream.firstChange &&
+      disableRunStream.currentValue
+    ) {
+      this.showFileInput = false;
     }
   }
 
-  setFileName(fileName) {
-    if (fileName.includes(this.resourceId)) {
-      this.fileName = fileName.substring(this.resourceId.length + 1);
+  runStream() {
+    if (!this.filePath && !this.showFileInput) {
+      this.setFileUploadStatus();
     }
+    this.showFileInput = !this.showFileInput;
   }
 
-  uploadFile(files: FileList) {
-    const fileToUpload = files.item(0);
-    const formData = new FormData();
-    formData.append(`${this.resourceId}-${fileToUpload.name}`, fileToUpload);
-    this.fileUploadStatus = FileStatus.Uploading;
+  setFileUploadStatus() {
     this.runStreamService
-      .uploadSimulationDataFile(formData)
+      .getSimulationDataPath(this.resourceId)
       .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe(
-        (resp: object) => {
-          this.setFilePath.emit(resp);
-          this.fileUploadStatus = FileStatus.Uploaded;
-          this.disableRunStream = false;
-        },
-        () => {
-          this.fileUploadStatus = FileStatus.Errored;
-          this.disableRunStream = true;
-          this.fileName = 'Error.....try again';
-        }
-      );
-  }
-
-  runSimulation() {
-    this.startSimulation.emit(
-      this.mappingType || StreamSimulation.InputMappingType.SingleInput
-    );
-  }
-
-  removeFile() {
-    this.runStreamService
-      .removeSimulationDataFile(this.resourceId)
-      .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe(() => {
-        this.setFilePath.emit();
+      .subscribe((resp: any) => {
+        this.setFilePath(resp);
       });
   }
 
-  ngOnDestroy(): void {
+  setFilePath(fileDetails) {
+    if (!isEmpty(fileDetails)) {
+      this.filePath = fileDetails.filePath;
+      this.fileName = fileDetails.fileName;
+      this.fileUploadStatus = FileStatus.Uploaded;
+    } else {
+      this.filePath = '';
+      this.fileName = '';
+      this.fileUploadStatus = FileStatus.Empty;
+    }
+  }
+
+  startSimulation(inputMappingType) {
+    this.simulatorService.start(this.resourceId, this.filePath, inputMappingType);
+    this.isSimulatorRunning = true;
+    this.showFileInput = false;
+    this.startSimulationWithConfig.emit({
+      inputMappingType,
+    });
+  }
+
+  stopSimulation() {
+    this.simulatorService.stop();
+    this.isSimulatorRunning = true;
+  }
+
+  pauseSimulation() {
+    this.simulatorService.pause();
+    this.isSimulatorPaused = true;
+  }
+
+  resumeSimulation() {
+    this.simulatorService.resume();
+    this.isSimulatorPaused = false;
+  }
+
+  ngOnDestroy() {
     this.ngOnDestroy$.emitAndComplete();
   }
 }

@@ -8,13 +8,13 @@
     (changeDescription)="changeStreamDescription($event)"
   >
     <div header-role="resource-logo" class="stream-logo"></div>
-    <flogo-stream-run-stream-button
+    <flogo-stream-run-stream
       [resourceId]="streamState.id"
       [simulationConfig]="simulationConfig$ | async"
       (startSimulationWithConfig)="startSimulation($event)"
       [disableRunStream]="disableRunStream"
       header-role="right-block"
-    ></flogo-stream-run-stream-button>
+    ></flogo-stream-run-stream>
     <flogo-logs header-role="right-block"></flogo-logs>
     <div
       header-role="right-block"

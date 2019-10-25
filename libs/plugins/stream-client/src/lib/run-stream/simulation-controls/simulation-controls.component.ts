@@ -8,12 +8,12 @@ import {
 import { StreamSimulation } from '@flogo-web/core';
 
 @Component({
-  selector: 'flogo-stream-run-action-status',
-  templateUrl: './action-status.component.html',
-  styleUrls: ['./action-status.component.less'],
+  selector: 'flogo-stream-simulation-controls',
+  templateUrl: './simulation-controls.component.html',
+  styleUrls: ['./simulation-controls.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActionStatusComponent {
+export class SimulationControlsComponent {
   readonly statuses = StreamSimulation.ProcessStatus;
   @Input() status: StreamSimulation.ProcessStatus;
   @Input() disabled = false;
