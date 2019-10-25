@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RestApiService } from '@flogo-web/lib-client/core';
 
 @Injectable()
-export class RunStreamService {
+export class SimulationConfigurationService {
   constructor(private restApi: RestApiService) {}
 
   uploadSimulationDataFile(body) {

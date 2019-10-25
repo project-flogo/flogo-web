@@ -8,7 +8,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { FileStatus } from '../../file-status';
+import { FileStatus } from '../file-status';
 
 @Directive({
   selector: '[fgDragDropFile]',

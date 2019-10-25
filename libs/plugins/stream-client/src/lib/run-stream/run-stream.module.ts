@@ -3,23 +3,25 @@ import { NgModule } from '@angular/core';
 import { SharedModule as FlogoSharedModule } from '@flogo-web/lib-client/common';
 import { SelectModule } from '@flogo-web/lib-client/select';
 
+import {
+  SimulationConfigurationComponent,
+  SimulationConfigurationService,
+  DragAndDropDirective,
+} from './configuration';
+import { FileStatusComponent } from './file-status';
+import { SimulationControlsComponent } from './simulation-controls';
 import { RunStreamComponent } from './run-stream.component';
-import { RunStreamButtonComponent } from './run-stream-button/run-stream-button.component';
-import { DragAndDropDirective } from './drag-and-drop.directive/drag-and-drop.directive';
-import { FileStatusComponent } from '../file-status/file-status.component';
-import { ActionStatusComponent } from './run-stream-button/action-status.component';
-import { RunStreamService } from './run-stream.service';
 
 @NgModule({
   imports: [FlogoSharedModule, SelectModule],
   declarations: [
-    RunStreamButtonComponent,
     RunStreamComponent,
+    SimulationConfigurationComponent,
     DragAndDropDirective,
     FileStatusComponent,
-    ActionStatusComponent,
+    SimulationControlsComponent,
   ],
-  providers: [RunStreamService],
-  exports: [RunStreamButtonComponent],
+  providers: [SimulationConfigurationService],
+  exports: [RunStreamComponent],
 })
 export class RunStreamModule {}
