@@ -1,54 +1,60 @@
-<div class="file-upload">
-  <div class="import-header">
-    Import stream inputs from
-  </div>
-  <div
-    class="file-upload--upload-file"
-    fgDragDropFile
+<div class="import-header">
+  Import stream inputs from
+</div>
+<div
+  class="file-upload"
+  [class.file-upload--empty]="fileUploadStatus !== FileStatus.Uploaded"
+  fgDragDropFile
+  [status]="fileUploadStatus"
+  (fileDropped)="uploadFile($event)"
+  (dragging)="setIsDragging($event)"
+>
+  <flogo-stream-file-status
     [status]="fileUploadStatus"
-    (fileDropped)="uploadFile($event)"
+    [isDragging]="isDragging"
+    (remove)="removeFile()"
+  ></flogo-stream-file-status>
+
+  <div
+    class="upload-instructions"
+    *ngIf="fileUploadStatus !== FileStatus.Uploaded; else uploadedState"
   >
-    <flogo-stream-file-status
-      [status]="fileUploadStatus"
-      (remove)="removeFile()"
-    ></flogo-stream-file-status>
-    <div class="file-name">{{ fileName }}</div>
-    <div class="drag-and-drop">
+    <span class="upload-instructions__lead">
       Drag and drop
-    </div>
-    <div>
-      <span class="upload-text-color">
-        your file here, or
-      </span>
-      <span class="file-upload--browse-file" (click)="fileInput.click()">
-        browse to upload
-        <input type="file" #fileInput hidden (change)="uploadFile($event.target.files)" />
-      </span>
-    </div>
-    <div>
-      <flogo-select
-        [value]="mappingTypeSelection"
-        label="{{ 'STREAMS.SIMULATOR:MAPPING-LABEL' | translate }}"
-        (select)="onChangeMappingType($event)"
-      >
-        <flogo-select-option
-          [value]="InputMappingType.SingleInput"
-          label="{{ 'STREAMS.SIMULATOR:MAPPING-OPTION-SINGLE' | translate }}"
-        ></flogo-select-option>
-        <flogo-select-option
-          [value]="InputMappingType.SeparateByColumn"
-          label="{{ 'STREAMS.SIMULATOR:MAPPING-OPTION-SEPARATE' | translate }}"
-        ></flogo-select-option>
-      </flogo-select>
-    </div>
+    </span>
+    <span>
+      your file here, or
+    </span>
+    <span class="upload-instructions__link" (click)="fileInput.click()">
+      browse to upload
+    </span>
+    <input type="file" #fileInput hidden (change)="uploadFile($event.target.files)" />
   </div>
-  <div>
-    <button
-      [disabled]="disableRunStream"
-      (click)="runSimulation()"
-      class="flogo-button--default run-stream"
+
+  <ng-template #uploadedState>
+    <div class="file-name">{{ fileName }}</div>
+    <flogo-select
+      [value]="mappingTypeSelection"
+      label="{{ 'STREAMS.SIMULATOR:MAPPING-LABEL' | translate }}"
+      (select)="onChangeMappingType($event)"
     >
-      {{ 'STREAMS.SIMULATOR:RUN-STREAM' | translate }}
-    </button>
-  </div>
+      <flogo-select-option
+        [value]="InputMappingType.SingleInput"
+        label="{{ 'STREAMS.SIMULATOR:MAPPING-OPTION-SINGLE' | translate }}"
+      ></flogo-select-option>
+      <flogo-select-option
+        [value]="InputMappingType.SeparateByColumn"
+        label="{{ 'STREAMS.SIMULATOR:MAPPING-OPTION-SEPARATE' | translate }}"
+      ></flogo-select-option>
+    </flogo-select>
+  </ng-template>
+</div>
+<div class="footer">
+  <button
+    [disabled]="disableRunStream"
+    (click)="runSimulation()"
+    class="flogo-button--default run-stream"
+  >
+    {{ 'STREAMS.SIMULATOR:RUN-STREAM' | translate }}
+  </button>
 </div>

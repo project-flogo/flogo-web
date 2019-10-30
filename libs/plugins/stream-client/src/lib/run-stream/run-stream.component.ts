@@ -27,6 +27,7 @@ const isValidMappingType = (val: any): val is InputMappingType =>
 })
 export class RunStreamComponent implements OnChanges, OnDestroy {
   readonly InputMappingType = InputMappingType;
+  readonly FileStatus = FileStatus;
   @Input() resourceId: string;
   @Input() fileName: string;
   @Input() fileUploadStatus: FileStatus;
@@ -34,6 +35,7 @@ export class RunStreamComponent implements OnChanges, OnDestroy {
   @Output() setFilePath: EventEmitter<object> = new EventEmitter<object>();
   @Output() startSimulation: EventEmitter<InputMappingType> = new EventEmitter();
 
+  isDragging: boolean;
   disableRunStream = true;
   mappingTypeSelection: InputMappingType = DEFAULT_MAPPING_TYPE;
   private ngOnDestroy$ = SingleEmissionSubject.create();
@@ -96,6 +98,10 @@ export class RunStreamComponent implements OnChanges, OnDestroy {
       .subscribe(() => {
         this.setFilePath.emit();
       });
+  }
+
+  setIsDragging(isDragging: boolean) {
+    this.isDragging = isDragging;
   }
 
   ngOnDestroy(): void {

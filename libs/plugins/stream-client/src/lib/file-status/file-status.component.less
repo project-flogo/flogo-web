@@ -1,42 +1,44 @@
-.file-status {
-	position: relative;
-	margin: 30px 20px 10px 20px;
-	.file {
-		width: 94px;
-		height: 108px;
-	}
-	.data-table {
-		position: absolute;
-		top: 30%;
-		right: 40%;
-		path {
-			fill: #e0e0e0;
-		}
-	}
-	.label {
-		display: inline;
-		&:after {
-			content: ".csv";
-			font-weight: 600;
-			text-align: center;
-			position: absolute;
-			top: 60%;
-			right: 40%;
-			font-size: 23px;
-			color: #b6b6b6;
-		}
-	}
-	.file-image {
-		display: none;
-		background-size: 100%;
-		background-repeat: no-repeat;
-		width: 32px;
-		height: 32px;
-		position: absolute;
-		top: 30%;
-		right: 40%;
-	}
+:host {
+  position: relative;
+  margin: 0;
 }
+
+.file {
+  width: 94px;
+  height: 108px;
+}
+.data-table {
+  position: absolute;
+  top: 30%;
+  right: 40%;
+  path {
+    fill: #e0e0e0;
+  }
+}
+.label {
+  display: inline;
+  &:after {
+    content: ".csv";
+    font-weight: 600;
+    text-align: center;
+    position: absolute;
+    top: 60%;
+    right: 40%;
+    font-size: 23px;
+    color: #b6b6b6;
+  }
+}
+.file-image {
+  display: none;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 30%;
+  right: 40%;
+}
+
 
 .empty {
 	.page-outline,

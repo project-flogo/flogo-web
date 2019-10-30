@@ -15,44 +15,39 @@ import { FileStatus } from '../../file-status';
 })
 export class DragAndDropDirective implements OnChanges {
   @Input() status;
-  @Output() fileDropped: EventEmitter<FileList> = new EventEmitter<FileList>();
+  @Output() fileDropped = new EventEmitter<FileList>();
+  @Output() dragging = new EventEmitter<boolean>();
 
-  @HostBinding('style.background') private background;
-  @HostBinding('style.border') private border = '2px dotted #b6b6b6';
-  @HostBinding('style.opacity') private opacity = 1;
+  @HostBinding('style.background') background;
+  @HostBinding('style.border') border;
+  @HostBinding('style.opacity') opacity = 1;
 
   @HostListener('dragover', ['$event']) public onDragOver(event) {
     this.preventStopEvent(event);
-    this.background = 'rgba(224, 240, 249, 0.35)';
-    this.border = '2px dotted #2694d3';
+    this.draggingStarted();
   }
 
   @HostListener('dragleave', ['$event']) public onDragLeave(event) {
     this.preventStopEvent(event);
-    this.background = '#fafafa';
-    this.border = '2px dotted #b6b6b6';
+    this.draggingFinished();
   }
 
   @HostListener('drop', ['$event']) public onDrop(event) {
     this.preventStopEvent(event);
     const files = event.dataTransfer.files;
+    this.draggingFinished();
     if (files.length > 0) {
-      this.background = '#fafafa';
-      this.border = '2px dotted #b6b6b6';
       this.fileDropped.emit(files);
     }
   }
 
   ngOnChanges({ status }: SimpleChanges): void {
     if (status && !status.firstChange) {
+      // todo: remove this from here this is a drag and drop directive but the following lines are uploading logic!
       if (status.currentValue === FileStatus.Uploading) {
         this.opacity = 0.2;
       } else {
         this.opacity = 1;
-      }
-
-      if (status.currentValue === FileStatus.Uploaded || FileStatus.Errored) {
-        this.border = 'none';
       }
     }
   }
@@ -60,5 +55,17 @@ export class DragAndDropDirective implements OnChanges {
   preventStopEvent(event) {
     event.preventDefault();
     event.stopPropagation();
+  }
+
+  private draggingStarted() {
+    this.background = 'rgba(224, 240, 249, 0.35)';
+    this.border = '2px dashed #2694d3';
+    this.dragging.emit(true);
+  }
+
+  private draggingFinished() {
+    this.background = null;
+    this.border = null;
+    this.dragging.emit(false);
   }
 }

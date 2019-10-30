@@ -1,3 +1,5 @@
+@import '~@flogo-web/assets/styles/_variables';
+
 :host {
   position: absolute;
   top: 73px;
@@ -7,13 +9,11 @@
   height: 400px;
   border-radius: 3px;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.35);
-  background-color: #FFFFFF;
-
-  --dark-gray : #727272;
+  background-color: #fff;
+  padding: 24px;
 }
 
 .import-header {
-  margin: 24px;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.5;
@@ -21,44 +21,48 @@
   color: #212121;
 }
 
-.file-upload--upload-file {
+.file-upload {
+  padding: 36px;
+  margin-top: 24px;
+  margin-bottom: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 464px;
-  height: 250px;
-  margin: 24px 24px 16px 24px;
+  background-color: @lightest-gray;
 }
 
-.file-upload--browse-file {
-  color: #0081cb;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.run-stream {
-  float: right;
-  margin-right: 24px;
-}
-
-.upload-text-color {
-  color: var(--dark-gray);
+.file-upload--empty {
+  background-color: transparent;
+  border: 2px dashed @color-medium-gray;
 }
 
 .file-name {
   font-size: 12px;
   line-height: 1.17;
-  margin-top: -10px;
-  .upload-text-color();
+  margin-top: 4px;
+  margin-bottom: 16px;
 }
 
-.drag-and-drop {
-  font-size: 24px;
+.upload-instructions {
+  color: @color-dark-gray;
+}
+
+.upload-instructions__link {
+  color: #0081cb;
   font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
+  cursor: pointer;
+}
+
+.upload-instructions__lead {
+  font-size: 1.5rem;
+  font-weight: 600;
   line-height: 1.5;
-  letter-spacing: normal;
   text-align: center;
-  .upload-text-color();
+  display: block;
+}
+
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
 }

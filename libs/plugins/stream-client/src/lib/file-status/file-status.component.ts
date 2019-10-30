@@ -1,20 +1,27 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FileStatus } from './file-status';
 
 @Component({
   selector: 'flogo-stream-file-status',
   templateUrl: './file-status.component.html',
   styleUrls: ['./file-status.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileStatusComponent implements OnInit {
+export class FileStatusComponent {
   @Input() status: FileStatus;
+  @Input() isDragging: boolean;
   @Output() remove: EventEmitter<void> = new EventEmitter();
-  constructor() {}
 
-  ngOnInit() {}
+  @HostListener('click')
   removeFile() {
     if (this.status === FileStatus.Uploaded) {
-      this.status = FileStatus.Empty;
       this.remove.emit();
     }
   }
