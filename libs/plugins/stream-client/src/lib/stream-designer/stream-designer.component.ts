@@ -7,7 +7,6 @@ import {
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { isEmpty } from 'lodash';
 import { ModalService } from '@flogo-web/lib-client/modal';
 import { SingleEmissionSubject } from '@flogo-web/lib-client/core';
 import { ContribInstallerService } from '@flogo-web/lib-client/contrib-installer';
@@ -24,7 +23,6 @@ import {
   StreamStoreState as AppState,
 } from '../core';
 import { ParamsSchemaComponent } from '../params-schema';
-import { StreamSimulation } from '@flogo-web/core';
 
 @Component({
   selector: 'flogo-stream-designer',
@@ -45,10 +43,8 @@ export class StreamDesignerComponent implements OnInit, OnDestroy {
   };
   simulationId: 0;
   currentSimulationStage$: Observable<string | number>;
-  simulationConfig$: Observable<StreamSimulation.SimulationConfig>;
   // todo: add type
   selectedStageInfo$: Observable<any>;
-  disableRunStream: boolean;
   private ngOnDestroy$ = SingleEmissionSubject.create();
 
   constructor(
@@ -70,8 +66,6 @@ export class StreamDesignerComponent implements OnInit, OnDestroy {
       select(StreamSelectors.getCurrentSimulationStage)
     );
 
-    this.simulationConfig$ = this.store.pipe(select(StreamSelectors.getSimulatorConfig));
-
     this.contribInstallerService.contribInstalled$
       .pipe(takeUntil(this.ngOnDestroy$))
       .subscribe(contribDetails =>
@@ -84,20 +78,6 @@ export class StreamDesignerComponent implements OnInit, OnDestroy {
     this.selectedStageInfo$ = this.store.pipe(
       select(StreamSelectors.getSelectedStageInfo)
     );
-
-    this.store
-      .pipe(
-        select(StreamSelectors.selectItems),
-        takeUntil(this.ngOnDestroy$)
-      )
-      .subscribe(items => {
-        this.disableRunStream = isEmpty(items);
-      });
-  }
-
-  startSimulation(config: StreamSimulation.SimulationConfig) {
-    this.changePanelState(true);
-    this.store.dispatch(new StreamActions.SimulatorConfigurationChange(config));
   }
 
   changePanelState(isSimulatorOpen: boolean) {

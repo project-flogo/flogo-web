@@ -9,10 +9,7 @@
   >
     <div header-role="resource-logo" class="stream-logo"></div>
     <flogo-stream-run-stream
-      [resourceId]="streamState.id"
-      [simulationConfig]="simulationConfig$ | async"
-      [disableRunStream]="disableRunStream"
-      (startSimulationWithConfig)="startSimulation($event)"
+      (simulationStarted)="changePanelState(true)"
       header-role="right-block"
     ></flogo-stream-run-stream>
     <flogo-logs header-role="right-block"></flogo-logs>

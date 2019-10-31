@@ -1,4 +1,5 @@
-import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
+import { isEmpty } from 'lodash';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { DiagramSelectionType } from '@flogo-web/lib-client/diagram';
 import { Dictionary, DiagramGraph } from '@flogo-web/lib-client/core';
@@ -202,7 +203,18 @@ export const selectStageConfigure = createSelector(
   (state: FlogoStreamState) => state.stageConfigure
 );
 
-export const getSimulatorConfig = createSelector(
+export const selectSimulation = createSelector(
   selectStreamState,
   (state: FlogoStreamState) => state.simulation
+);
+
+export const getSimulationDetails = createSelector(
+  selectActionId,
+  selectItems,
+  selectSimulation,
+  (resourceId, items, simulation) => ({
+    resourceId,
+    simulation,
+    disableRunStream: isEmpty(items),
+  })
 );

@@ -1,14 +1,14 @@
 <flogo-stream-simulation-controls
   [status]="simulatorStatus$ | async"
   [disableRunStream]="disableRunStream"
-  (run)="runStream()"
+  (open)="openConfiguration()"
   (pause)="pauseSimulation()"
   (stop)="stopSimulation()"
   (resume)="resumeSimulation()"
 ></flogo-stream-simulation-controls>
 
 <flogo-stream-simulation-configuration
-  *ngIf="showFileInput"
+  *ngIf="showConfiguration"
   [resourceId]="resourceId"
   [fileName]="fileName"
   [fileUploadStatus]="fileUploadStatus"

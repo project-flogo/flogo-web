@@ -18,7 +18,7 @@ export class SimulationControlsComponent {
   @Input() status: StreamSimulation.ProcessStatus;
   @Input() disabled = false;
   @Input() disableRunStream: boolean;
-  @Output() run = new EventEmitter<void>();
+  @Output() open = new EventEmitter<void>();
   @Output() pause = new EventEmitter<void>();
   @Output() resume = new EventEmitter<void>();
   @Output() stop = new EventEmitter<void>();
