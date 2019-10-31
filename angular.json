@@ -251,8 +251,7 @@
               "node_modules/@angular/cdk/overlay-prebuilt.css",
               "apps/client/src/styles.less"
             ],
-            "scripts": [
-            ],
+            "scripts": [],
             "assets": [
               "apps/client/src/favicon.ico",
               "apps/client/src/assets",
@@ -334,8 +333,7 @@
             "main": "libs/lib-client/test.ts",
             "tsConfig": "libs/lib-client/tsconfig.spec.json",
             "karmaConfig": "libs/lib-client/karma.conf.js",
-            "scripts": [
-            ]
+            "scripts": []
           }
         },
         "lint": {
@@ -366,7 +364,10 @@
               "libs/editor/tsconfig.lib.json",
               "libs/editor/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/editor/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/editor/**"
+            ]
           }
         },
         "test": {
@@ -718,6 +719,38 @@
           }
         }
       }
+    },
+    "client-e2e": {
+      "root": "apps/client-e2e",
+      "sourceRoot": "apps/client-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/client-e2e/cypress.json",
+            "tsConfig": "apps/client-e2e/tsconfig.e2e.json",
+            "devServerTarget": "client:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "client:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/client-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/client-e2e/**"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {
@@ -740,6 +773,13 @@
     },
     "@nrwl/schematics:node-application": {
       "framework": "express"
+    },
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
     }
   }
 }

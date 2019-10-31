@@ -9,34 +9,60 @@
   },
   "projects": {
     "assets": {
-      "tags": ["client"]
+      "tags": [
+        "client"
+      ]
     },
     "core": {
-      "tags": ["shared"]
+      "tags": [
+        "shared"
+      ]
     },
     "lib-client": {
-      "tags": ["client"]
+      "tags": [
+        "client"
+      ]
     },
     "lib-server": {
-      "tags": ["server"]
+      "tags": [
+        "server"
+      ]
     },
     "parser": {
-      "tags": ["shared"]
+      "tags": [
+        "shared"
+      ]
     },
     "plugins-flow-server": {
-      "tags": ["server", "plugin"]
+      "tags": [
+        "server",
+        "plugin"
+      ]
     },
     "plugins-flow-client": {
-      "tags": ["client", "plugin"]
+      "tags": [
+        "client",
+        "plugin"
+      ]
     },
     "plugins-flow-core": {
-      "tags": ["shared", "plugin"]
+      "tags": [
+        "shared",
+        "plugin"
+      ]
     },
     "server": {
-      "tags": ["server"]
+      "tags": [
+        "server"
+      ]
     },
     "client": {
-      "tags": ["client"]
+      "tags": [
+        "client"
+      ]
+    },
+    "client-e2e": {
+      "tags": []
     },
     "demo-libs": {
       "tags": []
@@ -45,13 +71,22 @@
       "tags": []
     },
     "plugins-stream-client": {
-      "tags": ["client", "plugins", "streams"]
+      "tags": [
+        "client",
+        "plugins",
+        "streams"
+      ]
     },
     "plugins-stream-core": {
-      "tags": ["streams"]
+      "tags": [
+        "streams"
+      ]
     },
     "plugins-stream-server": {
-      "tags": ["streams", "server"]
+      "tags": [
+        "streams",
+        "server"
+      ]
     },
     "editor": {
       "tags": []

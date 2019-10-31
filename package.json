@@ -134,6 +134,7 @@
     "codelyzer": "^5.0.1",
     "command-exists": "^1.2.2",
     "concurrently": "^4.1.0",
+    "core-js": "^2.5.4",
     "cpy": "^7.0.1",
     "cypress": "3.4.0",
     "del-cli": "^1.1.0",
