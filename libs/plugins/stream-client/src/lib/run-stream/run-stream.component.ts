@@ -87,7 +87,9 @@ export class RunStreamComponent implements OnInit, OnDestroy {
     this.simulatorService.start(this.resourceId, this.filePath, inputMappingType);
     this.isSimulatorRunning = true;
     this.showConfiguration = false;
-    this.store.dispatch(new StreamActions.SimulatorConfigurationChange({inputMappingType}));
+    this.store.dispatch(
+      new StreamActions.SimulatorConfigurationChange({ inputMappingType })
+    );
     this.simulationStarted.emit();
   }
 
