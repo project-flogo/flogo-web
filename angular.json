@@ -735,6 +735,10 @@
           "configurations": {
             "production": {
               "devServerTarget": "client:serve:production"
+            },
+            "external": {
+              "devServerTarget": "",
+              "baseUrl": "http://localhost:3303"
             }
           }
         },
