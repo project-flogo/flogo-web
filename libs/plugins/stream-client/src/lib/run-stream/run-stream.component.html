@@ -6,13 +6,3 @@
   (stop)="stopSimulation()"
   (resume)="resumeSimulation()"
 ></flogo-stream-simulation-controls>
-
-<flogo-stream-simulation-configuration
-  *ngIf="showConfiguration"
-  [resourceId]="resourceId"
-  [fileName]="fileName"
-  [fileUploadStatus]="fileUploadStatus"
-  [mappingType]="simulationConfig?.inputMappingType"
-  (setFilePath)="setFilePath($event)"
-  (startSimulation)="startSimulation($event)"
-></flogo-stream-simulation-configuration>

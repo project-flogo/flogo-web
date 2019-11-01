@@ -11,6 +11,7 @@ import {
 import { FileStatusComponent } from './file-status';
 import { SimulationControlsComponent } from './simulation-controls';
 import { RunStreamComponent } from './run-stream.component';
+import { RunStreamService } from './run-stream.service';
 
 @NgModule({
   imports: [FlogoSharedModule, SelectModule],
@@ -21,7 +22,8 @@ import { RunStreamComponent } from './run-stream.component';
     FileStatusComponent,
     SimulationControlsComponent,
   ],
-  providers: [SimulationConfigurationService],
+  providers: [SimulationConfigurationService, RunStreamService],
   exports: [RunStreamComponent],
+  entryComponents: [SimulationConfigurationComponent],
 })
 export class RunStreamModule {}

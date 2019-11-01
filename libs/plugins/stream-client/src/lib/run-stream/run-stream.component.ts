@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  Output,
+  EventEmitter,
+  ElementRef,
+} from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { takeUntil, distinctUntilChanged } from 'rxjs/operators';
@@ -9,8 +16,13 @@ import { SingleEmissionSubject } from '@flogo-web/lib-client/core';
 
 import { StreamStoreState, StreamSelectors, StreamActions } from '../core/state';
 import { SimulatorService } from '../simulator';
-import { FileStatus } from './file-status';
-import { SimulationConfigurationService } from './configuration';
+import {
+  SimulationConfigurationService,
+  SimulationConfigurationComponent,
+  RUNSTREAM_OPTIONS,
+  FileDetails,
+} from './configuration';
+import { RunStreamService } from './run-stream.service';
 
 @Component({
   selector: 'flogo-stream-run-stream',
@@ -26,18 +38,18 @@ export class RunStreamComponent implements OnInit, OnDestroy {
   disableRunStream: boolean;
   simulationConfig: StreamSimulation.SimulationConfig;
 
-  showConfiguration = false;
   // todo - where are these 2 flags used?
   isSimulatorRunning = false;
   isSimulatorPaused = false;
   filePath: string;
   fileName: string;
-  fileUploadStatus = FileStatus.Empty;
 
   constructor(
     private store: Store<StreamStoreState>,
     private simulatorService: SimulatorService,
-    private runStreamService: SimulationConfigurationService
+    private simulationConfigurationService: SimulationConfigurationService,
+    private runStreamService: RunStreamService,
+    private elementRef: ElementRef
   ) {}
 
   ngOnInit(): void {
@@ -56,37 +68,56 @@ export class RunStreamComponent implements OnInit, OnDestroy {
   }
 
   openConfiguration() {
-    if (!this.filePath && !this.showConfiguration) {
+    if (!this.filePath) {
       this.setFileUploadStatus();
+    } else {
+      this.openSimConfigurationPopover();
     }
-    this.showConfiguration = !this.showConfiguration;
+  }
+
+  openSimConfigurationPopover() {
+    const connectedToRef = this.elementRef.nativeElement;
+    const injectionTokens = this.createInjectorTokens();
+    this.runStreamService.openPopover(
+      connectedToRef,
+      SimulationConfigurationComponent,
+      injectionTokens
+    );
+  }
+
+  private createInjectorTokens() {
+    return new WeakMap<any, any>().set(RUNSTREAM_OPTIONS, {
+      resourceId: this.resourceId,
+      mappingType: this.simulationConfig && this.simulationConfig.inputMappingType,
+      fileName: this.fileName,
+      setFilePath: (fileDetails?) => this.setFilePath(fileDetails),
+      startSimulation: mappingTypeSelection => this.startSimulation(mappingTypeSelection),
+    });
   }
 
   setFileUploadStatus() {
-    this.runStreamService
+    this.simulationConfigurationService
       .getSimulationDataPath(this.resourceId)
       .pipe(takeUntil(this.ngOnDestroy$))
-      .subscribe((resp: any) => {
+      .subscribe((resp: FileDetails) => {
         this.setFilePath(resp);
+        this.openSimConfigurationPopover();
       });
   }
 
-  setFilePath(fileDetails) {
+  setFilePath(fileDetails: FileDetails) {
     if (!isEmpty(fileDetails)) {
       this.filePath = fileDetails.filePath;
       this.fileName = fileDetails.fileName;
-      this.fileUploadStatus = FileStatus.Uploaded;
     } else {
       this.filePath = '';
       this.fileName = '';
-      this.fileUploadStatus = FileStatus.Empty;
     }
   }
 
   startSimulation(inputMappingType) {
     this.simulatorService.start(this.resourceId, this.filePath, inputMappingType);
     this.isSimulatorRunning = true;
-    this.showConfiguration = false;
     this.store.dispatch(
       new StreamActions.SimulatorConfigurationChange({ inputMappingType })
     );
