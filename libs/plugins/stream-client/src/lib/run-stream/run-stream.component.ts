@@ -122,6 +122,7 @@ export class RunStreamComponent implements OnInit, OnDestroy {
       new StreamActions.SimulatorConfigurationChange({ inputMappingType })
     );
     this.simulationStarted.emit();
+    this.runStreamService.closePopover();
   }
 
   stopSimulation() {

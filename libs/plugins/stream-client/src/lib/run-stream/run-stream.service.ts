@@ -24,7 +24,7 @@ export class RunStreamService {
   ) {
     const portal = this.createPortal(contentComponent, customTokens);
     overlayRef.attach(portal);
-    overlayRef.backdropClick().subscribe(() => this.close());
+    overlayRef.backdropClick().subscribe(() => this.closePopover());
   }
 
   private createPortal<T>(
@@ -64,7 +64,7 @@ export class RunStreamService {
       ]);
   }
 
-  close() {
+  closePopover() {
     this.overlayRef.dispose();
   }
 }
