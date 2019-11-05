@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
-import { switchMap, filter, map } from 'rxjs/operators';
+import { switchMap, filter, map, tap } from 'rxjs/operators';
 import { Action } from '@ngrx/store';
 
 import { StreamService } from '../stream.service';
 import { StreamActions, StreamActionType } from '../state';
+import { SimulatorService } from '../../simulator';
 
 @Injectable()
 export class StreamSaveEffects {
@@ -40,7 +41,25 @@ export class StreamSaveEffects {
     map(removeItemId => new StreamActions.ConfirmDeleteStage(removeItemId))
   );
 
-  constructor(private streamOps: StreamService, private actions$: Actions) {}
+  @Effect()
+  stopSimulation$: Observable<Action> = this.actions$.pipe(
+    ofType(
+      StreamActionType.StageItemCreated,
+      StreamActionType.DeleteStage,
+      StreamActionType.CommitStageConfiguration,
+      StreamActionType.UpdateMetadata
+    ),
+    tap(() => {
+      this.stopSimulation();
+    }),
+    map(() => new StreamActions.StreamSaveSuccess())
+  );
+
+  constructor(
+    private streamOps: StreamService,
+    private actions$: Actions,
+    private simulatorService: SimulatorService
+  ) {}
 
   private saveStream(action?: Action) {
     return this.streamOps.saveStream(action);
@@ -48,5 +67,9 @@ export class StreamSaveEffects {
 
   private showDeleteMessage(itemId) {
     return this.streamOps.getDeleteStageConfirmation(itemId);
+  }
+
+  private stopSimulation() {
+    this.simulatorService.stop();
   }
 }
