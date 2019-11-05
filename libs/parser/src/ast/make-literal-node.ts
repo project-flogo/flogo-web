@@ -1,4 +1,4 @@
-import { IToken } from 'chevrotain';
+import { IToken, tokenName as getTokenName } from 'chevrotain';
 import { LiteralNode as JsonLiteralNode } from './json-nodes';
 import { BasicLit as ExprBasicLit } from './expr-nodes';
 
@@ -16,7 +16,7 @@ export const makeLiteralNode = (
   nodeType: 'BasicLit' | 'jsonLiteral',
   cstToken: IToken
 ): JsonLiteralNode | ExprBasicLit => {
-  const tokenName = cstToken.tokenType.tokenName;
+  const tokenName = getTokenName(cstToken.tokenType);
   return {
     type: nodeType as any,
     kind: literalTypeMap[tokenName],

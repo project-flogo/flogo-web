@@ -59,7 +59,7 @@
   "dependencies": {
     "@koa/cors": "3.0.0",
     "ajv": "^6.1.1",
-    "chevrotain": "^4.1.0",
+    "chevrotain": "^6.0.0",
     "cross-spawn": "^6.0.5",
     "date-fns": "^2.0.0-alpha.16",
     "dotenv": "^6.2.0",

@@ -1,7 +1,8 @@
 import { Lexer } from 'chevrotain';
-import { lexerDefinition, MappingParser } from './parser/parser';
+import { MappingParser } from './parser/parser';
 import { astCreatorFactory, RootAstNode, ExprNodes, Node } from './ast';
 import { ParseResult } from './parser/parse-result';
+import { lexerDefinition } from './parser/lexer-definition';
 
 export type ParseResolverResult = ParseResult<ExprNodes.ScopeResolver | null>;
 
