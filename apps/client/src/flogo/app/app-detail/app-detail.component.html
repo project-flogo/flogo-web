@@ -1,5 +1,7 @@
 <div class="go-back-container">
-  <a routerLink="/apps" class="go-back"><i class="flogo-icon flogo-icon-back"></i></a>
+  <a routerLink="/apps" class="go-back"
+    ><i class="flogo-icon flogo-icon-back" data-testid="app-details-go-back"></i
+  ></a>
 </div>
 
 <div class="background-image background-image--microservice">
@@ -91,6 +93,7 @@
         (editableInputSave)="onNameSave()"
         (editableInputCancel)="onNameCancel()"
         id="appName"
+        data-testid="app-details-app-name"
       />
 
       <label
