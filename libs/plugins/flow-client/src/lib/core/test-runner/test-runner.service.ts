@@ -33,6 +33,7 @@ import {
   Interceptor,
   NodeType,
   OperationalError,
+  RunTaskStatusCode,
 } from '@flogo-web/lib-client/core';
 import { NotificationsService } from '@flogo-web/lib-client/notifications';
 import { LanguageService } from '@flogo-web/lib-client/language';
@@ -55,6 +56,20 @@ import { createRunOptionsForRoot } from './create-run-options-for-root';
 import { taskIdsOfCurrentStep } from './taskids-current-step';
 
 const ERROR_MSG_ATTRIBUTE_PATTERN = new RegExp(`^_E.`, 'g');
+
+const fineDoneTaskIdInStep = (step: Step) => {
+  const tasksStatuses =
+    step && step.flowChanges && step.flowChanges[0] && step.flowChanges[0].tasks;
+  if (!tasksStatuses) {
+    return -1;
+  }
+  for (const [taskId, { status }] of Object.entries(tasksStatuses)) {
+    if (status === RunTaskStatusCode.Done) {
+      return taskId;
+    }
+  }
+  return -1;
+};
 
 @Injectable()
 export class TestRunnerService implements OnDestroy {
@@ -179,13 +194,17 @@ export class TestRunnerService implements OnDestroy {
   private getStepNumberFromSteps(taskId: string) {
     // try to get steps from the last process instance running from the beginning,
     // otherwise use some defaults
-    const steps = get(
+    const steps: Step[] = get(
       this.runState.lastProcessInstanceFromBeginning,
       'steps',
       this.runState.steps || []
     );
-    /* tslint:disable-next-line:triple-equals - allowing double equals for legacy ids that were of type number */
-    return steps.findIndex(step => step.taskId == taskId);
+
+    return steps.findIndex(step => {
+      const doneTaskId = fineDoneTaskIdInStep(step);
+      /* tslint:disable-next-line:triple-equals - allowing double equals for legacy ids that were of type number */
+      return doneTaskId == taskId;
+    });
   }
 
   // monitor the status of a process util it's done or up to the max trials
