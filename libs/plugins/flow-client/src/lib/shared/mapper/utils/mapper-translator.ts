@@ -123,10 +123,7 @@ export class MapperTranslator {
     }, {});
   }
 
-  static rawExpressionToString(
-    rawExpression: any,
-    inputType: number = MAPPING_TYPE.LITERAL_ASSIGNMENT
-  ) {
+  static rawExpressionToString(rawExpression: any) {
     if (isString(rawExpression) && rawExpression.startsWith('=')) {
       return rawExpression.substr(1);
     }
@@ -136,10 +133,7 @@ export class MapperTranslator {
         value = value.mapping;
       }
       return stringify(value);
-    } else if (
-      !isString(rawExpression) ||
-      inputType === MAPPING_TYPE.LITERAL_ASSIGNMENT
-    ) {
+    } else if (rawExpression === null) {
       return stringify(rawExpression);
     } else {
       return rawExpression;
@@ -169,7 +163,7 @@ export class MapperTranslator {
     const mappingType = mappingTypeFromExpression(expression);
     let value: any = expression;
     if (mappingType === MAPPING_TYPE.LITERAL_ASSIGNMENT) {
-      value = value !== 'nil' ? JSON.parse(value) : null;
+      value = value === 'nil' ? null : value;
     } else if (mappingType === MAPPING_TYPE.OBJECT_TEMPLATE) {
       value = { mapping: JSON.parse(value) };
     } else {
