@@ -163,7 +163,7 @@ export class MapperTranslator {
     const mappingType = mappingTypeFromExpression(expression);
     let value: any = expression;
     if (mappingType === MAPPING_TYPE.LITERAL_ASSIGNMENT) {
-      value = value === 'nil' ? "null" : value;
+      value = value === 'nil' ? 'null' : value;
     } else if (mappingType === MAPPING_TYPE.OBJECT_TEMPLATE) {
       value = { mapping: JSON.parse(value) };
     } else {
