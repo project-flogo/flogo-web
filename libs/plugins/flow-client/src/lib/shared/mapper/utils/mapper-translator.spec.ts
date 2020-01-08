@@ -16,13 +16,13 @@ describe('MapperTranslator', function() {
 
     describe('for literal assignments', function() {
       it('translates primitive types', function() {
-        expect(translatedMappings['simpleNumber'].expression).toEqual('"1"');
+        expect(translatedMappings['simpleNumber'].expression).toEqual('1');
       });
       it('translates falsy values', function() {
-        expect(translatedMappings['simpleFalsyValue'].expression).toEqual('"false"');
+        expect(translatedMappings['simpleFalsyValue'].expression).toEqual('false');
       });
       it('translates strings', function() {
-        expect(translatedMappings['simpleString'].expression).toEqual('"my string"');
+        expect(translatedMappings['simpleString'].expression).toEqual('my string');
       });
     });
     it('translates attribute assignments', function() {
@@ -71,10 +71,10 @@ describe('MapperTranslator', function() {
       expect(Object.keys(translatedMappings).length).toEqual(6);
     });
     it('translates simple numbers assignments', function() {
-      expect(translatedMappings['simpleNumber']).toEqual(1.2);
+      expect(translatedMappings['simpleNumber']).toEqual('1.2');
     });
     it('translates string assignments', function() {
-      expect(translatedMappings['simpleString']).toEqual('hello');
+      expect(translatedMappings['simpleString']).toEqual('"hello"');
     });
     it('translates resolver assignments', function() {
       expect(translatedMappings['resolverAssignment']).toEqual(
