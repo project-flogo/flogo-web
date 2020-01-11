@@ -151,7 +151,8 @@ export class MapperTranslator {
       if (value === 'nil') {
         value = null;
       } else {
-        try { // single/back quote string is not a valid JSON, parse throws an error
+        try {
+          // single/back quote string is not a valid JSON, parse throws an error
           value = JSON.parse(value);
         } catch (err) {}
       }
