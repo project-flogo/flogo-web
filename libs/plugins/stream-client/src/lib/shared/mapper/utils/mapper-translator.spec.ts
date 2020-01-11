@@ -7,6 +7,7 @@ describe('MapperTranslator', function() {
       simpleNumber: '1',
       simpleFalsyValue: 'false',
       simpleString: 'my string',
+      backQuoteString: `back quote string`,
       attrAssignment: '=$activity[myActivity].attr',
       exprAssignment: '=$activity[myActivity].attr + 4',
       objectTemplate: { mapping: { myExample: '=someProp' } },
@@ -23,6 +24,11 @@ describe('MapperTranslator', function() {
       });
       it('translates strings', function() {
         expect(translatedMappings['simpleString'].expression).toEqual('my string');
+      });
+      it('translates back quote strings', function() {
+        expect(translatedMappings['backQuoteString'].expression).toEqual(
+          `back quote string`
+        );
       });
     });
     it('translates attribute assignments', function() {
@@ -71,10 +77,10 @@ describe('MapperTranslator', function() {
       expect(Object.keys(translatedMappings).length).toEqual(6);
     });
     it('translates simple numbers assignments', function() {
-      expect(translatedMappings['simpleNumber']).toEqual('1.2');
+      expect(translatedMappings['simpleNumber']).toEqual(1.2);
     });
     it('translates string assignments', function() {
-      expect(translatedMappings['simpleString']).toEqual('"hello"');
+      expect(translatedMappings['simpleString']).toEqual('hello');
     });
     it('translates resolver assignments', function() {
       expect(translatedMappings['resolverAssignment']).toEqual(
