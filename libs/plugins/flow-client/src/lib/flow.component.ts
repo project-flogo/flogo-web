@@ -204,7 +204,7 @@ export class FlowComponent implements OnInit, OnDestroy {
       const mainFlowChanges = step.flowChanges[StepFlowType.MainFlow];
       const taskIdsExecuted = taskIdsOfCurrentStep(mainFlowChanges.tasks);
       // @ts-ignore:disable-legacy-type-interference
-      return taskIdsExecuted.find(taskID);
+      return taskIdsExecuted.find(stepTaskId => stepTaskId === taskID);
     });
   }
 
