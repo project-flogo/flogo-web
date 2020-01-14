@@ -13,8 +13,6 @@ export class ObjectTypeComponent {
   @Input() fieldControl: BaseField<any>;
   @Input() readonly?: boolean;
   editorOptions = { language: 'json' };
-  // once initialized we don't want updates to propagate back
-  shouldUpdateEditorValue = () => this.readonly;
 
   transformValueIn(value) {
     return isNil(value) || isString(value) ? value : JSON.stringify(value, null, 2);
