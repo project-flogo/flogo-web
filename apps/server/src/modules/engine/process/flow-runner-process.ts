@@ -41,13 +41,12 @@ export class FlowRunnerProcess {
 
   afterStart(subprocess: RunningChildProcess, projectDetails: EngineProjectDetails) {
     this.currentProcess = subprocess;
-    // uncomment to log directly to console
-    // subprocess.stdout.on('data', data =>
-    //   console.log(`[stream-runner]`, data.toString())
-    // );
-    // subprocess.stderr.on('data', data =>
-    //   console.error(`[stream-runner]`, data.toString())
-    // );
+    if (process.env['FLOGO_ENGINE_CONSOLE_LOG']) {
+      subprocess.stdout.on('data', data => console.log(`[flow-runner]`, data.toString()));
+      subprocess.stderr.on('data', data =>
+        console.error(`[flow-runner]`, data.toString())
+      );
+    }
     setupStdioRedirection(subprocess, projectDetails.projectName, {
       logger: this.logger,
     });

@@ -270,13 +270,13 @@ export class MapperControllerFactory {
     const makeResolvable = expr => '$' + expr;
 
     if (resolver === ROOT_TYPES.TRIGGER || resolver === ROOT_TYPES.ERROR) {
-      expressionHead = `${resolver}.`;
-      expressionHead += propName ? propName.data.nodeName : '';
+      expressionHead = resolver;
+      expressionHead += propName ? `.${propName.data.nodeName}` : '';
       expressionHead = makeResolvable(expressionHead);
       expressionTailParts = nodes.slice(2);
     } else if (resolver === ROOT_TYPES.ACTIVITY) {
-      expressionHead = `${ROOT_TYPES.ACTIVITY}[${root.data.nodeName}].`;
-      expressionHead += propName ? propName.data.nodeName : '';
+      expressionHead = `${ROOT_TYPES.ACTIVITY}[${root.data.nodeName}]`;
+      expressionHead += propName ? `.${propName.data.nodeName}` : '';
       expressionHead = makeResolvable(expressionHead);
       expressionTailParts = nodes.slice(2);
     } else if (resolver === ROOT_TYPES.FLOW) {
