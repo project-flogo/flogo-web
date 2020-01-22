@@ -123,7 +123,10 @@ export class MapperTranslator {
     }, {});
   }
 
-  static rawExpressionToString(rawExpression: any) {
+  static rawExpressionToString(
+    rawExpression: any,
+    inputType: number = MAPPING_TYPE.LITERAL_ASSIGNMENT
+  ) {
     if (isString(rawExpression) && rawExpression.startsWith('=')) {
       return rawExpression.substr(1);
     }
@@ -133,7 +136,10 @@ export class MapperTranslator {
         value = value.mapping;
       }
       return stringify(value);
-    } else if (!isString(rawExpression)) {
+    } else if (
+      !isString(rawExpression) ||
+      inputType === MAPPING_TYPE.LITERAL_ASSIGNMENT
+    ) {
       return stringify(rawExpression);
     } else {
       return rawExpression;
@@ -163,14 +169,10 @@ export class MapperTranslator {
     const mappingType = mappingTypeFromExpression(expression);
     let value: any = expression;
     if (mappingType === MAPPING_TYPE.LITERAL_ASSIGNMENT) {
-      if (value === 'nil') {
-        value = null;
-      } else {
-        try {
-          // single/back quote string is not a valid JSON, parse throws an error
-          value = JSON.parse(value);
-        } catch (err) {}
+      if (expression.startsWith("'") || expression.startsWith('`')) {
+        value = JSON.stringify(expression.slice(1, -1));
       }
+      value = value !== 'nil' ? JSON.parse(value) : null;
     } else if (mappingType === MAPPING_TYPE.OBJECT_TEMPLATE) {
       value = { mapping: JSON.parse(value) };
     } else {
