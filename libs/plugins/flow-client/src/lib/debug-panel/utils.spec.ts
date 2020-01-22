@@ -13,7 +13,8 @@ describe('debug-panel.utils.matchFormWithExecutionResult()', function() {
           { name: 'otherval', value: 'wrong' },
           { name: 'message', value: 'wrong' },
           { name: 'notFound', value: 'hello' },
-        ]
+        ],
+        'something_1'
       )
     ).toEqual([
       { name: 'otherval', value: 33 },
@@ -30,7 +31,7 @@ describe('debug-panel.utils.mergeFormWithOutputs()', function() {
         return null;
       },
     };
-    expect(() => mergeFormWithOutputs(formGroup as FormGroup, {})).not.toThrowError();
+    expect(() => mergeFormWithOutputs(formGroup as FormGroup, {}, '')).not.toThrowError();
   });
 
   it('should not try to update the form if there are no executionResults', function() {
@@ -43,7 +44,7 @@ describe('debug-panel.utils.mergeFormWithOutputs()', function() {
       },
     };
     spyOn(outputGroup, 'patchValue');
-    mergeFormWithOutputs(formGroup as FormGroup, null);
+    mergeFormWithOutputs(formGroup as FormGroup, null, '');
     expect(outputGroup.patchValue).not.toHaveBeenCalled();
   });
 
@@ -59,7 +60,7 @@ describe('debug-panel.utils.mergeFormWithOutputs()', function() {
     };
     spyOn(outputGroup, 'patchValue');
 
-    mergeFormWithOutputs(formGroup as FormGroup, {});
+    mergeFormWithOutputs(formGroup as FormGroup, {}, '');
     expect(outputGroup.patchValue).toHaveBeenCalled();
   });
 });

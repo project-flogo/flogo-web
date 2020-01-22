@@ -98,20 +98,26 @@ export class DebugPanelComponent implements OnInit, OnDestroy {
     const selectedActivity$ = selectAndShare(FlowSelectors.getSelectedActivity);
     this.activity$ = combineLatest([schema$, selectedActivity$]).pipe(
       combineToDebugActivity(),
-      shareReplay(1)
+      shareReplay(1),
+      takeUntil(this.destroy$)
     );
     this.isEndOfFlow$ = schema$.pipe(map(isMapperActivity));
     const form$: Observable<null | FieldsInfo> = schema$.pipe(
       this.mapStateToForm(),
-      shareReplay(1)
+      shareReplay(1),
+      takeUntil(this.destroy$)
     );
     const executionResult$ = selectAndShare(
       FlowSelectors.getSelectedActivityExecutionResult
     );
-    this.activityHasRun$ = executionResult$.pipe(map(Boolean));
+    this.activityHasRun$ = executionResult$.pipe(
+      map(Boolean),
+      takeUntil(this.destroy$)
+    );
     this.fields$ = combineLatest([form$, selectedActivity$, executionResult$]).pipe(
       this.mergeToFormFields(),
-      shareReplay(1)
+      shareReplay(1),
+      takeUntil(this.destroy$)
     );
     form$
       .pipe(
@@ -152,7 +158,7 @@ export class DebugPanelComponent implements OnInit, OnDestroy {
             this.mergeFormWithInputs(inputForm, activity);
           }
           return {
-            form: mergeFormWithOutputs(schemaForm.form, lastExecutionResult),
+            form: mergeFormWithOutputs(schemaForm.form, lastExecutionResult, activity.id),
             metadata: schemaForm && schemaForm.metadata,
           };
         })
@@ -162,10 +168,7 @@ export class DebugPanelComponent implements OnInit, OnDestroy {
   private mergeFormWithInputs(inputForm: AbstractControl, activity: ItemActivityTask) {
     const mockInputs = activity.input || {};
     const formFieldValues = inputForm.value.formFields.map(fieldVal => {
-      const mockValue = mockInputs[fieldVal.name];
-      if (mockValue === undefined) {
-        return fieldVal;
-      }
+      const mockValue = mockInputs[fieldVal.name] || null;
       return {
         ...fieldVal,
         value: mockValue,
