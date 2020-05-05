@@ -16,6 +16,7 @@ import {
   trackTileByFn,
   InsertTile,
   DragTileService,
+  DragTilePosition,
 } from '@flogo-web/lib-client/diagram';
 
 import {
@@ -37,6 +38,7 @@ export class StreamDiagramComponent implements OnDestroy {
   tiles: Tile[];
   // by default should be the root tile
   insertTile: InsertTile;
+  draggingPosition = DragTilePosition;
   trackTileBy = trackTileByFn;
   availableSlots: number;
   placeholders = [];
@@ -99,6 +101,10 @@ export class StreamDiagramComponent implements OnDestroy {
     if (dropActionData) {
       this.store.dispatch(new StreamActions.MoveStage(dropActionData));
     }
+  }
+
+  updateDraggingState(pos: DragTilePosition, buttons: number) {
+    this.dragService.changeDraggingTracker(pos, buttons);
   }
 
   private updateAvailableSlots(streamTiles) {

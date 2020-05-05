@@ -7,9 +7,23 @@ import { NodeType } from '@flogo-web/lib-client/core';
 import { TaskTile, Tile, TileType } from '../interfaces';
 import { DropActionData, TilesGroupedByZone } from './interface';
 
+/* The following enum is based on the return value of MouseEvent.buttons as described in
+    https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
+ */
+enum MouseButtonPressed {
+  NO_BUTTON,
+  PRIMARY_BUTTON,
+}
+
+export enum DragTilePosition {
+  OUTSIDE,
+  INSIDE,
+}
+
 @Injectable()
 export class DragTileService {
   private rowAllParents: Map<number, string[]>;
+  private isDragInsideContainer = false;
 
   groupTilesByZone(allTiles: Tile[]): TilesGroupedByZone {
     const { preDropZone, dropZone, postDropZone } = groupBy(allTiles, (tile: Tile) => {
@@ -41,18 +55,13 @@ export class DragTileService {
     dropEvent: CdkDragDrop<Tile[]>,
     getBranchId?: () => string
   ): DropActionData {
-    const {
-      previousIndex,
-      currentIndex,
-      item,
-      container,
-      previousContainer,
-      isPointerOverContainer,
-    } = dropEvent;
+    const { previousIndex, currentIndex, item, container, previousContainer } = dropEvent;
 
-    if (!isPointerOverContainer) {
+    if (!this.isDragInsideContainer) {
       return;
     }
+
+    this.resetDraggingTracker();
 
     if (previousContainer === container && previousIndex === currentIndex) {
       /* Returning if the item is dropped in it's original place */
@@ -101,6 +110,24 @@ export class DragTileService {
     });
   }
 
+  isTileAllowedToDropInRow(tileId, rowIndex) {
+    const rowParents = this.rowAllParents.get(rowIndex);
+    return !rowParents?.length || !rowParents.includes(tileId);
+  }
+
+  changeDraggingTracker(position: DragTilePosition, buttonsActive: MouseButtonPressed) {
+    if (buttonsActive === MouseButtonPressed.PRIMARY_BUTTON) {
+      switch (position) {
+        case DragTilePosition.INSIDE:
+          this.isDragInsideContainer = true;
+          break;
+        case DragTilePosition.OUTSIDE:
+        default:
+          this.resetDraggingTracker();
+      }
+    }
+  }
+
   private getRowAllParents(parentTile, rowParents, getRowIndex) {
     const allParentTiles = [];
     while (parentTile) {
@@ -111,8 +138,7 @@ export class DragTileService {
     return allParentTiles;
   }
 
-  isTileAllowedToDropInRow(tileId, rowIndex) {
-    const rowParents = this.rowAllParents.get(rowIndex);
-    return !rowParents?.length || !rowParents.includes(tileId);
+  private resetDraggingTracker() {
+    this.isDragInsideContainer = false;
   }
 }

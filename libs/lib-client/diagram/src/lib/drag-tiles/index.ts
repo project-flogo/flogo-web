@@ -1,3 +1,3 @@
 export * from './update-links';
-export * from './drag-tile.service';
+export { DragTilePosition, DragTileService } from './drag-tile.service';
 export * from './interface';

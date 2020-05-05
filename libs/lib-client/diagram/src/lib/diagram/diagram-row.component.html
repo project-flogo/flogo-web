@@ -23,6 +23,8 @@
   [cdkDropListDisabled]="isReadOnly"
   [cdkDropListEnterPredicate]="restrictTileDrop"
   (cdkDropListDropped)="moveTile($event)"
+  (mouseenter)="updateDraggingState(draggingPosition.INSIDE, $event.buttons)"
+  (mouseleave)="updateDraggingState(draggingPosition.OUTSIDE, $event.buttons)"
 >
   <ng-template
     ngFor

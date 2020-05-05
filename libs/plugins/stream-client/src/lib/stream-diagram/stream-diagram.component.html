@@ -4,6 +4,8 @@
     cdkDropList
     cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="moveStage($event)"
+    (mouseenter)="updateDraggingState(draggingPosition.INSIDE, $event.buttons)"
+    (mouseleave)="updateDraggingState(draggingPosition.OUTSIDE, $event.buttons)"
   >
     <flogo-diagram-tile-task
       *ngFor="let tile of tiles; trackBy: trackTileBy"

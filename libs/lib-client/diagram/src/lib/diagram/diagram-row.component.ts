@@ -15,7 +15,7 @@ import { actionEventFactory } from '../action-event-factory';
 import { RowIndexService } from '../shared';
 import { rowAnimations } from './diagram-row.animations';
 import { trackTileByFn } from '../tiles/track-tile-by';
-import { DragTileService, TilesGroupedByZone } from '../drag-tiles';
+import { DragTileService, DragTilePosition, TilesGroupedByZone } from '../drag-tiles';
 
 @Component({
   selector: 'flogo-diagram-row',
@@ -32,6 +32,7 @@ export class DiagramRowComponent implements OnChanges {
   @Output() action = new EventEmitter<DiagramAction>();
 
   tileTypes = TileType;
+  draggingPosition = DragTilePosition;
   groupedTiles: TilesGroupedByZone<Tile>;
   trackTileBy = trackTileByFn;
 
@@ -80,4 +81,8 @@ export class DiagramRowComponent implements OnChanges {
   restrictTileDrop = (dragEvent: CdkDrag) => {
     return this.dragService.isTileAllowedToDropInRow(dragEvent.data, this.rowIndex);
   };
+
+  updateDraggingState(pos: DragTilePosition, buttons: number) {
+    this.dragService.changeDraggingTracker(pos, buttons);
+  }
 }
