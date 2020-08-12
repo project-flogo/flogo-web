@@ -12,7 +12,9 @@ import { ConfirmationModule } from '@flogo-web/lib-client/confirmation';
 import { ModalModule as FlogoModalModule } from '@flogo-web/lib-client/modal';
 import { TriggerIconModule } from '@flogo-web/lib-client/trigger-icon';
 
-import { AppDetailService, AppResourcesStateService } from './core';
+import {
+  AppDetailService,
+  AppResourcesStateService } from './core';
 import { FlogoApplicationComponent } from './app.component';
 import { FlogoApplicationDetailComponent } from './app-detail/app-detail.component';
 import { FlogoExportFlowsComponent } from './export-flows/export-flows.component';
@@ -58,13 +60,17 @@ import {
     ResourceBadgeComponent,
     ResourceListComponent,
   ],
-  providers: [AppDetailService, AppResourcesStateService],
+  providers: [
+    AppDetailService, AppResourcesStateService
+  ],
   entryComponents: [
     FlogoExportFlowsComponent,
     TriggerShimBuildComponent,
     NewResourceComponent,
     MissingTriggerConfirmationComponent,
   ],
-  exports: [NewResourceComponent],
+  exports: [
+    NewResourceComponent
+  ],
 })
 export class FlogoApplicationModule {}
