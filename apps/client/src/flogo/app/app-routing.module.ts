@@ -5,16 +5,13 @@ import {
   FlogoApplicationComponent
 } from './app.component';
 
-let appRoutes: Routes = [
-  {
+let appRoutes:Routes = [{
     path: ':appId',
     component: FlogoApplicationComponent,
   }, {
     path: '**',
-    redirectTo: '/',
-    pathMatch:'full',
-  }
-]
+    redirectTo: '/', pathMatch:'full',
+  }]
 
 @NgModule(
   {
