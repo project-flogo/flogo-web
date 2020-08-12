@@ -8,20 +8,27 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { SharedModule as FlogoSharedModule } from '@flogo-web/lib-client/common';
-import { ConfirmationModule } from '@flogo-web/lib-client/confirmation';
+import {
+  ConfirmationModule
+} from '@flogo-web/lib-client/confirmation';
 import { ModalModule as FlogoModalModule } from '@flogo-web/lib-client/modal';
-import { TriggerIconModule } from '@flogo-web/lib-client/trigger-icon';
+import {
+  TriggerIconModule
+} from '@flogo-web/lib-client/trigger-icon';
 
 import {
   AppDetailService,
-  AppResourcesStateService } from './core';
+  AppResourcesStateService
+} from './core';
 import { FlogoApplicationComponent } from './app.component';
 import { FlogoApplicationDetailComponent } from './app-detail/app-detail.component';
 import { FlogoExportFlowsComponent } from './export-flows/export-flows.component';
 import { NewResourceComponent } from './new-resource/new-resource.component';
 import { TriggerShimBuildComponent } from './shim-trigger/shim-trigger.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MissingTriggerConfirmationComponent } from './missing-trigger-confirmation';
+import {
+  MissingTriggerConfirmationComponent
+} from './missing-trigger-confirmation';
 import {
   ResourceBadgeComponent,
   ResourceComponent,
@@ -61,7 +68,8 @@ import {
     ResourceListComponent,
   ],
   providers: [
-    AppDetailService, AppResourcesStateService
+    AppDetailService,
+    AppResourcesStateService
   ],
   entryComponents: [
     FlogoExportFlowsComponent,
@@ -73,4 +81,6 @@ import {
     NewResourceComponent
   ],
 })
-export class FlogoApplicationModule {}
+export class FlogoApplicationModule {
+
+}
