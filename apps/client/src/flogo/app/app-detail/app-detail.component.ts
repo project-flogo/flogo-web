@@ -294,7 +294,7 @@ export class FlogoApplicationDetailComponent implements OnDestroy, OnChanges, On
 
   onDescriptionSave() {
     this.descriptionUiState = { ...this.descriptionUiState, inEditMode: false };
-    const description = this.sanitizer.sanitizeHTMLInput(this.descriptionUiState.value);
+    let description = this.sanitizer.sanitizeHTMLInput(this.descriptionUiState.value);
     this.appDetailService.updateProperty('description', description);
   }
 
