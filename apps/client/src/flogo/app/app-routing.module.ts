@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { FlogoApplicationComponent } from './app.component';
+import {RouterModule,
+  Routes} from '@angular/router';
+import {
+  FlogoApplicationComponent
+} from './app.component';
 
 let appRoutes: Routes = [
   {

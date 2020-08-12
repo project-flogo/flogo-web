@@ -1,3 +1,3 @@
 // export module on
-export { FlogoApplicationModule } from './app.module';
+export {FlogoApplicationModule} from './app.module';
 export {FlogoApplicationComponent} from './app.component';
