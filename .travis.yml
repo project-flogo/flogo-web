@@ -29,9 +29,9 @@ jobs:
             export  NX_BASE="remotes/origin/$TRAVIS_BRANCH"
           fi
           echo "Base => $NX_BASE"
-          yarn nx affected --target=lint --base=$NX_BASE --head=HEAD --parallel
-          yarn nx affected --target=test --all --parallel
-          yarn format:check --base=$NX_BASE
+          - yarn format:check --base=$NX_BASE
+          - yarn nx affected --target=lint --base=$NX_BASE --head=HEAD --parallel
+          - yarn nx affected --target=test --all --parallel
     - stage: test
       name: "E2E tests"
       script: yarn e2e:ci

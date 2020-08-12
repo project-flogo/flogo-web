@@ -9,20 +9,21 @@ let appRoutes: Routes = [
   {
     path: ':appId',
     component: FlogoApplicationComponent,
-  },
-  {
+  }, {
     path: '**',
     redirectTo: '/',
     pathMatch:'full',
-  },
-];
+  }
+]
 
-@NgModule({
+@NgModule(
+  {
   imports: [
     RouterModule.forChild(appRoutes)
   ],
   exports: [
     RouterModule
   ],
-})
-export class AppRoutingModule {}
+}
+)
+export class AppRoutingModule{}
