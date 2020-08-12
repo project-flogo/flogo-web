@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FlogoApplicationComponent } from './app.component';
 
-const appRoutes: Routes = [
+let appRoutes: Routes = [
   {
     path: ':appId',
     component: FlogoApplicationComponent,
