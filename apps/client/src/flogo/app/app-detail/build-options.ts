@@ -1,4 +1,4 @@
-export const BUILD_OPTIONS = [
+export let BUILD_OPTIONS = [
   { label: 'Darwin/amd64', os: 'darwin', arch: 'amd64' },
   { label: 'Linux/amd64', os: 'linux', arch: 'amd64' },
   { label: 'Linux/386', os: 'linux', arch: '386' },

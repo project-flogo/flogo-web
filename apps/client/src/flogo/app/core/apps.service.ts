@@ -206,7 +206,7 @@ export class AppDetailService {
   }
 
   public getAvailableShimBuildOptions(): Observable<ShimBuildOptions[]> {
-    const triggersUsed$: Observable<Set<string>> = this.groupsByTrigger$.pipe(
+    let triggersUsed$: Observable<Set<string>> = this.groupsByTrigger$.pipe(
       map(flowGroups => {
         return flowGroups.reduce((refsSet, group) => {
           return group.trigger ? refsSet.add(group.trigger.ref) : refsSet;
