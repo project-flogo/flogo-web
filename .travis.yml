@@ -22,6 +22,7 @@ jobs:
     - stage: test
       name: "Unit tests and code checks"
       script: |
+          set -e
           if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]
           then
             export NX_BASE=$(git rev-parse HEAD~1)
@@ -29,8 +30,8 @@ jobs:
             export  NX_BASE="remotes/origin/$TRAVIS_BRANCH"
           fi
           echo "Base => $NX_BASE"
-          yarn format:check --base=$NX_BASE &&
-          yarn nx affected --target=lint --base=$NX_BASE --head=HEAD --parallel &&
+          yarn format:check --base=$NX_BASE
+          yarn nx affected --target=lint --base=$NX_BASE --head=HEAD --parallel
           yarn nx affected --target=test --all --parallel
     - stage: test
       name: "E2E tests"

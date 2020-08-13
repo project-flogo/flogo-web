@@ -246,8 +246,9 @@ export class FlogoApplicationDetailComponent implements OnDestroy, OnChanges, On
     }
     return this.modalService
       .openModal<NewResourceData>(NewResourceComponent, newFlowData)
-      .result.pipe(filter(Boolean))
-      .subscribe(({ name, description, type }) => {
+      .result.pipe(
+        filter(Boolean)
+      ).subscribe(({ name, description, type }) => {
         this.appDetailService.createResource({ name, description, type }, triggerId);
       });
   }
@@ -326,10 +327,12 @@ export class FlogoApplicationDetailComponent implements OnDestroy, OnChanges, On
       })
       .pipe(
         switchMap(translation => {
-          return this.confirmationModalService.openModal({
-            title: translation['MODAL:CONFIRM-DELETION'],
-            textMessage: translation['APP-DETAIL:CONFIRM_DELETE'],
-          }).result;
+          return this.confirmationModalService.openModal(
+            {
+              title: translation['MODAL:CONFIRM-DELETION'],
+              textMessage: translation['APP-DETAIL:CONFIRM_DELETE'],
+            }
+          ).result;
         }),
         switchMap(result => {
           return result === ConfirmationResult.Confirm
@@ -353,13 +356,14 @@ export class FlogoApplicationDetailComponent implements OnDestroy, OnChanges, On
   }
 
   openShimmableActionsFor(triggerRef: string) {
-    const isLambdaTrigger = triggerRef === CONTRIB_REFS.LAMBDA;
+    let isLambdaTrigger = triggerRef === CONTRIB_REFS.LAMBDA;
     this.appDetailService
       .getShimTriggersListFor(triggerRef)
-      .pipe(
-        switchMap(shimTriggersList => {
+      .pipe( switchMap(shimTriggersList => {
           if (isLambdaTrigger && shimTriggersList.length === 1) {
-            return observableOf({ triggerId: shimTriggersList[0].trigger.id });
+            return observableOf({
+              triggerId: shimTriggersList[0].trigger.id
+            });
           } else {
             return this.modalService.openModal<ShimTriggerData>(
               TriggerShimBuildComponent,
