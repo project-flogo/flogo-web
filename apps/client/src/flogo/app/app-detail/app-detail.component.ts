@@ -435,7 +435,7 @@ export class FlogoApplicationDetailComponent implements OnDestroy, OnChanges, On
   }
 
   private handleBuildDownload(download: Observable<any>) {
-    const restoreBuildFlag = () => (this.isBuilding = false);
+    let restoreBuildFlag = () => (this.isBuilding = false);
     const handleBuildError = () => {
       this.notificationsService.error({ key: 'DETAILS:BUILD-ERROR' });
       restoreBuildFlag();
