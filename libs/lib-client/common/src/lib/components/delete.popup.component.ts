@@ -19,14 +19,14 @@ const POPOVER_WIDTH = 344 + 10;
     <span
       class="flogo-icon-delete"
       (click)="showPopup($event)"
-      data-testid="apps-list-delete-icon"
+      data-cy="apps-list-delete-icon"
     ></span>
     <div
       *ngIf="isPopupOpen"
       class="popup-container"
       [class.popup-container--left]="showLeft"
       [style.width]="width + 'px'"
-      data-testid="apps-list-delete-popover"
+      data-cy="apps-list-delete-popover"
     >
       <p class="popup-content">
         <span>{{ i18nMessage | translate }}</span>
@@ -34,14 +34,14 @@ const POPOVER_WIDTH = 344 + 10;
       <button
         class="flogo-button--secondary"
         (click)="cancelDelete($event)"
-        data-testid="apps-list-delete-popover-cancel"
+        data-cy="apps-list-delete-popover-cancel"
       >
         {{ 'APP-LIST-POPUP:DELETE-CANCEL' | translate }}
       </button>
       <button
         class="popup-btn-confirm flogo-button--default"
         (click)="confirmDelete($event)"
-        data-testid="apps-list-delete-popover-delete"
+        data-cy="apps-list-delete-popover-delete"
       >
         {{ 'APP-LIST-POPUP:DELETE-CONFIRM' | translate }}
       </button>

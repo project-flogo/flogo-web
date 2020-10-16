@@ -2,13 +2,13 @@
 
 <p>From module <code>@flogo-web/lib-client/modal</code></p>
 
-Name: <input #name data-testid="user-name" type="text" value="Jon Snow" /> <br />
+Name: <input #name data-cy="user-name" type="text" value="Jon Snow" /> <br />
 Open modal:
-<button data-testid="modal-trigger" (click)="openDemoModal(name.value)">
+<button data-cy="modal-trigger" (click)="openDemoModal(name.value)">
   Show modal
 </button>
 
-<div data-testid="reply" *ngIf="lastReply">
+<div data-cy="reply" *ngIf="lastReply">
   {{ lastReply.user }}
   {{ lastReply.reply ? 'replied "' + lastReply.reply + '"' : "didn't reply" }}
 </div>
