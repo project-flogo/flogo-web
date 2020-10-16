@@ -1,6 +1,6 @@
 <div class="go-back-container">
   <a routerLink="/apps" class="go-back">
-    <i class="flogo-icon flogo-icon-back" data-testid="app-detail-go-back"></i
+    <i class="flogo-icon flogo-icon-back" data-cy="app-detail-go-back"></i
   ></a>
 </div>
 
@@ -93,7 +93,7 @@
         (editableInputSave)="onNameSave()"
         (editableInputCancel)="onNameCancel()"
         id="appName"
-        data-testid="app-detail-app-name"
+        data-cy="app-detail-app-name"
       />
 
       <label
@@ -266,7 +266,7 @@
   <button
     class="flogo-button--flat btn-create-flow"
     (click)="openCreateResource()"
-    data-testid="app-detail-create-resource"
+    data-cy="app-detail-create-resource"
   >
     <i class="flogo-icon-add"></i>{{ 'DETAILS:NEW-RESOURCE' | translate }}
   </button>

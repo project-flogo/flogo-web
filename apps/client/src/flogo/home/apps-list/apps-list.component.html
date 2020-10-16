@@ -10,19 +10,19 @@
       (change)="onImportFileSelected($event)"
     />
   </button>
-  <button class="flogo-button--default" (click)="addNewApp()" data-testid="apps-list-new">
+  <button class="flogo-button--default" (click)="addNewApp()" data-cy="apps-list-new">
     {{ 'APP-LIST:NEW' | translate }}
   </button>
 </div>
-<div class="content" data-testid="app-list-apps">
+<div class="content" data-cy="app-list-apps">
   <article
     *ngFor="let app of applications"
     class="app qa-app flogo-profile__thumbnail--microservice"
     (click)="onSelectApp($event, deleteBox, app)"
-    data-testid="app-list-app"
+    data-cy="app-list-app"
   >
     <div class="app__content">
-      <h4 class="app__name qa-app-name" data-testid="apps-list-app-name">
+      <h4 class="app__name qa-app-name" data-cy="apps-list-app-name">
         {{ app.name }}
       </h4>
       <div class="app__description">
