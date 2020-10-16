@@ -40,6 +40,7 @@
       formControlName="name"
       asyncValidator
       placeholder="{{ 'ADD:GIVE-YOUR-FLOW-A-NAME' | translate }}"
+      data-testid="add-new-resource-name"
     />
     <label
       *ngIf="resource.get('name').hasError('uniqueInvalid')"
@@ -58,6 +59,7 @@
       rows="3"
       id="resourceDescription"
       placeholder="{{ 'ADD:ADD-FLOW-DESCRIPTION' | translate }}"
+      data-testid="add-new-resource-description"
     ></textarea>
   </div>
   <div class="footer">
@@ -73,6 +75,7 @@
       type="submit"
       class="flogo-button--default flogo-flows-add-save"
       [disabled]="!resource.valid"
+      data-testid="add-new-resource-create-btn"
     >
       {{ 'ADD:CREATE' | translate }}
     </button>

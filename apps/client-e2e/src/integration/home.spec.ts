@@ -1,7 +1,8 @@
+import { visitApp, createApp } from '../utils';
+
 describe('flogo web landing page', () => {
   before(() => {
-    cy.visit('/');
-    cy.get('[data-testid=flogo-spinner]').should('not.be.visible');
+    visitApp();
   });
 
   context('checks the greet message', () => {
@@ -12,15 +13,7 @@ describe('flogo web landing page', () => {
 
   context('checks functionality that creates and that deletes an app', () => {
     beforeEach(() => {
-      cy.get('[data-testid=apps-list-new]').click();
-      cy.get('[data-testid=flogo-spinner]').should('not.be.visible');
-      cy.get('[data-testid=app-detail-app-name]')
-        .clear()
-        .type(
-          Math.random()
-            .toString(36)
-            .slice(2)
-        );
+      createApp();
       cy.get('[data-testid=app-detail-go-back]').click();
       cy.get('[data-testid=flogo-spinner]').should('not.be.visible');
       cy.get('[data-testid=app-list-app]')

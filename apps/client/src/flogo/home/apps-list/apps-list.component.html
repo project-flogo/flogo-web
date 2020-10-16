@@ -14,7 +14,7 @@
     {{ 'APP-LIST:NEW' | translate }}
   </button>
 </div>
-<div class="content">
+<div class="content" data-testid="app-list-apps">
   <article
     *ngFor="let app of applications"
     class="app qa-app flogo-profile__thumbnail--microservice"
