@@ -99,11 +99,15 @@
       <label
         class="app-name is-editable qa-name-label"
         *ngIf="!nameUiState.inEditMode"
-        (click)="onClickLabelName($event)"
+        (click)="onClickLabelName()"
         >{{ application?.name }}</label
       >
 
-      <div class="flogo-input-error-msg" *ngIf="nameUiState?.errors?.notUnique">
+      <div
+        class="flogo-input-error-msg"
+        data-cy="app-detail-unique-name-error"
+        *ngIf="nameUiState?.errors?.notUnique"
+      >
         {{ 'APP-DETAIL:ERROR-UNIQUE-NAME' | translate }}
       </div>
     </div>
@@ -259,7 +263,11 @@
     [viewType]="resourceViewType"
     (changeView)="resourceViewChanged($event)"
   ></flogo-resource-views-selector>
-  <button class="flogo-button--flat btn-create-flow" (click)="openCreateResource()">
+  <button
+    class="flogo-button--flat btn-create-flow"
+    (click)="openCreateResource()"
+    data-testid="app-detail-create-resource"
+  >
     <i class="flogo-icon-add"></i>{{ 'DETAILS:NEW-RESOURCE' | translate }}
   </button>
 </div>
