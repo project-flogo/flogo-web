@@ -93,13 +93,14 @@
         (editableInputSave)="onNameSave()"
         (editableInputCancel)="onNameCancel()"
         id="appName"
-        data-cy="app-detail-app-name"
+        data-cy="app-detail-app-name-input"
       />
 
       <label
         class="app-name is-editable qa-name-label"
         *ngIf="!nameUiState.inEditMode"
         (click)="onClickLabelName()"
+        data-cy="app-detail-app-name"
         >{{ application?.name }}</label
       >
 
