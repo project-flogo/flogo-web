@@ -1,4 +1,4 @@
-import { visitApp, createApp } from '../utils';
+import { visitApp, createApp, goBackFromAppsList } from '../utils';
 
 describe('flogo web landing page', () => {
   before(() => {
@@ -14,20 +14,17 @@ describe('flogo web landing page', () => {
   context('checks functionality that creates and that deletes an app', () => {
     beforeEach(() => {
       createApp();
-      cy.get('[data-cy=app-detail-go-back]').click();
-      cy.get('[data-cy=flogo-spinner]').should('not.be.visible');
+      goBackFromAppsList();
       cy.get('[data-cy=app-list-app]')
         .first()
         .trigger('mouseover')
         .within(() => {
-          cy.get('[data-cy=flogo-spinner]').should('not.be.visible');
           cy.get('[data-cy=apps-list-app-name]')
             .invoke('text')
             .as('appName');
           cy.get('[data-cy=apps-list-delete-icon]')
             .should('be.hidden')
             .click({ force: true });
-          cy.get('[data-cy=flogo-spinner]').should('not.be.visible');
           cy.get('[data-cy=apps-list-delete-popover]').should('be.visible');
         })
         .as('deleteAppModal');
@@ -46,7 +43,6 @@ describe('flogo web landing page', () => {
       cy.get('@deleteAppModal').within(() => {
         cy.get('[data-cy=apps-list-delete-popover-delete]').click();
       });
-      cy.get('[data-cy=flogo-spinner]').should('not.be.visible');
       cy.get<string>('@appName').then(appName => {
         cy.contains(appName).should('not.exist');
       });
