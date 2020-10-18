@@ -1,6 +1,5 @@
 export function createApp(appName = generateRandomString()) {
   cy.get('[data-cy=apps-list-new]').click();
-  cy.get('[data-cy=flogo-spinner]').should('not.be.visible');
   cy.get('[data-cy=app-detail-app-name]')
     .clear()
     .type(appName)
@@ -8,8 +7,12 @@ export function createApp(appName = generateRandomString()) {
     .as('appName');
 }
 
-function generateRandomString() {
+export function generateRandomString() {
   return Math.random()
     .toString(36)
     .slice(2);
+}
+
+export function goBackFromAppsList() {
+  cy.get('[data-cy=app-detail-go-back]').click();
 }
