@@ -1,6 +1,6 @@
 export function createApp(appName = generateRandomString()) {
   cy.get('[data-cy=apps-list-new]').click();
-  cy.get('[data-cy=app-detail-app-name]')
+  cy.get('[data-cy=app-detail-app-name-input]')
     .clear()
     .type(appName)
     .invoke('val')
