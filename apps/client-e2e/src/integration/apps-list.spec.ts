@@ -37,4 +37,32 @@ describe('flogo web apps list page', () => {
       });
     });
   });
+
+  context('checks resource creation', () => {
+    before(() => {
+      visitApp();
+      createApp();
+    });
+
+    it('should create a flow', () => {
+      const flowName = 'flow example',
+        flowDescription = 'flow example description';
+      cy.get('[data-cy=app-detail-create-resource]').click();
+      cy.get('[data-cy=add-new-resource-name]').type(flowName);
+      cy.get('[data-cy=add-new-resource-description]').type(flowDescription);
+      cy.get('[data-cy=add-new-resource-create-btn]').click();
+      cy.contains(flowName).should('be.visible');
+    });
+
+    it('should create a stream', () => {
+      const streamName = 'stream example',
+        streamDescription = 'stream example description';
+      cy.get('[data-cy=app-detail-create-resource]').click();
+      cy.get('[data-cy=resource-types]').contains('Stream').click();
+      cy.get('[data-cy=add-new-resource-name]').type(streamName);
+      cy.get('[data-cy=add-new-resource-description]').type(streamDescription);
+      cy.get('[data-cy=add-new-resource-create-btn]').click();
+      cy.contains(streamName).should('be.visible');
+    });
+  });
 });
