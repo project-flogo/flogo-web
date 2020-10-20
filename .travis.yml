@@ -33,4 +33,5 @@ jobs:
         set -e
         RELEASE_VERSION=latest ./make-web.sh
         docker run -d -p 3303:3303 flogo/flogo-web:latest eula-accept
+        sudo apt install nodejs
         yarn run e2e-client:ci
