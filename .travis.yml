@@ -26,9 +26,10 @@ jobs:
       language: bash
       name: "Client E2E tests & build the docker image"
       node_js:
+        - "10"
       services:
         - docker
-      install: skip
+      install: yarn install --frozen-lockfile --non-interactive --audit --silent
       script: |
         set -e
         RELEASE_VERSION=latest ./make-web.sh
