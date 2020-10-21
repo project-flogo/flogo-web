@@ -28,7 +28,7 @@ jobs:
       services:
         - docker
       install:
-        - sudo apt-get install xvfb
+        - sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
         - curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
         - sudo apt install nodejs
         - yarn install --frozen-lockfile --non-interactive --audit --silent
