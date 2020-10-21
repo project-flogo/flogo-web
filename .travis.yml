@@ -29,11 +29,12 @@ jobs:
         - "10"
       services:
         - docker
-      install: yarn install --frozen-lockfile --non-interactive --audit --silent
+      install:
+        - curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+        - sudo apt install nodejs
+        - yarn install --frozen-lockfile --non-interactive --audit --silent
       script: |
         set -e
         RELEASE_VERSION=latest ./make-web.sh
         docker run -d -p 3303:3303 flogo/flogo-web:latest eula-accept
-        curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-        sudo apt install nodejs
         yarn run e2e-client:ci
