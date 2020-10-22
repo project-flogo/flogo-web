@@ -29,5 +29,6 @@ jobs:
       script: |
         set -e
         RELEASE_VERSION=latest ./make-web.sh
-        docker run -d -p 3303:3303 flogo/flogo-web:latest eula-accept
+        docker run -d -p 3303:3303 flogo/flogo-web:${RELEASE_VERSION} eula-accept
         yarn run e2e-client:ci
+        yarn format:check
