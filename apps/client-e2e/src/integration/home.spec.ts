@@ -7,7 +7,7 @@ describe('flogo web landing page', () => {
 
   context('checks the greet message', () => {
     it('should display welcome message', () => {
-      cy.get('[data-cy=welcome-message]').contains('Welcome back!!');
+      cy.get('[data-cy=welcome-message]').contains('Welcome back!');
     });
   });
 
