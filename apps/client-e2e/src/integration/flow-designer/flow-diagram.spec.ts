@@ -14,7 +14,7 @@ describe('flogo web flow designer', () => {
     cy.get('[data-cy=diagram-add-activity-activity]').then(activityElements => {
       expect(activityElements.length).greaterThan(0);
     });
-    cy.get('[data-cy=diagram-add-activity-search-input]').type('{esc}');
+    cy.get('body').type('{esc}');
   });
 
   it('should display subflow on the top of the activities list if subflow is installed', () => {
@@ -31,7 +31,7 @@ describe('flogo web flow designer', () => {
         cy.get('[data-cy=diagram-add-activity-activity]')
           .eq(0)
           .contains('SubFlow');
-        cy.get('[data-cy=diagram-add-activity-search-input]').type('{esc}');
+        cy.get('body').type('{esc}');
       }
     });
   });
@@ -53,6 +53,6 @@ describe('flogo web flow designer', () => {
     cy.get('[data-cy=diagram-add-activity-activity]')
       .eq(0)
       .contains(SEARCH_ACTIVITY);
-    cy.get('[data-cy=diagram-add-activity-search-input]').type('{esc}');
+    cy.get('body').type('{esc}');
   });
 });

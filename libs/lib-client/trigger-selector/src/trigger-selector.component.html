@@ -19,6 +19,7 @@
         class="trigger-menu-item"
         (click)="displayInstalledTriggers()"
         [class.selected]="!showExistingTriggers"
+        data-cy="triggers-create-new-trigger"
       >
         {{ 'TRIGGER-SELECTOR:CREATE-NEW' | translate }}
       </div>
@@ -79,6 +80,7 @@
             <div
               class="installed-trigger"
               (click)="addNewTriggerToApp(trigger, 'installed')"
+              data-cy="triggers-list-trigger"
             >
               <div class="installed-trigger-details">
                 <svg
