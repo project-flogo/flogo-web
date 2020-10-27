@@ -28,7 +28,12 @@
     [iconProvider]="iconProvider"
     (menuItemSelected)="handleMenuSelection($event)"
   ></flogo-flow-triggers-trigger-block>
-  <div class="trigger trigger--add" title="Add Trigger" (click)="openAddTriggerModal()">
+  <div
+    class="trigger trigger--add"
+    title="Add Trigger"
+    (click)="openAddTriggerModal()"
+    data-cy="triggers-add-trigger-btn"
+  >
     <svg
       class="trigger-icon-background"
       viewBox="0 0 50 50"
