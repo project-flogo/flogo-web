@@ -8,7 +8,11 @@
       [class.--active]="isOpenMenu"
       (fgClickOutside)="closeNavMenu()"
     >
-      <button class="flogo-header__install-btn" (click)="onInstallContrib()">
+      <button
+        class="flogo-header__install-btn"
+        (click)="onInstallContrib()"
+        data-cy="install-contrib-btn"
+      >
         <i class="flogo-icon-download"></i>
         <span class="flogo-header__install-txt"
           >{{ 'INSTALLER:DOWNLOAD-TITLE' | translate }}</span

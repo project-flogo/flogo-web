@@ -4,12 +4,21 @@
   placeholder="{{ 'URL-INSTALLER:PASTE-URL' | translate }}"
   [ngModel]="sourceUrl"
   (ngModelChange)="onSourceUrlChange($event)"
+  data-cy="install-contrib-url-input"
 />
 <div class="flogo-installer-url__button-container">
-  <button class="flogo-button--secondary" (click)="onCancelAction()">
+  <button
+    class="flogo-button--secondary"
+    (click)="onCancelAction()"
+    data-cy="install-contrib-cancel-btn"
+  >
     {{ 'URL-INSTALLER:CANCEL' | translate }}
   </button>
-  <button class="flogo-button--default" (click)="onInstallAction()">
+  <button
+    class="flogo-button--default"
+    (click)="onInstallAction()"
+    data-cy="install-contrib-install-btn"
+  >
     {{ 'MODAL:INSTALL' | translate }}
   </button>
 </div>
