@@ -16,6 +16,7 @@ describe('Test installation of contributions', () => {
     cy.get('[data-cy=install-contrib-url-input]').should('exist');
     cy.get('[data-cy=install-contrib-cancel-btn]').should('exist');
     cy.get('[data-cy=install-contrib-install-btn]').should('exist');
+    cy.get('body').type('{esc}');
   });
 
   it('should be able to install an activity', () => {
