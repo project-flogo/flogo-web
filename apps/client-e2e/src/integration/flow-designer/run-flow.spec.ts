@@ -38,12 +38,16 @@ describe('Run a flow', () => {
       .click();
 
     cy.get('[data-cy=run-flow-btn]').click();
-    cy.get('[data-cy=dynamic-form-element]').eq(0).within(() => {
-      cy.get('[data-cy=dynamic-form-textbox-label]').contains(INPUT1);
-    })
-    cy.get('[data-cy=dynamic-form-element]').eq(1).within(() => {
-      cy.get('[data-cy=dynamic-form-object-label]').contains(INPUT2);
-    })
+    cy.get('[data-cy=dynamic-form-element]')
+      .eq(0)
+      .within(() => {
+        cy.get('[data-cy=dynamic-form-textbox-label]').contains(INPUT1);
+      });
+    cy.get('[data-cy=dynamic-form-element]')
+      .eq(1)
+      .within(() => {
+        cy.get('[data-cy=dynamic-form-object-label]').contains(INPUT2);
+      });
   });
 
   it('should run a flow', () => {
@@ -66,11 +70,15 @@ describe('Run a flow', () => {
 
     // run a flow
     cy.get('[data-cy=run-flow-btn]').click();
-    cy.get('[data-cy=dynamic-form-element]').eq(0).within(() => {
-      cy.get('[data-cy=dynamic-form-textbox-input]').type('flowInputValue')
-    })
+    cy.get('[data-cy=dynamic-form-element]')
+      .eq(0)
+      .within(() => {
+        cy.get('[data-cy=dynamic-form-textbox-input]').type('flowInputValue');
+      });
     cy.get('[data-cy=run-flow-run-btn]').click();
-    cy.get('[data-cy=flogo-notification]', { timeout: 60000 }).contains('Flow completed ^_^');
+    cy.get('[data-cy=flogo-notification]', { timeout: 60000 }).contains(
+      'Flow completed ^_^'
+    );
   });
 
   it('Run a flow must be disabled in case flow contains a "subflow" activity ', () => {
@@ -94,10 +102,12 @@ describe('Run a flow', () => {
           .eq(0)
           .click();
         cy.get('[data-cy=select-subflow-modal]').within(() => {
-          cy.get('[data-cy=flows-list-flow]').eq(0).within(() => {
-            cy.get('[data-cy=flows-list-select-flow-btn]').click();
-          })
-        })
+          cy.get('[data-cy=flows-list-flow]')
+            .eq(0)
+            .within(() => {
+              cy.get('[data-cy=flows-list-select-flow-btn]').click();
+            });
+        });
       }
     });
     cy.get('[data-cy=run-flow-btn]').should('be.disabled');
