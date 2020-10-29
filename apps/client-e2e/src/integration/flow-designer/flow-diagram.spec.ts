@@ -1,4 +1,4 @@
-import { createApp, visitApp, createAFlow } from '../../utils';
+import { createApp, visitApp, createAFlow, pressEscapeKey } from '../../utils';
 import { BaseContributionSchema } from '@flogo-web/core';
 
 describe('flogo web flow designer', () => {
@@ -14,7 +14,7 @@ describe('flogo web flow designer', () => {
     cy.get('[data-cy=diagram-add-activity-activity]').then(activityElements => {
       expect(activityElements.length).greaterThan(0);
     });
-    cy.get('body').type('{esc}');
+    pressEscapeKey();
   });
 
   it('should display subflow on the top of the activities list if subflow is installed', () => {
@@ -31,7 +31,7 @@ describe('flogo web flow designer', () => {
         cy.get('[data-cy=diagram-add-activity-activity]')
           .eq(0)
           .contains('SubFlow');
-        cy.get('body').type('{esc}');
+        pressEscapeKey();
       }
     });
   });
@@ -53,6 +53,6 @@ describe('flogo web flow designer', () => {
     cy.get('[data-cy=diagram-add-activity-activity]')
       .eq(0)
       .contains(SEARCH_ACTIVITY);
-    cy.get('body').type('{esc}');
+    pressEscapeKey();
   });
 });

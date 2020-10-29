@@ -1,4 +1,5 @@
-<div [formGroup]="fieldGroup" *ngFor="let field of fieldGroup.controls; let i = index">
+<div [formGroup]="fieldGroup" *ngFor="let field of fieldGroup.controls; let i = index"
+     data-cy="dynamic-form-element">
   <div [formGroupName]="i" [ngSwitch]="metadata[i].controlType">
     <flogo-fb-textbox
       *ngSwitchCase="'FieldTextBox'"

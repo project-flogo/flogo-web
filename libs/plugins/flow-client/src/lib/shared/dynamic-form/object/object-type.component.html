@@ -4,6 +4,7 @@
     [fieldMetadata]="fieldControl"
     [control]="fieldGroup.get('name')"
     [noOptionalLabel]="readonly"
+    data-cy="dynamic-form-object-label"
   ></label>
   <monaco-editor
     class="editor"
@@ -12,6 +13,7 @@
     [formControl]="fieldGroup.get('value')"
     [formValueWriteTransformerFn]="transformValueIn"
     [formValueChangeTransformerFn]="transformValueOut"
+    data-cy="dynamic-form-object-input"
   >
   </monaco-editor>
 </div>
