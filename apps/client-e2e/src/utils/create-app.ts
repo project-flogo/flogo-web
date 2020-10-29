@@ -1,5 +1,5 @@
 export function createApp(appName = generateRandomString()) {
-  cy.get('[data-cy=apps-list-new]', {timeout: 10000}).click();
+  cy.get('[data-cy=apps-list-new]', { timeout: 10000 }).click();
   cy.get('[data-cy=app-detail-app-name-input]')
     .clear()
     .type(appName)
