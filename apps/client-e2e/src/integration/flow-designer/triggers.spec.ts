@@ -1,4 +1,4 @@
-import { createApp, visitApp, createAFlow } from '../../utils';
+import { createApp, visitApp, createAFlow, pressEscapeKey } from '../../utils';
 
 describe('flogo web flow designer trigger panel', () => {
   before(() => {
@@ -10,7 +10,7 @@ describe('flogo web flow designer trigger panel', () => {
   it('should display triggers modal with triggers list on clicking add trigger button', () => {
     cy.get('[data-cy=triggers-add-trigger-btn]').click();
     cy.get('[data-cy=triggers-list-trigger]').should('exist');
-    cy.get('body').type('{esc}');
+    pressEscapeKey();
   });
 
   it('should add trigger to triggers panel on selecting a trigger in triggers modal', () => {
