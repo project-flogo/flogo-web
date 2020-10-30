@@ -2,12 +2,15 @@ import { pressEscapeKey, visitApp } from '../utils';
 
 describe('Test installation of contributions', () => {
   before(() => {
+    visitApp();
+  });
+
+  beforeEach(() => {
     cy.server();
     cy.route({
       method: 'POST',
       url: 'http://localhost:3303/api/v2/contributions/microservices',
     }).as('contribInstall');
-    visitApp();
   });
 
   it('should display a popup with URL input box, install and cancel buttons when clicked on "Install contribution" button on the top right of the page', () => {
