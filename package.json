@@ -68,6 +68,7 @@
     "ajv": "^6.1.1",
     "chevrotain": "^6.0.0",
     "cross-spawn": "^6.0.5",
+    "cypress-file-upload": "^4.1.1",
     "date-fns": "^2.0.0-alpha.16",
     "dotenv": "^6.2.0",
     "find-up": "^3.0.0",

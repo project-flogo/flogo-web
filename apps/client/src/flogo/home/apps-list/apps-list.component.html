@@ -8,6 +8,7 @@
       accept="application/json"
       class="app-list__app-import-input"
       (change)="onImportFileSelected($event)"
+      data-cy="import-app-input"
     />
   </button>
   <button class="flogo-button--default" (click)="addNewApp()" data-cy="apps-list-new">
