@@ -1,9 +1,9 @@
 {
-  "name": "flogoApp",
+  "name": "flogoApp0.9.0",
   "type": "flogo:app",
   "version": "0.0.1",
   "appModel": "1.1.0",
-  "description": "",
+  "description": "flogo application",
   "imports": [
     "github.com/project-flogo/contrib/activity/channel",
     "github.com/project-flogo/contrib/activity/log",

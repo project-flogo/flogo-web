@@ -1,0 +1,603 @@
+{
+  "name": "flogoApp0.5.8",
+  "type": "flogo:app",
+  "version": "0.0.1",
+  "appModel": "1.0.0",
+  "description": "Some application",
+  "triggers": [
+    {
+      "id": "listen_to_channel",
+      "ref": "github.com/project-flogo/contrib/trigger/channel",
+      "name": "Listen to Channel",
+      "description": "Listens to Channel",
+      "settings": {},
+      "handlers": [
+        {
+          "action": {
+            "ref": "github.com/project-flogo/flow",
+            "data": {
+              "flowURI": "res://flow:another_flow"
+            },
+            "mappings": {
+              "input": [
+                {
+                  "mapTo": "in",
+                  "type": "assign",
+                  "value": "$.data.in"
+                }
+              ]
+            }
+          },
+          "settings": {
+            "channel": "channel1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cli_trig",
+      "ref": "github.com/project-flogo/contrib/trigger/cli",
+      "name": "CLI Trig",
+      "description": "Simple CLI Trigger",
+      "settings": {},
+      "handlers": [
+        {
+          "action": {
+            "ref": "github.com/project-flogo/flow",
+            "data": {
+              "flowURI": "res://flow:another_flow"
+            },
+            "mappings": {
+              "input": [
+                {
+                  "mapTo": "in",
+                  "type": "assign",
+                  "value": "$.args[0]"
+                }
+              ],
+              "output": [
+                {
+                  "mapTo": "data",
+                  "type": "assign",
+                  "value": "$.out"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "action": {
+            "ref": "github.com/project-flogo/flow",
+            "data": {
+              "flowURI": "res://flow:main_flow"
+            },
+            "mappings": {
+              "input": [
+                {
+                  "mapTo": "in1",
+                  "type": "assign",
+                  "value": "$.args[1]"
+                }
+              ],
+              "output": [
+                {
+                  "mapTo": "data",
+                  "type": "assign",
+                  "value": "$.out2"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "timer",
+      "ref": "github.com/project-flogo/contrib/trigger/timer",
+      "name": "Timer",
+      "description": "Simple Timer trigger",
+      "settings": {},
+      "handlers": [
+        {
+          "action": {
+            "ref": "github.com/project-flogo/flow",
+            "data": {
+              "flowURI": "res://flow:another_flow"
+            },
+            "mappings": {
+              "input": [
+                {
+                  "mapTo": "in",
+                  "type": "assign",
+                  "value": "$.content.in"
+                }
+              ]
+            }
+          },
+          "settings": {
+            "repeating": "false",
+            "notImmediate": "true",
+            "startDate": "2018-01-01T12:00:00Z00:00"
+          }
+        }
+      ]
+    },
+    {
+      "id": "listen_to_channel_1",
+      "ref": "github.com/project-flogo/contrib/trigger/channel",
+      "name": "Listen to Channel (1)",
+      "description": "Listens to Channel",
+      "settings": {},
+      "handlers": [
+        {
+          "action": {
+            "ref": "github.com/project-flogo/flow",
+            "data": {
+              "flowURI": "res://flow:main_flow"
+            },
+            "mappings": {
+              "input": [
+                {
+                  "mapTo": "in1",
+                  "type": "assign",
+                  "value": "$.data.in1"
+                }
+              ]
+            }
+          },
+          "settings": {
+            "channel": "channel2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "receive_http_message",
+      "ref": "github.com/project-flogo/contrib/trigger/rest",
+      "name": "Receive HTTP Message",
+      "description": "Simple REST Trigger",
+      "settings": {
+        "port": 9090
+      },
+      "handlers": [
+        {
+          "action": {
+            "ref": "github.com/project-flogo/flow",
+            "data": {
+              "flowURI": "res://flow:main_flow"
+            },
+            "mappings": {
+              "input": [
+                {
+                  "mapTo": "in1",
+                  "type": "assign",
+                  "value": "$.content"
+                }
+              ],
+              "output": [
+                {
+                  "mapTo": "code",
+                  "type": "assign",
+                  "value": "$.out1"
+                },
+                {
+                  "mapTo": "data",
+                  "type": "assign",
+                  "value": "$.out2"
+                }
+              ]
+            }
+          },
+          "settings": {
+            "method": "GET",
+            "path": "$env[path]"
+          }
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "id": "flow:main_flow",
+      "data": {
+        "name": "Main Flow",
+        "metadata": {
+          "input": [
+            {
+              "name": "in1",
+              "type": "string"
+            }
+          ],
+          "output": [
+            {
+              "name": "out1",
+              "type": "integer"
+            },
+            {
+              "name": "out2",
+              "type": "any"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "id": "log_2",
+            "name": "Log Message",
+            "description": "Simple Log Activity",
+            "activity": {
+              "ref": "github.com/project-flogo/contrib/activity/log",
+              "input": {
+                "flowInfo": false,
+                "addToFlow": true
+              },
+              "mappings": {
+                "input": [
+                  {
+                    "type": "object",
+                    "value": {
+                      "test": "ing"
+                    },
+                    "mapTo": "message"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "subflow_3",
+            "name": "subflow",
+            "description": "A subflow referenced in the mainflow",
+            "activity": {
+              "ref": "github.com/project-flogo/flow/activity/subflow",
+              "settings": {
+                "flowURI": "res://flow:subflow"
+              },
+              "mappings": {
+                "input": [
+                  {
+                    "type": "expression",
+                    "value": "coerce.toBytes($flow.in1)",
+                    "mapTo": "in3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "log_4",
+            "name": "Log Message (2)",
+            "description": "Simple Log Activity",
+            "activity": {
+              "ref": "github.com/project-flogo/contrib/activity/log",
+              "input": {
+                "flowInfo": false,
+                "addToFlow": true
+              },
+              "mappings": {
+                "input": [
+                  {
+                    "type": "object",
+                    "value": {
+                      "output1": "=coerce.toString($activity[subflow_3].out1)",
+                      "output2": "{{ coerce.toString($activity[subflow_3].out2) }}"
+                    },
+                    "mapTo": "message"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "actreturn_9",
+            "name": "Return",
+            "description": "Simple Return Activity",
+            "activity": {
+              "ref": "github.com/project-flogo/contrib/activity/actreturn",
+              "input": {
+                "mappings": [
+                  {
+                    "mapTo": "out1",
+                    "type": "literal",
+                    "value": 200
+                  },
+                  {
+                    "mapTo": "out2",
+                    "type": "assign",
+                    "value": "$activity[subflow_3].out1"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "log_5",
+            "name": "Log Message (3)",
+            "description": "Simple Log Activity",
+            "activity": {
+              "ref": "github.com/project-flogo/contrib/activity/log",
+              "input": {
+                "flowInfo": false,
+                "addToFlow": true
+              },
+              "mappings": {
+                "input": [
+                  {
+                    "type": "object",
+                    "value": {
+                      "test": "ing"
+                    },
+                    "mapTo": "message"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "counter_6",
+            "name": "Increment Counter",
+            "description": "Simple Global Counter Activity",
+            "activity": {
+              "ref": "github.com/project-flogo/contrib/activity/counter",
+              "input": {
+                "counterName": "counter1",
+                "increment": true
+              }
+            }
+          },
+          {
+            "id": "log_7",
+            "name": "Log Message (4)",
+            "description": "Simple Log Activity",
+            "activity": {
+              "ref": "github.com/project-flogo/contrib/activity/log",
+              "input": {
+                "flowInfo": false,
+                "addToFlow": true
+              },
+              "mappings": {
+                "input": [
+                  {
+                    "type": "assign",
+                    "value": "$activity[counter_6].value",
+                    "mapTo": "message"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "mapper_8",
+            "name": "Mapper",
+            "description": "Simple Mapper Activity",
+            "activity": {
+              "ref": "github.com/project-flogo/contrib/activity/mapper",
+              "input": {
+                "mappings": [
+                  {
+                    "mapTo": "out1",
+                    "type": "literal",
+                    "value": 200
+                  },
+                  {
+                    "mapTo": "out2",
+                    "type": "assign",
+                    "value": "$activity[subflow_3].out2"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "links": [
+          {
+            "from": "log_2",
+            "to": "subflow_3"
+          },
+          {
+            "from": "subflow_3",
+            "to": "log_4",
+            "type": "expression",
+            "value": "$activity[subflow_3].out2"
+          },
+          {
+            "from": "log_4",
+            "to": "actreturn_9"
+          },
+          {
+            "from": "subflow_3",
+            "to": "log_5"
+          },
+          {
+            "from": "log_5",
+            "to": "counter_6"
+          },
+          {
+            "from": "counter_6",
+            "to": "log_7"
+          },
+          {
+            "from": "log_7",
+            "to": "mapper_8"
+          }
+        ]
+      }
+    },
+    {
+      "id": "flow:subflow",
+      "data": {
+        "name": "subflow",
+        "description": "A subflow referenced in the mainflow",
+        "metadata": {
+          "input": [
+            {
+              "name": "in",
+              "type": "integer"
+            },
+            {
+              "name": "in1",
+              "type": "object"
+            },
+            {
+              "name": "in2",
+              "type": "array"
+            },
+            {
+              "name": "in3",
+              "type": "complexObject"
+            },
+            {
+              "name": "in4",
+              "type": "params"
+            }
+          ],
+          "output": [
+            {
+              "name": "out1",
+              "type": "complexObject"
+            },
+            {
+              "name": "out2",
+              "type": "boolean"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "id": "log_2",
+            "name": "Log Message",
+            "description": "Simple Log Activity",
+            "activity": {
+              "ref": "github.com/project-flogo/contrib/activity/log",
+              "input": {
+                "message": "In Subflow",
+                "flowInfo": false,
+                "addToFlow": true
+              }
+            }
+          },
+          {
+            "id": "error_3",
+            "name": "Throw Error",
+            "description": "Simple Error Activity",
+            "activity": {
+              "ref": "github.com/project-flogo/contrib/activity/error",
+              "mappings": {
+                "input": [
+                  {
+                    "type": "assign",
+                    "value": "$flow.in3",
+                    "mapTo": "data"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "links": [
+          {
+            "from": "log_2",
+            "to": "error_3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "flow:another_flow",
+      "data": {
+        "name": "Another Flow",
+        "metadata": {
+          "input": [
+            {
+              "name": "in",
+              "type": "string"
+            }
+          ],
+          "output": [
+            {
+              "name": "out",
+              "type": "string"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "id": "log_2",
+            "type": "iterator",
+            "name": "Log Message",
+            "description": "Simple Log Activity",
+            "settings": {
+              "iterate": "10"
+            },
+            "activity": {
+              "ref": "github.com/project-flogo/contrib/activity/log",
+              "input": {
+                "flowInfo": false,
+                "addToFlow": true
+              },
+              "mappings": {
+                "input": [
+                  {
+                    "type": "assign",
+                    "value": "$current.iteration.value",
+                    "mapTo": "message"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "channel_3",
+            "name": "Channel",
+            "description": "Simple Channel Activity",
+            "activity": {
+              "ref": "github.com/project-flogo/contrib/activity/channel",
+              "input": {
+                "channel": "channel1"
+              },
+              "mappings": {
+                "input": [
+                  {
+                    "type": "assign",
+                    "value": "$flow.in",
+                    "mapTo": "value"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "links": [
+          {
+            "from": "log_2",
+            "to": "channel_3"
+          }
+        ],
+        "errorHandler": {
+          "tasks": [
+            {
+              "id": "log_4",
+              "name": "Log Message (2)",
+              "description": "Simple Log Activity",
+              "activity": {
+                "ref": "github.com/project-flogo/contrib/activity/log",
+                "input": {
+                  "flowInfo": false,
+                  "addToFlow": true
+                },
+                "mappings": {
+                  "input": [
+                    {
+                      "type": "expression",
+                      "value": "coerce.toString($error.data)",
+                      "mapTo": "message"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
