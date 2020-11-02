@@ -29,7 +29,7 @@
         {
           "action": {
             "ref": "#flow",
-            "settings": {
+          "settings": {
               "flowURI": "res://flow:test_flow"
             }
           }
@@ -48,10 +48,10 @@
             "settings": {
               "flowURI": "res://flow:test_flow"
             }
+            }
           }
-        }
       ]
-    },
+        },
     {
       "id": "cli_trigger_1",
       "ref": "#cli",
@@ -66,27 +66,27 @@
         {
           "action": {
             "id": "action_1"
-          }
+            }
         }
       ]
-    },
+          },
     {
       "id": "receive_http_message",
       "ref": "#rest",
       "name": "Receive HTTP Message",
       "description": "Simple REST Trigger",
-      "settings": {
+          "settings": {
         "port": null,
         "enableTLS": null,
         "certFile": null,
         "keyFile": null
-      },
+    },
       "handlers": [
         {
           "action": {
             "id": "action_1"
           }
-        }
+            }
       ]
     }
   ],
@@ -94,9 +94,9 @@
     {
       "id": "action_1",
       "ref": "#stream",
-      "settings": {
+          "settings": {
         "pipelineURI": "res://pipeline:test_stream"
-      }
+          }
     }
   ],
   "resources": [
@@ -170,8 +170,8 @@
           {
             "from": "log_5",
             "to": "channel_6"
-          }
-        ]
+            }
+          ]
       }
     },
     {

@@ -13,7 +13,7 @@
       {{ 'IMPORT-ERROR:ERRORS_FOUND' | translate: { value: errorDetails.length } }}
     </p>
     <ul class="flogo-error__list-container">
-      <li class="flogo-error__list qa-error" *ngFor="let detail of errorDetails">
+      <li class="flogo-error__list qa-error" *ngFor="let detail of errorDetails" data-cy="flogo-import-error-list">
         <span class="flogo-error__list-head">
           {{ errorFormatter.formatMessageHeader(detail.keyword) }}
         </span>
@@ -24,7 +24,7 @@
     </ul>
   </div>
   <div class="flogo-error__btn-container">
-    <button class="flogo-button--default flogo-error__confirm" (click)="closeModal()">
+    <button class="flogo-button--default flogo-error__confirm" data-cy="flogo-import-error-confirm-btn" (click)="closeModal()">
       {{ 'MODAL:OKAY' | translate }}
     </button>
   </div>

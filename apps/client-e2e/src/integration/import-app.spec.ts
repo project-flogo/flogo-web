@@ -13,14 +13,28 @@ describe('Import app json', () => {
     }).as('importApp');
   });
 
-  it('should be able to import legacy V0.5.8 flogo application', () => {
-    const filePath = 'flogo-app - v0.5.8.json';
+  it('should be able to import legacy flogo application', () => {
+    const filePath = 'legacy-app.json';
     importApp(filePath);
+    assertSuccessfulAppImport();
   });
 
-  it('should be able to import standard V0.9.0 flogo application', () => {
-    const filePath = 'flogo-app - v0.9.0.json';
+  it('should be able to import standard flogo application', () => {
+    const filePath = 'standard-app.json';
     importApp(filePath);
+    assertSuccessfulAppImport();
+  })
+
+  it('should display validation error messages if app failed to import', () => {
+    const filePath = 'standard-app-with-errors.json';
+    importApp(filePath);
+    cy.wait('@importApp').then(() => {
+      cy.get('[data-cy=flogo-notification]').contains('Encountered validation errors');
+      // closing notification to ensure only one success notification is seen at a time
+      cy.get('[data-cy=flogo-notification-close]').click();
+      cy.get('[data-cy=flogo-import-error-list]').should('exist');
+      cy.get('[data-cy=flogo-import-error-confirm-btn]').click();
+    });
   });
 });
 
@@ -28,9 +42,12 @@ function importApp(filePath) {
   cy.get('[data-cy=import-app-input]').attachFile(filePath, {
     force: true,
   });
+}
+
+function assertSuccessfulAppImport() {
   cy.wait('@importApp').then(() => {
     cy.get('[data-cy=flogo-notification]').contains('Application imported successfully');
-    // closing notification manually to ensure only one success notification is seen at a time
+    // closing notification to ensure only one success notification is seen at a time
     cy.get('[data-cy=flogo-notification-close]').click();
   });
 }
