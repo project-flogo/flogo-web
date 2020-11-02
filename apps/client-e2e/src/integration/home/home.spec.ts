@@ -1,4 +1,4 @@
-import { visitApp, createApp, goBackFromAppsList } from '../utils';
+import { visitApp, createApp, goBackFromAppsList } from '../../utils';
 
 describe('flogo web landing page', () => {
   before(() => {

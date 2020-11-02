@@ -162,6 +162,7 @@
         id="exportMenuButton"
         aria-haspopup="true"
         [attr.aria-expanded]="isExportBoxShown"
+        data-cy="app-detail-export-button"
       >
         <span class="menu-dropdown__button-label">{{
           'DETAILS:EXPORT' | translate
@@ -174,13 +175,21 @@
         aria-labelledby="exportMenuButton"
       >
         <ul class="dropdown-list">
-          <li class="dropdown-list__item" [fgJsonDownloader]="appExporter()">
+          <li
+            class="dropdown-list__item"
+            [fgJsonDownloader]="appExporter()"
+            data-cy="app-detail-export-app"
+          >
             <a class="dropdown-list__item-link"
               ><span>{{ 'DETAILS:EXPORT-APP' | translate }} </span></a
             >
           </li>
 
-          <li class="dropdown-list__item" (click)="openExportFlow()">
+          <li
+            class="dropdown-list__item"
+            (click)="openExportFlow()"
+            data-cy="app-detail-export-actions"
+          >
             <a class="dropdown-list__item-link"
               ><span>{{ 'DETAILS:EXPORT-ACTION' | translate }}</span></a
             >

@@ -52,6 +52,7 @@
           class="js-btn-export flogo-button--default"
           [fgJsonDownloader]="exportFlows()"
           [disabled]="checkedFlows?.length <= 0"
+          data-cy="export-actions-btn"
         >
           {{ 'DETAILS:EXPORT' | translate }}
         </button>

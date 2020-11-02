@@ -1,4 +1,4 @@
-import { pressEscapeKey, visitApp } from '../utils';
+import { pressEscapeKey, visitApp } from '../../utils';
 
 describe('Test installation of contributions', () => {
   before(() => {

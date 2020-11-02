@@ -1,4 +1,4 @@
-import { visitApp } from '../utils';
+import { visitApp } from '../../utils';
 
 describe('Import app json', () => {
   before(() => {
@@ -23,7 +23,7 @@ describe('Import app json', () => {
     const filePath = 'standard-app.json';
     importApp(filePath);
     assertSuccessfulAppImport();
-  })
+  });
 
   it('should display validation error messages if app failed to import', () => {
     const filePath = 'standard-app-with-errors.json';

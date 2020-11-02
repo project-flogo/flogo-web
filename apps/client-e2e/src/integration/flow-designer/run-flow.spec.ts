@@ -1,4 +1,4 @@
-import { createApp, visitApp, createAFlow, pressEscapeKey } from '../../utils';
+import { createApp, visitApp, createAFlow, goBackToAppsList } from '../../utils';
 import { BaseContributionSchema } from '@flogo-web/core';
 
 describe('Run a flow', () => {
@@ -93,7 +93,7 @@ describe('Run a flow', () => {
       );
       if (subflow) {
         // back to app list page and create another flow
-        cy.get('[data-cy=header-back-to-apps-list]').click();
+        goBackToAppsList();
         createAFlow();
 
         // add subflow
