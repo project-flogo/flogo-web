@@ -5,5 +5,5 @@ export {
   goBackFromAppsList,
   goBackToAppsList,
 } from './create-app';
-export { createAFlow } from './create-flow';
+export { createAnAction, Actions } from './create-action';
 export { pressEscapeKey } from './press-escape-key';

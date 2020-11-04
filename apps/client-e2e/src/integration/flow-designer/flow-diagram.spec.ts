@@ -1,11 +1,17 @@
-import { createApp, visitApp, createAFlow, pressEscapeKey } from '../../utils';
+import {
+  createApp,
+  visitApp,
+  createAnAction,
+  pressEscapeKey,
+  Actions,
+} from '../../utils';
 import { BaseContributionSchema } from '@flogo-web/core';
 
 describe('flogo web flow designer', () => {
   before(() => {
     visitApp();
     createApp();
-    createAFlow();
+    createAnAction(Actions.Flow);
   });
 
   it('should display popup with list of activities when + button is clicked', () => {

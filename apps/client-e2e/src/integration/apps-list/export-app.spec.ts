@@ -1,10 +1,16 @@
-import { createAFlow, createApp, visitApp, goBackToAppsList } from '../../utils';
+import {
+  createAnAction,
+  createApp,
+  visitApp,
+  goBackToAppsList,
+  Actions,
+} from '../../utils';
 
 describe('Export app', function() {
   beforeEach(() => {
     visitApp();
     createApp();
-    createAFlow();
+    createAnAction(Actions.Flow);
   });
 
   it('should export the whole application', () => {

@@ -1,10 +1,16 @@
-import { createApp, visitApp, createAFlow, pressEscapeKey } from '../../utils';
+import {
+  createApp,
+  visitApp,
+  createAnAction,
+  pressEscapeKey,
+  Actions,
+} from '../../utils';
 
 describe('flogo web flow designer trigger panel', () => {
   before(() => {
     visitApp();
     createApp();
-    createAFlow();
+    createAnAction(Actions.Flow);
   });
 
   it('should display triggers modal with triggers list on clicking add trigger button', () => {

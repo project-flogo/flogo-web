@@ -1,11 +1,17 @@
-import { createApp, visitApp, createAFlow, goBackToAppsList } from '../../utils';
+import {
+  createApp,
+  visitApp,
+  createAnAction,
+  goBackToAppsList,
+  Actions,
+} from '../../utils';
 import { BaseContributionSchema } from '@flogo-web/core';
 
 describe('Run a flow', () => {
   beforeEach(() => {
     visitApp();
     createApp();
-    createAFlow();
+    createAnAction(Actions.Flow);
   });
 
   it('should show a dropdown with inputs if Input params are defined for a flow when clicked on Run Flow', () => {
@@ -94,7 +100,7 @@ describe('Run a flow', () => {
       if (subflow) {
         // back to app list page and create another flow
         goBackToAppsList();
-        createAFlow();
+        createAnAction(Actions.Flow);
 
         // add subflow
         cy.get('[data-cy=diagram-add-activity-btn]').click();

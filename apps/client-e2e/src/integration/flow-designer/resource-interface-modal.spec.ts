@@ -1,10 +1,10 @@
-import { createApp, visitApp, createAFlow } from '../../utils';
+import { createApp, visitApp, createAnAction, Actions } from '../../utils';
 
 describe('flogo web flow designer', () => {
   before(() => {
     visitApp();
     createApp();
-    createAFlow();
+    createAnAction(Actions.Flow);
   });
 
   it('should add resource input and output', () => {

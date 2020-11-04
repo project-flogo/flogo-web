@@ -136,6 +136,7 @@
           *ngIf="!isTerminal && tile.task?.features?.canBranch"
           class="flogo-icon-addbranch menu__icon js-menu-option"
           (click)="onBranch()"
+          data-cy="task-add-branch-icon"
         ></i>
         <i
           class="flogo-icon-settings menu__icon js-menu-option"
@@ -146,6 +147,7 @@
         class="flogo-icon-menu-horizontal kebabmenu js-menu-option"
         [ngClass]="{ 'kebabmenu-selected': displayMenuOptions }"
         (click)="onMenuOptions()"
+        data-cy="task-toggle-menu-icon"
       ></i>
     </div>
   </div>
