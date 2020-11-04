@@ -60,6 +60,7 @@
             )
           "
           (click)="save()"
+          data-cy="stage-configurator-save-btn"
         >
           {{ 'TASK-CONFIGURATOR:SAVE' | translate }}
         </button>
@@ -83,6 +84,7 @@
               'tabs__tab--has-errors': !tabData[1].isValid,
               'tabs__tab--is-disabled': !tabData[1].enabled
             }"
+            [attr.data-cy]="tabData[0]"
           >
             {{ tabData[1].labelKey | translate }}
           </li>

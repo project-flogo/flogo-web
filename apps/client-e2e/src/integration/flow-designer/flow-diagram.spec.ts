@@ -48,6 +48,7 @@ describe('flogo web flow designer', () => {
     cy.get('[data-cy=diagram-add-activity-activity]')
       .eq(0)
       .click();
+    cy.get('[data-cy=flow-diagram-tile-task]').should('exist');
   });
 
   it('should filter activities when searching for an activity in the search input', () => {

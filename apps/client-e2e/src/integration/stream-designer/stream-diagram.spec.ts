@@ -46,6 +46,7 @@ describe('Stream designer', () => {
     cy.get('[data-cy=diagram-add-stage-activity]')
       .eq(0)
       .click();
+    cy.get('[data-cy=stream-diagram-tile-task]').should('exist');
   });
 
   it('Should not be able to create a branch', () => {

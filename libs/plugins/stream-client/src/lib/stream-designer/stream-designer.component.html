@@ -65,13 +65,16 @@
       role="button"
       [streamMetadata]="streamState?.metadata"
       (click)="openInputSchemaModal()"
+      data-cy="stream-params-schema-button"
     ></flogo-stream-params-schema-button>
     <flogo-stream-diagram
       fgAddStage
       [currentSelection]="currentSelection$ | async"
       [iconIndex]="iconIndex"
     ></flogo-stream-diagram>
-    <flogo-stream-stage-configurator></flogo-stream-stage-configurator>
+    <flogo-stream-stage-configurator
+      data-cy="stream-stage-configurator"
+    ></flogo-stream-stage-configurator>
   </ng-template>
 
   <ng-template #simulator>

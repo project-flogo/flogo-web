@@ -42,6 +42,6 @@
     <svg *ngIf="node.dataType" class="flogo-mapper-icon node__icon">
       <use [fgMapperInlineHref]="getIcon(node)"></use>
     </svg>
-    <div class="node__label">{{ node.label }}</div>
+    <div class="node__label" [attr.data-cy]="node.label">{{ node.label }}</div>
   </div>
 </div>
