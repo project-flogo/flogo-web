@@ -1,6 +1,8 @@
 export function createApp(appName = generateRandomString()) {
+  // override element query retry timeout
   cy.get('[data-cy=apps-list-new]', { timeout: 10000 }).click();
-  cy.get('[data-cy=app-detail-app-name-input]')
+  // override element query retry timeout
+  cy.get('[data-cy=app-detail-app-name-input]', { timeout: 10000 })
     .clear()
     .type(appName)
     .invoke('val')

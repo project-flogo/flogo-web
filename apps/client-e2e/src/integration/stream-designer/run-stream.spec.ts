@@ -48,9 +48,39 @@ describe('Run stream', function() {
 
   it('Should be able to start simulation', () => {
     startSimulation();
-    // override selector query retry timeout, until buttons visible
+    // override query element retry timeout to wait until buttons are visible
     cy.get('[data-cy=simulation-ctrls-stop-btn]', { timeout: 10000 }).should('exist');
     cy.get('[data-cy=simulation-ctrls-pause-btn]').should('exist');
+  });
+
+  it('Should be able to pause simulation', () => {
+    startSimulation();
+    // wait before pausing the simulation
+    cy.wait(3000);
+    // override query element retry timeout to wait until buttons are visible
+    cy.get('[data-cy=simulation-ctrls-pause-btn]', { timeout: 10000 }).click();
+    cy.get('[data-cy=simulation-ctrls-resume-btn]').should('exist');
+  });
+
+  it('Should be able to resume simulation', () => {
+    startSimulation();
+    // wait before pausing the simulation
+    cy.wait(3000);
+    // override query element retry timeout to wait until buttons are visible
+    cy.get('[data-cy=simulation-ctrls-pause-btn]', { timeout: 10000 }).click();
+    // wait before resuming the simulation
+    cy.wait(3000);
+    cy.get('[data-cy=simulation-ctrls-resume-btn]').click();
+    cy.get('[data-cy=simulation-ctrls-pause-btn]').should('exist');
+  });
+
+  it('Should be able to stop simulation', () => {
+    startSimulation();
+    // wait before stopping the simulation
+    cy.wait(3000);
+    // override query element retry timeout to wait until buttons are visible
+    cy.get('[data-cy=simulation-ctrls-stop-btn]', { timeout: 10000 }).click();
+    cy.get('[data-cy=simulation-ctrls-open-run-stream]').should('exist');
   });
 });
 
@@ -106,18 +136,14 @@ function startSimulation() {
     cy.get('[data-cy=flogo-mapper-list]').within(() => {
       cy.get('[data-cy=message]').click();
     });
-    cy.get('[data-cy=flogo-mapper-editor]')
-      .click()
-      .type(`$pipeline.${INPUT}`);
+    monacoEditorInput(`$pipeline.${INPUT}`);
 
     // configure stage outputs
     cy.get('[data-cy=outputMappings]').click();
     cy.get('[data-cy=flogo-mapper-list]').within(() => {
       cy.get(`[data-cy="pipeline.${OUTPUT}"]`).click();
     });
-    cy.get('[data-cy=flogo-mapper-editor]')
-      .click()
-      .type('"some output"');
+    monacoEditorInput('"some output"');
     cy.get('[data-cy=stage-configurator-save-btn]').click();
   });
 
@@ -132,26 +158,20 @@ function startSimulation() {
     cy.get('[data-cy=flogo-mapper-list]').within(() => {
       cy.get('[data-cy=type]').click();
     });
-    cy.get('[data-cy=flogo-mapper-editor]')
-      .click()
-      .type('"non-zero"');
+    monacoEditorInput('"non-zero"');
     // configure stage inputs
     cy.get('[data-cy=inputMappings]').click();
     cy.get('[data-cy=flogo-mapper-list]').within(() => {
       cy.get('[data-cy=value]').click();
     });
-    cy.get('[data-cy=flogo-mapper-editor]')
-      .click()
-      .type(`$pipeline.${INPUT}`);
+    monacoEditorInput(`$pipeline.${INPUT}`);
 
     // configure stage outputs
     cy.get('[data-cy=outputMappings]').click();
     cy.get('[data-cy=flogo-mapper-list]').within(() => {
       cy.get(`[data-cy="pipeline.${OUTPUT}"]`).click();
     });
-    cy.get('[data-cy=flogo-mapper-editor]')
-      .click()
-      .type('$.value');
+    monacoEditorInput('$.value');
     cy.get('[data-cy=stage-configurator-save-btn]').click();
   });
 
@@ -174,4 +194,16 @@ function uploadStreamInputFile() {
   cy.get('[data-cy=upload-stream-data-input]').attachFile(filePath, {
     force: true,
   });
+}
+
+function monacoEditorInput(input) {
+  // wait for monaco editor to load
+  cy.wait(2000);
+  cy.get('[data-cy=flogo-mapper-editor]')
+    .click()
+    // change subject to currently focused element
+    .focused()
+    .type(input);
+  // wait for cypress to finish type data into the monaco editor
+  cy.wait(1000);
 }

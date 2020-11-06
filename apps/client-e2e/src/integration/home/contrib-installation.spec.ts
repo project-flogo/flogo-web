@@ -1,11 +1,8 @@
 import { pressEscapeKey, visitApp } from '../../utils';
 
 describe('Test installation of contributions', () => {
-  before(() => {
-    visitApp();
-  });
-
   beforeEach(() => {
+    visitApp();
     cy.server();
     cy.route({
       method: 'POST',
