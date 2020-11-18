@@ -21,74 +21,103 @@ describe('Run stream', function() {
     }).as('uploadStreamInput');
   });
 
-  it('Should be able to upload a stream input csv file', () => {
-    cy.get('[data-cy=diagram-add-activity-btn]')
-      .eq(0)
-      .click();
-    cy.get('[data-cy=diagram-add-stage-activity]')
-      .eq(0)
-      .click();
-    cy.get('[data-cy=simulation-ctrls-open-run-stream]').click();
-    uploadStreamInputFile();
-    cy.wait('@uploadStreamInput').then(() => {
-      cy.get('[data-cy=stream-input-upload-status]').within(() => {
-        cy.get('[data-cy=uploaded]').should('exist');
+  context('Upload stream input file, start/stop simulation', () => {
+    it('should be able to upload a stream input csv file', () => {
+      cy.get('[data-cy=diagram-add-activity-btn]')
+        .eq(0)
+        .click();
+      cy.get('[data-cy=diagram-add-stage-activity]')
+        .eq(0)
+        .click();
+      cy.get('[data-cy=simulation-ctrls-open-run-stream]').click();
+      uploadStreamInputFile();
+      cy.wait('@uploadStreamInput').then(() => {
+        cy.get('[data-cy=stream-input-upload-status]').within(() => {
+          cy.get('[data-cy=uploaded]').should('exist');
+        });
       });
+    });
+
+    it('should be able to remove the stream input csv file', () => {
+      cy.get('[data-cy=diagram-add-activity-btn]')
+        .eq(0)
+        .click();
+      cy.get('[data-cy=diagram-add-stage-activity]')
+        .eq(0)
+        .click();
+      cy.get('[data-cy=simulation-ctrls-open-run-stream]').click();
+      uploadStreamInputFile();
+      cy.wait('@uploadStreamInput').then(() => {
+        cy.get('[data-cy=stream-input-upload-status]').within(() => {
+          cy.get('[data-cy=uploaded]').click();
+        });
+      });
+      cy.get('[data-cy=upload-stream-data-input]').should('exist');
+    });
+
+    it('should be able to start simulation', () => {
+      startSimulation();
+      // override query element retry timeout to wait until buttons are visible
+      cy.get('[data-cy=simulation-ctrls-stop-btn]', { timeout: 10000 }).should('exist');
+      cy.get('[data-cy=simulation-ctrls-pause-btn]').should('exist');
+    });
+
+    it('should be able to pause simulation', () => {
+      startSimulation();
+      // wait before pausing the simulation
+      cy.wait(3000);
+      // override query element retry timeout to wait until buttons are visible
+      cy.get('[data-cy=simulation-ctrls-pause-btn]', { timeout: 10000 }).click();
+      cy.get('[data-cy=simulation-ctrls-resume-btn]').should('exist');
+    });
+
+    it('should be able to resume simulation', () => {
+      startSimulation();
+      // wait before pausing the simulation
+      cy.wait(3000);
+      // override query element retry timeout to wait until buttons are visible
+      cy.get('[data-cy=simulation-ctrls-pause-btn]', { timeout: 10000 }).click();
+      // wait before resuming the simulation
+      cy.wait(3000);
+      cy.get('[data-cy=simulation-ctrls-resume-btn]').click();
+      cy.get('[data-cy=simulation-ctrls-pause-btn]').should('exist');
+    });
+
+    it('should be able to stop simulation', () => {
+      startSimulation();
+      // wait before stopping the simulation
+      cy.wait(3000);
+      // override query element retry timeout to wait until buttons are visible
+      cy.get('[data-cy=simulation-ctrls-stop-btn]', { timeout: 10000 }).click();
+      cy.get('[data-cy=simulation-ctrls-open-run-stream]').should('exist');
     });
   });
 
-  it('Should be able to remove the stream input csv file', () => {
-    cy.get('[data-cy=diagram-add-activity-btn]')
-      .eq(0)
-      .click();
-    cy.get('[data-cy=diagram-add-stage-activity]')
-      .eq(0)
-      .click();
-    cy.get('[data-cy=simulation-ctrls-open-run-stream]').click();
-    uploadStreamInputFile();
-    cy.wait('@uploadStreamInput').then(() => {
-      cy.get('[data-cy=stream-input-upload-status]').within(() => {
-        cy.get('[data-cy=uploaded]').click();
-      });
+  context('Auto stop stream simulation', () => {
+    it('should auto stop simulation if stream inputs/outputs are changed', () => {
+      startSimulation();
+
+      cy.get('[data-cy=stream-params-schema-button]').click({ force: true });
+      cy.get('[data-cy=stream-resource-input-row]')
+        .eq(0)
+        .within(() => {
+          cy.get('[data-cy=stream-resource-input]').type('updateInput');
+        });
+      cy.get('[data-cy=stream-resource-interface-modal-save]').click();
+
+      cy.get('[data-cy=simulation-ctrls-open-run-stream]').should('exist');
     });
-    cy.get('[data-cy=upload-stream-data-input]').should('exist');
-  });
 
-  it('Should be able to start simulation', () => {
-    startSimulation();
-    // override query element retry timeout to wait until buttons are visible
-    cy.get('[data-cy=simulation-ctrls-stop-btn]', { timeout: 10000 }).should('exist');
-    cy.get('[data-cy=simulation-ctrls-pause-btn]').should('exist');
-  });
+    it('should auto stop simulation when diagram is updated', () => {
+      startSimulation();
 
-  it('Should be able to pause simulation', () => {
-    startSimulation();
-    // wait before pausing the simulation
-    cy.wait(3000);
-    // override query element retry timeout to wait until buttons are visible
-    cy.get('[data-cy=simulation-ctrls-pause-btn]', { timeout: 10000 }).click();
-    cy.get('[data-cy=simulation-ctrls-resume-btn]').should('exist');
-  });
+      cy.get('[data-cy=diagram-add-activity-btn]').click({ force: true });
+      cy.get('[data-cy=diagram-add-stage-activity]')
+        .eq(0)
+        .click();
 
-  it('Should be able to resume simulation', () => {
-    startSimulation();
-    // wait before pausing the simulation
-    cy.wait(3000);
-    // override query element retry timeout to wait until buttons are visible
-    cy.get('[data-cy=simulation-ctrls-pause-btn]', { timeout: 10000 }).click();
-    // wait before resuming the simulation
-    cy.wait(3000);
-    cy.get('[data-cy=simulation-ctrls-resume-btn]').click();
-    cy.get('[data-cy=simulation-ctrls-pause-btn]').should('exist');
-  });
-
-  it('Should be able to stop simulation', () => {
-    startSimulation();
-    // wait before stopping the simulation
-    cy.wait(3000);
-    // override query element retry timeout to wait until buttons are visible
-    cy.get('[data-cy=simulation-ctrls-stop-btn]', { timeout: 10000 }).click();
-    cy.get('[data-cy=simulation-ctrls-open-run-stream]').should('exist');
+      cy.get('[data-cy=simulation-ctrls-open-run-stream]').should('exist');
+    });
   });
 });
 
