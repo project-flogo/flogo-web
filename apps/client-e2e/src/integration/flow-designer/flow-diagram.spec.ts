@@ -3,10 +3,11 @@ import {
   visitApp,
   createAnAction,
   pressEscapeKey,
-  Actions,
   navigateToActionPage,
+  Actions,
 } from '../../utils';
 import { BaseContributionSchema } from '@flogo-web/core';
+import { GET_INSTALLED_ACTIVITIES } from '../../utils';
 
 describe('Flow diagram', () => {
   before(() => {
@@ -26,9 +27,7 @@ describe('Flow diagram', () => {
   });
 
   it('should display subflow on the top of the activities list if subflow is installed', () => {
-    cy.request(
-      'http://localhost:3303/api/v2/contributions/microservices?filter[type]=activity'
-    ).then(response => {
+    cy.request(GET_INSTALLED_ACTIVITIES).then(response => {
       const installedActivities = response?.body?.data || [];
       const SUBFLOW_REF = 'github.com/project-flogo/flow/activity/subflow';
       const subflow = installedActivities.find(

@@ -1,4 +1,4 @@
-import { pressEscapeKey, visitApp } from '../../utils';
+import { INSTALL_CONTRIBUTION, pressEscapeKey, visitApp } from '../../utils';
 
 describe('Contribution installation', () => {
   beforeEach(() => {
@@ -6,7 +6,7 @@ describe('Contribution installation', () => {
     cy.server();
     cy.route({
       method: 'POST',
-      url: 'http://localhost:3303/api/v2/contributions/microservices',
+      url: INSTALL_CONTRIBUTION,
     }).as('contribInstall');
   });
 

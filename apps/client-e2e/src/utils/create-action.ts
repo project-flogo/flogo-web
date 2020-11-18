@@ -1,4 +1,4 @@
-import { generateRandomString } from './create-app';
+import { generateRandomString } from './generate-random-string';
 
 export enum Actions {
   Flow,

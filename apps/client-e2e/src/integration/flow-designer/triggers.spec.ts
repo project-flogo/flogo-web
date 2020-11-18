@@ -3,8 +3,8 @@ import {
   visitApp,
   createAnAction,
   pressEscapeKey,
-  Actions,
   navigateToActionPage,
+  Actions,
 } from '../../utils';
 
 describe('Flow designer trigger panel', () => {

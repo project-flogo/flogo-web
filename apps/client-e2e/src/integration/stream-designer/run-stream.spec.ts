@@ -2,8 +2,9 @@ import {
   createAnAction,
   createApp,
   visitApp,
-  Actions,
   navigateToActionPage,
+  Actions,
+  RUN_STREAM,
 } from '../../utils';
 
 describe('Run stream', function() {
@@ -16,7 +17,7 @@ describe('Run stream', function() {
     cy.server();
     cy.route({
       method: 'POST',
-      url: 'http://localhost:3303/api/v2/upload/simulationData',
+      url: RUN_STREAM,
     }).as('uploadStreamInput');
   });
 

@@ -2,8 +2,8 @@ import {
   createApp,
   visitApp,
   createAnAction,
-  Actions,
   navigateToActionPage,
+  Actions,
 } from '../../utils';
 
 describe('Flow resource interface modal', () => {

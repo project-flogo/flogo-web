@@ -2,10 +2,11 @@ import {
   createApp,
   visitApp,
   createAnAction,
-  Actions,
   navigateToActionPage,
+  Actions,
 } from '../../utils';
 import { BaseContributionSchema } from '@flogo-web/core';
+import { GET_INSTALLED_ACTIVITIES } from '../../utils';
 
 describe('Stream diagram', () => {
   beforeEach(() => {
@@ -15,10 +16,8 @@ describe('Stream diagram', () => {
     navigateToActionPage();
   });
 
-  it('List of activities must not contain subflow', () => {
-    cy.request(
-      'http://localhost:3303/api/v2/contributions/microservices?filter[type]=activity'
-    ).then(response => {
+  it('list of activities must not contain subflow', () => {
+    cy.request(GET_INSTALLED_ACTIVITIES).then(response => {
       const installedActivities = response?.body?.data || [];
       const SUBFLOW_REF = 'github.com/project-flogo/flow/activity/subflow';
       const subflow = installedActivities.find(
@@ -56,7 +55,7 @@ describe('Stream diagram', () => {
     cy.get('[data-cy=stream-diagram-tile-task]').should('exist');
   });
 
-  it('Should not be able to create a branch', () => {
+  it('should not be able to create a branch', () => {
     cy.get('[data-cy=diagram-add-activity-btn]')
       .eq(0)
       .click();

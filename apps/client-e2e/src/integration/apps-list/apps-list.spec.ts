@@ -2,7 +2,6 @@ import {
   createApp,
   visitApp,
   goBackFromAppsList,
-  generateRandomString,
   createAnAction,
   Actions,
 } from '../../utils';
@@ -31,19 +30,20 @@ describe('Flogo web apps list page', () => {
     });
 
     it('should error if app name already exist', () => {
-      cy.get<string>('@appName').then(appName => {
+      cy.get<string>('@appName').then(appName1 => {
         goBackFromAppsList();
-        const flogoAppName = generateRandomString();
-        createApp(flogoAppName);
-        goBackFromAppsList();
-        cy.get('[data-cy=app-list-apps]')
-          .contains(flogoAppName)
-          .click();
-        cy.get('[data-cy=app-detail-app-name-input]')
-          .clear()
-          .type(appName)
-          .blur();
-        cy.get('[data-cy=app-detail-unique-name-error]').should('be.visible');
+        createApp();
+        cy.get<string>('@appName').then(appName2 => {
+          goBackFromAppsList();
+          cy.get('[data-cy=app-list-apps]')
+            .contains(appName2)
+            .click();
+          cy.get('[data-cy=app-detail-app-name-input]')
+            .clear()
+            .type(appName1)
+            .blur();
+          cy.get('[data-cy=app-detail-unique-name-error]').should('be.visible');
+        });
       });
     });
   });

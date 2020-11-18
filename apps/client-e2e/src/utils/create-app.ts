@@ -1,3 +1,5 @@
+import { generateRandomString } from './generate-random-string';
+
 export function createApp(appName = generateRandomString()) {
   // override element query retry timeout
   cy.get('[data-cy=apps-list-new]', { timeout: 10000 }).click();
@@ -7,12 +9,6 @@ export function createApp(appName = generateRandomString()) {
     .type(appName)
     .invoke('val')
     .as('appName');
-}
-
-export function generateRandomString() {
-  return Math.random()
-    .toString(36)
-    .slice(2);
 }
 
 export function goBackFromAppsList() {

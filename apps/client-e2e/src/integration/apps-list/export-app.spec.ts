@@ -3,8 +3,10 @@ import {
   createApp,
   visitApp,
   goBackFromResourcePage,
-  Actions,
   navigateToActionPage,
+  Actions,
+  EXPORT_APP,
+  EXPORT_ACTIONS,
 } from '../../utils';
 
 describe('Export app', function() {
@@ -15,11 +17,11 @@ describe('Export app', function() {
     navigateToActionPage();
   });
 
-  it('should export the whole application', () => {
+  it('should export the entire application', () => {
     cy.server();
     cy.route({
       method: 'GET',
-      url: 'http://localhost:3303/api/v2/apps/*:export',
+      url: EXPORT_APP,
     }).as('exportApp');
 
     cy.get('[data-cy=diagram-add-activity-btn]').click();
@@ -43,7 +45,7 @@ describe('Export app', function() {
     cy.server();
     cy.route({
       method: 'GET',
-      url: 'http://localhost:3303/api/v2/apps/*:export?type=flows',
+      url: EXPORT_ACTIONS,
     }).as('exportActions');
 
     cy.get('[data-cy=diagram-add-activity-btn]').click();

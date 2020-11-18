@@ -3,8 +3,9 @@ import {
   visitApp,
   createAnAction,
   goBackFromResourcePage,
-  Actions,
   navigateToActionPage,
+  Actions,
+  GET_INSTALLED_ACTIVITIES,
 } from '../../utils';
 import { BaseContributionSchema } from '@flogo-web/core';
 
@@ -16,7 +17,7 @@ describe('Run flow', () => {
     navigateToActionPage();
   });
 
-  it('should show a dropdown with inputs if Input params are defined for a flow when clicked on Run Flow', () => {
+  it('should show a dropdown with inputs if "Input params" are defined for a flow when clicked on Run Flow', () => {
     // add flow inputs/outputs
     const INPUT1 = 'input1';
     const INPUT2 = 'input2';
@@ -89,11 +90,9 @@ describe('Run flow', () => {
     );
   });
 
-  it('Run a flow must be disabled in case flow contains a "subflow" activity ', () => {
+  it('run a flow must be disabled in case flow contains a "subflow" activity ', () => {
     // checks if subflow is installed
-    cy.request(
-      'http://localhost:3303/api/v2/contributions/microservices?filter[type]=activity'
-    ).then(response => {
+    cy.request(GET_INSTALLED_ACTIVITIES).then(response => {
       const installedActivities = response?.body?.data || [];
       const SUBFLOW_REF = 'github.com/project-flogo/flow/activity/subflow';
       const subflow = installedActivities.find(

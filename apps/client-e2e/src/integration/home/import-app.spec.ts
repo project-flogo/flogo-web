@@ -1,4 +1,4 @@
-import { visitApp } from '../../utils';
+import { IMPORT_APP, visitApp } from '../../utils';
 
 describe('Import app json', () => {
   before(() => {
@@ -9,7 +9,7 @@ describe('Import app json', () => {
     cy.server();
     cy.route({
       method: 'POST',
-      url: 'http://localhost:3303/api/v2/apps:import',
+      url: IMPORT_APP,
     }).as('importApp');
   });
 
