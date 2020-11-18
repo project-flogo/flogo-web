@@ -17,7 +17,6 @@ describe('Flogo web apps list page', () => {
       const updateAppName = 'newAppName';
       cy.get<string>('@appName').then(appName => {
         goBackFromAppsList();
-        cy.log('app name is', appName);
         cy.get('[data-cy=app-list-apps]')
           .contains(appName)
           .click();

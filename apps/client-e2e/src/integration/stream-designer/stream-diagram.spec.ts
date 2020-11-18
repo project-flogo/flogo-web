@@ -1,12 +1,12 @@
+import { CONTRIB_REFS } from '@flogo-web/core';
 import {
   createApp,
   visitApp,
   createAnAction,
   navigateToActionPage,
   Actions,
+  isActivityInstalled,
 } from '../../utils';
-import { BaseContributionSchema } from '@flogo-web/core';
-import { GET_INSTALLED_ACTIVITIES } from '../../utils';
 
 describe('Stream diagram', () => {
   beforeEach(() => {
@@ -17,13 +17,9 @@ describe('Stream diagram', () => {
   });
 
   it('list of activities must not contain subflow', () => {
-    cy.request(GET_INSTALLED_ACTIVITIES).then(response => {
-      const installedActivities = response?.body?.data || [];
-      const SUBFLOW_REF = 'github.com/project-flogo/flow/activity/subflow';
-      const subflow = installedActivities.find(
-        (activity: BaseContributionSchema) => activity.ref === SUBFLOW_REF
-      );
-      if (subflow) {
+    // check if subflow is installed
+    isActivityInstalled(CONTRIB_REFS.SUBFLOW).then(isSubFlowInstalled => {
+      if (isSubFlowInstalled) {
         cy.get('[data-cy=diagram-add-activity-btn]')
           .eq(0)
           .click();

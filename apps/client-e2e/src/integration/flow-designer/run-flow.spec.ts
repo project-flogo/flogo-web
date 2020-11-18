@@ -1,13 +1,13 @@
+import { CONTRIB_REFS } from '@flogo-web/core';
 import {
   createApp,
   visitApp,
   createAnAction,
   goBackFromResourcePage,
   navigateToActionPage,
+  isActivityInstalled,
   Actions,
-  GET_INSTALLED_ACTIVITIES,
 } from '../../utils';
-import { BaseContributionSchema } from '@flogo-web/core';
 
 describe('Run flow', () => {
   beforeEach(() => {
@@ -91,14 +91,9 @@ describe('Run flow', () => {
   });
 
   it('run a flow must be disabled in case flow contains a "subflow" activity ', () => {
-    // checks if subflow is installed
-    cy.request(GET_INSTALLED_ACTIVITIES).then(response => {
-      const installedActivities = response?.body?.data || [];
-      const SUBFLOW_REF = 'github.com/project-flogo/flow/activity/subflow';
-      const subflow = installedActivities.find(
-        (activity: BaseContributionSchema) => activity.ref === SUBFLOW_REF
-      );
-      if (subflow) {
+    // check if subflow is installed
+    isActivityInstalled(CONTRIB_REFS.SUBFLOW).then(isSubFlowInstalled => {
+      if (isSubFlowInstalled) {
         // back to app list page and create another flow
         goBackFromResourcePage();
         createAnAction(Actions.Flow);
@@ -116,8 +111,8 @@ describe('Run flow', () => {
               cy.get('[data-cy=flows-list-select-flow-btn]').click();
             });
         });
+        cy.get('[data-cy=run-flow-btn]').should('be.disabled');
       }
     });
-    cy.get('[data-cy=run-flow-btn]').should('be.disabled');
   });
 });
