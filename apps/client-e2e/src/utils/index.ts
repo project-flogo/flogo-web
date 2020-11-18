@@ -3,7 +3,7 @@ export {
   createApp,
   generateRandomString,
   goBackFromAppsList,
-  goBackToAppsList,
+  goBackFromResourcePage,
 } from './create-app';
-export { createAnAction, Actions } from './create-action';
+export { createAnAction, navigateToActionPage, Actions } from './create-action';
 export { pressEscapeKey } from './press-escape-key';

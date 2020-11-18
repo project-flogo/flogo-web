@@ -1,10 +1,17 @@
-import { createApp, visitApp, createAnAction, Actions } from '../../utils';
+import {
+  createApp,
+  visitApp,
+  createAnAction,
+  Actions,
+  navigateToActionPage,
+} from '../../utils';
 
-describe('flogo web flow designer', () => {
+describe('Flow resource interface modal', () => {
   before(() => {
     visitApp();
     createApp();
     createAnAction(Actions.Flow);
+    navigateToActionPage();
   });
 
   it('should add resource input and output', () => {

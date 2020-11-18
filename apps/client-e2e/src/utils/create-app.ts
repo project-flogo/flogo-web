@@ -19,6 +19,6 @@ export function goBackFromAppsList() {
   cy.get('[data-cy=app-detail-go-back]').click();
 }
 
-export function goBackToAppsList() {
+export function goBackFromResourcePage() {
   cy.get('[data-cy=header-back-to-apps-list]').click();
 }

@@ -3,10 +3,12 @@ import {
   visitApp,
   goBackFromAppsList,
   generateRandomString,
+  createAnAction,
+  Actions,
 } from '../../utils';
 
-describe('flogo web apps list page', () => {
-  context('checks application name change', () => {
+describe('Flogo web apps list page', () => {
+  context('Checks application name change', () => {
     beforeEach(() => {
       visitApp();
       createApp();
@@ -46,7 +48,7 @@ describe('flogo web apps list page', () => {
     });
   });
 
-  context('checks resource creation', () => {
+  context('Checks resource creation', () => {
     before(() => {
       visitApp();
       createApp();
@@ -55,23 +57,14 @@ describe('flogo web apps list page', () => {
     it('should create a flow', () => {
       const flowName = 'flow example',
         flowDescription = 'flow example description';
-      cy.get('[data-cy=app-detail-create-resource]').click();
-      cy.get('[data-cy=add-new-resource-name]').type(flowName);
-      cy.get('[data-cy=add-new-resource-description]').type(flowDescription);
-      cy.get('[data-cy=add-new-resource-create-btn]').click();
+      createAnAction(Actions.Flow, flowName, flowDescription);
       cy.contains(flowName).should('be.visible');
     });
 
     it('should create a stream', () => {
       const streamName = 'stream example',
         streamDescription = 'stream example description';
-      cy.get('[data-cy=app-detail-create-resource]').click();
-      cy.get('[data-cy=resource-types]')
-        .contains('Stream')
-        .click();
-      cy.get('[data-cy=add-new-resource-name]').type(streamName);
-      cy.get('[data-cy=add-new-resource-description]').type(streamDescription);
-      cy.get('[data-cy=add-new-resource-create-btn]').click();
+      createAnAction(Actions.Stream, streamName, streamDescription);
       cy.contains(streamName).should('be.visible');
     });
   });

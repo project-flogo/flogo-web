@@ -4,13 +4,15 @@ import {
   createAnAction,
   pressEscapeKey,
   Actions,
+  navigateToActionPage,
 } from '../../utils';
 
-describe('flogo web flow designer trigger panel', () => {
+describe('Flow designer trigger panel', () => {
   before(() => {
     visitApp();
     createApp();
     createAnAction(Actions.Flow);
+    navigateToActionPage();
   });
 
   it('should display triggers modal with triggers list on clicking add trigger button', () => {

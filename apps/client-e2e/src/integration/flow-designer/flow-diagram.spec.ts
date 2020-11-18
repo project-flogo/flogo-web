@@ -4,14 +4,16 @@ import {
   createAnAction,
   pressEscapeKey,
   Actions,
+  navigateToActionPage,
 } from '../../utils';
 import { BaseContributionSchema } from '@flogo-web/core';
 
-describe('flogo web flow designer', () => {
+describe('Flow diagram', () => {
   before(() => {
     visitApp();
     createApp();
     createAnAction(Actions.Flow);
+    navigateToActionPage();
   });
 
   it('should display popup with list of activities when + button is clicked', () => {

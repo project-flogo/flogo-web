@@ -2,8 +2,9 @@ import {
   createAnAction,
   createApp,
   visitApp,
-  goBackToAppsList,
+  goBackFromResourcePage,
   Actions,
+  navigateToActionPage,
 } from '../../utils';
 
 describe('Export app', function() {
@@ -11,6 +12,7 @@ describe('Export app', function() {
     visitApp();
     createApp();
     createAnAction(Actions.Flow);
+    navigateToActionPage();
   });
 
   it('should export the whole application', () => {
@@ -29,7 +31,7 @@ describe('Export app', function() {
     cy.get('[data-cy=triggers-list-trigger]')
       .eq(0)
       .click();
-    goBackToAppsList();
+    goBackFromResourcePage();
     cy.get('[data-cy=app-detail-export-button]').click();
     cy.get('[data-cy=app-detail-export-app]').click();
     cy.wait('@exportApp').then(response => {
@@ -53,7 +55,7 @@ describe('Export app', function() {
     cy.get('[data-cy=triggers-list-trigger]')
       .eq(0)
       .click();
-    goBackToAppsList();
+    goBackFromResourcePage();
     cy.get('[data-cy=app-detail-export-button]').click();
     cy.get('[data-cy=app-detail-export-actions]').click();
     cy.get('[data-cy=export-actions-btn]').click();
@@ -68,7 +70,7 @@ describe('Export app', function() {
     cy.get('[data-cy=diagram-add-activity-activity]')
       .eq(0)
       .click();
-    goBackToAppsList();
+    goBackFromResourcePage();
     cy.get('[data-cy=app-detail-export-button]').click();
     cy.get('[data-cy=app-detail-export-app]').click();
   });

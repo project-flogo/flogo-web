@@ -5,14 +5,29 @@ export enum Actions {
   Stream,
 }
 
-export function createAnAction(actionType, actionName = generateRandomString()) {
+export function createAnAction(
+  actionType,
+  actionName = generateRandomString(),
+  actionDescription?
+) {
   cy.get('[data-cy=app-detail-create-resource]').click();
   if (actionType === Actions.Stream) {
     cy.get('[data-cy=resource-types]')
       .contains('Stream')
       .click();
   }
-  cy.get('[data-cy=add-new-resource-name]').type(actionName);
+  cy.get('[data-cy=add-new-resource-name]')
+    .type(actionName)
+    .invoke('val')
+    .as('actionName');
+  if (actionDescription) {
+    cy.get('[data-cy=add-new-resource-description]').type(actionDescription);
+  }
   cy.get('[data-cy=add-new-resource-create-btn]').click();
-  cy.contains(actionName).click();
+}
+
+export function navigateToActionPage() {
+  cy.get<string>('@actionName').then(actionName => {
+    cy.contains(actionName).click();
+  });
 }

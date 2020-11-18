@@ -1,11 +1,18 @@
-import { createApp, visitApp, createAnAction, Actions } from '../../utils';
+import {
+  createApp,
+  visitApp,
+  createAnAction,
+  Actions,
+  navigateToActionPage,
+} from '../../utils';
 import { BaseContributionSchema } from '@flogo-web/core';
 
-describe('Stream designer', () => {
+describe('Stream diagram', () => {
   beforeEach(() => {
     visitApp();
     createApp();
     createAnAction(Actions.Stream);
+    navigateToActionPage();
   });
 
   it('List of activities must not contain subflow', () => {

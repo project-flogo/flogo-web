@@ -1,6 +1,6 @@
 import { pressEscapeKey, visitApp } from '../../utils';
 
-describe('Test installation of contributions', () => {
+describe('Contribution installation', () => {
   beforeEach(() => {
     visitApp();
     cy.server();

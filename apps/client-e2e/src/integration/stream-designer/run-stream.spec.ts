@@ -1,10 +1,17 @@
-import { createAnAction, createApp, visitApp, Actions } from '../../utils';
+import {
+  createAnAction,
+  createApp,
+  visitApp,
+  Actions,
+  navigateToActionPage,
+} from '../../utils';
 
 describe('Run stream', function() {
   beforeEach(() => {
     visitApp();
     createApp();
     createAnAction(Actions.Stream);
+    navigateToActionPage();
 
     cy.server();
     cy.route({

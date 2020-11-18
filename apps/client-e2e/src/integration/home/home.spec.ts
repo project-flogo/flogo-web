@@ -1,17 +1,17 @@
 import { visitApp, createApp, goBackFromAppsList } from '../../utils';
 
-describe('flogo web landing page', () => {
+describe('Flogo web landing page', () => {
   before(() => {
     visitApp();
   });
 
-  context('checks the greet message', () => {
+  context('Checks the greet message', () => {
     it('should display welcome message', () => {
       cy.get('[data-cy=welcome-message]').contains('Welcome back!');
     });
   });
 
-  context('checks functionality that creates and that deletes an app', () => {
+  context('Checks functionality that creates and that deletes an app', () => {
     beforeEach(() => {
       createApp();
       goBackFromAppsList();
