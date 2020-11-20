@@ -6,4 +6,9 @@ export { generateRandomString } from './generate-random-string';
 export { getInstalledActivities } from './get-installed-activities';
 export { isActivityInstalled } from './is-activity-installed';
 export { getLogButton, getLogsWindow } from './get-logs-window';
+export {
+  addActivity,
+  getAddActivityButton,
+  getAddActivitySearchInput,
+} from './add-activity';
 export * from './request-endpoints';

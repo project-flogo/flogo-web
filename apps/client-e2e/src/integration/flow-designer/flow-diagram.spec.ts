@@ -6,6 +6,9 @@ import {
   pressEscapeKey,
   navigateToActionPage,
   isActivityInstalled,
+  addActivity,
+  getAddActivityButton,
+  getAddActivitySearchInput,
   Actions,
 } from '../../utils';
 
@@ -18,7 +21,7 @@ describe('Flow diagram', () => {
   });
 
   it('should display popup with list of activities when + button is clicked', () => {
-    cy.get('[data-cy=diagram-add-activity-btn]').click();
+    getAddActivityButton().click();
     cy.get('[data-cy=diagram-add-activity-popup]').should('be.visible');
     cy.get('[data-cy=diagram-add-activity-activity]').then(activityElements => {
       expect(activityElements.length).greaterThan(0);
@@ -30,7 +33,7 @@ describe('Flow diagram', () => {
     // check if subflow is installed
     isActivityInstalled(CONTRIB_REFS.SUBFLOW).then(isSubFlowInstalled => {
       if (isSubFlowInstalled) {
-        cy.get('[data-cy=diagram-add-activity-btn]').click();
+        getAddActivityButton().click();
         cy.get('[data-cy=diagram-add-activity-activity]')
           .eq(0)
           .contains('SubFlow');
@@ -40,20 +43,14 @@ describe('Flow diagram', () => {
   });
 
   it('should add an activity to the diagram', () => {
-    cy.get('[data-cy=diagram-add-activity-btn]').click();
-    cy.get('[data-cy=diagram-add-activity-search-input]').type('log');
-    cy.get('[data-cy=diagram-add-activity-activity]')
-      .eq(0)
-      .click();
+    addActivity('log');
     cy.get('[data-cy=flow-diagram-tile-task]').should('exist');
   });
 
   it('should filter activities when searching for an activity in the search input', () => {
     const SEARCH_ACTIVITY = 'Log';
-    cy.get('[data-cy=diagram-add-activity-btn]')
-      .eq(0)
-      .click();
-    cy.get('[data-cy=diagram-add-activity-search-input]').type(SEARCH_ACTIVITY);
+    getAddActivityButton().click();
+    getAddActivitySearchInput().type(SEARCH_ACTIVITY);
     cy.get('[data-cy=diagram-add-activity-activity]')
       .eq(0)
       .contains(SEARCH_ACTIVITY);

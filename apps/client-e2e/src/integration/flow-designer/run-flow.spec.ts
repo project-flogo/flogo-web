@@ -6,6 +6,7 @@ import {
   goBackFromResourcePage,
   navigateToActionPage,
   isActivityInstalled,
+  addActivity,
   Actions,
 } from '../../utils';
 
@@ -39,12 +40,7 @@ describe('Run flow', () => {
       });
     cy.get('[data-cy=flow-resource-input-modal-save]').click();
 
-    // add an activity
-    cy.get('[data-cy=diagram-add-activity-btn]').click();
-    cy.get('[data-cy=diagram-add-activity-search-input]').type('log');
-    cy.get('[data-cy=diagram-add-activity-activity]')
-      .eq(0)
-      .click();
+    addActivity('log');
 
     cy.get('[data-cy=run-flow-btn]').click();
     cy.get('[data-cy=dynamic-form-element]')
@@ -70,12 +66,7 @@ describe('Run flow', () => {
       });
     cy.get('[data-cy=flow-resource-input-modal-save]').click();
 
-    // add an activity
-    cy.get('[data-cy=diagram-add-activity-btn]').click();
-    cy.get('[data-cy=diagram-add-activity-search-input]').type('log');
-    cy.get('[data-cy=diagram-add-activity-activity]')
-      .eq(0)
-      .click();
+    addActivity('log');
 
     // run a flow
     cy.get('[data-cy=run-flow-btn]').click();
@@ -99,11 +90,7 @@ describe('Run flow', () => {
         createAnAction(Actions.Flow);
         navigateToActionPage();
 
-        // add subflow
-        cy.get('[data-cy=diagram-add-activity-btn]').click();
-        cy.get('[data-cy=diagram-add-activity-activity]')
-          .eq(0)
-          .click();
+        addActivity();
         cy.get('[data-cy=select-subflow-modal]').within(() => {
           cy.get('[data-cy=flows-list-flow]')
             .eq(0)

@@ -5,6 +5,7 @@ import {
   visitApp,
   navigateToActionPage,
   formEndPoint,
+  addActivity,
   Actions,
   SHIM_BUILD_API,
 } from '../../utils';
@@ -18,20 +19,8 @@ describe('Build the application', function() {
   });
 
   it('should build the application', () => {
-    cy.get('[data-cy=diagram-add-activity-btn]')
-      .eq(0)
-      .click();
-    cy.get('[data-cy=diagram-add-activity-search-input]').type('channel');
-    cy.get('[data-cy=diagram-add-activity-activity]')
-      .eq(0)
-      .click();
-    cy.get('[data-cy=diagram-add-activity-btn]')
-      .eq(0)
-      .click();
-    cy.get('[data-cy=diagram-add-activity-search-input]').type('log');
-    cy.get('[data-cy=diagram-add-activity-activity]')
-      .eq(0)
-      .click();
+    addActivity('channel');
+    addActivity('log');
 
     cy.get('[data-cy=triggers-add-trigger-btn]').click();
     cy.get('[data-cy=triggers-list]')
@@ -66,18 +55,8 @@ describe('Build the application', function() {
       },
     }).as('shimBuildAPI');
 
-    cy.get('[data-cy=diagram-add-activity-btn]').click();
-    cy.get('[data-cy=diagram-add-activity-search-input]').type('log');
-    cy.get('[data-cy=diagram-add-activity-activity]')
-      .eq(0)
-      .click();
-    cy.get('[data-cy=diagram-add-activity-btn]')
-      .eq(0)
-      .click();
-    cy.get('[data-cy=diagram-add-activity-search-input]').type('channel');
-    cy.get('[data-cy=diagram-add-activity-activity]')
-      .eq(0)
-      .click();
+    addActivity('log');
+    addActivity('channel');
 
     cy.get('[data-cy=triggers-add-trigger-btn]').click();
     cy.get('[data-cy=triggers-list]')

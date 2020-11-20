@@ -3,6 +3,8 @@ import {
   createApp,
   visitApp,
   navigateToActionPage,
+  getAddActivityButton,
+  addActivity,
   Actions,
   RUN_STREAM,
 } from '../../utils';
@@ -23,10 +25,8 @@ describe('Run stream', function() {
 
   context('Upload stream input file, start/stop simulation', () => {
     it('should be able to upload a stream input csv file', () => {
-      cy.get('[data-cy=diagram-add-activity-btn]')
-        .eq(0)
-        .click();
-      cy.get('[data-cy=diagram-add-stage-activity]')
+      getAddActivityButton().click();
+      cy.get('[data-cy=diagram-add-activity-activity]')
         .eq(0)
         .click();
       cy.get('[data-cy=simulation-ctrls-open-run-stream]').click();
@@ -39,10 +39,8 @@ describe('Run stream', function() {
     });
 
     it('should be able to remove the stream input csv file', () => {
-      cy.get('[data-cy=diagram-add-activity-btn]')
-        .eq(0)
-        .click();
-      cy.get('[data-cy=diagram-add-stage-activity]')
+      getAddActivityButton().click();
+      cy.get('[data-cy=diagram-add-activity-activity]')
         .eq(0)
         .click();
       cy.get('[data-cy=simulation-ctrls-open-run-stream]').click();
@@ -110,12 +108,7 @@ describe('Run stream', function() {
 
     it('should auto stop simulation when diagram is updated', () => {
       startSimulation();
-
-      cy.get('[data-cy=diagram-add-activity-btn]').click({ force: true });
-      cy.get('[data-cy=diagram-add-stage-activity]')
-        .eq(0)
-        .click();
-
+      addActivity('', { force: true });
       cy.get('[data-cy=simulation-ctrls-open-run-stream]').should('exist');
     });
   });
@@ -127,22 +120,8 @@ describe('Run stream', function() {
  * run stream simulation
  * */
 function startSimulation() {
-  // add stages
-  cy.get('[data-cy=diagram-add-activity-btn]')
-    .eq(0)
-    .click();
-  cy.get('[data-cy=diagram-add-stage-search-input]').type('Log');
-  cy.get('[data-cy=diagram-add-stage-activity]')
-    .eq(0)
-    .click();
-
-  cy.get('[data-cy=diagram-add-activity-btn]')
-    .eq(0)
-    .click();
-  cy.get('[data-cy=diagram-add-stage-search-input]').type('Filter');
-  cy.get('[data-cy=diagram-add-stage-activity]')
-    .eq(0)
-    .click();
+  addActivity('Log');
+  addActivity('Filter');
 
   // configure stream interface
   const INPUT = 'input';

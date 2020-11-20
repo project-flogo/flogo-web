@@ -7,6 +7,7 @@ import {
   Actions,
   EXPORT_APP,
   EXPORT_ACTIONS,
+  addActivity,
 } from '../../utils';
 
 describe('Export app', function() {
@@ -24,11 +25,7 @@ describe('Export app', function() {
       url: EXPORT_APP,
     }).as('exportApp');
 
-    cy.get('[data-cy=diagram-add-activity-btn]').click();
-    cy.get('[data-cy=diagram-add-activity-search-input]').type('log');
-    cy.get('[data-cy=diagram-add-activity-activity]')
-      .eq(0)
-      .click();
+    addActivity('log');
     cy.get('[data-cy=triggers-add-trigger-btn]').click();
     cy.get('[data-cy=triggers-list-trigger]')
       .eq(0)
@@ -48,11 +45,7 @@ describe('Export app', function() {
       url: EXPORT_ACTIONS,
     }).as('exportActions');
 
-    cy.get('[data-cy=diagram-add-activity-btn]').click();
-    cy.get('[data-cy=diagram-add-activity-search-input]').type('log');
-    cy.get('[data-cy=diagram-add-activity-activity]')
-      .eq(0)
-      .click();
+    addActivity('log');
     cy.get('[data-cy=triggers-add-trigger-btn]').click();
     cy.get('[data-cy=triggers-list-trigger]')
       .eq(0)
@@ -67,11 +60,7 @@ describe('Export app', function() {
   });
 
   it('should warn users exporting application with no triggers', () => {
-    cy.get('[data-cy=diagram-add-activity-btn]').click();
-    cy.get('[data-cy=diagram-add-activity-search-input]').type('log');
-    cy.get('[data-cy=diagram-add-activity-activity]')
-      .eq(0)
-      .click();
+    addActivity('log');
     goBackFromResourcePage();
     cy.get('[data-cy=app-detail-export-button]').click();
     cy.get('[data-cy=app-detail-export-app]').click();
