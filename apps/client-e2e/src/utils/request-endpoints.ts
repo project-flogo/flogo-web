@@ -5,6 +5,7 @@ export const EXPORT_ACTIONS = formEndPoint('/apps/*:export?type=flows');
 export const GET_INSTALLED_ACTIVITIES = formEndPoint(
   '/contributions/microservices?filter[type]=activity'
 );
+export const RUN_STREAM = formEndPoint('/upload/simulationData');
 export const SHIM_BUILD_API = formEndPoint('/triggers/*:shim?os=*&arch=*');
 
 export function formEndPoint(api) {
