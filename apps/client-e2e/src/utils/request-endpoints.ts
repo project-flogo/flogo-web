@@ -5,9 +5,9 @@ export const EXPORT_ACTIONS = formEndPoint('/apps/*:export?type=flows');
 export const GET_INSTALLED_ACTIVITIES = formEndPoint(
   '/contributions/microservices?filter[type]=activity'
 );
-export const RUN_STREAM = formEndPoint('/upload/simulationData');
+export const SHIM_BUILD_API = formEndPoint('/triggers/*:shim?os=*&arch=*');
 
-function formEndPoint(api) {
+export function formEndPoint(api) {
   const HOSTNAME = 'http://localhost:3303';
   const BASE_PATH = '/api/v2';
   return `${HOSTNAME}${BASE_PATH}${api}`;

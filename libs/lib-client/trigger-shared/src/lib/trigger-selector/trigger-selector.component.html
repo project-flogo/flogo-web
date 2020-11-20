@@ -75,7 +75,7 @@
             (search)="searchInstalledTriggers($event)"
           ></flogo-search>
         </div>
-        <div class="triggers-list">
+        <div class="triggers-list" data-cy="triggers-list">
           <div *ngFor="let trigger of installedTriggersSearcher.list$ | async">
             <div
               class="installed-trigger"

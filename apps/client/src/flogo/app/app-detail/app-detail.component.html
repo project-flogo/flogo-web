@@ -205,6 +205,7 @@
         id="buildMenuButton"
         aria-haspopup="true"
         [attr.aria-expanded]="isBuildBoxShown"
+        data-cy="app-detail-build-app-btn"
       >
         <ng-container *ngIf="!isBuilding; else buildIndicator">
           <span class="menu-dropdown__button-label">{{
@@ -219,7 +220,7 @@
         aria-labelledby="buildMenuButton"
         [class.active]="isBuildBoxShown"
       >
-        <ul class="dropdown-list">
+        <ul class="dropdown-list" data-cy="build-options-dropdown-list">
           <li *ngFor="let opt of buildOptions" class="dropdown-list__item">
             <a class="dropdown-list__item-link" (click)="buildApp(opt)">
               <span>{{ opt.label }} </span>
@@ -229,6 +230,7 @@
         <ul
           class="dropdown-list dropdown-list--subsection"
           *ngIf="shimTriggerOptions.length > 0"
+          data-cy="shim-trigger-options-dropdown-list"
         >
           <li *ngFor="let opt of shimTriggerOptions" class="dropdown-list__item">
             <span
