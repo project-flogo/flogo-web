@@ -108,7 +108,7 @@ describe('Run stream', function() {
 
     it('should auto stop simulation when diagram is updated', () => {
       startSimulation();
-      addActivity('', { force: true });
+      addActivity('channel', { force: true });
       cy.get('[data-cy=simulation-ctrls-open-run-stream]').should('exist');
     });
   });
@@ -214,7 +214,7 @@ function uploadStreamInputFile() {
 
 function monacoEditorInput(input) {
   // wait for monaco editor to load
-  cy.wait(300);
+  cy.wait(3000);
   cy.get('[data-cy=flogo-mapper-editor]')
     .click()
     // change subject to currently focused element
