@@ -13,7 +13,7 @@ export function createAnAction(
   cy.get('[data-cy=app-detail-create-resource]').click();
   if (actionType === Actions.Stream) {
     cy.get('[data-cy=resource-types]')
-      .contains('Stream')
+      .contains('Stream', { timeout: 10000 })
       .click();
   }
   cy.get('[data-cy=add-new-resource-name]')

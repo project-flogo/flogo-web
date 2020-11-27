@@ -45,7 +45,7 @@ describe('Build the application', function() {
     });
   });
 
-  it('should match the expected API pattern when building an application using shim option if shimmable trigger is used', () => {
+  it('should match the expected API pattern when building an application using shim option', () => {
     cy.server();
     cy.route({
       method: 'GET',

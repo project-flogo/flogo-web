@@ -18,7 +18,7 @@ export function addActivity(searchActivity?, clickBtnOptions = {}) {
 }
 
 export function getAddActivityButton() {
-  return cy.get('[data-cy=diagram-add-activity-btn]');
+  return cy.get('[data-cy=diagram-add-activity-btn]').eq(0);
 }
 
 export function getAddActivitySearchInput() {

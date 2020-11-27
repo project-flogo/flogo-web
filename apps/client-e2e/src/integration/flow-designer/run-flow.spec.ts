@@ -55,6 +55,7 @@ describe('Run flow', () => {
       });
   });
 
+  // this test requires a running instance of flow-store service
   it('should run a flow', () => {
     // add flow inputs/outputs
     const INPUT = 'flowInput';

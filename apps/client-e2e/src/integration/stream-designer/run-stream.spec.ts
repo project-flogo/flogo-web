@@ -214,7 +214,7 @@ function uploadStreamInputFile() {
 
 function monacoEditorInput(input) {
   // wait for monaco editor to load
-  cy.wait(2000);
+  cy.wait(300);
   cy.get('[data-cy=flogo-mapper-editor]')
     .click()
     // change subject to currently focused element

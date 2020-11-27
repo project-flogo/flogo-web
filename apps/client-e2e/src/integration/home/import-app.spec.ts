@@ -1,7 +1,7 @@
 import { IMPORT_APP, visitApp } from '../../utils';
 
 describe('Import app json', () => {
-  before(() => {
+  beforeEach(() => {
     visitApp();
   });
 
@@ -30,10 +30,7 @@ describe('Import app json', () => {
     importApp(filePath);
     cy.wait('@importApp').then(() => {
       cy.get('[data-cy=flogo-notification]').contains('Encountered validation errors');
-      // closing notification to ensure only one success notification is seen at a time
-      cy.get('[data-cy=flogo-notification-close]').click();
       cy.get('[data-cy=flogo-import-error-list]').should('exist');
-      cy.get('[data-cy=flogo-import-error-confirm-btn]').click();
     });
   });
 });
@@ -47,7 +44,5 @@ function importApp(filePath) {
 function assertSuccessfulAppImport() {
   cy.wait('@importApp').then(() => {
     cy.get('[data-cy=flogo-notification]').contains('Application imported successfully');
-    // closing notification to ensure only one success notification is seen at a time
-    cy.get('[data-cy=flogo-notification-close]').click();
   });
 }
