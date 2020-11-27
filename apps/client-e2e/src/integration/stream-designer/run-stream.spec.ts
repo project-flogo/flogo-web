@@ -55,8 +55,8 @@ describe('Run stream', function() {
 
     it('should be able to start simulation', () => {
       startSimulation();
-      // override query element retry timeout to wait until buttons are visible
-      cy.get('[data-cy=simulation-ctrls-stop-btn]', { timeout: 10000 }).should('exist');
+
+      cy.get('[data-cy=simulation-ctrls-stop-btn]').should('exist');
       cy.get('[data-cy=simulation-ctrls-pause-btn]').should('exist');
     });
 
@@ -64,8 +64,7 @@ describe('Run stream', function() {
       startSimulation();
       // wait before pausing the simulation
       cy.wait(3000);
-      // override query element retry timeout to wait until buttons are visible
-      cy.get('[data-cy=simulation-ctrls-pause-btn]', { timeout: 10000 }).click();
+      cy.get('[data-cy=simulation-ctrls-pause-btn]').click();
       cy.get('[data-cy=simulation-ctrls-resume-btn]').should('exist');
     });
 
@@ -73,8 +72,7 @@ describe('Run stream', function() {
       startSimulation();
       // wait before pausing the simulation
       cy.wait(3000);
-      // override query element retry timeout to wait until buttons are visible
-      cy.get('[data-cy=simulation-ctrls-pause-btn]', { timeout: 10000 }).click();
+      cy.get('[data-cy=simulation-ctrls-pause-btn]').click();
       // wait before resuming the simulation
       cy.wait(3000);
       cy.get('[data-cy=simulation-ctrls-resume-btn]').click();
@@ -85,8 +83,7 @@ describe('Run stream', function() {
       startSimulation();
       // wait before stopping the simulation
       cy.wait(3000);
-      // override query element retry timeout to wait until buttons are visible
-      cy.get('[data-cy=simulation-ctrls-stop-btn]', { timeout: 10000 }).click();
+      cy.get('[data-cy=simulation-ctrls-stop-btn]').click();
       cy.get('[data-cy=simulation-ctrls-open-run-stream]').should('exist');
     });
   });
