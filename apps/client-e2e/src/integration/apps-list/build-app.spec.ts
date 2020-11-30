@@ -68,6 +68,8 @@ describe('Build the application', function() {
     cy.get('[data-cy=shim-trigger-options-dropdown-list]').within(() => {
       cy.contains('CLI App').click();
     });
+    // wait for the options modal to appear
+    cy.wait(1000);
     cy.get('[data-cy=shim-build-options-dropdown-list]').within(() => {
       cy.contains('Windows/amd64').click();
     });
