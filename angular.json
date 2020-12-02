@@ -686,7 +686,7 @@
             },
             "external": {
               "devServerTarget": "",
-              "baseUrl": "http://localhost:3303"
+              "baseUrl": "http://localhost:4200"
             }
           }
         },

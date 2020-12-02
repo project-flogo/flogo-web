@@ -44,7 +44,7 @@ jobs:
         set -e
         RELEASE_VERSION=latest ./make-web.sh --build-ml
 
-        docker run -d -p 3303:3303 flogo/flogo-web:latest eula-accept
+        docker run -d -p 4200:3303 flogo/flogo-web:latest eula-accept
         yarn e2e-client:ci
 
         if [ "${TRAVIS_BRANCH}" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
