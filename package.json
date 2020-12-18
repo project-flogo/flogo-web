@@ -16,7 +16,7 @@
     "e2e": "ng e2e",
     "e2e-libs:ci": "ng e2e demo-libs-e2e --headless",
     "e2e-client": "ng e2e client-e2e --configuration=external --watch",
-    "e2e-client:ci": "ng e2e client-e2e --configuration=external --headless",
+    "e2e-client:ci": "ng e2e client-e2e --configuration=external --baseUrl http://localhost:3303 --headless",
     "affected:apps": "./node_modules/.bin/nx affected:apps",
     "affected:libs": "./node_modules/.bin/nx affected:libs",
     "affected:build": "./node_modules/.bin/nx affected:build",
