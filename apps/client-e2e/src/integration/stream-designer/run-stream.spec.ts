@@ -214,8 +214,6 @@ function monacoEditorInput(input) {
   cy.wait(3000);
   cy.get('[data-cy=flogo-mapper-editor]')
     .click()
-    // change subject to currently focused element
-    .focused()
     .type(input);
   // wait for cypress to finish type data into the monaco editor
   cy.wait(1000);
