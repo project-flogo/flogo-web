@@ -1,4 +1,4 @@
-<div (fgOnEscape)="closeModal()">
+<div (fgOnEscape)="closeModal()" data-cy="install-contrib-modal">
   <i class="flogo-installer-modal-close" (click)="closeModal()"></i>
   <div *ngIf="_status == showBlock.standByMode">
     <header class="container-fluid">
@@ -34,6 +34,7 @@
   <div
     *ngIf="_status == showBlock.installSuccessMode"
     class="flogo-installer__modal-content"
+    data-cy="install-contrib-success"
   >
     <div class="flogo-installer__information-img">
       <object data="/assets/svg/flogo-installer-success.svg" type="image/svg+xml">
@@ -42,7 +43,11 @@
     </div>
     <span> {{ 'INSTALLER:SUCCESS-MESSAGE-INSTALLATION' | translate }} </span>
     <div class="flogo-installer__button-container">
-      <button class="flogo-button--default" (click)="updateInstalledTriggers()">
+      <button
+        class="flogo-button--default"
+        (click)="updateInstalledTriggers()"
+        data-cy="install-contrib-success-okay-btn"
+      >
         {{ 'MODAL:OKAY' | translate }}
       </button>
     </div>

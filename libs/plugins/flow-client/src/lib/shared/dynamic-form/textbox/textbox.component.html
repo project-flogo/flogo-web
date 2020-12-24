@@ -5,6 +5,7 @@
     [fieldMetadata]="fieldControl"
     [control]="fieldGroup.get('name')"
     [noOptionalLabel]="hideOptionalLabel"
+    data-cy="dynamic-form-textbox-label"
   ></label>
   <input
     type="text"
@@ -12,5 +13,6 @@
     [ngClass]="{ '--invalid': fieldGroup.get('value').invalid }"
     id="{{ fieldControl.name }}"
     formControlName="value"
+    data-cy="dynamic-form-textbox-input"
   />
 </div>

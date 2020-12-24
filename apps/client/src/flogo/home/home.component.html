@@ -1,6 +1,8 @@
 <div class="content-wrapper header">
   <div class="header__content">
-    <p class="welcome-message">{{ 'FLOWS:WELCOME-BACK' | translate }}</p>
+    <p class="welcome-message" data-cy="welcome-message">
+      {{ 'FLOWS:WELCOME-BACK' | translate }}
+    </p>
   </div>
   <div class="header__flynn" [class.is-flying]="isFlying">
     <object

@@ -1,4 +1,4 @@
-<div class="head">
+<div class="head" data-cy="diagram-add-activity-popup">
   <h2 class="title">{{ 'TASKS:ADD-ACTIVITY' | translate }}</h2>
   <input
     cdkFocusRegionStart
@@ -6,6 +6,7 @@
     class="search"
     placeholder="{{ 'ADD:SEARCH-ACTIVITIES' | translate }}"
     (keyup)="filterActivities($event.target.value)"
+    data-cy="diagram-add-activity-search-input"
   />
   <span class="flogo-icon-search icon-search"></span>
 </div>

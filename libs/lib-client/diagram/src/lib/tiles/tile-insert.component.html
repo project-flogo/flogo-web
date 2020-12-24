@@ -3,6 +3,7 @@
   [class]="btnInsertClass"
   [ngClass]="{ 'btn-insert-between': insertBetween }"
   (click)="onClick()"
+  [attr.data-cy]="getAddActivityBtnSelector"
 >
   <svg
     class="btn-insert__icon"

@@ -1,0 +1,171 @@
+{
+  "name": "Microservice application",
+  "type": "flogo:app",
+  "version": "0.0.1",
+  "appModel": "1.0.0",
+  "triggers": [
+    {
+      "id": "timer",
+      "ref": "github.com/TIBCOSoftware/flogo-contrib/trigger/not-installed",
+      "name": "Timer",
+      "description": "Simple Timer trigger",
+      "settings": {},
+      "handlers": [
+        {
+          "action": {
+            "ref": "github.com/TIBCOSoftware/flogo-contrib/action/flow",
+            "data": {
+              "flowURI": "res://flow:test"
+            }
+          },
+          "settings": {
+            "repeating": "false",
+            "notImmediate": "true",
+            "startDate": "2018-01-01T12:00:00Z00:00"
+          }
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "id": "flow:test",
+      "data": {
+        "name": "test",
+        "metadata": {
+          "input": [
+            {
+              "type": "string"
+            },
+            {
+              "name": "in1"
+            }
+          ],
+          "output": [
+            {
+              "name": "out",
+              "type": "string"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "id": "log_2",
+            "name": "Log Message",
+            "description": "Simple Log Activity",
+            "activity": {
+              "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/not-installed",
+              "input": {
+                "message": "Testing from second log",
+                "flowInfo": "false",
+                "addToFlow": true
+              }
+            }
+          },
+          {
+            "id": "actreturn_4",
+            "name": "Return",
+            "description": "Simple Return Activity",
+            "activity": {
+              "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/actreturn",
+              "input": {
+                "mappings": [
+                  {
+                    "mapTo": "out",
+                    "type": "literal",
+                    "value": "Out from first return"
+                  },
+                  {
+                    "mapTo": "out1",
+                    "type": "literal",
+                    "value": 100
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "id": "log_5",
+            "name": "Log Message (2)",
+            "description": "Simple Log Activity",
+            "activity": {
+              "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/log",
+              "input": {
+                "message": "Testing in second logout",
+                "flowInfo": "false",
+                "addToFlow": true
+              }
+            }
+          },
+          {
+            "id": "actreturn_6",
+            "name": "Return (2)",
+            "description": "Simple Return Activity",
+            "activity": {
+              "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/actreturn",
+              "input": {
+                "mappings": [
+                  {
+                    "mapTo": "out",
+                    "type": "literal",
+                    "value": "Output from second return"
+                  },
+                  {
+                    "mapTo": "out1",
+                    "type": "literal",
+                    "value": 200
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "links": [
+          {
+            "from": "log_2",
+            "to": "mapper_3"
+          },
+          {
+            "from": 234,
+            "to": "sdfgdfsg"
+          },
+          {
+            "from": "log_2",
+            "to": "log_5",
+            "type": "expression",
+            "value": "$flow.in == \"test1\""
+          },
+          {
+            "from": "log_5",
+            "to": "actreturn_6"
+          }
+        ],
+        "errorHandler": {
+          "tasks": [
+            {
+              "id": "log_7",
+              "name": "Log Message (3)",
+              "description": "Simple Log Activity",
+              "activity": {
+                "ref": "github.com/TIBCOSoftware/flogo-contrib/activity/log",
+                "input": {
+                  "flowInfo": "false",
+                  "addToFlow": true
+                },
+                "mappings": {
+                  "input": [
+                    {
+                      "type": "assign",
+                      "value": "$error.message",
+                      "mapTo": "message"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

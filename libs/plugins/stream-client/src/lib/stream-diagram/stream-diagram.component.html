@@ -7,7 +7,11 @@
     (mouseenter)="updateDraggingState(draggingPosition.INSIDE, $event.buttons)"
     (mouseleave)="updateDraggingState(draggingPosition.OUTSIDE, $event.buttons)"
   >
-    <div class="tile" *ngFor="let tile of tiles; trackBy: trackTileBy">
+    <div
+      class="tile"
+      *ngFor="let tile of tiles; trackBy: trackTileBy"
+      data-cy="stream-diagram-stage"
+    >
       <flogo-diagram-tile-insert
         *ngIf="hideInsertTile"
         class="tile__add-between"
@@ -30,6 +34,7 @@
         (remove)="onDiagramAction($event)"
         (configure)="onDiagramAction($event)"
         (cdkDragStarted)="onStageDragStart()"
+        data-cy="stream-diagram-tile-task"
       >
         <flogo-diagram-tile-placeholder
           *cdkDragPlaceholder

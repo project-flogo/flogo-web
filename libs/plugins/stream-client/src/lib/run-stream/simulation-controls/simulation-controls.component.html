@@ -4,6 +4,7 @@
       class="action-button uxpl-button-secondary"
       type="button"
       (click)="stop.emit()"
+      data-cy="simulation-ctrls-stop-btn"
     >
       <span class="action-icon stop"></span>Stop
     </button>
@@ -11,6 +12,7 @@
       class="action-button uxpl-button-secondary"
       type="button"
       (click)="pause.emit()"
+      data-cy="simulation-ctrls-pause-btn"
     >
       <span class="action-icon pause"></span> Pause
     </button>
@@ -21,6 +23,7 @@
       class="action-button uxpl-button-secondary"
       type="button"
       (click)="stop.emit()"
+      data-cy="simulation-ctrls-stop-btn"
     >
       <span class="action-icon stop"></span>Stop
     </button>
@@ -28,6 +31,7 @@
       class="action-button uxpl-button-primary"
       type="button"
       (click)="resume.emit()"
+      data-cy="simulation-ctrls-resume-btn"
     >
       <span class="action-icon resume"></span>Resume
     </button>
@@ -39,6 +43,7 @@
       type="button"
       [disabled]="disableRunStream"
       (click)="open.emit()"
+      data-cy="simulation-ctrls-open-run-stream"
     >
       Run stream
     </button>

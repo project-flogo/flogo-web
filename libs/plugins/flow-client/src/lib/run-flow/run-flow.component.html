@@ -8,6 +8,7 @@
       class="flogo-button--default run-flow__button"
       [disabled]="disableRun"
       [class.--disabled]="disableRun"
+      data-cy="run-flow-btn"
     >
       {{ 'FLOW-RUN:RUN-BUTTON' | translate }}
     </button>
@@ -36,6 +37,7 @@
           class="flogo-button--default"
           (click)="onRunFlowSubmit()"
           [disabled]="!isValid"
+          data-cy="run-flow-run-btn"
         >
           {{ 'FLOW-RUN:RUN-BUTTON' | translate }}
         </button>

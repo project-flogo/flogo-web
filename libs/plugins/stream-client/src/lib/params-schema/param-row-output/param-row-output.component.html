@@ -5,6 +5,7 @@
     formControlName="name"
     placeholder="parameter name"
     [ngClass]="{ '--invalid': !paramGroup.get('name').valid }"
+    data-cy="stream-resource-input"
   />
 
   <div class="dropdown form-input__type type-selector" (fgClickOutside)="closeDropdown()">

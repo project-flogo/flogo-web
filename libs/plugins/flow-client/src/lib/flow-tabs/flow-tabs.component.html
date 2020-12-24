@@ -11,6 +11,7 @@
     class="flogo-flow-tabs-item"
     (click)="selectErrorHandler()"
     [ngClass]="{ 'flogo-flow-tabs-item--selected': isErrorHandlerShown }"
+    data-cy="error-handler-tab"
   >
     {{ 'FLOWS:ERROR-HANDLER' | translate }}
     <div class="error-badge" *ngIf="showBadgeForError$ | async"></div>

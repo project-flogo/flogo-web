@@ -6,20 +6,20 @@
 
 <h2>Notification success</h2>
 
-<button data-testid="btn-success" (click)="showSuccess()">Show me success</button>
+<button data-cy="btn-success" (click)="showSuccess()">Show me success</button>
 
 <h2>Notification error</h2>
 
-<button data-testid="btn-error" (click)="showError()">Show me an error</button>
+<button data-cy="btn-error" (click)="showError()">Show me an error</button>
 
 <h3>Many</h3>
 
-<button data-testid="btn-many" (click)="showMany()">Show many</button>
+<button data-cy="btn-many" (click)="showMany()">Show many</button>
 
 <h3>Custom timeout</h3>
 
 Timeout (milliseconds):
-<input data-testid="inputTimeout" #timeout type="number" value="500" />
-<button data-testid="btn-timeout" (click)="showWithTimeout(timeout.value)">
+<input data-cy="inputTimeout" #timeout type="number" value="500" />
+<button data-cy="btn-timeout" (click)="showWithTimeout(timeout.value)">
   Show with timeout
 </button>

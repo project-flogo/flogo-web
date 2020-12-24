@@ -38,6 +38,9 @@
     "client": {
       "tags": ["client"]
     },
+    "client-e2e": {
+      "tags": []
+    },
     "demo-libs": {
       "tags": []
     },

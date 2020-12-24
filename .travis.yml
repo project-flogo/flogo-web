@@ -33,18 +33,19 @@ jobs:
           yarn format:check --base=$NX_BASE
           yarn nx affected --target=lint --base=$NX_BASE --head=HEAD --parallel
           yarn nx affected --target=test --all --parallel
-    - stage: test
-      name: "E2E tests"
-      script: yarn e2e:ci
-    - stage: build
-      language: bash
-      name: "Build the docker image"
-      node_js:
+    - stage: libs e2e tests
+      name: "Libs E2E tests"
+      script: yarn e2e-libs:ci
+    - stage: app e2e tests & build
+      name: "App E2E tests & build the docker image"
       services:
         - docker
-      install: skip
       script: |
+        set -e
         RELEASE_VERSION=latest ./make-web.sh --build-ml
+
+        docker run -d -p 3303:3303 flogo/flogo-web:latest eula-accept
+        yarn e2e-client:ci
 
         if [ "${TRAVIS_BRANCH}" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
           echo 'Master banch build detected, pushing to docker hub'

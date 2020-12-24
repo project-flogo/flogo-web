@@ -13,6 +13,7 @@
     [status]="fileUploadStatus"
     [isDragging]="isDragging"
     (remove)="removeFile()"
+    data-cy="stream-input-upload-status"
   ></flogo-stream-file-status>
 
   <div
@@ -28,7 +29,13 @@
     <span class="upload-instructions__link" (click)="fileInput.click()">
       browse to upload
     </span>
-    <input type="file" #fileInput hidden (change)="uploadFile($event.target.files)" />
+    <input
+      type="file"
+      #fileInput
+      hidden
+      (change)="uploadFile($event.target.files)"
+      data-cy="upload-stream-data-input"
+    />
   </div>
 
   <ng-template #uploadedState>
@@ -54,6 +61,7 @@
     [disabled]="disableRunStream"
     (click)="runSimulation()"
     class="flogo-button--default run-stream"
+    data-cy="stream-simulation-run-stream"
   >
     {{ 'STREAMS.SIMULATOR:RUN-STREAM' | translate }}
   </button>

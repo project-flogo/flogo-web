@@ -16,10 +16,10 @@ export interface UserParams {
       </flogo-modal-header>
       <flogo-modal-body> Please choose an answer</flogo-modal-body>
       <flogo-modal-footer [stretchChildren]="true">
-        <button class="action" data-testid="modal-response-yes" (click)="reply('yup!')">
+        <button class="action" data-cy="modal-response-yes" (click)="reply('yup!')">
           Yup!
         </button>
-        <button class="action" data-testid="modal-response-no" (click)="reply('meh')">
+        <button class="action" data-cy="modal-response-no" (click)="reply('meh')">
           Meh
         </button>
       </flogo-modal-footer>

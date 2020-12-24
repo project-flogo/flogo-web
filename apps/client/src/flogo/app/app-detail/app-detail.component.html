@@ -1,5 +1,7 @@
 <div class="go-back-container">
-  <a routerLink="/apps" class="go-back"><i class="flogo-icon flogo-icon-back"></i></a>
+  <a routerLink="/apps" class="go-back">
+    <i class="flogo-icon flogo-icon-back" data-cy="app-detail-go-back"></i
+  ></a>
 </div>
 
 <div class="background-image background-image--microservice">
@@ -91,16 +93,22 @@
         (editableInputSave)="onNameSave()"
         (editableInputCancel)="onNameCancel()"
         id="appName"
+        data-cy="app-detail-app-name-input"
       />
 
       <label
         class="app-name is-editable qa-name-label"
         *ngIf="!nameUiState.inEditMode"
-        (click)="onClickLabelName($event)"
+        (click)="onClickLabelName()"
+        data-cy="app-detail-app-name"
         >{{ application?.name }}</label
       >
 
-      <div class="flogo-input-error-msg" *ngIf="nameUiState?.errors?.notUnique">
+      <div
+        class="flogo-input-error-msg"
+        data-cy="app-detail-unique-name-error"
+        *ngIf="nameUiState?.errors?.notUnique"
+      >
         {{ 'APP-DETAIL:ERROR-UNIQUE-NAME' | translate }}
       </div>
     </div>
@@ -154,6 +162,7 @@
         id="exportMenuButton"
         aria-haspopup="true"
         [attr.aria-expanded]="isExportBoxShown"
+        data-cy="app-detail-export-button"
       >
         <span class="menu-dropdown__button-label">{{
           'DETAILS:EXPORT' | translate
@@ -166,13 +175,21 @@
         aria-labelledby="exportMenuButton"
       >
         <ul class="dropdown-list">
-          <li class="dropdown-list__item" [fgJsonDownloader]="appExporter()">
+          <li
+            class="dropdown-list__item"
+            [fgJsonDownloader]="appExporter()"
+            data-cy="app-detail-export-app"
+          >
             <a class="dropdown-list__item-link"
               ><span>{{ 'DETAILS:EXPORT-APP' | translate }} </span></a
             >
           </li>
 
-          <li class="dropdown-list__item" (click)="openExportFlow()">
+          <li
+            class="dropdown-list__item"
+            (click)="openExportFlow()"
+            data-cy="app-detail-export-actions"
+          >
             <a class="dropdown-list__item-link"
               ><span>{{ 'DETAILS:EXPORT-ACTION' | translate }}</span></a
             >
@@ -188,6 +205,7 @@
         id="buildMenuButton"
         aria-haspopup="true"
         [attr.aria-expanded]="isBuildBoxShown"
+        data-cy="app-detail-build-app-btn"
       >
         <ng-container *ngIf="!isBuilding; else buildIndicator">
           <span class="menu-dropdown__button-label">{{
@@ -202,7 +220,7 @@
         aria-labelledby="buildMenuButton"
         [class.active]="isBuildBoxShown"
       >
-        <ul class="dropdown-list">
+        <ul class="dropdown-list" data-cy="build-options-dropdown-list">
           <li *ngFor="let opt of buildOptions" class="dropdown-list__item">
             <a class="dropdown-list__item-link" (click)="buildApp(opt)">
               <span>{{ opt.label }} </span>
@@ -212,6 +230,7 @@
         <ul
           class="dropdown-list dropdown-list--subsection"
           *ngIf="shimTriggerOptions.length > 0"
+          data-cy="shim-trigger-options-dropdown-list"
         >
           <li *ngFor="let opt of shimTriggerOptions" class="dropdown-list__item">
             <span
@@ -256,7 +275,11 @@
     [viewType]="resourceViewType"
     (changeView)="resourceViewChanged($event)"
   ></flogo-resource-views-selector>
-  <button class="flogo-button--flat btn-create-flow" (click)="openCreateResource()">
+  <button
+    class="flogo-button--flat btn-create-flow"
+    (click)="openCreateResource()"
+    data-cy="app-detail-create-resource"
+  >
     <i class="flogo-icon-add"></i>{{ 'DETAILS:NEW-RESOURCE' | translate }}
   </button>
 </div>

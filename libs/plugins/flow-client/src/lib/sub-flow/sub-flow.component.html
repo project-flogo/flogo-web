@@ -1,4 +1,9 @@
-<flogo-modal class="modal" size="large" (close)="closeModal()">
+<flogo-modal
+  class="modal"
+  size="large"
+  (close)="closeModal()"
+  data-cy="select-subflow-modal"
+>
   <flogo-modal-header class="header">
     <div class="header__title">
       {{ 'FLOWS-LIST:HEADER-TEXT' | translate }}

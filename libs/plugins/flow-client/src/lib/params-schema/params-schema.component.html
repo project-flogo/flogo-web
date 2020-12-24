@@ -18,6 +18,7 @@
           class="flogo-button--default"
           data-dismiss="modal"
           [disabled]="!paramsForm.valid"
+          data-cy="flow-resource-input-modal-save"
         >
           {{ 'INPUT-PARAMS:SAVE' | translate }}
         </button>
@@ -33,6 +34,7 @@
                 'flow-input-params__category--selected': displayInputParams
               }"
               (click)="showInputParams()"
+              data-cy="flow-resource-input-tab"
             >
               <span>Input</span>
               <i
@@ -46,6 +48,7 @@
                 'flow-input-params__category--selected': !displayInputParams
               }"
               (click)="showOutputParams()"
+              data-cy="flow-resource-output-tab"
             >
               <span>Output</span>
               <i
@@ -64,6 +67,7 @@
             <div
               *ngFor="let inputParam of paramsForm.get('input').controls; let i = index"
               class="flow-input-params-field"
+              data-cy="flow-resource-input-row"
             >
               <div [formGroupName]="i" class="flow-params-new-field">
                 <flogo-flow-params-schema-param-row
@@ -79,6 +83,7 @@
                 class="flow-input-params-add"
                 (click)="addParams('input')"
                 type="button"
+                data-cy="flow-resource-add-input-btn"
               >
                 <span
                   class="flogo-icon flogo-icon-add flow-input-params-add__icon"
@@ -101,6 +106,7 @@
             <div
               *ngFor="let outputParam of paramsForm.get('output').controls; let i = index"
               class="flow-input-params-field"
+              data-cy="flow-resource-output-row"
             >
               <div [formGroupName]="i" class="flow-params-new-field">
                 <flogo-flow-params-schema-param-row
@@ -116,6 +122,7 @@
                 class="flow-input-params-add"
                 (click)="addParams('output')"
                 type="button"
+                data-cy="flow-resource-add-output-btn"
               >
                 <span
                   class="flogo-icon flogo-icon-add  flow-input-params-add__icon"

@@ -19,6 +19,7 @@
         class="trigger-menu-item"
         (click)="displayInstalledTriggers()"
         [class.selected]="!showExistingTriggers"
+        data-cy="triggers-create-new-trigger"
       >
         {{ 'TRIGGER-SELECTOR:CREATE-NEW' | translate }}
       </div>
@@ -74,11 +75,12 @@
             (search)="searchInstalledTriggers($event)"
           ></flogo-search>
         </div>
-        <div class="triggers-list">
+        <div class="triggers-list" data-cy="triggers-list">
           <div *ngFor="let trigger of installedTriggersSearcher.list$ | async">
             <div
               class="installed-trigger"
               (click)="addNewTriggerToApp(trigger, 'installed')"
+              data-cy="triggers-list-trigger"
             >
               <div class="installed-trigger-details">
                 <svg
