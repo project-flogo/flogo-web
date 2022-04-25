@@ -1,0 +1,121 @@
+{
+  "name": "MQTT",
+  "type": "flogo:app",
+  "version": "0.0.1",
+  "appModel": "1.1.0",
+  "description": "",
+  "imports": [
+    "github.com/TIBCOSoftware/flogo-contrib/trigger/mqtt",
+    "github.com/project-flogo/contrib/activity/log",
+    "github.com/project-flogo/contrib/trigger/timer",
+    "github.com/project-flogo/edge-contrib/activity/mqtt",
+    "github.com/project-flogo/flow"
+  ],
+  "triggers": [
+    {
+      "id": "timer",
+      "ref": "#timer",
+      "name": "Timer",
+      "description": "Simple Timer trigger",
+      "handlers": [
+        {
+          "settings": {
+            "startDelay": "0s",
+            "repeatInterval": "5s"
+          },
+          "action": {
+            "ref": "#flow",
+            "settings": {
+              "flowURI": "res://flow:mqtt_publish_test_every_5_s"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "receive_mqtt_message",
+      "ref": "#mqtt",
+      "name": "Receive MQTT Message",
+      "description": "Simple MQTT Trigger",
+      "settings": {
+        "broker": "ws://52.45.17.177:9001",
+        "id": "matthew2",
+        "user": "!@3%4*N]ZY@KfqSJ",
+        "password": "9w#v;7Ma?*:5]W!U"
+      },
+      "handlers": [
+        {
+          "settings": {
+            "topic": "FlogoTest"
+          },
+          "action": {
+            "ref": "#flow",
+            "settings": {
+              "flowURI": "res://flow:log_every_mqtt_message_from_a_topic"
+            },
+            "input": {
+              "debugMessage": "=$.message"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "id": "flow:mqtt_publish_test_every_5_s",
+      "data": {
+        "name": "MQTT Publish Test every 5s",
+        "tasks": [
+          {
+            "id": "mqtt_2",
+            "name": "MQTT Activity",
+            "description": "Send MQTT message",
+            "activity": {
+              "ref": "#mqtt",
+              "input": {
+                "message": "Hello Flogo"
+              },
+              "settings": {
+                "broker": "ws://52.45.17.177:9001",
+                "id": "matthew",
+                "topic": "FlogoTest",
+                "username": "!@3%4*N]ZY@KfqSJ",
+                "password": "9w#v;7Ma?*:5]W!U"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "flow:log_every_mqtt_message_from_a_topic",
+      "data": {
+        "name": "Log every MQTT Message from a topic",
+        "metadata": {
+          "input": [
+            {
+              "name": "debugMessage",
+              "type": "string"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "id": "log_2",
+            "name": "Log",
+            "description": "Logs a message",
+            "activity": {
+              "ref": "#log",
+              "input": {
+                "message": "=$flow.debugMessage",
+                "addDetails": false,
+                "usePrint": false
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
