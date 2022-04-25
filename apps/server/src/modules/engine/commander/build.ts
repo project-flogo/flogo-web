@@ -26,7 +26,7 @@ import { BuildOptions } from '../options';
  *
  * @returns {Promise<{path: string}>} path to generated binary
  */
-export function build(enginePath, opts: BuildOptions) {
+export async function build(enginePath, opts: BuildOptions) {
   const defaultEnginePath = joinPath(enginePath);
 
   opts = _mergeOpts(opts);
@@ -35,6 +35,8 @@ export function build(enginePath, opts: BuildOptions) {
   const env = mergeEnvWithOpts(opts, process.env);
 
   logger.info(`[log] Build flogo: "flogo build ${args}" compileOpts:`);
+
+  await runShellCMD('go', ['mod', 'tidy'], { cwd: `${defaultEnginePath}/src`, env });
 
   return runShellCMD('flogo', ['build'].concat(args), {
     cwd: defaultEnginePath,
