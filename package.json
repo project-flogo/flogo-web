@@ -87,7 +87,7 @@
     "reflect-metadata": "^0.1.12",
     "resolve-path": "^1.4.0",
     "rxjs": "^6.5.4",
-    "semver": "5.4.1",
+    "semver": "7.5.2",
     "shortid": "^2.2.8",
     "socket.io": "2.3.0",
     "tslib": "^1.9.0",
