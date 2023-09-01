@@ -40,6 +40,7 @@
           class="flogo-button--default"
           data-dismiss="modal"
           [disabled]="!paramsForm.valid"
+          data-cy="stream-resource-interface-modal-save"
         >
           {{ 'INPUT-PARAMS:SAVE' | translate }}
         </button>
@@ -68,6 +69,7 @@
                 'stream-input-params__category--selected': !displayInputParams
               }"
               (click)="showOutputParams()"
+              data-cy="stream-resource-output-tab"
             >
               <span>{{ 'STREAMS.INPUT-PARAMS:OUTPUT' | translate }}</span>
               <i
@@ -86,6 +88,7 @@
             <div
               *ngFor="let inputParam of paramsForm.get('input').controls; let i = index"
               class="stream-input-params-pane__each-field"
+              data-cy="stream-resource-input-row"
             >
               <div [formGroupName]="i" class="stream-input-params-pane__new-field">
                 <flogo-stream-params-schema-input-param-row
@@ -127,6 +130,7 @@
             <div
               *ngFor="let outputParam of paramsForm.get('output').controls; let i = index"
               class="stream-input-params-pane__each-field"
+              data-cy="stream-resource-output-row"
             >
               <div [formGroupName]="i" class="stream-input-params-pane__new-field">
                 <flogo-stream-params-schema-output-param-row

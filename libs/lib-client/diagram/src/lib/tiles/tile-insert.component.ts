@@ -30,6 +30,12 @@ export class TileInsertComponent implements OnChanges {
   isSelected = false;
   btnInsertClass = BUTTON_INSERT_CLASS;
 
+  get getAddActivityBtnSelector() {
+    return this.insertBetween
+      ? 'diagram-add-activity-between-btn'
+      : 'diagram-add-activity-btn';
+  }
+
   ngOnChanges({ currentSelection: currentSelectionChange }: SimpleChanges) {
     if (currentSelectionChange) {
       this.isSelected = this.checkIsSelected();

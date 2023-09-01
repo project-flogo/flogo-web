@@ -1,5 +1,5 @@
 <ul *ngIf="!isEmpty; else emptyState" class="flows-list">
-  <li *ngFor="let flow of flows" class="flows-list__flow">
+  <li *ngFor="let flow of flows" class="flows-list__flow" data-cy="flows-list-flow">
     <flogo-flow-flows-list-flow
       [flow]="flow"
       (select)="selectFlow(flow)"

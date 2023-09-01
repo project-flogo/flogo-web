@@ -53,7 +53,10 @@
     <div class="select-environment">
       {{ 'TRIGGER-SHIM:SELECT-ENVIRONMENT' | translate }}
     </div>
-    <ul class="list-unstyled trigger-build-options">
+    <ul
+      class="list-unstyled trigger-build-options"
+      data-cy="shim-build-options-dropdown-list"
+    >
       <li
         *ngFor="let opt of shimTriggerData.buildOptions"
         class="build-environment-list-item"

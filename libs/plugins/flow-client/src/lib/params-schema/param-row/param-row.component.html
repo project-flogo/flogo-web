@@ -6,6 +6,7 @@
       formControlName="name"
       placeholder="parameter name"
       [ngClass]="{ '--invalid': !paramGroup.get('name').valid }"
+      data-cy="flow-resource-input"
     />
   </div>
   <div class="dropdown form-input__type type-selector" (fgClickOutside)="closeDropdown()">
@@ -16,6 +17,7 @@
       aria-haspopup="true"
       aria-expanded="true"
       (click)="toggleDropdown()"
+      data-cy="resource-type-dropdown-toggle"
     >
       <span>{{ paramGroup.get('type').value | lowercase }}</span>
       <input type="hidden" formControlName="type" />
@@ -24,6 +26,7 @@
     <ul
       class="dropdown-menu type-selector__dropdown-menu"
       [style.display]="isOpen ? 'block' : 'none'"
+      data-cy="resource-type-dropdown"
     >
       <li
         *ngFor="let option of dropdownOptions"

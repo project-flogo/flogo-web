@@ -10,14 +10,14 @@
   <div context-panel-role="primary-area" class="primary-area">
     <h2>Click the panel to open it</h2>
     <p>It should reveal more content</p>
-    <button data-testid="change-title-btn" (click)="changeTitle()">
+    <button data-cy="change-title-btn" (click)="changeTitle()">
       Change Panel Title
     </button>
-    <button data-testid="change-position-btn" (click)="changePosition()">
+    <button data-cy="change-position-btn" (click)="changePosition()">
       Change Trigger position
     </button>
     <div class="context-pusher"></div>
-    <div data-testid="context-element" class="scroll-to-me">
+    <div data-cy="context-element" class="scroll-to-me">
       It will automatically scroll to reveal this element!
     </div>
   </div>

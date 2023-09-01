@@ -6,7 +6,7 @@
   cdkTrapFocusAutoCapture="true"
 >
   <h3 class="title">{{ 'ADD:CREATE-NEW-RESOURCE' | translate }}</h3>
-  <fieldset class="form-group resource-types">
+  <fieldset class="form-group resource-types" data-cy="resource-types">
     <legend class="form__label">{{ 'ADD:SELECT-RESOURCE-TYPE' | translate }}</legend>
     <ng-container *ngFor="let resourceTypeInfo of resourceTypes">
       <input
@@ -40,6 +40,7 @@
       formControlName="name"
       asyncValidator
       placeholder="{{ 'ADD:GIVE-YOUR-FLOW-A-NAME' | translate }}"
+      data-cy="add-new-resource-name"
     />
     <label
       *ngIf="resource.get('name').hasError('uniqueInvalid')"
@@ -58,6 +59,7 @@
       rows="3"
       id="resourceDescription"
       placeholder="{{ 'ADD:ADD-FLOW-DESCRIPTION' | translate }}"
+      data-cy="add-new-resource-description"
     ></textarea>
   </div>
   <div class="footer">
@@ -73,6 +75,7 @@
       type="submit"
       class="flogo-button--default flogo-flows-add-save"
       [disabled]="!resource.valid"
+      data-cy="add-new-resource-create-btn"
     >
       {{ 'ADD:CREATE' | translate }}
     </button>

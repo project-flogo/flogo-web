@@ -6,6 +6,7 @@
     class="search"
     placeholder="{{ 'ADD:SEARCH-ACTIVITIES' | translate }}"
     (keyup)="filterActivities($event.target.value)"
+    data-cy="diagram-add-activity-search-input"
   />
   <span class="flogo-icon-search icon-search"></span>
 </div>
@@ -24,6 +25,7 @@
     *ngIf="activities.length > 0; else emptyCase"
     [activities]="activities"
     (selectActivity)="selectActivity($event.ref)"
+    data-cy="diagram-add-stage-activity-list"
   ></flogo-stream-activity-list>
   <ng-template #emptyCase>
     <p class="empty-text qa-no-tasks">{{ 'ADD:NO-TASKS' | translate }}</p>

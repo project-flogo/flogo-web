@@ -1,1 +1,1 @@
-export const testId = tId => `[data-testid="${tId}"]`;
+export const testId = tId => `[data-cy="${tId}"]`;

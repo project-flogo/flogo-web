@@ -8,20 +8,24 @@
       accept="application/json"
       class="app-list__app-import-input"
       (change)="onImportFileSelected($event)"
+      data-cy="import-app-input"
     />
   </button>
-  <button class="flogo-button--default" (click)="addNewApp()">
+  <button class="flogo-button--default" (click)="addNewApp()" data-cy="apps-list-new">
     {{ 'APP-LIST:NEW' | translate }}
   </button>
 </div>
-<div class="content">
+<div class="content" data-cy="app-list-apps">
   <article
     *ngFor="let app of applications"
     class="app qa-app flogo-profile__thumbnail--microservice"
     (click)="onSelectApp($event, deleteBox, app)"
+    data-cy="app-list-app"
   >
     <div class="app__content">
-      <h4 class="app__name qa-app-name">{{ app.name }}</h4>
+      <h4 class="app__name qa-app-name" data-cy="apps-list-app-name">
+        {{ app.name }}
+      </h4>
       <div class="app__description">
         {{ app.description ? app.description : '&nbsp;' }}
       </div>
